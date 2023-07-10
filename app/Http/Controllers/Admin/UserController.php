@@ -16,17 +16,6 @@ class UserController extends Controller
         return view('admin.users');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -47,7 +36,7 @@ class UserController extends Controller
             'user_type' => $request->input('user_type')
         ]);
 
-        return redirect()->back()->with('success', 'Form submitted successfully!');
+        return redirect('admin/users')->with('message', 'Form submitted successfully!');
     }
 
 
