@@ -39,7 +39,8 @@ Route::get('admin/profile', [ProfileController::class, 'profile']);
 Route::get('admin/audit', [AuditTrailController::class, 'audit']);
 Route::get('admin/backup', [SystemBackupController::class, 'backup']);
 Route::get('admin/form', [FormController::class, 'form']);
-Route::get('admin/users', [UserController::class, 'users']);
 
-Route::post('admin/user/add', [UserController::class, 'store']);
+//Manage User
+Route::get('admin/users', [UserController::class, 'users']);
+Route::post('admin/users', [UserController::class, 'store']);
 
