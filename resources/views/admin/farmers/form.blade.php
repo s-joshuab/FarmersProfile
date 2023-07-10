@@ -24,11 +24,20 @@
                     </div>
                   </div>
                 </div>
+
                 <div class="col-md-4">
-                  <!-- Box for Hard Copy 2x2 Image -->
-                  <div style="width: 200px; height: 200px; border: 1px solid #dee2e6; margin-top: 10px; margin-left: 150px;">
-                </div>
-              </div>
+                    <!-- Box for Hard Copy 2x2 Image -->
+                    <div style="position: relative; width: 200px; height: 200px; border: 1px solid #dee2e6; margin-top: 10px; margin-left: 150px; text-align: center;">
+                      <p style="padding-top: 90px; margin-top: -20px;">2x2 Picture</p>
+                      <p style="padding-top: 90px; margin-top: -50px;">PHOTO TAKEN<br>WITHIN 6 MONTHS</p>
+                    </div>
+                  </div>
+                  <div id="outer-div" style="position: relative;">
+                    <img src="{{ asset('assets/img/CERTIFIED BY.png') }}" style="position: absolute; top: -210px; left: 720px; width: 200px; height: 120px;">
+                    <img src="{{ asset('assets/img/download.png') }}" style="position: absolute; top: -90px; bottom: 0px; left: 720px; width: 200px; height: 120px;">
+                  </div>
+
+
 
 
               <div class="col-md-6 position-relative mt-5"">
@@ -683,7 +692,89 @@
       </tbody>
     </table>
 
-    <style>
+      <div class="cutting-line">
+        <span class="scissors-icon">✂️</span>
+      </div>
+
+
+      <div class="col-md-12 text-center">
+        <h5 style="font-weight: bold; font-size: 30px; color: black; margin-top: 12px;">Registry System for Basic Sectors in Agriculture (RSBSA)</h5>
+        <h5 style="font-weight: bold; font-size: 30px; color: black;">ENROLLMENT CLIENT’S COPY</h5>
+    </div>
+
+    <div class="col-md-6 position-relative mt-5"">
+        <div class="d-flex align-items-center">
+        <label for="referenceNo" class="mr-2">Reference/Control No.: </label>
+      <div class="flex-grow-1">
+        <input type="text" class=" form-control" id="referenceNo" name="referenceNo" style="margin-left: 5px;">
+      </div>
+     </div>
+   </div>
+
+   <div class="row mt-5">
+   <div class="col-md-6 position-relative mt-0">
+    <label class="form-label">Surname</label>
+    <input type="text" class="form-control" id="validationTooltip01" name = "surname" required autofocus="autofocus">
+    <div class="invalid-tooltip">
+      The Surname field is required.
+    </div>
+  </div>
+
+  <div class="col-md-6 position-relative mt-0">
+    <label class="form-label">First Name</label>
+    <input type="text" class="form-control" id="validationTooltip01" name = "firstname" required autofocus="autofocus">
+    <div class="invalid-tooltip">
+      The First Name field is required.
+    </div>
+  </div>
+
+  <div class="col-md-6 position-relative mt-0">
+    <label class="form-label">Middle Name</label>
+    <input type="text" class="form-control" id="validationTooltip01" name = "middlename" required autofocus="autofocus">
+    <div class="invalid-tooltip">
+      The Middle Name field is required.
+    </div>
+  </div>
+
+  <div class="col-md-3 position-relative mt-0">
+    <label class="form-label">Extension Name</label>
+    <input type="text" class="form-control" id="validationTooltip01" name = "extensionname" required autofocus="autofocus">
+    <div class="invalid-tooltip">
+      The Extension Name field is required.
+    </div>
+  </div>
+   </div>
+
+
+
+      <div class="container">
+        <div class="row">
+          <div class="col-12 d-flex justify-content-end p-3">
+            <div class="button-container">
+              <button class="btn btn-primary submit-button" name="submit">Save</button>
+              <button class="btn btn-primary" type="submit">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+             </form>
+             </div>
+             </div>
+        </div>
+         </div>
+      </div>
+      </div>
+
+      <style>
+        @media screen and (min-width: 768px) {
+  /* Styles for screens with a minimum width of 768px (PCs and laptops) */
+  #preview-container {
+    max-width: 500px; /* Adjust the maximum width as per your requirements */
+    margin: 0 auto; /* Center the container horizontally */
+  }
+}
+
         .cutting-line {
           position: relative;
           margin: 20px 0;
@@ -719,68 +810,4 @@
           border-radius: 50%;
         }
       </style>
-
-      <div class="cutting-line">
-        <span class="scissors-icon">✂️</span>
-      </div>
-
-
-
-
-    <div class="col-md-12 position-relative">
-      <label class="form-label">Funding Agency<font color = "red">*</font></label>
-      <input type="text" class="form-control" id="validationTooltip01" name = "funding_agency" required autofocus="autofocus">
-      <div class="invalid-tooltip">
-        The Funding Agency field is required.
-      </div>
-    </div>
-
-
-    <div class="col-md-12 position-relative">
-      <label class="form-label">Project in-charge<font color = "red">*</font></label>
-      <input type="text" class="form-control" id="validationTooltip01" name = "project_in_charge" required autofocus="autofocus">
-      <div class="invalid-tooltip">
-        The Project In-Charge field is required.
-      </div>
-    </div>
-
-    <div class="col-md-6 position-relative">
-      <label class="form-label">Site Adopters<font color = "red">*</font></label>
-      <input type="text" class="form-control" id="validationTooltip01" name = "site_adopters" required autofocus="autofocus">
-      <div class="invalid-tooltip">
-        The Project In-Charge field is required.
-      </div>
-    </div>
-
-    <div class="col-md-6 position-relative">
-      <label class="form-label">Site Status<font color = "red">*</font></label>
-      <div class="col-sm-12">
-        <select class="form-select" aria-label="Default select example" id="validationTooltip03" name = "status" required>
-          <option value="" selected disabled>Select Status</option>
-          <option value="Active">Active</option>
-          <option value="Inactive">Inactive</option>
-        </select>
-        <div class="invalid-tooltip">
-          The Active field is required.
-        </div>
-      </div>
-
-
-      <div class="container">
-        <div class="row">
-          <div class="col-12 d-flex justify-content-end p-3">
-            <div class="button-container">
-              <button class="btn btn-primary submit-button" name="submit">Save Project Site</button>
-              <button class="btn btn-primary" type="submit">Cancel</button>
-            </div>
-          </div>
-        </div>
-      </div>
-</div>
-             </form>
-             </div>
-             </div>
-         </div>
-      </div>
-      </div>
 @endsection

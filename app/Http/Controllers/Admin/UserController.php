@@ -13,17 +13,28 @@ class UserController extends Controller
      */
     public function users()
     {
-        return view('admin.users');
+        $users = User::all();
+        return view('admin.users', ['users' => $users]);
     }
+
 
     public function store(Request $request)
     {
+
+    // Check if username or email is duplicate
+    if (User::where('username', $request->username)->exists() || User::where('email', $request->email)->exists()) {
+        session()->flash('error', 'Username or email is already taken.');
+        return redirect()->back();
+    }
+
+    // Add the user to the database
         $request->validate([
             'name' => 'required',
             'username' => 'required',
             'email' => 'required',
             'password' => 'required',
             'phone_number' => 'required',
+            'status' => 'required',
             'user_type' => 'required'
         ]);
 
@@ -33,8 +44,10 @@ class UserController extends Controller
             'email' => $request->input('email'),
             'password' => $request->input('password'),
             'phone_number' => $request->input('phone_number'),
+            'status' => $request->input('status'),
             'user_type' => $request->input('user_type')
         ]);
+
 
         return redirect('admin/users')->with('message', 'Form submitted successfully!');
     }
