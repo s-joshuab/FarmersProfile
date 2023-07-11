@@ -66,6 +66,7 @@
                             <th>Barangay</th>
                             <th>Commodity Planted</th>
                             <th>4Ps Member</th>
+                            <th>Farmsize</th>
                             <th>Farm Location</th>
                         </tr>
                     </thead>
@@ -74,6 +75,7 @@
                             <td>Sample Names</td>
                             <td>Sample Barangay</td>
                             <td>Sample Commodity</td>
+                            <td>Farmsize</td>
                             <td>Yes</td>
                             <td>Sample Data</td>
                         </tr>

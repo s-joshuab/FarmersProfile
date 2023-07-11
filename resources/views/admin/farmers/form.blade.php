@@ -7,9 +7,10 @@
         <div class="card">
           <div class="card-body">
             <div class="row">
-                <div class="col-md-8">
-                  <h5 style="font-weight: bold; font-size: 30px; color: black; margin-top: 12px;">ANI AT KITA</h5>
-                  <h5 style="font-weight: bold; font-size: 30px; color: black;">RSBSA ENROLLMENT FORM</h5>
+                <div class="col-md-12 text-center mt-3">
+                    <h5 style="font-family:'Times New Roman', Times, serif; font-weight: bold; font-size: 30px; color: black;">BALAOAN FARMERS REGISTRY</h5>
+
+                  {{-- <h5 style="font-weight: bold; font-size: 30px; color: black;">RSBSA ENROLLMENT FORM</h5>
                   <p style="font-weight: bold;">REGISTRY SYSTEM FOR BASIC SECTORS IN AGRICULTURE (RSBSA)</p>
 
                   <div class="form-inline mt-5">
@@ -22,10 +23,9 @@
                       <input class="form-check-input" type="radio" name="enrollmentType" id="existingEnrollment" value="existing">
                       <label class="form-check-label" for="existingEnrollment">Existing</label>
                     </div>
-                  </div>
+                  </div> --}}
                 </div>
-
-                <div class="col-md-4">
+                {{-- <div class="col-md-4">
                     <!-- Box for Hard Copy 2x2 Image -->
                     <div style="position: relative; width: 200px; height: 200px; border: 1px solid #dee2e6; margin-top: 10px; margin-left: 150px; text-align: center;">
                       <p style="padding-top: 90px; margin-top: -20px;">2x2 Picture</p>
@@ -35,12 +35,13 @@
                   <div id="outer-div" style="position: relative;">
                     <img src="{{ asset('assets/img/CERTIFIED BY.png') }}" style="position: absolute; top: -210px; left: 720px; width: 200px; height: 120px;">
                     <img src="{{ asset('assets/img/download.png') }}" style="position: absolute; top: -90px; bottom: 0px; left: 720px; width: 200px; height: 120px;">
-                  </div>
+                  </div> --}}
 
 
 
 
-              <div class="col-md-6 position-relative mt-5"">
+
+                  <div class="col-md-6 position-relative mt-5">
                 <div class="d-flex align-items-center">
                 <label for="referenceNo" class="mr-2">Reference/Control No.: </label>
               <div class="flex-grow-1">
@@ -113,18 +114,7 @@
           </div>
         </div>
 
-
-                <!-- <div class="col-md-12 position-relative">
-                  <label class="form-label">Topography<font color = "red">*</font></label>
-                  <select class="form-select" aria-label="Default select example" name = "topography_id" id="validationTooltip03" required>
-                      <option value="" selected disabled>Select Topography</option>
-                      <option value="3">Hill</option><option value="5">Lake</option><option value="1">Mountain</option><option value="7">Plain</option><option value="4">River</option><option value="2">Terrain</option><option value="6">Valley</option>                    </select>
-                  <div class="invalid-tooltip">
-                    The Beekeeper Name field is required.
-                  </div>
-                </div> -->
-
-                <hr class="mt-2">
+<hr class="mt-2">
 <p class="mt-0" style="font-weight:bold; font-size: 12px;">ADDRESS</p>
 
                   <div class="col-md-4 position-relative mt-0">
@@ -341,7 +331,7 @@
                 </div>
               </div>
 
-              <hr class="mt-2">
+<hr class="mt-2">
 <p class="mt-0" style="font-weight: bold; font-size: 12px;">PART II. FARMERS PROFILE</p>
 
                 <div class="col-md-12 mt-0">
@@ -351,7 +341,7 @@
                   <input class="form-check-input" type="checkbox" id="farmers" value="farmers" style="margin-left: 5px;">
                   <label class="form-check-label" for="farmers">Farmers</label>
               </div>
-                 <div class="col-md-3 form-check form-check-inline">
+                 {{-- <div class="col-md-3 form-check form-check-inline">
                   <input class="form-check-input" type="checkbox" id="farmworkers" value="farmworkers">
                   <label class="form-check-label" for="farmworkers">Farmworkers</label>
              </div>
@@ -359,73 +349,128 @@
                   <input class="form-check-input" type="checkbox" id="fisherfolks" value="fisherfolks">
                   <label class="form-check-label" for="fisherfolks">Fisherfolks</label>
               </div>
-            </div>
+            </div> --}}
           </div>
 
-          <div class="col-md-4 mb-3">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="col-md-4">
-        <label for="validationCustom04" class="form-label fw-bold mt-2">For Farmers</label>
-      </div>
-      <p class="mt-0" style="font-size: 12px;">Types of Farming Activity</p>
-    </div>
-    <div class="col-md-12">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="uplands" value="Uplands">
-        <label class="form-check-label" for="uplands">Rice</label>
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="lowlands" value="Lowlands">
-        <label class="form-check-label" for="lowlands">Corn</label>
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="hilly" value="Hilly">
-        <label class="form-check-label" for="hilly">Tobacco</label>
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="highValueCrops" value="High Value Crops">
-        <label class="form-check-label" for="highValueCrops">High Value Crops Please specify</label>
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="form-group" id="highValueCropsInput" style="display: none;">
-        <label for="highValueCropsSpec">Specify High Value Crops:</label>
-        <input type="text" class="form-control" id="highValueCropsSpec" name="highValueCropsSpec">
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="livestock" value="Livestock">
-        <label class="form-check-label" for="livestock">Livestock, Please specify:</label>
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="form-group" id="livestockInput" style="display: none;">
-        <label for="livestockSpec">Specify Livestock:</label>
-        <input type="text" class="form-control" id="livestockSpec" name="livestockSpec">
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="poultry" value="Poultry">
-        <label class="form-check-label" for="poultry">Poultry, Please specify:</label>
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="form-group" id="poultryInput" style="display: none;">
-        <label for="poultrySpec">Specify Poultry:</label>
-        <input type="text" class="form-control" id="poultrySpec" name="poultrySpec">
-      </div>
-    </div>
-  </div>
-</div>
+          <div class="container mt-3">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="col-md-4">
+                      <label for="validationCustom04" class="form-label fw-bold mt-2">For Farmers</label>
+                    </div>
+                    <p class="mt-0" style="font-size: 12px;">Types of Farming Activity</p>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="uplands" value="Uplands">
+                      <label class="form-check-label" for="uplands">Rice</label>
+                    </div>
+                    <label for="farmSizeUplands" class="form-label">FarmSize (area):</label>
+                    <input type="text" class="form-control" id="farmSizeUplands" name="farmSizeUplands">
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="lowlands" value="Lowlands">
+                      <label class="form-check-label" for="lowlands">Corn</label>
+                    </div>
+                    <label for="farmSizeLowlands" class="form-label">FarmSize (area):</label>
+                    <input type="text" class="form-control" id="farmSizeLowlands" name="farmSizeLowlands">
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="hilly" value="Hilly">
+                      <label class="form-check-label" for="hilly">Tobacco</label>
+                    </div>
+                    <label for="farmSizeHilly" class="form-label">FarmSize (area):</label>
+                    <input type="text" class="form-control" id="farmSizeHilly" name="farmSizeHilly">
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="highValueCrops" value="High Value Crops">
+                      <label class="form-check-label" for="highValueCrops">High Value Crops Please specify</label>
+                    </div>
+                    <label for="farmSizeHighValueCrops" class="form-label">FarmSize (area):</label>
+                    <input type="text" class="form-control" id="farmSizeHighValueCrops" name="farmSizeHighValueCrops">
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group" id="highValueCropsInput" style="display: none;">
+                      <label for="highValueCropsSpec">Specify High Value Crops:</label>
+                      <input type="text" class="form-control" id="highValueCropsSpec" name="highValueCropsSpec">
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="livestock" value="Livestock">
+                      <label class="form-check-label" for="livestock">Livestock, Please specify:</label>
+                    </div>
+                    <label for="farmSizeLivestock" class="form-label">FarmSize (area):</label>
+                    <input type="text" class="form-control" id="farmSizeLivestock" name="farmSizeLivestock">
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group" id="livestockInput" style="display: none;">
+                      <label for="livestockSpec">Specify Livestock:</label>
+                      <input type="text" class="form-control" id="livestockSpec" name="livestockSpec">
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="poultry" value="Poultry">
+                      <label class="form-check-label" for="poultry">Poultry, Please specify:</label>
+                    </div>
+                    <label for="farmSizePoultry" class="form-label">FarmSize (area):</label>
+                    <input type="text" class="form-control" id="farmSizePoultry" name="farmSizePoultry">
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group" id="poultryInput" style="display: none;">
+                      <label for="poultrySpec">Specify Poultry:</label>
+                      <input type="text" class="form-control" id="poultrySpec" name="poultrySpec">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-6 mt-5">
+                        <div class="form-group">
+                          <label for="farmLocation">Farm Location</label>
+                          <input type="text" class="form-control" id="farmLocation" name="farmLocation">
+                        </div>
+                      </div>
+                  <div class="col-md-12  mt-3">
+                    <label for="validationCustom04" class="form-label fw-bold">For Machineries</label>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="machineries">Type of Machineries:</label>
+                      <input type="text" class="form-control" id="machineries" name="machineries">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="noofunits">Number of Units:</label>
+                      <input type="text" class="form-control" id="noofunits" name="noofunits">
+                    </div>
+                  </div>
+                  <div class="col-md-12 mt-2">
+                    <div class="form-group">
+                      <label for="validationCustom01" class="form-label">Gross Annual Income Last Year:</label>
+                      <div class="d-flex align-items-center">
+                        <label class="me-2">Farming</label>
+                        <input type="text" class="form-control" id="validationCustom01" required>
+                        <label class="ms-3 me-2">Non-Farming</label>
+                        <input type="text" class="form-control" id="validationCustom02" required>
+                      </div>
+                      <div class="valid-feedback">
+                        Looks good!
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
 
 
@@ -463,7 +508,7 @@
 </script>
 
 
-<div class="col-md-4 mb-3">
+{{-- <div class="col-md-4 mb-3">
   <div class="row">
     <div class="col-md-12">
       <div class="col-md-4">
@@ -579,93 +624,34 @@
   othersCheckboxFisherfolk.addEventListener('change', function() {
     othersInputFisherfolk.style.display = this.checked ? 'block' : 'none';
   });
-</script>
-
-<div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <label for="validationCustom04" class="form-label fw-bold">For Machineries</label>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="machineries">Type of Machineries:</label>
-          <input type="text" class="form-control" id="machineries" name="machineries">
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="noofunits">Number of Units:</label>
-          <input type="text" class="form-control" id="noofunits" name="noofunits">
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container mt-3">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="machineries">Farm Location</label>
-          <input type="text" class="form-control" id="machineries" name="machineries">
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="noofunits">Farm Size (ha)</label>
-          <input type="text" class="form-control" id="noofunits" name="noofunits">
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
-<div class="col-md-12 mt-2">
-  <div class="form-group">
-    <label for="validationCustom01" class="form-label">Gross Annual Income Last Year:</label>
-    <div class="d-flex align-items-center">
-      <label class="me-2">Farming</label>
-      <input type="text" class="form-control" id="validationCustom01" required>
-      <label class="ms-3 me-2">Non-Farming</label>
-      <input type="text" class="form-control" id="validationCustom02" required>
-    </div>
-    <div class="valid-feedback">
-      Looks good!
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
+</script> --}}
 
 <hr class="mt-2">
 
-<div class="col-md-6 position-relative mt-0">
-                  <label class="form-label">No. of Farm Parcels</label>
-                  <input type="text" class="form-control" id="validationTooltip01" name = "extensionname" required autofocus="autofocus">
-                  <div class="invalid-tooltip">
-                    The Extension Name field is required.
-                  </div>
-                </div>
-                <div class="col-md-6 position-relative" style="margin-top: 35px;">
-                  <div class="form-inline">
-                  <label for="enrollmentType" class="mr-2">Agrarian Reform Beneficiary:</label>
-             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="enrollmentType"  value="male">
-              <label class="form-check-label">Yes</label>
-             </div>
-             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="enrollmentType" value="female>
-              <label class="form-check-label">No</label>
-            </div>
-          </div>
+<div class="col-md-12">
+    <div class="form-inline d-flex">
+      <div class="col-md-6 mt-0">
+        <label class="form-label">No. of Farm Parcels</label>
+        <input type="text" class="form-control" id="validationTooltip01" name="extensionname" required autofocus="autofocus">
+        <div class="invalid-tooltip">
+          The Extension Name field is required.
         </div>
+      </div>
+      <div class="col-md-6">
+        <label for="enrollmentType" class="mr-2" style="margin-top: 35px; margin-left: 10px;">Agrarian Reform Beneficiary:</label>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="enrollmentType" value="male">
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="enrollmentType" value="female">
+          <label class="form-check-label">No</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 
         <hr class="mt-2">
 
@@ -692,58 +678,7 @@
       </tbody>
     </table>
 
-      <div class="cutting-line">
-        <span class="scissors-icon">✂️</span>
-      </div>
 
-
-      <div class="col-md-12 text-center">
-        <h5 style="font-weight: bold; font-size: 30px; color: black; margin-top: 12px;">Registry System for Basic Sectors in Agriculture (RSBSA)</h5>
-        <h5 style="font-weight: bold; font-size: 30px; color: black;">ENROLLMENT CLIENT’S COPY</h5>
-    </div>
-
-    <div class="col-md-6 position-relative mt-5"">
-        <div class="d-flex align-items-center">
-        <label for="referenceNo" class="mr-2">Reference/Control No.: </label>
-      <div class="flex-grow-1">
-        <input type="text" class=" form-control" id="referenceNo" name="referenceNo" style="margin-left: 5px;">
-      </div>
-     </div>
-   </div>
-
-   <div class="row mt-5">
-   <div class="col-md-6 position-relative mt-0">
-    <label class="form-label">Surname</label>
-    <input type="text" class="form-control" id="validationTooltip01" name = "surname" required autofocus="autofocus">
-    <div class="invalid-tooltip">
-      The Surname field is required.
-    </div>
-  </div>
-
-  <div class="col-md-6 position-relative mt-0">
-    <label class="form-label">First Name</label>
-    <input type="text" class="form-control" id="validationTooltip01" name = "firstname" required autofocus="autofocus">
-    <div class="invalid-tooltip">
-      The First Name field is required.
-    </div>
-  </div>
-
-  <div class="col-md-6 position-relative mt-0">
-    <label class="form-label">Middle Name</label>
-    <input type="text" class="form-control" id="validationTooltip01" name = "middlename" required autofocus="autofocus">
-    <div class="invalid-tooltip">
-      The Middle Name field is required.
-    </div>
-  </div>
-
-  <div class="col-md-3 position-relative mt-0">
-    <label class="form-label">Extension Name</label>
-    <input type="text" class="form-control" id="validationTooltip01" name = "extensionname" required autofocus="autofocus">
-    <div class="invalid-tooltip">
-      The Extension Name field is required.
-    </div>
-  </div>
-   </div>
 
 
 
@@ -766,48 +701,5 @@
       </div>
       </div>
 
-      <style>
-        @media screen and (min-width: 768px) {
-  /* Styles for screens with a minimum width of 768px (PCs and laptops) */
-  #preview-container {
-    max-width: 500px; /* Adjust the maximum width as per your requirements */
-    margin: 0 auto; /* Center the container horizontally */
-  }
-}
 
-        .cutting-line {
-          position: relative;
-          margin: 20px 0;
-          display: flex;
-          align-items: center;
-        }
-
-        .cutting-line::before,
-        .cutting-line::after {
-          content: "";
-          flex-grow: 1;
-          height: 1px;
-          background-color: #000;
-        }
-
-        .cutting-line::before {
-          margin-right: 10px;
-        }
-
-        .cutting-line::after {
-          margin-left: 10px;
-        }
-
-        .cutting-line .scissors-icon {
-          font-family: "Font Awesome 5 Free";
-          font-weight: 900;
-          font-size: 20px;
-          line-height: 1;
-          padding: 5px;
-          color: #000;
-          background-color: #fff;
-          border: 1px solid #000;
-          border-radius: 50%;
-        }
-      </style>
 @endsection
