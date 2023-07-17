@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\staff;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-
-class ManageUsersController extends Controller
+class StaffManageUsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +15,7 @@ class ManageUsersController extends Controller
     public function manage()//index
     {
         $users = User::all();
-        return view('admin.settings.users.manageusers', compact('users'));
+        return view('staff.settings.users.manageusers', compact('users'));
     }
 
     /**
@@ -27,7 +26,13 @@ class ManageUsersController extends Controller
         //
     }
 
-
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
 
     /**
      * Display the specified resource.
@@ -35,7 +40,7 @@ class ManageUsersController extends Controller
     public function show($id)
     {
         $user = User::findorfail($id);
-        return view('admin.settings.users.view', compact('user'));
+        return view('staff.settings.users.view', compact('user'));
     }
 
     /**
@@ -44,7 +49,7 @@ class ManageUsersController extends Controller
     public function edit(string $id)
     {
         $user = User::findorfail($id);
-        return view('admin.settings.users.edit', compact('user'));
+        return view('staff.settings.users.edit', compact('user'));
     }
 
     /**
@@ -77,7 +82,7 @@ class ManageUsersController extends Controller
         ]);
 
         // Redirect to a success page or show a success message
-        return redirect('admin/manageusers')->with('success', 'User updated successfully.');
+        return redirect('staff/manageusers')->with('success', 'User updated successfully.');
     }
 
     /**

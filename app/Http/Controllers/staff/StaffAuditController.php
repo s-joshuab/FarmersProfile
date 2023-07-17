@@ -1,49 +1,43 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\staff;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class StaffAuditController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function admin()
+    public function audit()
     {
-        return view('admin.admin');
+        return view('staff.settings.audittrail');
     }
+
 
     /**
      * Show the form for creating a new resource.
      */
-    // public function farmdata()
-    // {
-    //     return view('admin.farmers.farmdata');
-    // }
+    public function create()
+    {
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
      */
-    // public function reports()
-    // {
-    //     return view('admin.farmers.reports');
-    // }
+    public function store(Request $request)
+    {
+        //
+    }
 
     /**
      * Display the specified resource.
      */
-
-    public function store(Request $request)
+    public function show(string $id)
     {
-        User::create([
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required'
-        ]);
-        return redirect()->back()->with('success', 'Form submitted successfully!');
+        //
     }
 
     /**

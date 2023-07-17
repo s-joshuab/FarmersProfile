@@ -1,4 +1,4 @@
-@extends('layouts.index')
+@extends('layouts.staffindex')
 @section('content')
 
 @if (session()->has('message'))
@@ -14,7 +14,6 @@
 @endif
 
 
-
     <div class="row">
         <div class="col-lg-12">
 
@@ -23,7 +22,7 @@
 
                     <h5 class="card-title"></h5>
 
-                    <form action="{{ url('admin/users') }}" method="POST">
+                    <form action="{{ url('staff/users') }}" method="POST">
                         @csrf
                         <div class="col-md-12 position-relative">
                             <label class="form-label">Name<font color="red">*</font></label>
@@ -80,8 +79,6 @@
                                 <div class="col-sm-12">
                                     <select class="form-select" aria-label="Default select example" name="user_type" id="validationTooltip03" required>
                                         <option value="" selected disabled>Select User Type</option>
-                                        <option value="Admin">Administrator</option>
-                                        <option value="Staff">Staff</option>
                                         <option value="Secretary">Secretary</option>
                                     </select>
                                     <div class="invalid-tooltip">

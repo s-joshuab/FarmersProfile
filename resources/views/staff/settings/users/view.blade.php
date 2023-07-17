@@ -1,4 +1,4 @@
-@extends('layouts.index')
+@extends('layouts.staffindex')
 @section('content')
 
 @if (session()->has('message'))
@@ -14,7 +14,6 @@
 @endif
 
 
-
     <div class="row">
         <div class="col-lg-12">
 
@@ -23,12 +22,12 @@
 
                     <h5 class="card-title"></h5>
 
-                    <form action="{{ url('admin/users') }}" method="POST">
+                    <form action="{{ url('staff/users') }}" method="POST">
                         @csrf
                         <div class="col-md-12 position-relative">
                             <label class="form-label">Name<font color="red">*</font></label>
                             <input type="text" class="form-control" id="validationTooltip01" name="name" required
-                                autofocus="autofocus">
+                                autofocus="autofocus" value="{{ $user->name }}" disabled>
                             <div class="invalid-tooltip">
                                 The Fullname field is required.
                             </div>
@@ -38,7 +37,7 @@
                             <div class="col-md-6 position-relative">
                                 <label class="form-label">Username<font color="red">*</font></label>
                                 <input type="text" class="form-control" id="validationTooltip01" name="username"
-                                    required>
+                                    required autofocus="autofocus" value="{{ $user->username }}" disabled>
                                 <div class="invalid-tooltip">
                                     The Username field is required.
                                 </div>
@@ -46,7 +45,7 @@
 
                             <div class="col-md-6 position-relative">
                                 <label class="form-label">Password<font color="red">*</font></label>
-                                <input type="password" class="form-control" id="pass" name="password" required>
+                                <input type="password" class="form-control" id="pass" name="password" required autofocus="autofocus" value="{{ $user->password }}" disabled>
                                 <input type="checkbox" onclick="myFunction()">Show Password
                                 <div class="invalid-tooltip">
                                     The Password field is required.
@@ -57,7 +56,7 @@
                         <div class="row">
                             <div class="col-md-6 position-relative">
                                 <label class="form-label">Email Address<font color="red">*</font></label>
-                                <input type="email" class="form-control" id="validationTooltip01" name="email" required>
+                                <input type="email" class="form-control" id="validationTooltip01" name="email" required autofocus="autofocus" value="{{ $user->email }}" disabled>
                                 <div class="invalid-tooltip">
                                     The Email Address field is required.
                                 </div>
@@ -67,7 +66,7 @@
                                 <label class="form-label">PhoneNumber (Format: 09XXXXXXXXX)<font color="red">*</font>
                                     </label>
                                 <input type="text" class="form-control" id="validationTooltip01" name="phone_number"
-                                    maxlength="11" required>
+                                    maxlength="11" required autofocus="autofocus" value="{{ $user->phone_number }}" disabled>
                                 <div class="invalid-tooltip">
                                     The Contact Number field is required.
                                 </div>
@@ -78,11 +77,9 @@
                             <div class="col-md-6 position-relative">
                                 <label class="form-label">User Type<font color="red">*</font></label>
                                 <div class="col-sm-12">
-                                    <select class="form-select" aria-label="Default select example" name="user_type" id="validationTooltip03" required>
+                                    <select class="form-select" aria-label="Default select example" name="user_type" id="validationTooltip03" required autofocus="autofocus" disabled>
                                         <option value="" selected disabled>Select User Type</option>
-                                        <option value="Admin">Administrator</option>
-                                        <option value="Staff">Staff</option>
-                                        <option value="Secretary">Secretary</option>
+                                        <option value="Secretary" {{ $user->user_type === 'Secretary' ? 'selected' : '' }}>Secretary</option>
                                     </select>
                                     <div class="invalid-tooltip">
                                         The User Type field is required.
@@ -90,13 +87,16 @@
                                 </div>
                             </div>
 
+
+
+
                             <div class="col-md-6 position-relative">
                                 <label class="form-label">Status<font color="red">*</font></label>
                                 <div class="col-sm-12">
-                                    <select class="form-select" aria-label="Default select example" id="validationTooltip03" name="status" required>
+                                    <select class="form-select" aria-label="Default select example" id="validationTooltip03" name="status" required autofocus="autofocus" disabled>
                                         <option value="" selected disabled>Select Status</option>
-                                        <option value="Active">Active</option>
-                                        <option value="Inactive">Inactive</option>
+                                        <option value="Active" {{ $user->status === 'Active' ? 'selected' : '' }}>Active</option>
+                                        <option value="Inactive" {{ $user->status === 'Inactive' ? 'selected' : '' }}>Inactive</option>
                                     </select>
                                     <div class="invalid-tooltip">
                                         The Active field is required.

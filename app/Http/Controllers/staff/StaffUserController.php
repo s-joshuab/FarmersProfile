@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\staff;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class UserController extends Controller
+class StaffUserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,10 +14,20 @@ class UserController extends Controller
     public function users()
     {
         $users = User::all();
-        return view('admin.users', compact('users'));
+        return view('staff.users', compact('users'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
 
@@ -49,10 +59,8 @@ class UserController extends Controller
         ]);
 
 
-        return redirect('admin/manageusers')->with('message', 'User Added Succesfully!');
+        return redirect('staff/manageusers')->with('message', 'User Added Succesfully!');
     }
-
-
 
     /**
      * Display the specified resource.
