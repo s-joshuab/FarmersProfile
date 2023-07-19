@@ -35,3 +35,52 @@
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
   </head>
+
+  <div class="preloader"></div>
+
+<script>
+    // Optional: You can add JavaScript to hide the preloader when the page finishes loading
+    window.addEventListener('load', function () {
+        document.querySelector('.preloader').style.display = 'none';
+    });
+</script>
+
+<style>
+    /* Preloader styles */
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff; /* Change the background color as needed */
+    z-index: 9999;
+}
+
+/* Preloader animation */
+.preloader::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    border: 5px solid #ccc; /* Change the border color as needed */
+    border-top-color: #000; /* Change the top border color as needed */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Animation keyframes */
+@keyframes spin {
+    0% {
+        transform: translate(-50%, -50%) rotate(0);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+</style>

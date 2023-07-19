@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use App\Providers\RouteServiceProvider;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\staff\StaffController;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Http\Controllers\secretary\SecretaryController;
 
 class LoginController extends Controller
 {
@@ -38,15 +42,18 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-
     protected function authenticated()
     {
-        if(Auth::user()->user_type == 'admin'){
+        if (Auth::user()->user_type == 'admin') {
             return redirect('admin/dashboard');
-        }else if (Auth::user()->user_type == 'secretary'){
-                return redirect('staff/dashboard');
-        }else{
+        } else if (Auth::user()->user_type == 'secretary') {
+            return redirect('secretary/dashboard');
+        } else if (Auth::user()->user_type == 'staff') {
+            return redirect('staff/dashboard');
+        } else {
             return redirect('/')->with('status', 'Login Successfully');
         }
     }
+
 }
+//..

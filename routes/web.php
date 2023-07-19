@@ -45,15 +45,15 @@ Auth::routes();
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 // Admin Routes
-// Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::get('admin/dashboard', [AdminController::class, 'admin']);
     Route::get('admin/farmreport', [FarmersDataController::class, 'farmdata']);
     Route::get('admin/reports', [ReportsController::class, 'reports']);
     Route::get('admin/profile', [ProfileController::class, 'profile']);
     Route::get('admin/audit', [AuditTrailController::class, 'audit']);
     Route::get('admin/backup', [SystemBackupController::class, 'backup']);
-    Route::get('admin/users', [UserController::class, 'users']);
     Route::get('admin/form', [FormController::class, 'form']);
 
     // Admin Manage users
@@ -62,7 +62,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
     Route::get('user-view/{id}', [ManageUsersController::class, 'show']);
     Route::get('user-edit/{id}', [ManageUsersController::class, 'edit']);
     Route::put('user-update/{id}', [ManageUsersController::class, 'update']);
+});
 
+// User Routes
+Route::group(['middleware' => 'auth'], function () {
     // Staff Routes
     Route::get('staff/dashboard', [StaffController::class, 'staff']);
     Route::get('staff/farmreport', [StaffFarmersDataController::class, 'farmdata']);
@@ -70,20 +73,19 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
     Route::get('staff/profile', [StaffProfileController::class, 'profile']);
     Route::get('staff/audit', [StaffAuditController::class, 'audit']);
     Route::get('staff/backup', [StaffSystemBackupController::class, 'backup']);
-    Route::get('staff/users', [StaffUserController::class, 'users']);
     Route::get('staff/form', [StaffFormController::class, 'form']);
 
-    //Staff Manage Users
+    // Staff Manage Users
     Route::post('staff/users', [StaffUserController::class, 'store']);
     Route::get('staff/manageusers', [StaffManageUsersController::class, 'manage']);
     Route::get('staff-view/{id}', [StaffManageUsersController::class, 'show']);
     Route::get('staff-edit/{id}', [StaffManageUsersController::class, 'edit']);
     Route::put('staff-update/{id}', [StaffManageUsersController::class, 'update']);
+});
 
-    //Secretary Routes
+// Secretary Routes
+Route::group(['middleware' => 'auth'], function () {
     Route::get('secretary/dashboard', [SecretaryController::class, 'secretary']);
     Route::get('secretary/farmreport', [SecretaryFarmDataController::class, 'farmdata']);
     Route::get('secretary/form', [SecretaryFormController::class, 'form']);
-
-// });
-
+});

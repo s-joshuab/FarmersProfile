@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class ManageUsersController extends Controller
@@ -55,6 +56,7 @@ class ManageUsersController extends Controller
         $user = User::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
+            'name' => 'required',
             'username' => 'required',
             'password' => 'required',
             'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
@@ -64,10 +66,11 @@ class ManageUsersController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Error occurred during user update.');
         }
 
         $user->update([
+            'name' => $request->input('name'),
             'username' => $request->input('username'),
             'password' => $request->input('password'),
             'email' => $request->input('email'),
@@ -79,6 +82,7 @@ class ManageUsersController extends Controller
         // Redirect to a success page or show a success message
         return redirect('admin/manageusers')->with('success', 'User updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.

@@ -1,9 +1,9 @@
 @extends('layouts.index')
 @section('content')
 
-@if (session()->has('message'))
+@if (session()->has('success'))
     <div class="alert alert-success">
-        {{ session('message') }}
+        {{ session('success') }}
     </div>
 @endif
 
@@ -107,7 +107,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+
 
                         <div class="col-12 mt-4">
                             <button type="submit" class="btn btn-warning" name="submit">Save User</button>

@@ -6,7 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+
 class StaffManageUsersController extends Controller
 {
     /**
@@ -26,13 +28,7 @@ class StaffManageUsersController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+
 
     /**
      * Display the specified resource.
@@ -60,6 +56,7 @@ class StaffManageUsersController extends Controller
         $user = User::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
+            'name' => 'required',
             'username' => 'required',
             'password' => 'required',
             'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
@@ -69,10 +66,11 @@ class StaffManageUsersController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Error occurred during user update.');
         }
 
         $user->update([
+            'name' => $request->input('name'),
             'username' => $request->input('username'),
             'password' => $request->input('password'),
             'email' => $request->input('email'),
@@ -84,6 +82,7 @@ class StaffManageUsersController extends Controller
         // Redirect to a success page or show a success message
         return redirect('staff/manageusers')->with('success', 'User updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.

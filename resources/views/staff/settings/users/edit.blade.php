@@ -1,9 +1,9 @@
 @extends('layouts.staffindex')
 @section('content')
 
-@if (session()->has('message'))
+@if (session()->has('success'))
     <div class="alert alert-success">
-        {{ session('message') }}
+        {{ session('success') }}
     </div>
 @endif
 
@@ -22,7 +22,7 @@
 
                     <h5 class="card-title"></h5>
 
-                    <form action="{{ url('user-update/'. $user->id)  }}" method="POST">
+                    <form action="{{ url('staff-update/'. $user->id)  }}" method="POST">
                         @csrf
                         @method('put')
                         <div class="col-md-12 position-relative">
