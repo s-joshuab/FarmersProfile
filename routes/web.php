@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\FormController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\staff\StaffController;
 use App\Http\Controllers\Admin\ProfileController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\staff\StaffAuditController;
 use App\Http\Controllers\Admin\FarmersDataController;
 use App\Http\Controllers\Admin\ManageUsersController;
 use App\Http\Controllers\Admin\SystemBackupController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\staff\StaffProfileController;
 use App\Http\Controllers\staff\StaffReportsController;
 use App\Http\Controllers\secretary\SecretaryController;
@@ -39,15 +41,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+// Logout Route
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-// Admin Routes
-Route::group(['middleware' => 'auth'], function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'admin']);
     Route::get('admin/farmreport', [FarmersDataController::class, 'farmdata']);
     Route::get('admin/reports', [ReportsController::class, 'reports']);
@@ -57,6 +60,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('admin/form', [FormController::class, 'form']);
 
     // Admin Manage users
+    Route::get('admin/users-add', [UserController::class, 'create']);
     Route::post('admin/users', [UserController::class, 'store']);
     Route::get('admin/manageusers', [ManageUsersController::class, 'manage']);
     Route::get('user-view/{id}', [ManageUsersController::class, 'show']);
@@ -64,8 +68,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('user-update/{id}', [ManageUsersController::class, 'update']);
 });
 
-// User Routes
-Route::group(['middleware' => 'auth'], function () {
+// Route group with the StaffMiddleware applied to all routes within
+Route::middleware(['auth', 'staff'])->group(function () {
     // Staff Routes
     Route::get('staff/dashboard', [StaffController::class, 'staff']);
     Route::get('staff/farmreport', [StaffFarmersDataController::class, 'farmdata']);
@@ -83,9 +87,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('staff-update/{id}', [StaffManageUsersController::class, 'update']);
 });
 
-// Secretary Routes
-Route::group(['middleware' => 'auth'], function () {
+
+// Route group with the SecretaryMiddleware applied to all routes within
+Route::middleware(['auth', 'secretary'])->group(function () {
     Route::get('secretary/dashboard', [SecretaryController::class, 'secretary']);
     Route::get('secretary/farmreport', [SecretaryFarmDataController::class, 'farmdata']);
     Route::get('secretary/form', [SecretaryFormController::class, 'form']);
 });
+
+

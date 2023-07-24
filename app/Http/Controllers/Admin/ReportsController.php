@@ -12,7 +12,7 @@ class ReportsController extends Controller
      */
     public function reports()
     {
-        return view('admin.farmers.reports');
+        return view('admin.reports.index');
     }
 
     /**

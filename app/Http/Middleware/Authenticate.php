@@ -13,11 +13,11 @@ class Authenticate extends Middleware
      */
     protected function authenticated()
     {
-        if (Auth::user()->user_type == 'admin') {
+        if (Auth::user()->user_type == 'Admin') {
             return redirect('admin/dashboard');
-        } else if (Auth::user()->user_type == 'secretary') {
+        } else if (Auth::user()->user_type == 'Secretary') {
             return redirect('secretary/dashboard');
-        } else if (Auth::user()->user_type == 'staff') {
+        } else if (Auth::user()->user_type == 'Staff') {
             return redirect('staff/dashboard');
         } else {
             return redirect('/')->with('status', 'Login Successfully');

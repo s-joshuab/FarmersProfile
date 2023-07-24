@@ -110,8 +110,9 @@
 
 
                         <div class="col-12 mt-4">
-                            <button type="submit" class="btn btn-warning" name="submit">Save User</button>
-                            <button type="reset" class="btn btn-primary">Cancel</button>
+                            {{-- <button type="submit" class="btn btn-warning" name="submit">Save User</button> --}}
+                            <button type="reset" class="btn btn-primary" id="backBtn">Back</button>
+
                         </div>
                     </form><!-- End Custom Styled Validation with Tooltips -->
 
@@ -120,4 +121,21 @@
 
         </div>
     </div>
+    <script>
+    document.getElementById("backBtn").onclick = function() {
+        // Go back to the previous page
+        window.history.back();
+      };
+      </script>
+
+               <script>
+            function myFunction() {
+  var passwordInput = document.getElementById("pass");
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+  } else {
+    passwordInput.type = "password";
+  }
+}
+</script>
 @endsection

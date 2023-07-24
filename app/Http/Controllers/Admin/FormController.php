@@ -12,7 +12,7 @@ class FormController extends Controller
      */
     public function form()
     {
-        return view('admin.farmers.form');
+        return view('admin.farmers.add');
     }
 
     /**

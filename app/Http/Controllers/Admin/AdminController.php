@@ -38,12 +38,7 @@ class AdminController extends Controller
 
     public function store(Request $request)
     {
-        User::create([
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required'
-        ]);
-        return redirect()->back()->with('success', 'Form submitted successfully!');
+        //
     }
 
     /**

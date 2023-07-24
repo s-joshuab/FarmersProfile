@@ -14,12 +14,11 @@ class StaffManageUsersController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function manage()//index
+    public function manage()
     {
-        $users = User::all();
+        $users = User::where('user_type', '!=', 'Admin')->get();
         return view('staff.settings.users.manageusers', compact('users'));
     }
-
     /**
      * Show the form for creating a new resource.
      */

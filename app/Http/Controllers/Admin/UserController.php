@@ -57,9 +57,9 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function create()
     {
-        //
+        return view('admin.users')->with('message', 'User Added Succesfully!');
     }
 
     /**

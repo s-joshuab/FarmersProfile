@@ -11,7 +11,7 @@ class FarmersDataController extends Controller
      */
    public function farmdata()
     {
-        return view('admin.farmers.farmdata');
+        return view('admin.farmers.index');
     }
 
     /**

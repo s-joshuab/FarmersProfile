@@ -1,9 +1,9 @@
 @extends('layouts.index')
 @section('content')
 
-@if (session()->has('success'))
+@if (session()->has('message'))
     <div class="alert alert-success">
-        {{ session('success') }}
+        {{ session('message') }}
     </div>
 @endif
 
@@ -20,7 +20,7 @@
                 <div class="card-body">
 
                     <div class="add-employee mb-3 mt-3">
-                        <a href="{{ url('admin/users') }}" class="btn btn-primary">
+                        <a href="{{ url('admin/users-add') }}" class="btn btn-primary">
                             <i class="bi bi-plus"></i> Add users
                         </a>
                     </div>
