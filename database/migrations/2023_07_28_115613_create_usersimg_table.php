@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('qr_code', function (Blueprint $table) {
+        Schema::create('usersimg_table', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('farmers_id'); //wait ittoy medyo magulwanak jay agparang nu naiscan
-            $table->string('qr_image');
-            $table->unsignedBigInteger('farmers_id');
-            $table->foreign('farmers_id')->references('id')->on('farmers_profile')->onDelete('cascade');
+            $table->string('img_desc');
+            $table->int('img_size');
+            $table->string('img_name');
+            $table->longblob('img');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('qr_code');
+        Schema::dropIfExists('usersimg_table');
     }
 };

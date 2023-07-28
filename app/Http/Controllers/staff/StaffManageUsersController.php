@@ -16,9 +16,18 @@ class StaffManageUsersController extends Controller
      */
     public function manage()
     {
-        $users = User::where('user_type', '!=', 'Admin')->get();
+        // Get the currently authenticated user
+        $authenticatedUser = auth()->user();
+
+        // Fetch all users excluding the authenticated Admin and Staff users
+        $users = User::where('id', '!=', $authenticatedUser->id)
+                     ->where('user_type', 'Secretary')
+                     ->get();
+
         return view('staff.settings.users.manageusers', compact('users'));
     }
+
+
     /**
      * Show the form for creating a new resource.
      */

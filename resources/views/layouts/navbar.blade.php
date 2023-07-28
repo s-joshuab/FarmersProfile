@@ -2,12 +2,13 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="admindashboard.php" class="logo d-flex align-items-center">
-        <img src="../assets/img/balaoann.png" alt="" style="height: 40px; width: 40px;">
-        <span class="d-none d-lg-block">MAO</span>
-      </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->
+        <a href="admindashboard.php" class="logo d-flex align-items-center">
+            <img src="{{asset('assets/img/12345.jpg')}}" alt="" style="height: 40px; width: 40px; border-radius: 50%;">
+            <span class="d-none d-lg-block">MAO</span>
+        </a>
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div>
+    <!-- End Logo -->
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">

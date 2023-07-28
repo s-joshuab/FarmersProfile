@@ -27,12 +27,24 @@
                         <label for="commodity">Commodity:</label>
                         <select class="form-control" name="commodity" id="commodity">
                             <option value="">All</option>
-                            <option value="Rice">Rice</option>
-                            <option value="Corn">Corn</option>
+                            <option value="Talong">Talong</option>
+                            <option value="Okra">Okra</option>
+                            <option value="Ampalaya">Ampalaya</option>
+                            <option value="Sitao">Sitao</option>
+                            <option value="Sili">Sili</option>
+                            <option value="Kalabasa">Kalabasa</option>
+                            <option value="Patola">Patola</option>
+                            <option value="Upo">Upo</option>
+                            <option value="Pechay">Pechay</option>
+                            <option value="Mongo">Mongo</option>
+                            <option value="Peanut">Peanut</option>
+                            <option value="Camote">Camote</option>
+                            <option value="Banana">Banana</option>
                             <!-- Add more commodity options here -->
                         </select>
                     </div>
                 </div>
+
 
                 <div class="col-md-4">
                     <div class="form-group">
@@ -44,6 +56,7 @@
                         </select>
                     </div>
                 </div>
+
             </div>
 
             <div class="row">

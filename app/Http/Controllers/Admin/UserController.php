@@ -49,7 +49,7 @@ class UserController extends Controller
         ]);
 
 
-        return redirect('admin/manageusers')->with('message', 'User Added Succesfully!');
+        return redirect('admin/manageusers')->with('message', 'User Updated Succesfully!');
     }
 
 

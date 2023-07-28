@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('qr_code', function (Blueprint $table) {
+        Schema::create('farming_activity', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('farmers_id'); //wait ittoy medyo magulwanak jay agparang nu naiscan
-            $table->string('qr_image');
-            $table->unsignedBigInteger('farmers_id');
-            $table->foreign('farmers_id')->references('id')->on('farmers_profile')->onDelete('cascade');
+            $table->string('farming_activity_desc');//kitaem jay form boss jay pagpilyan hahah
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('qr_code');
+        Schema::dropIfExists('farming_activity');
     }
 };

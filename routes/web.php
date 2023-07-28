@@ -14,6 +14,7 @@ use App\Http\Controllers\staff\StaffUserController;
 use App\Http\Controllers\Admin\AuditTrailController;
 use App\Http\Controllers\staff\StaffAuditController;
 use App\Http\Controllers\Admin\FarmersDataController;
+use App\Http\Controllers\Admin\IdController;
 use App\Http\Controllers\Admin\ManageUsersController;
 use App\Http\Controllers\Admin\SystemBackupController;
 use App\Http\Controllers\Auth\AuthController;
@@ -58,6 +59,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin/audit', [AuditTrailController::class, 'audit']);
     Route::get('admin/backup', [SystemBackupController::class, 'backup']);
     Route::get('admin/form', [FormController::class, 'form']);
+    Route::get('admin/id', [IdController::class, 'ID']);
+
+    // routes/web.php
+
+
 
     // Admin Manage users
     Route::get('admin/users-add', [UserController::class, 'create']);
@@ -80,6 +86,7 @@ Route::middleware(['auth', 'staff'])->group(function () {
     Route::get('staff/form', [StaffFormController::class, 'form']);
 
     // Staff Manage Users
+    Route::get('staff/users-add', [StaffUserController::class, 'create']);
     Route::post('staff/users', [StaffUserController::class, 'store']);
     Route::get('staff/manageusers', [StaffManageUsersController::class, 'manage']);
     Route::get('staff-view/{id}', [StaffManageUsersController::class, 'show']);

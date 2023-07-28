@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.index')
+@section('content')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Card Generation | Coding Cush Technology</title>
-    <link rel="icon" type="image/png" href="images/favicon.png" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
-   </head>
    <style>
         body {
             font-family: 'arial';
@@ -37,9 +29,9 @@
             margin-top: -5px;
         }
 
-        .container {
-            width: 80vh;
-            height: 45vh;
+        .card {
+            width: 380px;
+            height: 220px;
             margin: auto;
             /* background-image: url(municipal.JPG); */
             background-size: cover; /* Adjust to 'contain' if you want the entire image to be visible */
@@ -50,32 +42,7 @@
             border-radius: 10px;
         }
 
-
-        .header {
-            width: 73vh;
-            height: 15vh;
-            margin: 20px auto;
-            /* background-color: 	#FF99DD; */
-            /* Add the background image URL properly */
-            background-image: url('assets/images/your-background-image.jpg');
-            /* Add other styles for the header if needed */
-        }
-
-        .header h1 {
-            color: rgb(27, 27, 49);
-            text-align: right;
-            margin-right: 20px;
-            margin-top: 15px;
-        }
-
-        .header p {
-            color: rgb(157, 51, 0);
-            text-align: right;
-            margin-right: 22px;
-            margin-top: -10px;
-        }
-
-        .container-2 {
+        .card-2 {
             /* border: 2px solid red; */
             width: 73vh;
             height: 10vh;
@@ -86,38 +53,22 @@
 
         .box-1 {
             border: 2px solid black;
-            width: 82px;
-            height: 87px;
+            width: 94.5px;
+            height: 94.5px;
             margin: -40px 25px;
             border-radius: 3px;
         }
 
-        .box-1 img {
-            width: 82px;
-            height: 87px;
-        }
-
-        .box-2 {
-            /* border: 2px solid purple; */
-            width: 33vh;
-            height: 8vh;
-            margin: 7px 0px;
-            padding: 5px 7px 0px 0px;
-            text-align: left;
-            font-family: 'Poppins', sans-serif;
-        }
 
         .box-2 h2 {
             font-size: 1.3rem;
-            margin-top: -5px;
             color: rgb(27, 27, 49);
             ;
         }
 
         .box-2 p {
             font-size: 0.7rem;
-            margin-top: -5px;
-            color: rgb(179, 116, 0);
+
         }
 
         .box-3 {
@@ -131,7 +82,7 @@
             width: 8vh;
         }
 
-        .container-3 {
+        .card-3 {
             /* border: 2px solid rgb(111, 2, 161); */
             width: 73vh;
             height: 12vh;
@@ -146,6 +97,7 @@
             /* border: 1px solid rgb(255, 38, 0); */
             width: 17vh;
             height: 12vh;
+
         }
 
         .id {
@@ -155,9 +107,7 @@
         }
 
         .id h4 {
-            margin-left: 25px;
-            color: rgb(179, 116, 0);
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .dob {
@@ -168,8 +118,8 @@
         }
 
         .dob h4 {
-            color: rgb(179, 116, 0);
-            font-size: 15px;
+            /* color: rgb(179, 116, 0); */
+            font-size: 14px;
         }
 
         .info-2 {
@@ -185,8 +135,8 @@
         }
 
         .join-date h4 {
-            color: rgb(179, 116, 0);
-            font-size: 15px;
+
+            font-size: 14px;
         }
 
         .expire-date {
@@ -197,8 +147,7 @@
         }
 
         .expire-date h4 {
-            color: rgb(179, 116, 0);
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .info-3 {
@@ -214,8 +163,7 @@
         }
 
         .email h4 {
-            color: rgb(179, 116, 0);
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .phone {
@@ -225,26 +173,11 @@
             margin: 8px 0px 0px 0px;
         }
 
-        .info-4 {
-            /* border: 2px solid rgb(255, 38, 0); */
-            width: 22vh;
-            height: 12vh;
-            margin: 0px 0px 0px 0px;
-            font-size: 15px;
-        }
 
         .phone h4 {
-            color: rgb(179, 116, 0);
-            font-size: 15px;
+            font-size: 14px;
         }
 
-        .sign {
-            /* border: 1px solid rgb(0, 46, 105); */
-            width: 17vh;
-            height: 5vh;
-            margin: 41px 0px 0px 20px;
-            text-align: center;
-        }
 
         .qr-code-img {
         margin-top: -100px;
@@ -252,66 +185,71 @@
         max-width: 100px;
         border: 2px solid #000000;
     }
-    .header-img {
-        margin-left: 400px;
-        margin-top: 2px; /* Adjust top position */
-        right: 120px; /* Adjust right position */
-        width: 100px; /* Set the width to a fixed value or use percentage as needed */
-
-    }
 
     </style>
-
-<div class="container mt-3 shadow-lg" style="text-align:left; border: 10px black;  background-image: url(123.jpg);" >
-
-
-    <div class="container-2" style="margin-top: 100px;">
-        <div class="box-1" style="margin-top: -35px;">
-            <img src="FINal.png" alt="Example Image" style="margin-top: -50px; margin-left: 380px; height: 70px; width:70px;">
-            <!-- <img src='$image'/> -->
+<div class="container">
+    <div class="col-lg-12">
+<div class="row">
+    <div class="card mt-3 shadow-lg" style="text-align: left; background-image: url('{{ asset('assets/img/bg.png') }}');">
+    <div class="header" style="background-color: #5bcbff; height: 500px; width: 100%; display: flex; align-items: center;">
+        <img src="{{ asset('assets/img/balaoan-5.webp') }}" style="height: 40px; width: 40px; margin-right: 10px;" alt="Header Image">
+        <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <p class="text-center" style="margin: 0; font-weight: bold;">REPUBLIC OF THE PHILIPPINES</p>
+            <p class="text-center" style="margin: 0; font-weight: bold;">PROVINCE OF LA UNION</p>
+            <p class="text-center" style="margin: 0; font-weight: bold;">MUNICIPALITY OF BALAOAN</p>
         </div>
-      <div class="box-2 col-md-12" style="width: 200px;">
-    <h2 style="margin-left: -20px; word-wrap: break-word;">Andrei Ballesteros</h2>
-    <p style="font-size: 14px; margin-left: -20px; word-wrap: break-word;">Apatut, Balaoan, La Union</p>
+    </div>
+
+    <div class="card-2" style="margin-top: 100px; margin-left: 5px">
+        <div class="box-1" style="margin-top: -95px; margin-left: 3px;">
+        </div>
+      <div class="box-2 col-md-12" style="width: 200px; margin-top: -90px;">
+    <h2 style="margin-left: -20px; font-size: 14px; font-weight: bold;">Andrei Eleazar Ballesteros</h2>
+    <p style="font-size: 12px; margin-left: -20px;">Dr.Camilo, Balaoan, La Union</p>
 </div>
 
         <div class="box-3">
         </div>
     </div>
 
-    <div class='container-3'>
-        <div class='info-1'>
-            <div class='id'>
-                <h4>ID No</h4>
-                <p style="margin-left: 25px;">BLN 123-456</p>
-            </div>
-            <div class='dob'>
-                <h4 style="margin-left: 25px;">Phone</h4>
-                <p style="margin-left: 25px;">09617867892</p>
+    <div class='card-3'>
+        <div class='info-4'>
+            <div class='sign'>
+                <div class="line-center" style="border-top: 2px solid #000; width: 100px; margin: 0 auto; margin-top: -50px; margin-left: 1px"></div>
+                <p class="text-center" style='font-size:8px; margin-right: 20px; margin: 0 auto; font-weight: bold;'>Signature</p>
             </div>
         </div>
-        <div class='info-2'>
+        <div class='info-1'>
+            <div class="id" style="margin-top: -122px; margin-left: 5px;">
+                <h4 style="margin-left: 1px; margin: 0 auto;">ID NO:</h4>
+                <p style="margin-left: 1px; font-weight: bold; margin: 0 auto;">BLN 123-456</p>
+            </div>
+
+            <div class="dob" style="margin-top: 5px; margin-left: 5px;  margin-bottom: 10px;">
+                <h4 style="margin-left: 1px; margin: 0 auto;">Civil Status:</h4>
+                <p style="margin-left: 1px; font-weight: bold; margin: 0 auto;">Single</p>
+            </div>
+        </div>
+        <div class='info-2' style="margin-top: -122px;">
             <div class='join-date'>
-                <h4 style="margin-left: 25px;">Civil Status</h4>
-                <p style="margin-left: 25px;">Single</p>
+                <h4 style="margin-left: 1px; margin: 0 auto;">Contact No.:</h4>
+                <p style="margin-left: 1px; font-weight: bold; margin: 0 auto;">096178678926</p>
             </div>
             <div class='expire-date'>
-                <h4 style="margin-left: 25px;">Sex</h4>
-                <p style="margin-left: 25px;">Male</p>
+                <h4 style="margin-left: 1px; margin: 0 auto;">Sex:</h4>
+                <p style="margin-left: 1px; font-weight: bold; margin: 0 auto;">Male</p>
             </div>
         </div>
         <div class='info-4'>
             <div class='sign'>
                 <br>
-                <img class="qr-code-img" src="{{ route('generate.qr', ['id' => 'EMPLOYEE_ID']) }}" alt="QR Code">
-                <div class="line-center" style="border-top: 2px solid #000; width: 100px; margin: 0 auto; margin-bottom: 5px; margin-right: 40px;"></div>
-                <p style='font-size:12px; margin-right: 20px;"'>Signature</p>
+                {{-- <img class="qr-code-img" src="#" alt="QR Code"> --}}
             </div>
         </div>
     </div>
 </div>
 
-<div class="container mt-3 shadow-lg back" style=" background-image: url(bg.png);">
+<div class="card mt-3 shadow-lg back" style=" background-image: url(bg.png);">
     <div class="emergency-info mt-2">
         <h4 class="text-center" style="font-size: 20px; font-weight: bold;">PERSON TO NOTIFY IN CASE OF EMERGENCY</h4>
         <p class="text-center" style="font-weight: bold;">John Doe</p>
@@ -324,7 +262,7 @@
         <p class="text-center">This is to certify that the person whose name, photograph and signature appear herein is a duly bonafide farmer of Balaoan, La Union</p>
     </div>
 
-    <div class="signature-container mt-4" style="display: flex; ">
+    <div class="signature-card mt-4" style="display: flex; ">
         <div class="signature mt-3" style="margin-right: 20px; margin-left: 40px;">
             <div class="line-center" style="border-top: 2px solid #000; width: 100px; margin: 0 auto; margin-bottom: 5px;"></div>
             <p class="text-center">John Smith</p>
@@ -337,10 +275,8 @@
             <p class="text-center" style="margin-top: -18px;">Municipal Mayor</p>
         </div>
     </div>
-
-<footer style="background-color: #FF69B4;"></footer>
 </div>
-
-
-</body>
-</html>
+</div>
+    </div>
+</div>
+@endsection

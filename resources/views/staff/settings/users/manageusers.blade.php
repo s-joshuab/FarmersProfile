@@ -20,7 +20,7 @@
                 <div class="card-body">
 
                     <div class="add-employee mb-3 mt-3">
-                        <a href="{{ url('staff/users') }}" class="btn btn-primary">
+                        <a href="{{ url('staff/users-add') }}" class="btn btn-primary">
                             <i class="bi bi-plus"></i> Add users
                         </a>
                     </div>
@@ -29,7 +29,6 @@
                         <thead>
                             <tr>
                                 <th scope="col">Name</th>
-                                <th scope="col">Username</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Contact Number</th>
                                 <th scope="col">Status</th>
@@ -44,18 +43,17 @@
 
                             <tr>
                                 <td>{{ $user->name }}</td>
-                                <td>{{ $user->username }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->phone_number }}</td>
                                 <td>{{ $user->status }}</td>
                                 <td>{{ $user->user_type }}</td>
                                 <td>
                                     <div class="d-flex justify-content-center">
-                                        <a href="{{ url('staff-view/' . $user->id) }}" class="btn btn-sm btn-primary view-btn m-1">
+                                        <a href="{{ url('user-view/' . $user->id) }}" class="btn btn-sm btn-primary view-btn m-1">
                                             <i class="bx bx-show-alt"></i>
                                         </a>
 
-                                        <a href="{{ url('staff-edit/'. $user->id) }}" class="btn btn-sm btn-info update-btn m-1">
+                                        <a href="{{ url('user-edit/'. $user->id) }}" class="btn btn-sm btn-info update-btn m-1">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
                                     </div>
