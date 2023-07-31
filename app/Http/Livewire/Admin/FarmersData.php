@@ -12,8 +12,6 @@ class FarmersData extends Components
 {
     public $highValueCrops = false;
 
-
-
     public $selectedProvince;
     public $selectedMunicipality;
     public $selectedBarangay;

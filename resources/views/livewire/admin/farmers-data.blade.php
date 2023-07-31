@@ -102,24 +102,8 @@
                                         <label class="form-label">Region<font color="red">*</font></label>
                                         <select class="form-select" aria-label="Default select example" name="region" wire:model="region" id="region"
                                             required>
-                                            <option value="selected disabled">Select Region</option>
-                                            <option Value="01">REGION I</option>
-                                            <option Value="02">REGION II</option>
-                                            <option Value="03">REGION III</option>
-                                            <option Value="04">REGION IV-A</option>
-                                            <option Value="17">REGION IV-B</option>
-                                            <option Value="05">REGION V</option>
-                                            <option Value="06">REGION VI</option>
-                                            <option Value="07">REGION VII</option>
-                                            <option Value="08">REGION VIII</option>
-                                            <option Value="09">REGION IX</option>
-                                            <option Value="10">REGION X</option>
-                                            <option Value="11">REGION XI</option>
-                                            <option Value="12">REGION XII</option>
-                                            <option Value="13">NATIONAL CAPITAL REGION</option>
-                                            <option Value="14">CORDILLERA ADMINISTRATIVE REGION</option>
-                                            <option Value="15">AUTONOMOUS REGION IN MUSLIM MINDANAO</option>
-                                            <option Value="16">REGION XIII</option>
+                                            {{-- <option value="selected disabled">Select Region</option> --}}
+                                            <option Value="selected disabled">REGION I</option>
                                         </select>
                                         <div class="invalid-tooltip">
                                             The Region field is required.
@@ -480,12 +464,6 @@
                                                     </div>
                                                 </div>
                                         </div>
-
-
-
-
-
-
 
                                             <div class="col-md-12">
                                                 <div class="row">
