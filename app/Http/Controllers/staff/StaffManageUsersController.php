@@ -16,17 +16,9 @@ class StaffManageUsersController extends Controller
      */
     public function manage()
     {
-        // Get the currently authenticated user
-        $authenticatedUser = auth()->user();
-
-        // Fetch all users excluding the authenticated Admin and Staff users
-        $users = User::where('id', '!=', $authenticatedUser->id)
-                     ->where('user_type', 'Secretary')
-                     ->get();
-
+        $users = User::all();
         return view('staff.settings.users.manageusers', compact('users'));
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -88,7 +80,7 @@ class StaffManageUsersController extends Controller
         ]);
 
         // Redirect to a success page or show a success message
-        return redirect('staff/manageusers')->with('success', 'User updated successfully.');
+        return redirect('staff/manageusers')->with('message', 'User updated successfully.');
     }
 
 

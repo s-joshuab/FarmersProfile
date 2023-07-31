@@ -5,6 +5,7 @@ namespace App\Http\Controllers\staff;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class StaffUserController extends Controller
 {
@@ -17,28 +18,29 @@ class StaffUserController extends Controller
         return view('staff.users', compact('users'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
+        // Check if username or email is duplicate
+        if (User::where('username', $request->username)->exists() || User::where('email', $request->email)->exists()) {
+            session()->flash('error', 'Username or email is already taken.');
+            return redirect()->back();
+        }
 
-    // Check if username or email is duplicate
-    if (User::where('username', $request->username)->exists() || User::where('email', $request->email)->exists()) {
-        session()->flash('error', 'Username or email is already taken.');
-        return redirect()->back();
-    }
-
-    // Add the user to the database
-        $request->validate([
+        // Add the user to the database
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'username' => 'required',
             'email' => 'required',
             'password' => 'required',
-            'phone_number' => 'required',
+            'phone_number' => 'required|numeric', // Add the numeric rule here
             'status' => 'required',
             'user_type' => 'required'
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Error occurred during Adding Secretary.');
+        }
 
         User::create([
             'name' => $request->input('name'),
@@ -50,25 +52,27 @@ class StaffUserController extends Controller
             'user_type' => $request->input('user_type')
         ]);
 
-
-        return redirect('staff/manageusers')->with('message', 'User Updated Succesfully!');
+        return redirect('staff/manageusers')->with('message', 'User Added Successfully!');
     }
+
+
+
 
     /**
      * Display the specified resource.
      */
     public function create()
     {
-        return view('staff.users')->with('success', 'User Added Succesfully!');
+        return view('staff.users')->with('message', 'User Added Succesfully!');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    // public function edit(string $id)
-    // {
-    //     //
-    // }
+    public function edit(string $id)
+    {
+        //
+    }
 
     /**
      * Update the specified resource in storage.

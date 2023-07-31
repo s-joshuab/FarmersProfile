@@ -118,13 +118,21 @@
         </div>
     </div>
     <script>
-        function myFunction() {
-          var x = document.getElementById("password");
-          if (x.type === "password") {
-            x.type = "text";
-          } else {
-            x.type = "password";
-          }
+        function togglePassword() {
+            const passwordInput = document.getElementById('pass');
+            const showPasswordCheckbox = document.getElementById('showPassword');
+
+            if (showPasswordCheckbox.checked) {
+                // Store the original password value
+                passwordInput.setAttribute('data-original-value', passwordInput.value);
+                // Replace the password value with its hashed version
+                passwordInput.value = '********'; // Replace with hashed value
+            } else {
+                // Restore the original password value
+                const originalValue = passwordInput.getAttribute('data-original-value');
+                passwordInput.value = originalValue;
+            }
         }
-      </script>
+    </script>
+
 @endsection

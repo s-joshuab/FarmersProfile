@@ -79,6 +79,8 @@
                                 <div class="col-sm-12">
                                     <select class="form-select" aria-label="Default select example" name="user_type" id="validationTooltip03" required>
                                         <option value="" selected disabled>Select User Type</option>
+                                        <option value="Admin">Administrator</option>
+                                        <option value="Staff">Staff</option>
                                         <option value="Secretary">Secretary</option>
                                     </select>
                                     <div class="invalid-tooltip">

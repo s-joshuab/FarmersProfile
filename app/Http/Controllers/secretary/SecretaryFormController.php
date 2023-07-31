@@ -12,7 +12,7 @@ class SecretaryFormController extends Controller
      */
     public function form()
     {
-        return view('secretaryy.farmers.form');
+        return view('secretary.farmers.form');
     }
 
 

@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('qr_code', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('farmers_id'); //wait ittoy medyo magulwanak jay agparang nu naiscan
+            $table->unsignedBigInteger('farmers_id'); // Assuming the ID in farmers_profile is an unsigned integer
             $table->string('qr_image');
-            $table->unsignedBigInteger('farmers_id');
             $table->foreign('farmers_id')->references('id')->on('farmers_profile')->onDelete('cascade');
             $table->timestamps();
         });

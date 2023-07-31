@@ -80,7 +80,7 @@ class ManageUsersController extends Controller
         ]);
 
         // Redirect to a success page or show a success message
-        return redirect('admin/manageusers')->with('success', 'User updated successfully.');
+        return redirect('admin/manageusers')->with('message', 'User Updated successfully.');
     }
 
 

@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('farming_activity', function (Blueprint $table) {
             $table->id();
-            $table->string('farming_activity_desc');//kitaem jay form boss jay pagpilyan hahah
+            $table->unsignedBigInteger('farmers_id');
+            $table->unsignedBigInteger('commodities_id');
+            $table->string('farm_size');
+            $table->string('farm_location');
+
+           $table->foreign('farmers_id')->references('id')->on('farmers_profile')->onDelete('cascade');//kitaem jay form boss jay pagpilyan hahah
+            $table->foreign('commodities_id')->references('id')->on('commodities')->onDelete('cascade');//kitaem jay form boss jay pagpilyan hahah
             $table->timestamps();
         });
     }

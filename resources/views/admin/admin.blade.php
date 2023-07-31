@@ -40,7 +40,7 @@
 
                     <div class="d-flex align-items-center">
                       <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="bi bi-cart"></i>
+                        <i class="bi bi-people"></i>
                       </div>
                       <div class="ps-3">
                         <h6>145</h6>
@@ -75,7 +75,7 @@
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-currency-dollar"></i>
+                      <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
                       <h6>$3,264</h6>

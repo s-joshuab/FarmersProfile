@@ -9,6 +9,13 @@
           <i class="bi bi-person"></i>
           <span>Farmers Data</span>
         </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url('secretary/profile') }}">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
+        </a>
       </li><!-- End Farmers Data Page Nav -->
 
       <li class="nav-item">

@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\secretary;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class FormController extends Controller
+class SecretaryProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function form()
+    public function profile()
     {
-        return view('admin.farmers.add');
+        return view('secretary.profile');
     }
 
     /**

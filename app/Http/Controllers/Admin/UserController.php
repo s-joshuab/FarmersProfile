@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -28,7 +29,7 @@ class UserController extends Controller
     }
 
     // Add the user to the database
-        $request->validate([
+    $validator = Validator::make($request->all(), [
             'name' => 'required',
             'username' => 'required',
             'email' => 'required',
@@ -37,6 +38,9 @@ class UserController extends Controller
             'status' => 'required',
             'user_type' => 'required'
         ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Error occurred during Adding.');
+        }
 
         User::create([
             'name' => $request->input('name'),
@@ -49,7 +53,7 @@ class UserController extends Controller
         ]);
 
 
-        return redirect('admin/manageusers')->with('message', 'User Updated Succesfully!');
+        return redirect('admin/manageusers')->with('message', 'User Added Succesfully!');
     }
 
 

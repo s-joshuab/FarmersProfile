@@ -14,6 +14,15 @@ class FarmersDataController extends Controller
         return view('admin.farmers.index');
     }
 
+    public function form()
+    {
+        return view('admin.farmers.add');
+    }
+
+    public function ID()
+    {
+        return view('admin.farmers.id');
+    }
     /**
      * Show the form for creating a new resource.
      */

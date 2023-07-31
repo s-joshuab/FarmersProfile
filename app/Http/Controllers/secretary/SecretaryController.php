@@ -12,7 +12,7 @@ class SecretaryController extends Controller
      */
     public function secretary()
     {
-        return view('secretaryy.secretary');
+        return view('secretary.secretary');
     }
 
     /**

@@ -192,7 +192,8 @@
 <div class="row">
     <div class="card mt-3 shadow-lg" style="text-align: left; background-image: url('{{ asset('assets/img/bg.png') }}');">
     <div class="header" style="background-color: #5bcbff; height: 500px; width: 100%; display: flex; align-items: center;">
-        <img src="{{ asset('assets/img/balaoan-5.webp') }}" style="height: 40px; width: 40px; margin-right: 10px;" alt="Header Image">
+        <img src="{{ asset('assets/img/balaoan-5.webp') }}" style="height: 40px; width: 40px; margin-right: 10px;  border-radius: 50%;" alt="Header Image">
+        <img src="{{ asset('assets/img/lovelu.GIF') }}" style="height: 40px; width: 40px; margin-right: 10px;   alt="Header Image">
         <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
             <p class="text-center" style="margin: 0; font-weight: bold;">REPUBLIC OF THE PHILIPPINES</p>
             <p class="text-center" style="margin: 0; font-weight: bold;">PROVINCE OF LA UNION</p>
@@ -226,7 +227,7 @@
             </div>
 
             <div class="dob" style="margin-top: 5px; margin-left: 5px;  margin-bottom: 10px;">
-                <h4 style="margin-left: 1px; margin: 0 auto;">Civil Status:</h4>
+                <h4 style="margin-left: 1px; margin: 0 auto; margin-top: 8px; ">Civil Status:</h4>
                 <p style="margin-left: 1px; font-weight: bold; margin: 0 auto;">Single</p>
             </div>
         </div>
@@ -251,31 +252,31 @@
 
 <div class="card mt-3 shadow-lg back" style=" background-image: url(bg.png);">
     <div class="emergency-info mt-2">
-        <h4 class="text-center" style="font-size: 20px; font-weight: bold;">PERSON TO NOTIFY IN CASE OF EMERGENCY</h4>
-        <p class="text-center" style="font-weight: bold;">John Doe</p>
-        <p class="text-center" style="font-weight: bold; margin-top: -15px;">John Doe</p>
-        <p class="text-center" style="font-weight: bold; margin-top: -15px;">John Doe</p>
+        <h4 class="text-center" style="font-size: 14px; font-weight: bold;">PERSON TO NOTIFY IN CASE OF EMERGENCY:</h4>
+        <p class="text-center" style="font-weight: bold;">Andrei Eleazar Ballesteros</p>
+        <p class="text-center" style="margin-top: -15px;">San Fernando, La Union Philippines</p>
     </div>
 
-    <div class="certification mt-4">
-        <h4 class="text-center" style="font-size: 20px; font-weight: bold;">CERTIFICATION</h4>
-        <p class="text-center">This is to certify that the person whose name, photograph and signature appear herein is a duly bonafide farmer of Balaoan, La Union</p>
+    <div class="certification mt-0">
+        <h4 class="text-center" style="font-size: 14px; font-weight: bold;">CERTIFICATION</h4>
+        <p class="text-center" style="font-size: 12px;">This is to certify that the person whose name, photograph and signature appear herein is a duly bonafide farmer of Balaoan, La Union</p>
     </div>
 
-    <div class="signature-card mt-4" style="display: flex; ">
-        <div class="signature mt-3" style="margin-right: 20px; margin-left: 40px;">
+    <div class="signature-card mt-1" style="display: flex; ">
+        <div class="signature mt-2" style="margin-right: 20px; margin-left: 12px;">
             <div class="line-center" style="border-top: 2px solid #000; width: 100px; margin: 0 auto; margin-bottom: 5px;"></div>
-            <p class="text-center">John Smith</p>
-            <p class="text-center" style="margin-top: -18px;">OIC, Municipal Agriculturist</p>
+            <p class="text-center" style="font-size: 12px; font-weight: bold;">John Smith</p>
+            <p class="text-center" style="margin-top: -18px; font-size: 10px;">OIC, Municipal Agriculturist</p>
         </div>
 
-        <div class="signature mt-3" style="margin-left: 130px;">
+        <div class="signature mt-2" style=" margin-left: 70px;">
             <div class="line-center" style="border-top: 2px solid #000; width: 100px; margin: 0 auto; margin-bottom: 5px;"></div>
-            <p class="text-center">Jane Doe</p>
-            <p class="text-center" style="margin-top: -18px;">Municipal Mayor</p>
+            <p class="text-center" style="font-size: 12px; font-weight: bold;">John Smith</p>
+            <p class="text-center" style="margin-top: -18px; font-size: 10px;">Balaoan, Municipal Mayor</p>
         </div>
     </div>
 </div>
+
 </div>
     </div>
 </div>

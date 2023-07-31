@@ -11,7 +11,7 @@
             <div class="card-body">
 
             <div class="add-employee mb-3 mt-3">
-              <a href="{{ url('admin/form') }}" class="btn btn-primary">
+              <a href="{{ url('secretary/form') }}" class="btn btn-primary">
               <i class="bi bi-plus"></i>Add Farmer
            </a>
          </div>

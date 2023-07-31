@@ -1,9 +1,9 @@
 @extends('layouts.index')
 @section('content')
 
-@if (session()->has('success'))
+@if (session()->has('message'))
     <div class="alert alert-success">
-        {{ session('success') }}
+        {{ session('message') }}
     </div>
 @endif
 

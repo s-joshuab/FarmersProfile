@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('educational_background', function (Blueprint $table) {
-            $table->id();
-            $table->string('educational_background_desc');
-            $table->timestamps();
+        Schema::table('commodities', function (Blueprint $table) {
+            $table->integer('categories');
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('educational_background');
+        Schema::table('commodities', function (Blueprint $table) {
+            //
+        });
     }
 };

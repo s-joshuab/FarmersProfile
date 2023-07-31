@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\IdController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\FormController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
@@ -14,10 +16,8 @@ use App\Http\Controllers\staff\StaffUserController;
 use App\Http\Controllers\Admin\AuditTrailController;
 use App\Http\Controllers\staff\StaffAuditController;
 use App\Http\Controllers\Admin\FarmersDataController;
-use App\Http\Controllers\Admin\IdController;
 use App\Http\Controllers\Admin\ManageUsersController;
 use App\Http\Controllers\Admin\SystemBackupController;
-use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\staff\StaffProfileController;
 use App\Http\Controllers\staff\StaffReportsController;
 use App\Http\Controllers\secretary\SecretaryController;
@@ -25,6 +25,7 @@ use App\Http\Controllers\staff\StaffFarmersDataController;
 use App\Http\Controllers\staff\StaffManageUsersController;
 use App\Http\Controllers\secretary\SecretaryFormController;
 use App\Http\Controllers\staff\StaffSystemBackupController;
+use App\Http\Controllers\secretary\SecretaryProfileController;
 use App\Http\Controllers\secretary\SecretaryFarmDataController;
 
 /*
@@ -58,12 +59,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin/profile', [ProfileController::class, 'profile']);
     Route::get('admin/audit', [AuditTrailController::class, 'audit']);
     Route::get('admin/backup', [SystemBackupController::class, 'backup']);
-    Route::get('admin/form', [FormController::class, 'form']);
-    Route::get('admin/id', [IdController::class, 'ID']);
-
-    // routes/web.php
-
-
+    Route::get('admin/form', [FarmersDataController::class, 'form']);
+    Route::get('admin/id', [FarmersDataController::class, 'ID']);
 
     // Admin Manage users
     Route::get('admin/users-add', [UserController::class, 'create']);
@@ -98,8 +95,8 @@ Route::middleware(['auth', 'staff'])->group(function () {
 // Route group with the SecretaryMiddleware applied to all routes within
 Route::middleware(['auth', 'secretary'])->group(function () {
     Route::get('secretary/dashboard', [SecretaryController::class, 'secretary']);
-    Route::get('secretary/farmreport', [SecretaryFarmDataController::class, 'farmdata']);
     Route::get('secretary/form', [SecretaryFormController::class, 'form']);
+    Route::get('secretary/profile', [SecretaryProfileController::class, 'profile']);
 });
 
 

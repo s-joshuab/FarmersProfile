@@ -1,9 +1,9 @@
 @extends('layouts.staffindex')
 @section('content')
 
-@if (session()->has('success'))
+@if (session()->has('message'))
     <div class="alert alert-success">
-        {{ session('success') }}
+        {{ session('message') }}
     </div>
 @endif
 
@@ -49,11 +49,11 @@
                                 <td>{{ $user->user_type }}</td>
                                 <td>
                                     <div class="d-flex justify-content-center">
-                                        <a href="{{ url('user-view/' . $user->id) }}" class="btn btn-sm btn-primary view-btn m-1">
+                                        <a href="{{ url('staff-view/' . $user->id) }}" class="btn btn-sm btn-primary view-btn m-1">
                                             <i class="bx bx-show-alt"></i>
                                         </a>
 
-                                        <a href="{{ url('user-edit/'. $user->id) }}" class="btn btn-sm btn-info update-btn m-1">
+                                        <a href="{{ url('staff-edit/'. $user->id) }}" class="btn btn-sm btn-info update-btn m-1">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
                                     </div>

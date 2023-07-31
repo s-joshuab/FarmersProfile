@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('usersimg_table', function (Blueprint $table) {
             $table->id();
-            $table->string('img_desc');
-            $table->int('img_size');
+            $table->unsignedBigInteger('users_id');
+            $table->longText('img'); // Changed 'longblob' to 'longText'
+            $table->integer('img_size'); // Changed 'int' to 'integer'
             $table->string('img_name');
-            $table->longblob('img');
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
