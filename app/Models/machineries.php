@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Http\Requests\MachineryRequest;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Machinery extends Model
 {
@@ -32,5 +33,10 @@ class Machinery extends Model
     public function farmerProfile()
     {
         return $this->belongsTo(FarmersProfile::class, 'farmers_id', 'id');
+    }
+
+    public static function validationRules(MachineryRequest $request)
+    {
+        return $request->validated();
     }
 }

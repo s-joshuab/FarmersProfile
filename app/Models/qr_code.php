@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Http\Requests\QrCodeRequest;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class QrCode extends Model
 {
@@ -30,5 +31,10 @@ class QrCode extends Model
     public function farmerProfile()
     {
         return $this->belongsTo(FarmersProfile::class, 'farmers_id', 'id');
+    }
+
+    public static function validationRules(QrCodeRequest $request)
+    {
+        return $request->validated();
     }
 }

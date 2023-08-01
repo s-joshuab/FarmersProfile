@@ -36,6 +36,8 @@ class CreateFarmersProfileTable extends Migration
             $table->unsignedBigInteger('province_id');
             $table->unsignedBigInteger('municipality_id');
             $table->unsignedBigInteger('barangay_id');
+            $table->string('street');
+            $table->string('house');
 
             $table->foreign('province_id')->references('id')->on('province')->onDelete('cascade');
             $table->foreign('municipality_id')->references('id')->on('municipality')->onDelete('cascade');

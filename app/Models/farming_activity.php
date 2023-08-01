@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Requests\FarmingActivityRequest;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class FarmingActivity extends Model
 {
@@ -42,5 +43,10 @@ class FarmingActivity extends Model
     public function commodity()
     {
         return $this->belongsTo(Commodity::class, 'commodities_id', 'id');
+    }
+
+    public static function validationRules(FarmingActivityRequest $request)
+    {
+        return $request->validated();
     }
 }

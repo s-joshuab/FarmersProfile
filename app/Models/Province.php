@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Municipality;
 use Symfony\Component\Mime\Address;
+use App\Http\Requests\ProvinceRequest;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -24,5 +25,10 @@ class Province extends Model
     public function municipalities()
     {
         return $this->hasMany(Municipality::class, 'province_id', 'id');
+    }
+
+    public static function validationRules(ProvinceRequest $request)
+    {
+        return $request->validated();
     }
 }
