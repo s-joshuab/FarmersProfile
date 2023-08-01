@@ -26,9 +26,4 @@ class Province extends Model
     {
         return $this->hasMany(Municipality::class, 'province_id', 'id');
     }
-
-    public static function validationRules(ProvinceRequest $request)
-    {
-        return $request->validated();
-    }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class QrCodeRequest extends FormRequest
+class CommoditiesRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,8 +14,8 @@ class QrCodeRequest extends FormRequest
     public function rules()
     {
         return [
-            'farmers_id' => 'required|exists:farmers_profile,id',
-            'qr_image' => 'required|image|mimes:png,jpg,jpeg|max:2048', // Adjust the image validation rules as needed
+            'commodities' => 'required|array',
+            'commodities.*' => 'string',
         ];
     }
 }

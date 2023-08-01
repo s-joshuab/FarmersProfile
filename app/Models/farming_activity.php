@@ -45,8 +45,4 @@ class FarmingActivity extends Model
         return $this->belongsTo(Commodity::class, 'commodities_id', 'id');
     }
 
-    public static function validationRules(FarmingActivityRequest $request)
-    {
-        return $request->validated();
-    }
 }

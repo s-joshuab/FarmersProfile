@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('machineries', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('farmers_id');
-            $table->string('machineries');
+            $table->unsignedBigInteger('machine_id');
             $table->string('no_of_units');
+
+            $table->foreign('machine_id')->references('id')->on('machine')->onDelete('cascade');
             $table->foreign('farmers_id')->references('id')->on('farmers_profile')->onDelete('cascade');
             $table->timestamps();
         });

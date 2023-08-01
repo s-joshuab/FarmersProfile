@@ -33,8 +33,4 @@ class QrCode extends Model
         return $this->belongsTo(FarmersProfile::class, 'farmers_id', 'id');
     }
 
-    public static function validationRules(QrCodeRequest $request)
-    {
-        return $request->validated();
-    }
 }

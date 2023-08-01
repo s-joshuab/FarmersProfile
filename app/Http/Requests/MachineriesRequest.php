@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FarmingActivityRequest extends FormRequest
+class MachineriesRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,9 +15,8 @@ class FarmingActivityRequest extends FormRequest
     {
         return [
             'farmers_id' => 'required|exists:farmers_profile,id',
-            'commodities_id' => 'required|exists:commodities,id',
-            'farm_size' => 'required|string',
-            'farm_location' => 'required|string',
+            'machine_id' => 'required|exists:machines,id',
+            'no_of_units' => 'required|integer|min:1',
         ];
     }
 }

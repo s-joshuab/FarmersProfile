@@ -43,11 +43,6 @@ class FarmersProfile extends Model
 
     ];
 
-    public static function validationRules(FarmersProfileRequest $request)
-    {
-        return $request->validated();
-    }
-
     public function municipality()
     {
         return $this->belongsTo(Municipality::class, 'municipality_id', 'id');

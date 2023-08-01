@@ -17,7 +17,8 @@
                                 <div class="d-flex align-items-center">
                                     <label for="referenceNo" class="mr-2">Reference/Control No.: </label>
                                     <div class="flex-grow-1">
-                                        <input type="text" class="form-control" id="referenceNo" name="referenceNo" " required>
+                                        <input type="text" class="form-control" id="referenceNo"
+                                            name="reference_control_no" " required>
                                                 <div class="invalid-tooltip">
                                                     Please enter a valid reference/control number.
                                                 </div>
@@ -47,7 +48,7 @@
 
                                     <div class="col-md-6 position-relative mt-0">
                                         <label class="form-label">Surname</label>
-                                        <input type="text" class="form-control" id="validationTooltip01" name="surname" required
+                                        <input type="text" class="form-control" id="validationTooltip01" name="sname" required
                                             autofocus="autofocus">
                                         <div class="invalid-tooltip">
                                             The Surname field is required.
@@ -56,7 +57,7 @@
 
                                     <div class="col-md-6 position-relative mt-0">
                                         <label class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="validationTooltip01" name="firstname"
+                                        <input type="text" class="form-control" id="validationTooltip01" name="fname"
                                             required autofocus="autofocus">
                                         <div class="invalid-tooltip">
                                             The First Name field is required.
@@ -65,7 +66,7 @@
 
                                     <div class="col-md-5 position-relative mt-0">
                                         <label class="form-label">Middle Name</label>
-                                        <input type="text" class="form-control" id="validationTooltip01" name="middlename"
+                                        <input type="text" class="form-control" id="validationTooltip01" name="mname"
                                             required autofocus="autofocus">
                                         <div class="invalid-tooltip">
                                             The Middle Name field is required.
@@ -74,7 +75,7 @@
 
                                     <div class="col-md-3 position-relative mt-0">
                                         <label class="form-label">Extension Name</label>
-                                        <input type="text" class="form-control" id="validationTooltip01" name="extensionname"
+                                        <input type="text" class="form-control" id="validationTooltip01" name="ename"
                                             required autofocus="autofocus">
                                         <div class="invalid-tooltip">
                                             The Extension Name field is required.
@@ -82,13 +83,13 @@
                                     </div>
                                     <div class="col-md-4 position-relative" style="margin-top: 35px;">
                                         <div class="form-inline">
-                                            <label for="enrollmentType" class="mr-2">Sex:</label>
+                                            <label for="sex" class="mr-2">Sex:</label>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="enrollmentType" id="maleOption" value="male" required>
+                                                <input class="form-check-input" type="radio" name="sex" id="maleOption" value="male" required>
                                                 <label class="form-check-label" for="maleOption">Male</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="enrollmentType" id="femaleOption" value="female" required>
+                                                <input class="form-check-input" type="radio" name="sex" id="femaleOption" value="female" required>
                                                 <label class="form-check-label" for="femaleOption">Female</label>
                                             </div>
                                         </div>
@@ -115,16 +116,15 @@
                                         <label class="form-label">Province<font color="red">*</font></label>
                                         <select class="form-select" aria-label="Default select example" name="province" wire:model="selectedProvince" id="province" required>
                                             <option value="" selected>Select Province</option>
-                                             @foreach ($provinces as $province)
+                                              @foreach ($provinces as $province)
                                         <option value="{{ $province->id }}">{{ $province->province_name }}</option>
                                         @endforeach
                                         </select>
-
-
                                         <div class="invalid-tooltip">
                                             The Province Address field is required.
                                         </div>
                                     </div>
+
                                     <!-- Beekeeper City Address -->
                                     <div class="col-md-4 position-relative mt-0">
                                         <label class="form-label">City/Municipality<font color="red">*</font>
@@ -180,7 +180,7 @@
                                     <div class="col-md-6 position-relative mt-0">
                                         <label class="form-label">Contact Number</label>
                                         <input type="text" class="form-control" id="validationTooltip01"
-                                            name="contactnumber" required autofocus="autofocus">
+                                            name="number" required autofocus="autofocus">
                                         <div class="invalid-tooltip">
                                             The contactnumber field is required.
                                         </div>
@@ -188,12 +188,13 @@
 
                                     <div class="col-md-6 position-relative mt-0">
                                         <div class="form-group">
-                                            <label for="education" class="mr-2">Highest Formal Education:</label>
+                                            <label for="highest_formal_education" class="mr-2">Highest Formal
+                                                Education:</label>
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" id="none"
-                                                            name="education" value="none"
+                                                            name="highest_formal_education" value="none"
                                                             onclick="handleEducationRadio('none')">
                                                         <label class="form-check-label" for="none">None</label>
                                                     </div>
@@ -201,7 +202,8 @@
                                                 <div class="col-md-4">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio"
-                                                            id="elementary" name="education" value="elementary"
+                                                            id="elementary" name="highest_formal_education"
+                                                            value="elementary"
                                                             onclick="handleEducationRadio('elementary')">
                                                         <label class="form-check-label"
                                                             for="elementary">Elementary</label>
@@ -210,7 +212,8 @@
                                                 <div class="col-md-4">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio"
-                                                            id="highSchool" name="education" value="highSchool"
+                                                            id="highSchool" name="highest_formal_education"
+                                                            value="highSchool"
                                                             onclick="handleEducationRadio('highSchool')">
                                                         <label class="form-check-label" for="highSchool">High
                                                             School</label>
@@ -219,7 +222,8 @@
                                                 <div class="col-md-4">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio"
-                                                            id="vocational" name="education" value="vocational"
+                                                            id="vocational" name="highest_formal_education"
+                                                            value="vocational"
                                                             onclick="handleEducationRadio('vocational')">
                                                         <label class="form-check-label"
                                                             for="vocational">Vocational</label>
@@ -228,7 +232,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" id="college"
-                                                            name="education" value="college"
+                                                            name="highest_formal_education" value="college"
                                                             onclick="handleEducationRadio('college')">
                                                         <label class="form-check-label" for="college">College</label>
                                                     </div>
@@ -236,7 +240,8 @@
                                                 <div class="col-md-4">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio"
-                                                            id="postGraduate" name="education" value="postGraduate"
+                                                            id="postGraduate" name="highest_formal_education"
+                                                            value="postGraduate"
                                                             onclick="handleEducationRadio('postGraduate')">
                                                         <label class="form-check-label"
                                                             for="postGraduate">Post-Graduate</label>
@@ -293,14 +298,14 @@
                                                 <div class="col-md-4 mt-1" style="margin-left: 10px;">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" id="pwdYes"
-                                                            name="pwd" value="yes" required>
+                                                            name="PWD" value="yes" required>
                                                         <label class="form-check-label" for="pwdYes">Yes</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 mt-1" style="margin-left: 10px;">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" id="pwdNo"
-                                                            name="pwd" value="no" required>
+                                                            name="PWD" value="no" required>
                                                         <label class="form-check-label" for="pwdNo">No</label>
                                                     </div>
                                                 </div>
@@ -319,7 +324,7 @@
                                                 <div class="col-md-4 mt-1" style="margin-left: 10px;">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio"
-                                                            id="beneficiaryYes" name="beneficiary" value="yes"
+                                                            id="beneficiaryYes" name="4ps" value="yes"
                                                             required>
                                                         <label class="form-check-label"
                                                             for="beneficiaryYes">Yes</label>
@@ -328,7 +333,7 @@
                                                 <div class="col-md-4 mt-1" style="margin-left: 10px;">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio"
-                                                            id="beneficiaryNo" name="beneficiary" value="no"
+                                                            id="beneficiaryNo" name="4ps" value="no"
                                                             required>
                                                         <label class="form-check-label" for="beneficiaryNo">No</label>
                                                     </div>
@@ -348,25 +353,25 @@
                                                 <div class="col-md-3 d-inline">
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio" id="single"
-                                                            name="civilStatus" value="single"
+                                                            name="civil_status" value="single"
                                                             onclick="handleCivilStatusRadio('single')" required>
                                                         <label class="form-check-label" for="single">Single</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio" id="married"
-                                                            name="civilStatus" value="married"
+                                                            name="civil_status" value="married"
                                                             onclick="handleCivilStatusRadio('married')" required>
                                                         <label class="form-check-label" for="married">Married</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio" id="widowed"
-                                                            name="civilStatus" value="widowed"
+                                                            name="civil_status" value="widowed"
                                                             onclick="handleCivilStatusRadio('widowed')" required>
                                                         <label class="form-check-label" for="widowed">Widowed</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio" id="separated"
-                                                            name="civilStatus" value="separated"
+                                                            name="civil_status" value="separated"
                                                             onclick="handleCivilStatusRadio('separated')" required>
                                                         <label class="form-check-label"
                                                             for="separated">Separated</label>
@@ -395,7 +400,7 @@
                                             <div class="form-group">
                                                 <label for="mother">Mother's Maiden Name:</label>
                                                 <input type="text" class="form-control d-inline" id="mother"
-                                                    name="mother" required>
+                                                    name="maiden" required>
                                                 <div class="invalid-tooltip">
                                                     Please enter your mother's maiden name.
                                                 </div>
@@ -416,7 +421,8 @@
                                                     <label for="livelihood" class="mr-2">Main Livelihood:</label>
                                                     <div class="col-md-3 form-check form-check-inline">
                                                         <input class="form-check-input" type="checkbox"
-                                                            id="farmers" value="farmers" required>
+                                                            name="main_livehood" id="farmers" value="farmers"
+                                                            required>
                                                         <label class="form-check-label" for="farmers">Farmers</label>
                                                     </div>
                                                 </div>
@@ -443,27 +449,40 @@
                                                         @php $commodityCount = 0; @endphp
                                                         @foreach ($farmers as $Id => $farmer)
                                                             @if ($commodityCount % 3 === 0)
-                                                                </div>
-                                                                <div class="row">
-                                                            @endif
-                                                            <div class="col-md-4">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" id="livestock" >
-                                                                    <label class="form-check-label" for="livestock">{{$farmer}}</label>
-                                                                </div>
-                                                                <label for="farmSizeLivestock" class="form-label">Farm Size (area):</label>
-                                                                <input type="text" class="form-control" id="farmSizeLivestock" name="farmSizeLivestock" >
-
-                                                                <div class="form-group" id="livestockInput" style="display: block;">
-                                                                    <label for="livestockFarmLocation">Farm Location:</label>
-                                                                    <input type="text" class="form-control" id="livestockFarmLocation" name="livestockFarmLocation" >
-                                                                </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        @endif
+                                                        <div class="col-md-4">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="rice"
+                                                                    wire:model="selectedFarmers.{{ $Id }}"
+                                                                    value="{{ $Id }}">
+                                                                <label class="form-check-label"
+                                                                    for="livestock">{{ $farmer }}</label>
                                                             </div>
-                                                            @php $commodityCount++; @endphp
+                                                            <label for="farmSizeLivestock" class="form-label">Farm
+                                                                Size (area):</label>
+                                                            <input type="text" class="form-control"
+                                                                id="farmSizeLivestock" name="farmSizeLivestock"
+                                                                wire:model="farm_sizes.{{ $Id }}">
+
+                                                            <div class="form-group" id="livestockInput"
+                                                                style="display: block;">
+                                                                <label for="livestockFarmLocation">Farm
+                                                                    Location:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="livestockFarmLocation"
+                                                                    name="livestockFarmLocation"
+                                                                    wire:model="farm_location.{{ $Id }}">
+                                                            </div>
+                                                        </div>
+                                                        @php $commodityCount++; @endphp
                                                         @endforeach
                                                     </div>
                                                 </div>
-                                        </div>
+
+                                            </div>
 
                                             <div class="col-md-12">
                                                 <div class="row">
@@ -471,33 +490,53 @@
                                                         <!-- High Value Crops -->
                                                         <div class="col-md-4 mb-3">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox" wire:model="highValueCrops" value="High Value Crops" onclick="toggleCommodities()">
-                                                                <label class="form-check-label" for="highValueCrops">High Value Crops Please specify</label>
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    wire:model="highValueCrops"
+                                                                    value="High Value Crops"
+                                                                    onclick="toggleCommodities()">
+                                                                <label class="form-check-label"
+                                                                    for="highValueCrops">High Value Crops Please
+                                                                    specify</label>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             @php $commodityCount = 0; @endphp
                                                             @foreach ($commodities as $Id => $commodity)
                                                                 @if ($commodityCount % 3 === 0)
-                                                                    </div>
-                                                                    <div class="row">
-                                                                @endif
-                                                                <div class="col-md-4">
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="checkbox" id="livestock" @if(!$highValueCrops) disabled @endif>
-                                                                        <label class="form-check-label" for="livestock">{{$commodity}}</label>
-                                                                    </div>
-                                                                    <label for="farmSizeLivestock" class="form-label">Farm Size (area):</label>
-                                                                    <input type="text" class="form-control" id="farmSizeLivestock" name="farmSizeLivestock" @if(!$highValueCrops) disabled @endif>
-
-                                                                    <div class="form-group" id="livestockInput" style="display: block;">
-                                                                        <label for="livestockFarmLocation">Farm Location:</label>
-                                                                        <input type="text" class="form-control" id="livestockFarmLocation" name="livestockFarmLocation" @if(!$highValueCrops) disabled @endif>
-                                                                    </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            @endif
+                                                            <div class="col-md-4">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        id="livestock"
+                                                                        wire:model="selectedCommodities.{{ $Id }}"
+                                                                        @if (!$highValueCrops) disabled @endif>
+                                                                    <label class="form-check-label"
+                                                                        for="livestock">{{ $commodity }}</label>
                                                                 </div>
-                                                                @php $commodityCount++; @endphp
+                                                                <label for="farmSizeLivestock" class="form-label">Farm
+                                                                    Size (area):</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="farmSizeLivestock" name="farmSizeLivestock"
+                                                                    wire:model="farm_size.{{ $Id }}"
+                                                                    @if (!$highValueCrops) disabled @endif>
+
+                                                                <div class="form-group" id="livestockInput"
+                                                                    style="display: block;">
+                                                                    <label for="livestockFarmLocation">Farm
+                                                                        Location:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="livestockFarmLocation"
+                                                                        name="livestockFarmLocation"
+                                                                        wire:model="farm_location.{{ $Id }}"
+                                                                        @if (!$highValueCrops) disabled @endif>
+                                                                </div>
+                                                            </div>
+                                                            @php $commodityCount++; @endphp
                                                             @endforeach
                                                         </div>
+
                                                     </div>
 
                                                     <script>
@@ -519,127 +558,97 @@
 
                                                     <div class="col-md-12">
                                                         <div class="row">
+
+                                                            <div class="col-md-4">
+                                                                <label for="validationCustom04"
+                                                                    class="form-label fw-bold mt-2">For
+                                                                    Machineries</label>
+                                                            </div>
+
+                                                            <!-- resources/views/livewire/machines-form.blade.php -->
                                                             <div class="container">
-                                                                <div class="col-md-4">
-                                                                    <label for="validationCustom04" class="form-label fw-bold mt-2">For Machineries</label>
+                                                                <div class="row">
+                                                                    @php $machineCount = 0; @endphp
+                                                                    @foreach ($machines as $id => $machineName)
+                                                                        @if ($machineCount % 3 === 0)
                                                                 </div>
                                                                 <div class="row">
-                                                                    <!-- Machineries -->
-                                                                    <div class="col-md-4 mb-3">
+                                                                    @endif
+                                                                    <div class="col-md-4">
                                                                         <div class="form-check">
-                                                                            <input class="form-check-input" type="checkbox" id="riceCombineHarvester" value="Rice Combine Harvester">
-                                                                            <label class="form-check-label" for="riceCombineHarvester">Rice Combine Harvester</label>
+                                                                            <input class="form-check-input"
+                                                                                type="checkbox"
+                                                                                id="machine_{{ $id }}"
+                                                                                name="machines[]"
+                                                                                value="{{ $id }}"
+                                                                                wire:model="machine.{{ $id }}">
+                                                                            <label class="form-check-label"
+                                                                                for="machine_{{ $id }}">{{ $machineName }}</label>
                                                                         </div>
-                                                                        <div class="form-group" id="riceCombineHarvesterInput">
-                                                                            <label for="riceCombineHarvesterUnits">No. of Units:</label>
-                                                                            <input type="text" class="form-control" id="riceCombineHarvesterUnits" name="riceCombineHarvesterUnits">
-                                                                        </div>
+                                                                        <label for="noofunits_{{ $id }}"
+                                                                            class="form-label">No. Of Units:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="noofunits_{{ $id }}"
+                                                                            name="noofunits_{{ $id }}"
+                                                                            wire:model="no_of_units.{{ $id }}">
                                                                     </div>
-
-                                                                    <div class="col-md-4 mb-3">
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="checkbox" id="fourWheelTractor" value="4 Wheel Tractor">
-                                                                            <label class="form-check-label" for="fourWheelTractor">4 Wheel Tractor</label>
-                                                                        </div>
-                                                                        <div class="form-group" id="fourWheelTractorInput">
-                                                                            <label for="fourWheelTractorUnits">No. of Units:</label>
-                                                                            <input type="text" class="form-control" id="fourWheelTractorUnits" name="fourWheelTractorUnits">
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-md-4 mb-3">
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="checkbox" id="riceTransplanter" value="Rice Transplanter">
-                                                                            <label class="form-check-label" for="riceTransplanter">Rice Transplanter</label>
-                                                                        </div>
-                                                                        <div class="form-group" id="riceTransplanterInput">
-                                                                            <label for="riceTransplanterUnits">No. of Units:</label>
-                                                                            <input type="text" class="form-control" id="riceTransplanterUnits" name="riceTransplanterUnits">
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-md-4 mb-3">
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="checkbox" id="thresher" value="Thresher">
-                                                                            <label class="form-check-label" for="thresher">Thresher</label>
-                                                                        </div>
-                                                                        <div class="form-group" id="thresherInput">
-                                                                            <label for="thresherUnits">No. of Units:</label>
-                                                                            <input type="text" class="form-control" id="thresherUnits" name="thresherUnits">
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-md-4 mb-3">
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="checkbox" id="waterpump" value="Waterpump">
-                                                                            <label class="form-check-label" for="waterpump">Waterpump</label>
-                                                                        </div>
-                                                                        <div class="form-group" id="waterpumpInput">
-                                                                            <label for="waterpumpUnits">No. of Units:</label>
-                                                                            <input type="text" class="form-control" id="waterpumpUnits" name="waterpumpUnits">
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-md-4 mb-3">
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="checkbox" id="othersMachinery" value="Others Machinery">
-                                                                            <label class="form-check-label" for="othersMachinery">Others, specify</label>
-                                                                        </div>
-                                                                        <div class="form-group" id="othersMachineryInput">
-                                                                            <label for="othersMachineryUnits">No. of Units:</label>
-                                                                            <input type="text" class="form-control" id="othersMachineryUnits" name="othersMachineryUnits">
-                                                                        </div>
-                                                                    </div>
+                                                                    @php $machineCount++; @endphp
+                                                                    @endforeach
                                                                 </div>
                                                             </div>
 
-                                                            <div class="col-md-12 mt-3">
-                                                                <div class="form-group">
-                                                                    <label for="validationCustom01" class="form-label">Gross Annual Income Last Year:</label>
-                                                                    <div class="d-flex align-items-center">
-                                                                        <label class="me-2">Farming</label>
-                                                                        <input type="text" class="form-control" id="validationCustom01" required>
-                                                                        <label class="ms-3 me-2">Non-Farming</label>
-                                                                        <input type="text" class="form-control" id="validationCustom02" required>
-                                                                    </div>
-                                                                    <div class="invalid-feedback">
-                                                                        Please provide the gross annual income for both farming and non-farming.
-                                                                    </div>
+
+
+<!-- resources/views/livewire/income-form.blade.php -->
+                                                        <div class="col-md-12 mt-3">
+                                                            <div class="form-group">
+                                                                <label for="validationCustom01" class="form-label">Gross Annual Income Last Year:</label>
+                                                                <div class="d-flex align-items-center">
+                                                                    <label class="me-2">Farming</label>
+                                                                    <input type="text" class="form-control" id="validationCustom01" wire:model="gross" required>
+                                                                    <label class="ms-3 me-2">Non-Farming</label>
+                                                                    <input type="text" class="form-control" id="validationCustom02" wire:model="gross" required>
+                                                                </div>
+                                                                <div class="invalid-feedback">
+                                                                    Please provide the gross annual income for both farming and non-farming.
                                                                 </div>
                                                             </div>
+                                                        </div>
 
-                                                            <div class="col-md-8 mt-3">
-                                                                <label class="form-label">No. of Farm Parcels</label>
-                                                                <input type="text" class="form-control" id="validationTooltip01" name="extensionname" required autofocus="autofocus">
-                                                                <div class="invalid-tooltip">
-
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-md-4 position-relative mt-4">
-                                                                <div class="form-group">
-                                                                    <label for="pwd" class="mr-2">Agrarian Reform Beneficiaries:</label>
-                                                                    <div class="row">
-                                                                        <div class="col-md-4 mt-1" style="margin-left: 10px;">
-                                                                            <div class="form-check">
-                                                                                <input class="form-check-input" type="radio" id="Yes"
-                                                                                    name="pwd" value="yes" required>
-                                                                                <label class="form-check-label" for="pwdYes">Yes</label>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4 mt-1" style="margin-left: 10px;">
-                                                                            <div class="form-check">
-                                                                                <input class="form-check-input" type="radio" id="pwdNo"
-                                                                                    name="pwd" value="no" required>
-                                                                                <label class="form-check-label" for="No">No</label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+<!-- resources/views/livewire/farm-parcels-form.blade.php -->
+                                                                <div class="col-md-8 mt-3">
+                                                                    <label class="form-label">No. of Farm Parcels</label>
+                                                                    <input type="text" class="form-control" id="validationTooltip01" wire:model="parcels" required autofocus>
                                                                     <div class="invalid-tooltip">
-                                                                        Please select if you are a Person with Disability (PWD).
+                                                                        Please provide the number of farm parcels.
                                                                     </div>
                                                                 </div>
+
+
+                                                         <!-- resources/views/livewire/agrarian-reform-form.blade.php -->
+                                                <div class="col-md-4 position-relative mt-4">
+                                                    <div class="form-group">
+                                                        <label for="pwd" class="mr-2">Agrarian Reform Beneficiaries:</label>
+                                                        <div class="row">
+                                                            <div class="col-md-4 mt-1" style="margin-left: 10px;">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" id="Yes" name="pwd" value="yes" wire:model="ARB" required>
+                                                                    <label class="form-check-label" for="pwdYes">Yes</label>
+                                                                </div>
                                                             </div>
+                                                            <div class="col-md-4 mt-1" style="margin-left: 10px;">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" id="pwdNo" name="pwd" value="no" wire:model="ARB" required>
+                                                                    <label class="form-check-label" for="No">No</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="invalid-tooltip">
+                                                            Please select if you are an Agrarian Reform Beneficiary.
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                         </div>
 
 
@@ -724,22 +733,22 @@
                         </div>
 
 
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-        </div>
-
-
-
-
                     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+            </div>
