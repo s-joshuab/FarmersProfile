@@ -31,7 +31,7 @@ class FarmersProfile extends Model
             'civil_status',
             'highest_formal_educational',
             'PWD',
-            '4Ps_beneficiary',
+            'benefits',
             'main_livelihood',
             'farm_location',
             'farming_and_nonfarming',

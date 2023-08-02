@@ -27,7 +27,7 @@ class CreateFarmersProfileTable extends Migration
             $table->string('civil_status');
             $table->string('highest_formal_educational'); // Fixed column name
             $table->boolean('PWD');
-            $table->boolean('4ps'); // Changed data type to boolean
+            $table->boolean('benefits'); // Changed data type to boolean
             $table->string('main_livelihood');
             $table->integer('gross'); // gross
             $table->integer('parcels');

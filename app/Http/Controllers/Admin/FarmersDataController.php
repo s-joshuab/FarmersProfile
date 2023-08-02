@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Province;
+use App\Models\Commodities;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\machine;
+
 class FarmersDataController extends Controller
 {
     /**
@@ -14,9 +18,17 @@ class FarmersDataController extends Controller
         return view('admin.farmers.index');
     }
 
-    public function form()
+    public function form(Request $request)
     {
-        return view('admin.farmers.add');
+
+        $commodities = Commodities::where('categories', 0)->pluck('commodities', 'id')->all();
+        $farmers = Commodities::where('categories', 1)->pluck('commodities', 'id')->all();
+        $machine = Machine::pluck('machine', 'id')->all();
+
+        $provinces = Province::all();
+        // Add more queries for other categories if needed
+
+        return view('admin.farmers.add', compact('commodities', 'farmers', 'provinces', 'machine'));
     }
 
     public function ID()

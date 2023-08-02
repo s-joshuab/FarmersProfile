@@ -28,7 +28,7 @@ class FarmersProfileRequest extends FormRequest
             'civil_status' => 'required',
             'highest_formal_educational' => 'required',
             'PWD' => 'required|boolean',
-            '4Ps_beneficiary' => 'required|boolean',
+            'benefits' => 'required|boolean',
             'main_livelihood' => 'required',
             'farm_location' => 'required',
             'farming_and_nonfarming' => 'required',
