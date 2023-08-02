@@ -569,7 +569,7 @@
                                                             <div class="container">
                                                                 <div class="row">
                                                                     @php $machineCount = 0; @endphp
-                                                                    @foreach ($machines as $id => $machineName)
+                                                                    @foreach ($machine as $id => $machineName)
                                                                         @if ($machineCount % 3 === 0)
                                                                 </div>
                                                                 <div class="row">
