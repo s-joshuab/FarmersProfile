@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\staff\StaffController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ReportsController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\staff\StaffFormController;
 use App\Http\Controllers\staff\StaffUserController;
 use App\Http\Controllers\Admin\AuditTrailController;
@@ -56,11 +57,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'admin']);
     Route::get('admin/farmreport', [FarmersDataController::class, 'farmdata']);
     Route::get('admin/reports', [ReportsController::class, 'reports']);
-    Route::get('admin/profile', [ProfileController::class, 'profile']);
-    Route::get('admin/audit', [AuditTrailController::class, 'audit']);
-    Route::get('admin/backup', [SystemBackupController::class, 'backup']);
-    Route::get('admin/form', [FarmersDataController::class, 'form']);
+    Route::get('admin/profile', [SettingsController::class, 'profile']);
+    Route::get('admin/audit', [SettingsController::class, 'audit']);
+    Route::get('admin/backup', [SettingsController::class, 'backup']);
     Route::get('admin/id', [FarmersDataController::class, 'ID']);
+
+
+    Route::get('admin/create-add', [FarmersDataController::class, 'create']);
+    Route::post('admin/create', [FarmersDataController::class, 'store']);
 
     // Admin Manage users
     Route::get('admin/users-add', [UserController::class, 'create']);

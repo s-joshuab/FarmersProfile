@@ -1,30 +1,32 @@
 <?php
 
 namespace App\Models;
-use App\Models\Machine;
+
+use App\Models\Commodity;
 use App\Models\FarmersProfile;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Machinery extends Model
+class Crop extends Model
 {
     use HasFactory;
 
-    protected $table = 'machineries';
+    protected $table = 'crops';
 
     protected $fillable = [
         'farmersprofile_id',
-        'machine_id',
-        'units',
+        'commodities_id',
+        'farm_size',
+        'farm_location',
     ];
 
-    public function farmersprofile()
+    public function farmersProfile()
     {
         return $this->belongsTo(FarmersProfile::class, 'farmersprofile_id');
     }
 
-    public function machine()
+    public function commodities()
     {
-        return $this->belongsTo(Machine::class, 'machine_id');
+        return $this->belongsTo(Commodity::class, 'commodities_id');
     }
 }

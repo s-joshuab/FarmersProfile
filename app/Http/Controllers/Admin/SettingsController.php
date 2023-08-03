@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class AuditTrailController extends Controller
+class SettingsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,6 +13,16 @@ class AuditTrailController extends Controller
     public function audit()
     {
         return view('admin.settings.audittrail');
+    }
+
+    public function profile()
+    {
+        return view('admin.settings.profile');
+    }
+
+    public function backup()
+    {
+        return view('admin.settings.sysbackup');
     }
 
     /**

@@ -18,15 +18,6 @@ class FarmersData extends Components
     public $municipalities = []; // Initialize as an empty array
     public $barangays = []; // Initialize as an empty array
 
-    public function render()
-    {
-        $commodities = Commodiies::where('categories', 0)->pluck('commodities', 'id')->all();
-        $farmers = Commodiies::where('categories', 1)->pluck('commodities', 'id')->all();
-        $provinces = Province::all();
-
-        return view('livewire.admin.farmers-data', compact('provinces', 'commodities', 'farmers'));
-    }
-
     public function updatedSelectedProvince($provinceId)
     {
         $this->municipalities = Municipality::where('province_id', $provinceId)->get();

@@ -3,7 +3,8 @@
     <div class="row">
         <div class="container">
             <div class="col-lg-12">
-
+                <form action="{{ url('admin/create') }}" method="post">
+                    @csrf
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
@@ -12,181 +13,173 @@
                                     style="font-family:'Times New Roman', Times, serif; font-weight: bold; font-size: 30px; color: black;">
                                     BALAOAN FARMERS REGISTRY</h5>
                             </div>
-
                             <div class="col-md-6 position-relative mt-5">
                                 <div class="d-flex align-items-center">
                                     <label for="referenceNo" class="mr-2">Reference/Control No.: </label>
                                     <div class="flex-grow-1">
                                         <input type="text" class="form-control" id="referenceNo"
-                                            name="reference_control_no" " required>
-                                                <div class="invalid-tooltip">
-                                                    Please enter a valid reference/control number.
+                                            name="ref_no" " required>
+                                                    <div class="invalid-tooltip">
+                                                        Please enter a valid reference/control number.
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-6 position-relative mt-3">
-                                        <label class="form-label">Status</label>
-                                        <div class="col-sm-12">
-                                            <select class="form-select" aria-label="Default select example" id="validationTooltip03" name="status"  required>
-                                                <option value="" selected disabled>Select Status</option>
-                                                <option value="Active">Active</option>
-                                                <option value="Inactive">Inactive</option>
+                                        <div class="col-md-6 position-relative mt-3">
+                                            <label class="form-label">Status</label>
+                                            <div class="col-sm-12">
+                                                <select class="form-select" aria-label="Default select example" id="validationTooltip03" name="status"  required>
+                                                    <option value="" selected disabled>Select Status</option>
+                                                    <option value="Active">Active</option>
+                                                    <option value="Inactive">Inactive</option>
+                                                </select>
+                                                <div class="invalid-tooltip">
+                                                    Please select a status.
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <hr class="mt-2">
+                                        <p class="mt-0" style="font-weight: bold; font-size: 12px;">PART I. PERSONAL INFORMATION</p>
+
+                                        <div class="col-md-6 position-relative mt-0">
+                                            <label class="form-label">Surname</label>
+                                            <input type="text" class="form-control" id="validationTooltip01" name="sname"  required
+                                                autofocus="autofocus">
+                                            <div class="invalid-tooltip">
+                                                The Surname field is required.
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 position-relative mt-0">
+                                            <label class="form-label">First Name</label>
+                                            <input type="text" class="form-control" id="validationTooltip01" name="fname"
+                                                required autofocus="autofocus">
+                                            <div class="invalid-tooltip">
+                                                The First Name field is required.
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-5 position-relative mt-0">
+                                            <label class="form-label">Middle Name</label>
+                                            <input type="text" class="form-control" id="validationTooltip01" name="mname"
+                                                required autofocus="autofocus">
+                                            <div class="invalid-tooltip">
+                                                The Middle Name field is required.
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 position-relative mt-0">
+                                            <label class="form-label">Extension Name</label>
+                                            <input type="text" class="form-control" id="validationTooltip01" name="ename"
+                                                required autofocus="autofocus">
+                                            <div class="invalid-tooltip">
+                                                The Extension Name field is required.
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 position-relative" style="margin-top: 35px;">
+                                            <div class="form-inline">
+                                                <label for="sex" class="mr-2">Sex:</label>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="sex" id="maleOption" value="male" required>
+                                                    <label class="form-check-label" for="maleOption">Male</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="sex" id="femaleOption" value="female" required>
+                                                    <label class="form-check-label" for="femaleOption">Female</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <hr class="mt-2">
+                                        <p class="mt-0" style="font-weight:bold; font-size: 12px;">ADDRESS</p>
+
+                                        <div class="col-md-4 position-relative mt-0">
+                                            <label class="form-label">Region<font color="red">*</font></label>
+                                            <select class="form-select" aria-label="Default select example" name="regions" id="region" required>
+                                                <option value="select disabled">Region I</option>
                                             </select>
                                             <div class="invalid-tooltip">
-                                                Please select a status.
+                                                The Region field is required.
                                             </div>
                                         </div>
-                                    </div>
-
-
-
-
-                                    <hr class="mt-2">
-                                    <p class="mt-0" style="font-weight: bold; font-size: 12px;">PART I. PERSONAL INFORMATION</p>
-
-                                    <div class="col-md-6 position-relative mt-0">
-                                        <label class="form-label">Surname</label>
-                                        <input type="text" class="form-control" id="validationTooltip01" name="sname"  required
-                                            autofocus="autofocus">
-                                        <div class="invalid-tooltip">
-                                            The Surname field is required.
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6 position-relative mt-0">
-                                        <label class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="validationTooltip01" name="fname"
-                                            required autofocus="autofocus">
-                                        <div class="invalid-tooltip">
-                                            The First Name field is required.
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-5 position-relative mt-0">
-                                        <label class="form-label">Middle Name</label>
-                                        <input type="text" class="form-control" id="validationTooltip01" name="mname"
-                                            required autofocus="autofocus">
-                                        <div class="invalid-tooltip">
-                                            The Middle Name field is required.
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3 position-relative mt-0">
-                                        <label class="form-label">Extension Name</label>
-                                        <input type="text" class="form-control" id="validationTooltip01" name="ename"
-                                            required autofocus="autofocus">
-                                        <div class="invalid-tooltip">
-                                            The Extension Name field is required.
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 position-relative" style="margin-top: 35px;">
-                                        <div class="form-inline">
-                                            <label for="sex" class="mr-2">Sex:</label>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="sex" id="maleOption" value="male" required>
-                                                <label class="form-check-label" for="maleOption">Male</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="sex" id="femaleOption" value="female" required>
-                                                <label class="form-check-label" for="femaleOption">Female</label>
+                                        <div class="col-md-4 position-relative mt-0">
+                                            <label class="form-label">Province<font color="red">*</font></label>
+                                            <select class="form-select" aria-label="Default select example" name="provinces" id="province" required>
+                                                <option value="select disabled">La Union</option>
+                                            </select>
+                                            <div class="invalid-tooltip">
+                                                The Province Address field is required.
                                             </div>
                                         </div>
-                                    </div>
 
-
-                                    <hr class="mt-2">
-                                    <p class="mt-0" style="font-weight:bold; font-size: 12px;">ADDRESS</p>
-
-                                    <div class="col-md-4 position-relative mt-0">
-                                        <label class="form-label">Region<font color="red">*</font></label>
-                                        <select class="form-select" aria-label="Default select example" name="region" id="region"
-                                            required>
-                                            {{-- <option value="selected disabled">Select Region</option> --}}
-                                            <option Value="selected disabled">REGION I</option>
-                                        </select>
-                                        <div class="invalid-tooltip">
-                                            The Region field is required.
+                                        <!-- Beekeeper City Address -->
+                                        <div class="col-md-4 position-relative mt-0">
+                                            <label class="form-label">City/Municipality<font color="red">*</font></label>
+                                            <select class="form-select" aria-label="Default select example" name="municipalities" id="municipality" required>
+                                                <option value="select disabled">Balaoan</option>
+                                            </select>
+                                            <div class="invalid-tooltip">
+                                                The City/Municipality Address field is required.
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <!-- Beekeeper Province Address -->
-                                    <div class="col-md-4 position-relative mt-0">
-                                        <label class="form-label">Province<font color="red">*</font></label>
-                                        <select class="form-select" aria-label="Default select example" name="province" id="province" required>
-                                            <option value="" selected>Select Province</option>
-
-                                        </select>
-                                        <div class="invalid-tooltip">
-                                            The Province Address field is required.
+                                        <!-- Beekeeper Barangay Address -->
+                                        <div class="col-md-4 position-relative mt-0">
+                                            <label class="form-label">Barangay</label>
+                                            <select class="form-select" aria-label="Default select example" name="barangays" id="barangay" required>
+                                                <option value="select disabled">Almeida</option>
+                                            </select>
+                                            <div class="invalid-tooltip">
+                                                The Barangay Address field is required.
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <!-- Beekeeper City Address -->
-                                    <div class="col-md-4 position-relative mt-0">
-                                        <label class="form-label">City/Municipality<font color="red">*</font>
-                                        </label>
-                                        <select class="form-select" aria-label="Default select example"
-                                            name="municipality" id="city"
-                                            required>
-                                            <option value="" selected>Select Municipality</option>
 
-                                        </select>
-                                        <div class="invalid-tooltip">
-                                            The City/Municipality Address field is required.
+                                        <div class="col-md-4 position-relative mt-0">
+                                            <label class="form-label">Street/Sitio/Purok/Subdv.</label>
+                                            <input type="text" class="form-control" id="validationTooltip01"
+                                                name="purok" required autofocus="autofocus">
+                                            <div class="invalid-tooltip">
+                                                The Street/Sitio/Purok/Subdv. field is required.
+                                            </div>
                                         </div>
-                                    </div>
-                                    <!-- Beekeeper Barangay Address -->
-                                    <div class="col-md-4  position-relative mt-0">
-                                        <label class="form-label">Barangay</label>
-                                        <select class="form-select" aria-label="Default select example"
-                                            name="barangay" id="barangay" required>
-                                            <option value="" selected>Select Barangay</option>
 
-                                        </select>
-                                        <div class="invalid-tooltip">
-                                            The Barangay Address field is required.
+                                        <div class="col-md-4 position-relative mt-0">
+                                            <label class="form-label">House/Lot/Bldg. No.</label>
+                                            <input type="text" class="form-control" id="validationTooltip01"
+                                                name="house" required autofocus="autofocus">
+                                            <div class="invalid-tooltip">
+                                                The House/Lot/Bldg. No. field is required.
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-4 position-relative mt-0">
-                                        <label class="form-label">Street/Sitio/Purok/Subdv.</label>
-                                        <input type="text" class="form-control" id="validationTooltip01"
-                                            name="street" required autofocus="autofocus">
-                                        <div class="invalid-tooltip">
-                                            The Street/Sitio/Purok/Subdv. field is required.
+                                        <hr class="mt-2">
+
+
+                                        <div class="col-md-6 position-relative mt-0">
+                                            <label class="form-label">Contact Number</label>
+                                            <input type="text" class="form-control" id="validationTooltip01"
+                                                name="number" required autofocus="autofocus">
+                                            <div class="invalid-tooltip">
+                                                The contactnumber field is required.
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-4 position-relative mt-0">
-                                        <label class="form-label">House/Lot/Bldg. No.</label>
-                                        <input type="text" class="form-control" id="validationTooltip01"
-                                            name="house" required autofocus="autofocus">
-                                        <div class="invalid-tooltip">
-                                            The House/Lot/Bldg. No. field is required.
-                                        </div>
-                                    </div>
-                                    <hr class="mt-2">
-
-                                    <div class="col-md-6 position-relative mt-0">
-                                        <label class="form-label">Contact Number</label>
-                                        <input type="text" class="form-control" id="validationTooltip01"
-                                            name="number" required autofocus="autofocus">
-                                        <div class="invalid-tooltip">
-                                            The contactnumber field is required.
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6 position-relative mt-0">
-                                        <div class="form-group">
-                                            <label for="highest_formal_education" class="mr-2">Highest Formal
-                                                Education:</label>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" id="none"
-                                                            name="highest_formal_education" " value="none"
+                                        <div class="col-md-6 position-relative mt-0">
+                                            <div class="form-group">
+                                                <label for="highest_formal_education" class="mr-2">Highest Formal
+                                                    Education:</label>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" id="none"
+                                                                name="education" " value="none"
                                             onclick="handleEducationRadio('none')">
                                         <label class="form-check-label" for="none">None</label>
                                     </div>
@@ -194,7 +187,7 @@
                                 <div class="col-md-4">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" id="elementary"
-                                            name="highest_formal_education" value="elementary"
+                                            name="education" value="elementary"
                                             onclick="handleEducationRadio('elementary')">
                                         <label class="form-check-label" for="elementary">Elementary</label>
                                     </div>
@@ -202,7 +195,7 @@
                                 <div class="col-md-4">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" id="highSchool"
-                                            name="highest_formal_education" value="highSchool"
+                                            name="education" value="highSchool"
                                             onclick="handleEducationRadio('highSchool')">
                                         <label class="form-check-label" for="highSchool">High
                                             School</label>
@@ -211,7 +204,7 @@
                                 <div class="col-md-4">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" id="vocational"
-                                            name="highest_formal_education" value="vocational"
+                                            name="education" value="vocational"
                                             onclick="handleEducationRadio('vocational')">
                                         <label class="form-check-label" for="vocational">Vocational</label>
                                     </div>
@@ -219,7 +212,7 @@
                                 <div class="col-md-4">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" id="college"
-                                            name="highest_formal_education" value="college"
+                                            name="education" value="college"
                                             onclick="handleEducationRadio('college')">
                                         <label class="form-check-label" for="college">College</label>
                                     </div>
@@ -227,7 +220,7 @@
                                 <div class="col-md-4">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" id="postGraduate"
-                                            name="highest_formal_education" value="postGraduate"
+                                            name="education" value="postGraduate"
                                             onclick="handleEducationRadio('postGraduate')">
                                         <label class="form-check-label" for="postGraduate">Post-Graduate</label>
                                     </div>
@@ -279,14 +272,14 @@
                             <div class="row">
                                 <div class="col-md-4 mt-1" style="margin-left: 10px;">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" id="pwdYes" name="PWD"
+                                        <input class="form-check-input" type="radio" id="pwdYes" name="pwd"
                                             value="yes" required>
                                         <label class="form-check-label" for="pwdYes">Yes</label>
                                     </div>
                                 </div>
                                 <div class="col-md-4 mt-1" style="margin-left: 10px;">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" id="pwdNo" name="PWD"
+                                        <input class="form-check-input" type="radio" id="pwdNo" name="pwd"
                                             value="no" required>
                                         <label class="form-check-label" for="pwdNo">No</label>
                                     </div>
@@ -306,13 +299,13 @@
                                 <div class="col-md-4 mt-1" style="margin-left: 10px;">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" id="beneficiaryYes"
-                                            name="4ps" value="yes" required>
+                                            name="benefits" value="yes" required>
                                         <label class="form-check-label" for="beneficiaryYes">Yes</label>
                                     </div>
                                 </div>
                                 <div class="col-md-4 mt-1" style="margin-left: 10px;">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" id="beneficiaryNo" name="4ps"
+                                        <input class="form-check-input" type="radio" id="beneficiaryNo" name="benefits"
                                             value="no" required>
                                         <label class="form-check-label" for="beneficiaryNo">No</label>
                                     </div>
@@ -332,25 +325,25 @@
                                 <div class="col-md-3 d-inline">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" id="single"
-                                            name="civil_status" value="single" onclick="handleCivilStatusRadio('single')"
+                                            name="cstatus" value="single" onclick="handleCivilStatusRadio('single')"
                                             required>
                                         <label class="form-check-label" for="single">Single</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" id="married"
-                                            name="civil_status" value="married"
+                                            name="cstatus" value="married"
                                             onclick="handleCivilStatusRadio('married')" required>
                                         <label class="form-check-label" for="married">Married</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" id="widowed"
-                                            name="civil_status" value="widowed"
+                                            name="cstatus" value="widowed"
                                             onclick="handleCivilStatusRadio('widowed')" required>
                                         <label class="form-check-label" for="widowed">Widowed</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" id="separated"
-                                            name="civil_status" value="separated"
+                                            name="cstatus" value="separated"
                                             onclick="handleCivilStatusRadio('separated')" required>
                                         <label class="form-check-label" for="separated">Separated</label>
                                     </div>
@@ -398,7 +391,7 @@
                                 <div class="form-group">
                                     <label for="livelihood" class="mr-2">Main Livelihood:</label>
                                     <div class="col-md-3 form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" name="main_livehood"
+                                        <input class="form-check-input" type="checkbox" name="livehood"
                                             id="farmers" value="farmers" required>
                                         <label class="form-check-label" for="farmers">Farmers</label>
                                     </div>
@@ -427,19 +420,20 @@
                                         @foreach ($farmers as $Id => $farmer)
                                             <div class="col-md-4">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="rice"
+                                                    <input class="form-check-input" type="checkbox" name="commodities[$id] id="commodities_id"
                                                         value="{{ $Id }}">
                                                     <label class="form-check-label"
                                                         for="livestock">{{ $farmer }}</label>
                                                 </div>
                                                 <label for="farmSizeLivestock" class="form-label">Farm Size
-                                                    (area):</label>
+                                                    (area)
+                                                    :</label>
                                                 <input type="text" class="form-control" id="farmSizeLivestock"
-                                                    name="farmSizeLivestock">
+                                                    name="farm_size">
                                                 <div class="form-group" id="livestockInput" style="display: block;">
                                                     <label for="livestockFarmLocation">Farm Location:</label>
                                                     <input type="text" class="form-control" id="livestockFarmLocation"
-                                                        name="livestockFarmLocation">
+                                                        name="farm_location">
                                                 </div>
                                             </div>
                                             @php $commodityCount++; @endphp
@@ -483,22 +477,23 @@
                                         <div class="col-md-4">
                                             <div class="form-check">
                                                 <input class="form-check-input commodity-checkbox" type="checkbox"
-                                                    id="commodity_{{ $Id }}" name="commodities[]"
+                                                    id="commodity_{{ $Id }}" name="commodities[$id]"
                                                     value="{{ $Id }}" disabled>
                                                 <label class="form-check-label"
                                                     for="commodity_{{ $Id }}">{{ $commodity }}</label>
                                             </div>
                                             <label for="farmSize_{{ $Id }}" class="form-label">Farm Size
-                                                (area):</label>
+                                                (area)
+                                                :</label>
                                             <input type="text" class="form-control commodity-farm-size"
-                                                id="farmSize_{{ $Id }}" name="farmSize[{{ $Id }}]"
+                                                id="farmSize_{{ $Id }}" name="farm_size"
                                                 disabled>
 
                                             <div class="form-group commodity-farm-location" style="display: block;">
                                                 <label for="farmLocation_{{ $Id }}">Farm Location:</label>
                                                 <input type="text" class="form-control"
                                                     id="farmLocation_{{ $Id }}"
-                                                    name="farmLocation[{{ $Id }}]" disabled>
+                                                    name="farm_location" disabled>
                                             </div>
                                         </div>
                                         @php $commodityCount++; @endphp
@@ -538,7 +533,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox"
-                                                            id="machine_{{ $id }}" name="machines[]"
+                                                            id="machine_{{ $id }}" name="machines[$id]"
                                                             value="{{ $id }}">
 
                                                         <label class="form-check-label"
@@ -548,7 +543,7 @@
                                                         Units:</label>
                                                     <input type="text" class="form-control"
                                                         id="noofunits_{{ $id }}"
-                                                        name="noofunits_{{ $id }}">
+                                                        name="units">
 
                                                 </div>
                                                 @php $machineCount++; @endphp
@@ -565,9 +560,9 @@
                                             Year:</label>
                                         <div class="d-flex align-items-center">
                                             <label class="me-2">Farming</label>
-                                            <input type="text" class="form-control" id="validationCustom01" required>
+                                            <input type="text" class="form-control" id="validationCustom01" name="gross" required>
                                             <label class="ms-3 me-2">Non-Farming</label>
-                                            <input type="text" class="form-control" id="validationCustom02" required>
+                                            <input type="text" class="form-control" id="validationCustom02" name="gross" required>
                                         </div>
                                         <div class="invalid-feedback">
                                             Please provide the gross annual income for both farming and non-farming.
@@ -579,6 +574,7 @@
                                 <div class="col-md-8 mt-3">
                                     <label class="form-label">No. of Farm Parcels</label>
                                     <input type="text" class="form-control" id="validationTooltip01" required
+                                    name="parcels"
                                         autofocus>
                                     <div class="invalid-tooltip">
                                         Please provide the number of farm parcels.
@@ -594,14 +590,14 @@
                                             <div class="col-md-4 mt-1" style="margin-left: 10px;">
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="radio" id="pwdYes"
-                                                        name="pwd" value="yes" required>
+                                                        name="arb" value="yes" required>
                                                     <label class="form-check-label" for="pwdYes">Yes</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 mt-1" style="margin-left: 10px;">
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="radio" id="pwdNo"
-                                                        name="pwd" value="no" required>
+                                                        name="arb" value="no" required>
                                                     <label class="form-check-label" for="pwdNo">No</label>
                                                 </div>
                                             </div>
@@ -671,12 +667,12 @@
                                             <div class="button-container">
                                                 <button class="btn btn-primary submit-button"
                                                     name="submit">Submit</button>
-                                                <button class="btn btn-primary" type="submit">Cancel</button>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
+                            </form>
                             </div>
                         </div>
                     </div>

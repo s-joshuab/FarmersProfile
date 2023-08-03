@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('municipality', function (Blueprint $table) {
+        Schema::create('regions', function (Blueprint $table) {
             $table->id();
-            $table->string('municipality_name');
-            $table->unsignedBigInteger('province_id');
-            $table->foreign('province_id')->on('province')->references('id')->onDelete('cascade');
+            $table->string('regions');
             $table->timestamps();
+
+            // // Define foreign key constraint
+            // $table->foreign('farmersprofile_id')->references('id')->on('farmersprofile')->onDelete('cascade');
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('municipality');
+        Schema::dropIfExists('regions');
     }
 };
