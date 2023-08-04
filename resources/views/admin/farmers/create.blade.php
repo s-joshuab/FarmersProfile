@@ -139,6 +139,9 @@
                                                 The Barangay Address field is required.
                                             </div>
                                         </div>
+
+                                        @push('scripts')
+
                                         <script>
                                             // public/js/address.js
 
@@ -220,6 +223,8 @@ $(document).ready(function () {
 });
 
                                             </script>
+                                        @endpush
+
 
                                         <div class="col-md-4 position-relative mt-0">
                                             <label class="form-label">Street/Sitio/Purok/Subdv.</label>
@@ -745,5 +750,5 @@ $(document).ready(function () {
     </div>
 
 <!-- Add this to your admin.farmers.create view -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 @endsection

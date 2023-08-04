@@ -53,7 +53,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
-Route::middleware(['auth', 'admin'])->group(function () {
+//Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'admin']);
     Route::get('admin/farmreport', [FarmersDataController::class, 'farmdata']);
     Route::get('admin/reports', [ReportsController::class, 'reports']);
@@ -82,7 +82,7 @@ Route::get('/get-barangays', [FarmersDataControllerController::class, 'getBarang
     Route::get('user-view/{id}', [ManageUsersController::class, 'show']);
     Route::get('user-edit/{id}', [ManageUsersController::class, 'edit']);
     Route::put('user-update/{id}', [ManageUsersController::class, 'update']);
-});
+//});
 
 // Route group with the StaffMiddleware applied to all routes within
 Route::middleware(['auth', 'staff'])->group(function () {

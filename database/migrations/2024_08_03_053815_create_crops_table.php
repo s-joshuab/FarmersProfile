@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('crops', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('farmersprofile_id');
             $table->unsignedBigInteger('commodities_id');
+            $table->unsignedBigInteger('farmersprofile_id');
             $table->string('farm_size');
             $table->string('farm_location');
+
 
             $table->foreign('farmersprofile_id')->references('id')->on('farmersprofile')->onDelete('cascade');
             $table->foreign('commodities_id')->references('id')->on('commodities');
