@@ -26,43 +26,36 @@ class FarmersDataController extends Controller
 
     public function create(Request $request)
 {
-    $regions = Regions::pluck('name', 'id');
+
     $commodities = Commodities::where('category', 0)->pluck('commodities', 'id')->all();
     $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
     $machine = Machine::pluck('machine', 'id')->all();
 
-    return view('admin.farmers.create', compact('commodities', 'farmers','machine', 'regions'));
+    return view('admin.farmers.create', compact('commodities', 'farmers','machine', ));
 }
 
     public function ID()
     {
         return view('admin.farmers.id');
     }
-
     public function getProvinces(Request $request)
     {
-        $regionsId = $request->input('regions_id');
-        $provinces = Provinces::where('regions_id', $regionsId)->pluck('name', 'id');
+        $regions_id = $request->input('regions_id');
+        $provinces = Provinces::where('regions_id', $regions_id)->get();
         return response()->json($provinces);
     }
 
-    /**
-     * AJAX endpoint to fetch municipalities based on selected province
-     */
     public function getMunicipalities(Request $request)
     {
-        $provincesId = $request->input('provinces_id');
-        $municipalities = Municipalities::where('provinces_id', $provincesId)->pluck('name', 'id');
+        $provinces_id = $request->input('provinces_id');
+        $municipalities = Municipalities::where('province_id', $provinces_id)->get();
         return response()->json($municipalities);
     }
 
-    /**
-     * AJAX endpoint to fetch barangays based on selected municipality
-     */
     public function getBarangays(Request $request)
     {
-        $municipalitiesId = $request->input('municipalities_id');
-        $barangays = Barangays::where('municipalities_id', $municipalitiesId)->pluck('name', 'id');
+        $municipalities_id = $request->input('municipalities_id');
+        $barangays = Barangays::where('municipalities_id', $municipalities_id)->get();
         return response()->json($barangays);
     }
 
