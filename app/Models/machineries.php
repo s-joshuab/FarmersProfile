@@ -1,28 +1,27 @@
 <?php
 
 namespace App\Models;
-use App\Models\Machine;
-use App\Models\FarmersProfile;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Machinery extends Model
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Machineries extends Model
 {
     use HasFactory;
 
+    // Define the table associated with the model
     protected $table = 'machineries';
 
-    protected $fillable = [
-        'farmersprofile_id',
-        'machine_id',
-        'units',
-    ];
+    // Define the fillable attributes
+    protected $fillable = ['farmersprofile_id', 'machine_id', 'units'];
 
-    public function farmersprofile()
+    // Define the relationship with the FarmersProfile model
+    public function farmersProfile()
     {
         return $this->belongsTo(FarmersProfile::class, 'farmersprofile_id');
     }
 
+    // Define the relationship with the Machine model
     public function machine()
     {
         return $this->belongsTo(Machine::class, 'machine_id');

@@ -2,29 +2,22 @@
 
 namespace App\Models;
 
-use App\Models\Barangay;
-use App\Models\Province;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Municipality extends Model
+class Municipalities extends Model
 {
     use HasFactory;
 
+    // Define the table associated with the model
     protected $table = 'municipalities';
 
-    protected $fillable = [
-        'provinces_id',
-        'municipalities',
-    ];
+    // Define the fillable attributes
+    protected $fillable = ['municipalities', 'provinces_id'];
 
+    // Define the relationship with the Province model
     public function provinces()
     {
-        return $this->belongsTo(Province::class, 'provinces_id');
-    }
-
-    public function barangays()
-    {
-        return $this->hasMany(Barangay::class, 'municipalities_id');
+        return $this->belongsTo(Provinces::class, 'provinces_id');
     }
 }

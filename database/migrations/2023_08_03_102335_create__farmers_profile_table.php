@@ -6,14 +6,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::create('farmersprofile', function (Blueprint $table) {
             $table->id();
-            $table->string('farm_number');
             $table->string('ref_no');
             $table->string('status');
             $table->string('sname');
@@ -23,7 +20,7 @@ return new class extends Migration
             $table->string('sex');
             $table->string('spouse')->nullable();
             $table->string('mother');
-            $table->unsignedBigInteger('number')->unique(); // Assuming 'number' is an ID column.
+            $table->integer('number')->unique();
             $table->unsignedBigInteger('regions_id');
             $table->unsignedBigInteger('provinces_id');
             $table->unsignedBigInteger('municipalities_id');
@@ -38,28 +35,26 @@ return new class extends Migration
             $table->string('pwd');
             $table->string('benefits');
             $table->string('livelihood');
-            $table->unsignedBigInteger('crops_id')->nullable(); // Assuming 'crops_id' is a foreign key.
-            $table->unsignedBigInteger('machinery_id')->nullable(); // Assuming 'machinery_id' is a foreign key.
-            $table->string('gross'); // Adjust precision and scale according to your requirements.
-            $table->integer('parcels'); // Assuming 'parcels' is an integer.
+            $table->unsignedBigInteger('crops_id')->nullable();
+            $table->unsignedBigInteger('machine_id')->nullable();
+            $table->string('gross');
+            $table->integer('parcels');
             $table->string('arb');
 
 
-            // Define foreign key constraints
+
             $table->foreign('regions_id')->references('id')->on('regions');
             $table->foreign('provinces_id')->references('id')->on('provinces');
             $table->foreign('municipalities_id')->references('id')->on('municipalities');
             $table->foreign('barangays_id')->references('id')->on('barangays');
             $table->foreign('crops_id')->references('id')->on('crops');
-            $table->foreign('machinery_id')->references('id')->on('machinery');
+            $table->foreign('machine_id')->references('id')->on('machine');
 
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
+
     public function down(): void
     {
         Schema::dropIfExists('farmersprofile');

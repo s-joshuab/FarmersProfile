@@ -2,29 +2,22 @@
 
 namespace App\Models;
 
-use App\Models\Region;
-use App\Models\Municipality;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Province extends Model
+class Provinces extends Model
 {
     use HasFactory;
 
+    // Define the table associated with the model
     protected $table = 'provinces';
 
-    protected $fillable = [
-        'regions_id',
-        'provinces',
-    ];
+    // Define the fillable attributes
+    protected $fillable = ['provinces', 'regions_id'];
 
+    // Define the relationship with the Region model
     public function regions()
     {
-        return $this->belongsTo(Region::class, 'regions_id');
-    }
-
-    public function municipalities()
-    {
-        return $this->hasMany(Municipality::class, 'provinces_id');
+        return $this->belongsTo(Regions::class, 'regions_id');
     }
 }
