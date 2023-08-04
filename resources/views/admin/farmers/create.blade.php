@@ -101,28 +101,29 @@
                                         <div class="col-md-4 position-relative mt-0">
                                             <label class="form-label">Region<font color="red">*</font></label>
                                             <select class="form-select" aria-label="Default select example" name="regions" id="region" required>
-                                                <option value="select">Select Region</option>
-                                                <!-- Add other region options here if needed -->
+                                                <option value="">Select Region</option>
+                                                @foreach($regions as $regions)
+                                                    <option value="{{ $regions->id }}">{{ $regions->regions }}</option>
+                                                @endforeach
                                             </select>
-                                            <div class="invalid-tooltip">
-                                                The Region field is required.
-                                            </div>
                                         </div>
+
+                                        <!-- Beekeeper Province Address -->
                                         <div class="col-md-4 position-relative mt-0">
                                             <label class="form-label">Province<font color="red">*</font></label>
                                             <select class="form-select" aria-label="Default select example" name="provinces" id="province" required>
-                                                <option value="select">Select Province</option>
+                                                <option value="">Select Province</option>
                                             </select>
                                             <div class="invalid-tooltip">
                                                 The Province Address field is required.
                                             </div>
                                         </div>
 
-                                        <!-- Beekeeper City Address -->
+                                        <!-- Beekeeper City/Municipality Address -->
                                         <div class="col-md-4 position-relative mt-0">
                                             <label class="form-label">City/Municipality<font color="red">*</font></label>
                                             <select class="form-select" aria-label="Default select example" name="municipalities" id="municipality" required>
-                                                <option value="select">Select Municipality</option>
+                                                <option value="">Select Municipality</option>
                                             </select>
                                             <div class="invalid-tooltip">
                                                 The City/Municipality Address field is required.
@@ -133,97 +134,79 @@
                                         <div class="col-md-4 position-relative mt-0">
                                             <label class="form-label">Barangay</label>
                                             <select class="form-select" aria-label="Default select example" name="barangays" id="barangay" required>
-                                                <option value="select">Select Barangay</option>
+                                                <option value="">Select Barangay</option>
                                             </select>
                                             <div class="invalid-tooltip">
                                                 The Barangay Address field is required.
                                             </div>
                                         </div>
 
-                                        @push('scripts')
+                                     <!-- Your existing HTML code for dropdowns -->
+<!-- ... -->
 
-                                        <script>
-                                            // public/js/address.js
-
-$(document).ready(function () {
-  // Region dropdown change event
-  $('#region').on('change', function () {
-    var regionId = $(this).val();
-
-    // Reset other dropdowns
-    $('#province').empty().append('<option value="select">Select Province</option>');
-    $('#municipality').empty().append('<option value="select">Select Municipality</option>');
-    $('#barangay').empty().append('<option value="select">Select Barangay</option>');
-
-    if (regionId === 'select') {
-      return;
-    }
-
-    // Make an AJAX request to fetch provinces based on the selected region
-    $.ajax({
-      url: '/get-provinces',
-      method: 'GET',
-      data: { region_id: regionId },
-      success: function (data) {
-        $.each(data, function (index, province) {
-          $('#province').append('<option value="' + province.id + '">' + province.name + '</option>');
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Function to fetch provinces based on the selected region
+        $('#regions').change(function () {
+            var regions_id = $(this).val();
+            $.ajax({
+                url: '/get-provinces',
+                type: 'GET',
+                data: {
+                    regions_id: regions_id
+                },
+                success: function (data) {
+                    var options = '';
+                    data.forEach(function (provinces) {
+                        options += '<option value="' + provinces.id + '">' + provinces + '</option>';
+                    });
+                    $('#provinces').html(options);
+                }
+            });
         });
-      },
-    });
-  });
 
-  // Province dropdown change event
-  $('#province').on('change', function () {
-    var provinceId = $(this).val();
-
-    // Reset other dropdowns
-    $('#municipality').empty().append('<option value="select">Select Municipality</option>');
-    $('#barangay').empty().append('<option value="select">Select Barangay</option>');
-
-    if (provinceId === 'select') {
-      return;
-    }
-
-    // Make an AJAX request to fetch municipalities based on the selected province
-    $.ajax({
-      url: '/get-municipalities',
-      method: 'GET',
-      data: { province_id: provinceId },
-      success: function (data) {
-        $.each(data, function (index, municipality) {
-          $('#municipality').append('<option value="' + municipality.id + '">' + municipality.name + '</option>');
+        // Function to fetch municipalities based on the selected province
+        $('#provinces').change(function () {
+            var provinces_id = $(this).val();
+            $.ajax({
+                url: '/get-municipalities',
+                type: 'GET',
+                data: {
+                    provinces_id: provinces_id
+                },
+                success: function (data) {
+                    var options = '';
+                    data.forEach(function (municipalities) {
+                        options += '<option value="' + municipalities.id + '">' + municipalities + '</option>';
+                    });
+                    $('#municipalities').html(options);
+                }
+            });
         });
-      },
-    });
-  });
 
-  // Municipality dropdown change event
-  $('#municipality').on('change', function () {
-    var municipalityId = $(this).val();
-
-    // Reset barangay dropdown
-    $('#barangay').empty().append('<option value="select">Select Barangay</option>');
-
-    if (municipalityId === 'select') {
-      return;
-    }
-
-    // Make an AJAX request to fetch barangays based on the selected municipality
-    $.ajax({
-      url: '/get-barangays',
-      method: 'GET',
-      data: { municipality_id: municipalityId },
-      success: function (data) {
-        $.each(data, function (index, barangay) {
-          $('#barangay').append('<option value="' + barangay.id + '">' + barangay.name + '</option>');
+        // Function to fetch barangays based on the selected municipality
+        $('#municipalities').change(function () {
+            var municipalities_id = $(this).val();
+            $.ajax({
+                url: '/get-barangays',
+                type: 'GET',
+                data: {
+                    municipalities_id: municipalities_id
+                },
+                success: function (data) {
+                    var options = '';
+                    data.forEach(function (barangays) {
+                        options += '<option value="' + barangays.id + '">' + barangays + '</option>';
+                    });
+                    $('#barangays').html(options);
+                }
+            });
         });
-      },
     });
-  });
-});
+</script>
 
-                                            </script>
-                                        @endpush
+
 
 
                                         <div class="col-md-4 position-relative mt-0">
