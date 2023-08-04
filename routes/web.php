@@ -61,14 +61,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('admin/audit', [SettingsController::class, 'audit']);
     Route::get('admin/backup', [SettingsController::class, 'backup']);
     Route::get('admin/id', [FarmersDataController::class, 'ID']);
-// Route for getting provinces based on region_id
-Route::get('/get-provinces', [FarmersDataControllerController::class, 'getProvinces']);
-
-// Route for getting municipalities based on province_id
-Route::get('/get-municipalities', [FarmersDataControllerController::class, 'getMunicipalities']);
-
-// Route for getting barangays based on municipality_id
-Route::get('/get-barangays', [FarmersDataControllerController::class, 'getBarangays']);
+Route::get('/get-provinces', [FarmersDataController::class, 'getProvinces']);
+Route::get('/get-municipalities', [FarmersDataController::class, 'getMunicipalities']);
+Route::get('/get-barangays', [FarmersDataController::class, 'getBarangays']);
 
 
 

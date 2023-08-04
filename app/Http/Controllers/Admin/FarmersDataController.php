@@ -26,18 +26,22 @@ class FarmersDataController extends Controller
 
     public function create(Request $request)
 {
-
+    $regions = Regions::all();
+    $provinces = Provinces::all();
+    $municipalities = Municipalities::all();
+    $barangays = Barangays::all();
     $commodities = Commodities::where('category', 0)->pluck('commodities', 'id')->all();
     $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
     $machine = Machine::pluck('machine', 'id')->all();
 
-    return view('admin.farmers.create', compact('commodities', 'farmers','machine', ));
+    return view('admin.farmers.create', compact('commodities', 'farmers','machine', 'regions', 'provinces', 'municipalities', 'barangays' ));
 }
 
     public function ID()
     {
         return view('admin.farmers.id');
     }
+
     public function getProvinces(Request $request)
     {
         $regions_id = $request->input('regions_id');
@@ -48,7 +52,7 @@ class FarmersDataController extends Controller
     public function getMunicipalities(Request $request)
     {
         $provinces_id = $request->input('provinces_id');
-        $municipalities = Municipalities::where('province_id', $provinces_id)->get();
+        $municipalities = Municipalities::where('provinces_id', $provinces_id)->get();
         return response()->json($municipalities);
     }
 
