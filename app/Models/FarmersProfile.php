@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Crop;
-use App\Models\Region;
-use App\Models\Province;
-use App\Models\Machinery;
-use App\Models\Municipality;
+use App\Models\Crops;
+use App\Models\Regions;
+use App\Models\Barangays;
+use App\Models\Provinces;
+use App\Models\Machineries;
+use App\Models\Municipalities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
 
 class FarmersProfile extends Model
 {
@@ -18,7 +18,6 @@ class FarmersProfile extends Model
     protected $table = 'farmersprofile';
 
     protected $fillable = [
-        'farm_number',
         'ref_no',
         'status',
         'sname',
@@ -44,45 +43,45 @@ class FarmersProfile extends Model
         'benefits',
         'livelihood',
         'crops_id',
-        'machinery_id',
+        'machine_id',
         'gross',
         'parcels',
-        'arb',
+        'arb'
     ];
-
-    // Define the relationship with the 'regions' table (belongs to one region).
     public function regions()
     {
-        return $this->belongsTo(Region::class, 'regions_id');
+        return $this->belongsTo(Regions::class, 'regions_id');
     }
 
-    // Define the relationship with the 'provinces' table (belongs to one province).
+    // Relationship with Provinces
     public function provinces()
     {
-        return $this->belongsTo(Province::class, 'provinces_id');
+        return $this->belongsTo(Provinces::class, 'provinces_id');
     }
 
-    // Define the relationship with the 'municipalities' table (belongs to one municipality).
+    // Relationship with Municipalities
     public function municipalities()
     {
-        return $this->belongsTo(Municipality::class, 'municipalities_id');
+        return $this->belongsTo(Municipalities::class, 'municipalities_id');
     }
 
-    // Define the relationship with the 'barangays' table (belongs to one barangay).
+    // Relationship with Barangays
     public function barangays()
     {
-        return $this->belongsTo(Barangay::class, 'barangays_id');
+        return $this->belongsTo(Barangays::class, 'barangays_id');
     }
 
-    // Define the relationship with the 'crops' table (belongs to one crop).
+    // Relationship with Crops (assuming many-to-many relationship)
     public function crops()
     {
-        return $this->belongsTo(Crop::class, 'crops_id');
+        return $this->belongsToMany(Crops::class,'farmersprofile_id', 'crops_id')
+            ->withPivot('farm_size', 'farm_location');
     }
 
-    // Define the relationship with the 'machineries' table (belongs to one machinery).
+    // Relationship with Machines (assuming many-to-many relationship)
     public function machineries()
     {
-        return $this->belongsTo(Machinery::class, 'machinery_id');
+        return $this->belongsToMany(Machineries::class, 'farmersprofile_id', 'machine_id')
+            ->withPivot('units');
     }
 }
