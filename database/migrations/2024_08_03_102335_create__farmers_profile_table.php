@@ -35,8 +35,8 @@ return new class extends Migration
             $table->string('pwd');
             $table->string('benefits');
             $table->string('livelihood');
-            $table->unsignedBigInteger('crops_id')->nullable();
-            $table->unsignedBigInteger('machine_id')->nullable();
+            $table->unsignedBigInteger('crops_id');
+            $table->unsignedBigInteger('machine_id');
             $table->string('gross');
             $table->integer('parcels');
             $table->string('arb');
@@ -49,7 +49,6 @@ return new class extends Migration
             $table->foreign('barangays_id')->references('id')->on('barangays');
             $table->foreign('crops_id')->references('id')->on('crops');
             $table->foreign('machine_id')->references('id')->on('machine');
-
             $table->timestamps();
         });
     }

@@ -13,13 +13,11 @@ return new class extends Migration
     {
         Schema::create('crops', function (Blueprint $table) {
             $table->id();
-            $table->string('farm_size');
-            $table->string('farm_location');
             $table->unsignedBigInteger('farmersprofile_id');
             $table->unsignedBigInteger('commodities_id');
+            $table->string('farm_size');
+            $table->string('farm_location');
 
-
-            // Define foreign key constraints
             $table->foreign('farmersprofile_id')->references('id')->on('farmersprofile')->onDelete('cascade');
             $table->foreign('commodities_id')->references('id')->on('commodities');
             $table->timestamps();

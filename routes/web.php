@@ -62,6 +62,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin/backup', [SettingsController::class, 'backup']);
     Route::get('admin/id', [FarmersDataController::class, 'ID']);
 
+Route::get('/get-regions', [FarmersDataController::class, 'create']);
+Route::get('/get-provinces', [FarmersDataController::class, 'getProvinces']);
+Route::get('/get-municipalities', [FarmersDataController::class, 'getMunicipalities']);
+Route::get('/get-barangays', [FarmersDataController::class, 'getBarangays']);
+
+
 
     Route::get('admin/create-add', [FarmersDataController::class, 'create']);
     Route::post('admin/create', [FarmersDataController::class, 'store']);

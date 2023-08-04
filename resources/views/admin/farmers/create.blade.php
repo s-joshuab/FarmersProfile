@@ -664,6 +664,64 @@
     </div>
     </div>
 
+<!-- Add this to your admin.farmers.create view -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Function to populate the dropdown with data
+        function populateDropdown(dropdown, data) {
+            dropdown.empty();
+            $.each(data, function(id, name) {
+                dropdown.append($('<option>', {
+                    value: id,
+                    text: name
+                }));
+            });
+        }
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        // AJAX function to fetch data from the server
+        function fetchData(url, data, callback) {
+            $.ajax({
+                url: url,
+                method: 'GET',
+                data: data,
+                success: function(response) {
+                    callback(response);
+                },
+                error: function(xhr) {
+                    console.error(xhr);
+                }
+            });
+        }
+
+        // Get regions and populate the regions dropdown on page load
+        fetchData('/get-regions', {}, function(regions) {
+            populateDropdown($('#regionDropdown'), regions);
+        });
+
+        // Handle region selection
+        $('#regionDropdown').on('change', function() {
+            const regionsId = $(this).val();
+            fetchData('/get-provinces', { regions_id: regionsId }, function(provinces) {
+                populateDropdown($('#provinceDropdown'), provinces);
+            });
+        });
+
+        // Handle province selection
+        $('#provinceDropdown').on('change', function() {
+            const provincesId = $(this).val();
+            fetchData('/get-municipalities', { provinces_id: provincesId }, function(municipalities) {
+                populateDropdown($('#municipalitiesDropdown'), municipalities);
+            });
+        });
+
+        // Handle municipality selection
+        $('#municipalityDropdown').on('change', function() {
+            const municipalitiesId = $(this).val();
+            fetchData('/get-barangays', { municipalities_id: municipalitiesId }, function(barangays) {
+                populateDropdown($('#barangayDropdown'), barangays);
+            });
+        });
+    });
+</script>
 @endsection

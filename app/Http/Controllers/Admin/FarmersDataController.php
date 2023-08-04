@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Region;
 use App\Models\machine;
+use App\Models\Regions;
 use App\Models\Barangay;
+use App\Models\Barangays;
 use App\Models\Provinces;
 use App\Models\Commodities;
 use Illuminate\Http\Request;
@@ -25,16 +26,44 @@ class FarmersDataController extends Controller
 
     public function create(Request $request)
 {
+    $regions = Regions::pluck('name', 'id');
     $commodities = Commodities::where('category', 0)->pluck('commodities', 'id')->all();
     $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
     $machine = Machine::pluck('machine', 'id')->all();
 
-    return view('admin.farmers.create', compact('commodities', 'farmers','machine'));
+    return view('admin.farmers.create', compact('commodities', 'farmers','machine', 'regions'));
 }
 
     public function ID()
     {
         return view('admin.farmers.id');
+    }
+
+    public function getProvinces(Request $request)
+    {
+        $regionsId = $request->input('regions_id');
+        $provinces = Provinces::where('regions_id', $regionsId)->pluck('name', 'id');
+        return response()->json($provinces);
+    }
+
+    /**
+     * AJAX endpoint to fetch municipalities based on selected province
+     */
+    public function getMunicipalities(Request $request)
+    {
+        $provincesId = $request->input('provinces_id');
+        $municipalities = Municipalities::where('provinces_id', $provincesId)->pluck('name', 'id');
+        return response()->json($municipalities);
+    }
+
+    /**
+     * AJAX endpoint to fetch barangays based on selected municipality
+     */
+    public function getBarangays(Request $request)
+    {
+        $municipalitiesId = $request->input('municipalities_id');
+        $barangays = Barangays::where('municipalities_id', $municipalitiesId)->pluck('name', 'id');
+        return response()->json($barangays);
     }
 
     public function store(Request $request)
