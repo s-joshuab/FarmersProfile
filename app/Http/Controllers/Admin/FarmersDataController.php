@@ -37,6 +37,106 @@ class FarmersDataController extends Controller
         return view('admin.farmers.id');
     }
 
+    public function store(Request $request)
+    {
+        // Validate the input data
+        $validator = Validator::make($request->all(), [
+            'ref_no' => 'required',
+            'status' => 'required',
+            'sname' => 'required',
+            'fname' => 'required',
+            'mname' => 'required',
+            'ename' => 'required',
+            'sex' => 'required',
+            'spouse' => 'required',
+            'number' => 'required',
+            'regions_id' => 'required|exists:regions,id',
+            'provinces_id' => 'required|exists:provinces,id',
+            'municipalities_id' => 'required|exists:municipalities,id',
+            'barangays_id' => 'required|exists:barangays,id',
+            'purok' => 'required',
+            'house' => 'required',
+            'dob' => 'required|date',
+            'pob' => 'required',
+            'religion' => 'required',
+            'cstatus' => 'required',
+            'education' => 'required',
+            'pwd' => 'required',
+            'benefits' => 'required',
+            'livelihood' => 'required=',
+            'gross' => 'required|numeric',
+            'parcels' => 'required|numeric',
+            'arb' => 'required',
+            // Add other validation rules for other fields here...
+        ]);
 
+        if ($validator->fails()) {
+            dd($validator->errors()->all());
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Error occurred during Adding.');
+        }
 
+        // Create the farmer profile using the FarmersProfile model
+        $farmersprofile = FarmersProfile::create([
+            'ref_no' => $request->input('ref_no'),
+            'status' => $request->input('status'),
+            'sname' => $request->input('sname'),
+            'fname' => $request->input('fname'),
+            'mname' => $request->input('mname'),
+            'ename' => $request->input('ename'),
+            'sex' => $request->input('sex'),
+            'spouse' => $request->input('spouse'),
+            'mother' => $request->input('mother'),
+            'number' => $request->input('number'),
+            'regions_id' => $request->input('regions_id'),
+            'provinces_id' => $request->input('provinces_id'),
+            'municipalities_id' => $request->input('municipalities_id'),
+            'barangays_id' => $request->input('barangays_id'),
+            'purok' => $request->input('purok'),
+            'house' => $request->input('house'),
+            'dob' => $request->input('dob'),
+            'pob' => $request->input('pob'),
+            'religion' => $request->input('religion'),
+            'cstatus' => $request->input('cstatus'),
+            'education' => $request->input('education'),
+            'pwd' => $request->input('pwd'),
+            'benefits' => $request->input('benefits'),
+            'livelihood' => $request->input('livelihood'),
+            'gross' => $request->input('gross'),
+            'parcels' => $request->input('parcels'),
+            'arb' => $request->input('arb'),
+            // Add other attributes here...
+        ]);
+
+        // Save the farmer profile
+        $farmersprofile->save();
+
+        // Assuming you have a "crops" relationship defined in the FarmersProfile model.
+        // You might need to adjust this part according to your actual relationships.
+
+        // Store crops data in the pivot table
+        $farmers = $request->input('commodities_id', []);
+        $cropData = [];
+        foreach ($farmers as $Id) {
+            $cropData[$Id] = [
+                'farm_size' => $request->input("farm_size_{$Id}"),
+                'farm_location' => $request->input("farm_location_{$Id}"),
+            ];
+        }
+        $farmersprofile->crops()->sync($cropData);
+
+        // Assuming you have a "machines" relationship defined in the FarmersProfile model.
+        // You might need to adjust this part according to your actual relationships.
+
+        // Store machines data in the pivot table
+        $machines = $request->input('machine_id', []);
+        $machineData = [];
+        foreach ($machines as $machineId) {
+            $machineData[$machineId] = [
+                'units' => $request->input("noofunits_{$machineId}"),
+            ];
+        }
+        $farmersprofile->machines()->sync($machineData);
+
+        return redirect('admin/create-add')->with('message', 'User Added Successfully!');
+    }
 }

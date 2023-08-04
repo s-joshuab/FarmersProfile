@@ -53,32 +53,31 @@ class FarmersProfile extends Model
         return $this->belongsTo(Regions::class, 'regions_id');
     }
 
-    // Relationship with Provinces
+
     public function provinces()
     {
         return $this->belongsTo(Provinces::class, 'provinces_id');
     }
 
-    // Relationship with Municipalities
+
     public function municipalities()
     {
         return $this->belongsTo(Municipalities::class, 'municipalities_id');
     }
 
-    // Relationship with Barangays
+
     public function barangays()
     {
         return $this->belongsTo(Barangays::class, 'barangays_id');
     }
 
-    // Relationship with Crops (assuming many-to-many relationship)
+
     public function crops()
     {
         return $this->belongsToMany(Crops::class,'farmersprofile_id', 'crops_id')
             ->withPivot('farm_size', 'farm_location');
     }
 
-    // Relationship with Machines (assuming many-to-many relationship)
     public function machineries()
     {
         return $this->belongsToMany(Machineries::class, 'farmersprofile_id', 'machine_id')
