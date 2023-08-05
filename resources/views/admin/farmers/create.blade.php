@@ -99,11 +99,11 @@
                                         <hr class="mt-2">
                                         <p class="mt-0" style="font-weight:bold; font-size: 12px;">ADDRESS</p>
                                         <div class="col-md-4 position-relative mt-0">
-                                            <label for="barangay">Region</label>
-                                            <select id="barangay" class="form-control">
-                                                <option value="selected disabled">Region I</option>
-                                            </select>
-                                        </div>
+                                            <label for="Region">Region</label>
+                                            <div class="form-control-custom">
+                                              <input type="text" id="regions" name="regions" class="form-control" value="Region I" readonly>
+                                            </div>
+                                          </div>
 
                                         <!-- Beekeeper Province Address -->
                                         <div class="col-md-4 position-relative mt-0">

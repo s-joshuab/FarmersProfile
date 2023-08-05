@@ -22,7 +22,7 @@ class FarmersProfile extends Model
         'spouse',
         'mother',
         'number',
-        'regions_id',
+        'regions',
         'provinces_id',
         'municipalities_id',
         'barangays_id',
@@ -40,11 +40,6 @@ class FarmersProfile extends Model
         'parcels',
         'arb',
     ];
-
-    public function region()
-    {
-        return $this->belongsTo(Region::class, 'regions_id');
-    }
 
     public function province()
     {
