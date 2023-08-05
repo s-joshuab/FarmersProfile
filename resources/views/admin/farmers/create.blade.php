@@ -99,112 +99,124 @@
                                         <hr class="mt-2">
                                         <p class="mt-0" style="font-weight:bold; font-size: 12px;">ADDRESS</p>
                                         <div class="col-md-4 position-relative mt-0">
-                                            <label class="form-label">Region<font color="red">*</font></label>
-                                            <select class="form-select" aria-label="Default select example" name="regions" id="region" required>
-                                                <option value="">Select Region</option>
-                                                @foreach($regions as $regions)
-                                                    <option value="{{ $regions->id }}">{{ $regions->regions }}</option>
-                                                @endforeach
+                                            <label for="barangay">Region</label>
+                                            <select id="barangay" class="form-control">
+                                                <option value="selected disabled">Region I</option>
                                             </select>
                                         </div>
 
                                         <!-- Beekeeper Province Address -->
                                         <div class="col-md-4 position-relative mt-0">
-                                            <label class="form-label">Province<font color="red">*</font></label>
-                                            <select class="form-select" aria-label="Default select example" name="provinces" id="province" required>
+                                            <label for="province">Province:</label>
+                                            <select id="province" class="form-control">
                                                 <option value="">Select Province</option>
+                                                @foreach ($provinces as $province)
+                                                    <option value="{{ $province->id }}">{{ $province->provinces }}</option>
+                                                @endforeach
                                             </select>
-                                            <div class="invalid-tooltip">
-                                                The Province Address field is required.
-                                            </div>
                                         </div>
 
-                                        <!-- Beekeeper City/Municipality Address -->
                                         <div class="col-md-4 position-relative mt-0">
-                                            <label class="form-label">City/Municipality<font color="red">*</font></label>
-                                            <select class="form-select" aria-label="Default select example" name="municipalities" id="municipality" required>
+                                            <label for="municipality">Municipality:</label>
+                                            <select id="municipality" class="form-control">
                                                 <option value="">Select Municipality</option>
                                             </select>
-                                            <div class="invalid-tooltip">
-                                                The City/Municipality Address field is required.
-                                            </div>
                                         </div>
 
-                                        <!-- Beekeeper Barangay Address -->
-                                        <div class="col-md-4 position-relative mt-0">
-                                            <label class="form-label">Barangay</label>
-                                            <select class="form-select" aria-label="Default select example" name="barangays" id="barangay" required>
+                                        <div class="col-md-4 position-relative mt-2">
+                                            <label for="barangay">Barangay:</label>
+                                            <select id="barangay" class="form-control">
                                                 <option value="">Select Barangay</option>
                                             </select>
-                                            <div class="invalid-tooltip">
-                                                The Barangay Address field is required.
-                                            </div>
                                         </div>
 
-                                     <!-- Your existing HTML code for dropdowns -->
-<!-- ... -->
+                                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                        <script>
+                                            // Function to fetch municipalities based on the selected province
+                                            function getMunicipalities(province_id) {
+                                                $.ajax({
+                                                    url: '/get-municipalities/' + province_id,
+                                                    type: 'GET',
+                                                    dataType: 'json',
+                                                    success: function(response) {
+                                                        // Clear previous options
+                                                        $('#municipality').empty().append('<option value="">Select Municipality</option>');
+                                                        $('#barangay').empty().append('<option value="">Select Barangay</option>');
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // Function to fetch provinces based on the selected region
-        $('#regions').change(function () {
-            var regions_id = $(this).val();
-            $.ajax({
-                url: '/get-provinces',
-                type: 'GET',
-                data: {
-                    regions_id: regions_id
-                },
-                success: function (data) {
-                    var options = '';
-                    data.forEach(function (provinces) {
-                        options += '<option value="' + provinces.id + '">' + provinces + '</option>';
-                    });
-                    $('#provinces').html(options);
-                }
-            });
-        });
+                                                        // Append new options
+                                                        $.each(response, function(index, municipality) {
+                                                            $('#municipality').append('<option value="' + municipality.id + '">' + municipality.municipalities + '</option>');
+                                                        });
+                                                    },
+                                                    error: function(xhr, status, error) {
+                                                        console.error(error);
+                                                    }
+                                                });
+                                            }
 
-        // Function to fetch municipalities based on the selected province
-        $('#provinces').change(function () {
-            var provinces_id = $(this).val();
-            $.ajax({
-                url: '/get-municipalities',
-                type: 'GET',
-                data: {
-                    provinces_id: provinces_id
-                },
-                success: function (data) {
-                    var options = '';
-                    data.forEach(function (municipalities) {
-                        options += '<option value="' + municipalities.id + '">' + municipalities + '</option>';
-                    });
-                    $('#municipalities').html(options);
-                }
-            });
-        });
+                                            // Function to fetch barangays based on the selected municipality
+                                            function getBarangays(municipality_id) {
+                                                $.ajax({
+                                                    url: '/get-barangays/' + municipality_id,
+                                                    type: 'GET',
+                                                    dataType: 'json',
+                                                    success: function(response) {
+                                                        // Clear previous options
+                                                        $('#barangay').empty().append('<option value="">Select Barangay</option>');
 
-        // Function to fetch barangays based on the selected municipality
-        $('#municipalities').change(function () {
-            var municipalities_id = $(this).val();
-            $.ajax({
-                url: '/get-barangays',
-                type: 'GET',
-                data: {
-                    municipalities_id: municipalities_id
-                },
-                success: function (data) {
-                    var options = '';
-                    data.forEach(function (barangays) {
-                        options += '<option value="' + barangays.id + '">' + barangays + '</option>';
-                    });
-                    $('#barangays').html(options);
-                }
-            });
-        });
-    });
-</script>
+                                                        // Append new options
+                                                        $.each(response, function(index, barangay) {
+                                                            $('#barangay').append('<option value="' + barangay.id + '">' + barangay.barangays + '</option>');
+                                                        });
+                                                    },
+                                                    error: function(xhr, status, error) {
+                                                        console.error(error);
+                                                    }
+                                                });
+                                            }
+
+                                            // Add event listener for the province select dropdown
+                                            $('#province').change(function() {
+                                                var province_id = $(this).val();
+                                                if (province_id !== '') {
+                                                    getMunicipalities(province_id);
+                                                }
+                                            });
+
+                                            // Add event listener for the municipality select dropdown
+                                            $('#municipality').change(function() {
+                                                var municipality_id = $(this).val();
+                                                if (municipality_id !== '') {
+                                                    getBarangays(municipality_id);
+                                                }
+                                            });
+
+                                            // Add event listener for the form submission
+                                            $('#dataForm').submit(function(event) {
+                                                event.preventDefault(); // Prevent the default form submission
+
+                                                var formData = $(this).serialize(); // Serialize the form data
+
+                                                $.ajax({
+                                                    url: '/save-data',
+                                                    type: 'POST',
+                                                    data: formData,
+                                                    dataType: 'json',
+                                                    success: function(response) {
+                                                        // Handle the success response, e.g., show a success message
+                                                        alert(response.message);
+                                                    },
+                                                    error: function(xhr, status, error) {
+                                                        console.error(error);
+                                                        // Handle the error response if needed
+                                                    }
+                                                });
+
+                                                // If you still want to submit the form after the Ajax call, you can do it here
+                                                // Uncomment the next line if you want to submit the form after the Ajax call
+                                                // this.submit();
+                                            });
+                                        </script>
 
 
 
@@ -438,7 +450,7 @@
                         <div class="col-md-3 position-relative mt-2">
                             <div class="form-group">
                                 <label for="mother">Mother's Maiden Name:</label>
-                                <input type="text" class="form-control d-inline" id="mother" name="maiden"
+                                <input type="text" class="form-control d-inline" id="mother" name="mother"
                                     required>
                                 <div class="invalid-tooltip">
                                     Please enter your mother's maiden name.
@@ -460,7 +472,7 @@
                                     <label for="livelihood" class="mr-2">Main Livelihood:</label>
                                     <div class="col-md-3 form-check form-check-inline">
                                         <input class="form-check-input" type="checkbox" name="livehood"
-                                            id="farmers" value="farmers" required>
+                                            id="farmers"  required>
                                         <label class="form-check-label" for="farmers">Farmers</label>
                                     </div>
                                 </div>

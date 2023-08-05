@@ -28,6 +28,7 @@ use App\Http\Controllers\secretary\SecretaryFormController;
 use App\Http\Controllers\staff\StaffSystemBackupController;
 use App\Http\Controllers\secretary\SecretaryProfileController;
 use App\Http\Controllers\secretary\SecretaryFarmDataController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,11 +62,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('admin/audit', [SettingsController::class, 'audit']);
     Route::get('admin/backup', [SettingsController::class, 'backup']);
     Route::get('admin/id', [FarmersDataController::class, 'ID']);
-Route::get('/get-provinces', [FarmersDataController::class, 'getProvinces']);
-Route::get('/get-municipalities', [FarmersDataController::class, 'getMunicipalities']);
-Route::get('/get-barangays', [FarmersDataController::class, 'getBarangays']);
-
-
+    Route::get('/get-municipalities/{provinces_id}', [FarmersDataController::class, 'getMunicipalities']);
+    Route::get('/get-barangays/{municipalities_id}', [FarmersDataController::class, 'getBarangays']);
 
     Route::get('admin/create-add', [FarmersDataController::class, 'create']);
     Route::post('admin/create', [FarmersDataController::class, 'store']);
@@ -106,5 +104,15 @@ Route::middleware(['auth', 'secretary'])->group(function () {
     Route::get('secretary/form', [SecretaryFormController::class, 'form']);
     Route::get('secretary/profile', [SecretaryProfileController::class, 'profile']);
 });
+
+
+
+//test
+Route::get('test', [TestController::class, 'index']);
+Route::get('/get-municipalities/{provinces_id}', [TestController::class, 'getMunicipalities']);
+
+Route::get('/get-barangays/{municipalities_id}', [TestController::class, 'getBarangays']);
+
+Route::post('/save-data', [TestController::class, 'saveData']);
 
 

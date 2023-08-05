@@ -24,44 +24,33 @@ class FarmersDataController extends Controller
         return view('admin.farmers.index');
     }
 
-    public function create(Request $request)
-{
-    $regions = Regions::all();
-    $provinces = Provinces::all();
-    $municipalities = Municipalities::all();
-    $barangays = Barangays::all();
-    $commodities = Commodities::where('category', 0)->pluck('commodities', 'id')->all();
-    $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
-    $machine = Machine::pluck('machine', 'id')->all();
-
-    return view('admin.farmers.create', compact('commodities', 'farmers','machine', 'regions', 'provinces', 'municipalities', 'barangays' ));
-}
-
     public function ID()
     {
         return view('admin.farmers.id');
     }
 
-    public function getProvinces(Request $request)
+    public function create(Request $request)
     {
-        $regions_id = $request->input('regions_id');
-        $provinces = Provinces::where('regions_id', $regions_id)->get();
-        return response()->json($provinces);
+        $provinces = Provinces::all();
+        $commodities = Commodities::where('category', 0)->pluck('commodities', 'id')->all();
+        $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
+        $machine = Machine::pluck('machine', 'id')->all();
+
+        return view('admin.farmers.create', compact('commodities', 'farmers', 'machine', 'provinces'));
     }
 
-    public function getMunicipalities(Request $request)
+    public function getMunicipalities($province_id)
     {
-        $provinces_id = $request->input('provinces_id');
-        $municipalities = Municipalities::where('provinces_id', $provinces_id)->get();
+        $municipalities = Municipalities::where('provinces_id', $province_id)->get();
         return response()->json($municipalities);
     }
 
-    public function getBarangays(Request $request)
+    public function getBarangays($municipality_id)
     {
-        $municipalities_id = $request->input('municipalities_id');
-        $barangays = Barangays::where('municipalities_id', $municipalities_id)->get();
+        $barangays = Barangays::where('municipalities_id', $municipality_id)->get();
         return response()->json($barangays);
     }
+
 
     public function store(Request $request)
     {
@@ -76,10 +65,11 @@ class FarmersDataController extends Controller
             'sex' => 'required',
             'spouse' => 'required',
             'number' => 'required',
-            'regions_id' => 'required|exists:regions,id',
-            'provinces_id' => 'required|exists:provinces,id',
-            'municipalities_id' => 'required|exists:municipalities,id',
-            'barangays_id' => 'required|exists:barangays,id',
+            'mother' => 'required',
+            'regions_id' => 'required',
+            'provinces_id' => 'required',
+            'municipalities_id' => 'required',
+            'barangays_id' => 'required',
             'purok' => 'required',
             'house' => 'required',
             'dob' => 'required|date',
@@ -89,10 +79,12 @@ class FarmersDataController extends Controller
             'education' => 'required',
             'pwd' => 'required',
             'benefits' => 'required',
-            'livelihood' => 'required=',
-            'gross' => 'required|numeric',
-            'parcels' => 'required|numeric',
+            'livelihood' => 'required',
+            'gross' => 'required',
+            'parcels' => 'required',
             'arb' => 'required',
+            'commodities_id' => 'required',
+            'machine_id' => 'required',
             // Add other validation rules for other fields here...
         ]);
 
@@ -130,38 +122,28 @@ class FarmersDataController extends Controller
             'gross' => $request->input('gross'),
             'parcels' => $request->input('parcels'),
             'arb' => $request->input('arb'),
+            'commodities_id' => $request->input('crops_id'),
+            'machine_id' => $request->input('machine_id'),
             // Add other attributes here...
         ]);
 
-        // Save the farmer profile
-        $farmersprofile->save();
+        $farmersprofile->crops()->create([
+            'farmersprofile_id',
+            'crops_id',
+            'farm_size',
+            'farm_location'
+        ]);
 
-        // Assuming you have a "crops" relationship defined in the FarmersProfile model.
-        // You might need to adjust this part according to your actual relationships.
+        $farmersprofile->machineries()->create([
+            'farmersprofile_id',
+            'machine_id',
+            'units'
+        ]);
 
-        // Store crops data in the pivot table
-        $farmers = $request->input('commodities_id', []);
-        $cropData = [];
-        foreach ($farmers as $Id) {
-            $cropData[$Id] = [
-                'farm_size' => $request->input("farm_size_{$Id}"),
-                'farm_location' => $request->input("farm_location_{$Id}"),
-            ];
-        }
-        $farmersprofile->crops()->sync($cropData);
 
-        // Assuming you have a "machines" relationship defined in the FarmersProfile model.
-        // You might need to adjust this part according to your actual relationships.
+        $farmersprofile->create();
 
-        // Store machines data in the pivot table
-        $machines = $request->input('machine_id', []);
-        $machineData = [];
-        foreach ($machines as $machineId) {
-            $machineData[$machineId] = [
-                'units' => $request->input("noofunits_{$machineId}"),
-            ];
-        }
-        $farmersprofile->machines()->sync($machineData);
+
 
         return redirect('admin/create-add')->with('message', 'User Added Successfully!');
     }

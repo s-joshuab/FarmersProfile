@@ -42,12 +42,13 @@ class FarmersProfile extends Model
         'pwd',
         'benefits',
         'livelihood',
-        'crops_id',
+        'commodities_id',
         'machine_id',
         'gross',
         'parcels',
         'arb'
     ];
+
     public function regions()
     {
         return $this->belongsTo(Regions::class, 'regions_id');
@@ -74,8 +75,7 @@ class FarmersProfile extends Model
 
     public function crops()
     {
-        return $this->belongsToMany(Crops::class,'farmersprofile_id', 'crops_id')
-            ->withPivot('farm_size', 'farm_location');
+        return $this->hasMany(Crops::class);
     }
 
     public function machineries()

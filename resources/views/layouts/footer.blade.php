@@ -1,3 +1,4 @@
+@yield('scripts')
 <footer id="footer" class="footer">
     <div class="copyright">
       &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
@@ -14,6 +15,13 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
   @livewireScripts
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script src="{{ asset('assests/js/jquery-3.6.3.min.js') }}"></script>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
   <!-- Vendor JS Files -->
   <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
