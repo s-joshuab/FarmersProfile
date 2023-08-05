@@ -122,26 +122,23 @@ class FarmersDataController extends Controller
             'gross' => $request->input('gross'),
             'parcels' => $request->input('parcels'),
             'arb' => $request->input('arb'),
-            'commodities_id' => $request->input('crops_id'),
-            'machine_id' => $request->input('machine_id'),
+            'commodities_id' => $request->input('commodities_id'),
+            'machine_id' => $request->input('machine_id')
             // Add other attributes here...
         ]);
 
         $farmersprofile->crops()->create([
-            'farmersprofile_id',
-            'crops_id',
-            'farm_size',
-            'farm_location'
+            'farmersprofile_id' => $farmersprofile->id,
+            'crops_id' => $request->input('crops_id'),
+            'farm_size' => $request->input('farm_size'),
+            'farm_location' => $request->input('farm_location')
         ]);
 
         $farmersprofile->machineries()->create([
-            'farmersprofile_id',
-            'machine_id',
-            'units'
+            'farmersprofile_id' => $farmersprofile->id,
+            'machine_id' => $request->input('machine_id'),
+            'units' => $request->input('units')
         ]);
-
-
-        $farmersprofile->create();
 
 
 
