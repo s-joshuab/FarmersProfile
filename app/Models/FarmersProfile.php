@@ -2,14 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Crops;
-use App\Models\Regions;
-use App\Models\Barangays;
-use App\Models\Provinces;
-use App\Models\Machineries;
-use App\Models\Municipalities;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class FarmersProfile extends Model
 {
@@ -42,45 +36,28 @@ class FarmersProfile extends Model
         'pwd',
         'benefits',
         'livelihood',
-        'commodities_id',
-        'machine_id',
         'gross',
         'parcels',
-        'arb'
+        'arb',
     ];
 
-    public function regions()
+    public function region()
     {
-        return $this->belongsTo(Regions::class, 'regions_id');
+        return $this->belongsTo(Region::class, 'regions_id');
     }
 
-
-    public function provinces()
+    public function province()
     {
-        return $this->belongsTo(Provinces::class, 'provinces_id');
+        return $this->belongsTo(Province::class, 'provinces_id');
     }
 
-
-    public function municipalities()
+    public function municipality()
     {
-        return $this->belongsTo(Municipalities::class, 'municipalities_id');
+        return $this->belongsTo(Municipality::class, 'municipalities_id');
     }
 
-
-    public function barangays()
+    public function barangay()
     {
-        return $this->belongsTo(Barangays::class, 'barangays_id');
-    }
-
-
-    public function crops()
-    {
-        return $this->hasMany(Crops::class);
-    }
-
-    public function machineries()
-    {
-        return $this->belongsToMany(Machineries::class, 'farmersprofile_id', 'machine_id')
-            ->withPivot('units');
+        return $this->belongsTo(Barangay::class, 'barangays_id');
     }
 }

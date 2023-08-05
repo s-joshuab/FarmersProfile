@@ -1,29 +1,25 @@
 <?php
 
-namespace App\Models;
+namespace App;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Crops extends Model
+class Crop extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'commodities_id',
+        'farmersprofile_id',
+        'farm_size',
+        'farm_location',
+    ];
 
-    // Define the table associated with the model
-    protected $table = 'crops';
-
-    // Define the fillable attributes
-    protected $fillable = ['farm_size', 'farm_location', 'farmersprofile_id', 'commodities_id'];
-
-    // Define the relationship with the FarmersProfile model
-    public function farmersProfile()
+    public function farmerProfile()
     {
-        return $this->belongsTo(FarmersProfile::class, 'farmersprofile_id');
+        return $this->belongsTo(FarmersProfile::class);
     }
 
-    // Define the relationship with the Commodity model
     public function commodities()
     {
-        return $this->belongsTo(Commodities::class, 'commodities_id');
+        return $this->belongsTo(Commodities::class);
     }
 }
