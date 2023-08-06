@@ -39,6 +39,8 @@ class FarmersProfile extends Model
         'gross',
         'parcels',
         'arb',
+        'crops_id',
+        'machineries_id'
     ];
 
     public function province()
@@ -54,5 +56,15 @@ class FarmersProfile extends Model
     public function barangay()
     {
         return $this->belongsTo(Barangay::class, 'barangays_id');
+    }
+
+    public function crops()
+    {
+        return $this->hasOne(Crops::class, 'crops_id');
+    }
+
+    public function machineries()
+    {
+        return $this->hasOne(Machineries::class, 'machineries_id');
     }
 }

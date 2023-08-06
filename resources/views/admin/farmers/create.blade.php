@@ -108,7 +108,7 @@
                                         <!-- Beekeeper Province Address -->
                                         <div class="col-md-4 position-relative mt-0">
                                             <label for="province">Province:</label>
-                                            <select id="province" class="form-control">
+                                            <select id="province" name="provinces_id" class="form-control">
                                                 <option value="">Select Province</option>
                                                 @foreach ($provinces as $province)
                                                     <option value="{{ $province->id }}">{{ $province->provinces }}</option>
@@ -118,17 +118,18 @@
 
                                         <div class="col-md-4 position-relative mt-0">
                                             <label for="municipality">Municipality:</label>
-                                            <select id="municipality" class="form-control">
+                                            <select id="municipality" name="municipalities_id" class="form-control">
                                                 <option value="">Select Municipality</option>
                                             </select>
                                         </div>
 
                                         <div class="col-md-4 position-relative mt-2">
                                             <label for="barangay">Barangay:</label>
-                                            <select id="barangay" class="form-control">
+                                            <select id="barangay" name="barangays_id" class="form-control">
                                                 <option value="">Select Barangay</option>
                                             </select>
                                         </div>
+
 
                                         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                                         <script>
@@ -471,7 +472,7 @@
                                 <div class="form-group">
                                     <label for="livelihood" class="mr-2">Main Livelihood:</label>
                                     <div class="col-md-3 form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" name="livehood"
+                                        <input class="form-check-input" type="checkbox" name="livelihood"
                                             id="farmers"  required>
                                         <label class="form-check-label" for="farmers">Farmers</label>
                                     </div>
@@ -496,35 +497,22 @@
                             <div class="row">
                                 <div class="container">
                                     <div class="row">
-                                        @php $commodityCount = 0; @endphp
                                         @foreach ($farmers as $Id => $farmer)
                                             <div class="col-md-4">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="commodities[{{ $Id }}]" id="commodities_{{ $Id }}"
+                                                    <input class="form-check-input" type="checkbox" name="crops[{{ $Id }}]" id="crops_{{ $Id }}"
                                                         value="{{ $Id }}">
-                                                    <label class="form-check-label"
-                                                        for="livestock">{{ $farmer }}</label>
+                                                    <label class="form-check-label" for="livestock">{{ $farmer }}</label>
                                                 </div>
                                                 <label for="farmSizeLivestock" class="form-label">Farm Size (area):</label>
-                                                <input type="text" class="form-control" id="farmSizeLivestock"
-                                                    name="farm_size[{{ $Id }}]">
+                                                <input type="text" class="form-control" id="farmSizeLivestock" name="farm_size[{{ $Id }}]">
                                                 <div class="form-group" id="livestockInput" style="display: block;">
                                                     <label for="livestockFarmLocation">Farm Location:</label>
-                                                    <input type="text" class="form-control" id="livestockFarmLocation"
-                                                        name="farm_location[{{ $Id }}]">
+                                                    <input type="text" class="form-control" id="livestockFarmLocation" name="farm_location[{{ $Id }}]">
                                                 </div>
                                             </div>
-                                            @php $commodityCount++; @endphp
-
-                                            @if ($commodityCount % 3 === 0)
-                                    </div>
-                                    <div class="row">
-                                        @endif
                                         @endforeach
-
-                                        @if ($commodityCount % 3 !== 0)
                                     </div>
-                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -534,7 +522,6 @@
                             <div class="row">
 
                                 <div class="container">
-                                    <!-- High Value Crops -->
                                     <div class="col-md-4 mb-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="highValueCrops" name="highValueCrops"
@@ -552,7 +539,7 @@
                                         <div class="col-md-4">
                                             <div class="form-check">
                                                 <input class="form-check-input commodity-checkbox" type="checkbox" id="commodity_{{ $Id }}"
-                                                    name="commodities[{{ $Id }}]" value="{{ $Id }}" disabled>
+                                                    name="crops[{{ $Id }}]" value="{{ $Id }}" disabled>
                                                 <label class="form-check-label" for="commodity_{{ $Id }}">{{ $commodity }}</label>
                                             </div>
                                             <label for="farmSize_{{ $Id }}" class="form-label">Farm Size (area):</label>
@@ -599,7 +586,7 @@
                                                     @endif
                                                     <div class="col-md-4">
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" id="machine_{{ $id }}" name="machine[{{ $id }}]"
+                                                            <input class="form-check-input" type="checkbox" id="machine_{{ $id }}" name="machineries[{{ $id }}]"
                                                                 value="{{ $id }}">
                                                             <label class="form-check-label" for="machine_{{ $id }}">{{ $machineName }}</label>
                                                         </div>

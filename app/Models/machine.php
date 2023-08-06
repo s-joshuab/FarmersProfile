@@ -15,4 +15,9 @@ class Machine extends Model
     protected $fillable = [
         'machine'
     ];
+
+    public function machineries()
+    {
+        return $this->hasMany(Machineries::class, 'machine_id');
+    }
 }

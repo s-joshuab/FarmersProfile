@@ -14,4 +14,9 @@ class Commodities extends Model
     protected $fillable = [
         'commodities'
     ];
+
+    public function crops()
+    {
+        return $this->hasMany(Crops::class, 'commodities_id');
+    }
 }

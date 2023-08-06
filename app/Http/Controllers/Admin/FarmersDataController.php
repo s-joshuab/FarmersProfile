@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+
+use App\Models\Crops;
 use App\Models\machine;
 use App\Models\Regions;
 use App\Models\Barangay;
 use App\Models\Barangays;
 use App\Models\Provinces;
 use App\Models\Commodities;
+use App\Models\Machineries;
 use Illuminate\Http\Request;
 use App\Models\FarmersProfile;
 use App\Models\Municipalities;
@@ -83,8 +86,8 @@ class FarmersDataController extends Controller
             'gross' => 'required',
             'parcels' => 'required',
             'arb' => 'required',
-            'commodities_id' => 'required',
-            'machine_id' => 'required',
+            'crops_id' => 'required',
+            'machineries_id' => 'required',
             // Add other validation rules for other fields here...
         ]);
 
@@ -122,26 +125,25 @@ class FarmersDataController extends Controller
             'gross' => $request->input('gross'),
             'parcels' => $request->input('parcels'),
             'arb' => $request->input('arb'),
-            'commodities_id' => $request->input('commodities_id'),
-            'machine_id' => $request->input('machine_id')
             // Add other attributes here...
         ]);
 
-        $farmersprofile->crops()->create([
-            'farmersprofile_id' => $farmersprofile->id,
-            'crops_id' => $request->input('crops_id'),
-            'farm_size' => $request->input('farm_size'),
-            'farm_location' => $request->input('farm_location')
+        $crops = new Crops([
+            'commodities_id' => $commodityId,
+            'farm_size' => $farmSize,
+            'farm_location' => $farmLocation,
         ]);
+        $farmersprofile->crops()->save($crops);
 
-        $farmersprofile->machineries()->create([
-            'farmersprofile_id' => $farmersprofile->id,
-            'machine_id' => $request->input('machine_id'),
-            'units' => $request->input('units')
+        // Save the selected machine to the machineries table
+        $machineries = new Machineries([
+            'machine_id' => $machineId,
+            'units' => $units,
         ]);
-
+        $farmersprofile->machineries()->save($machineries);
 
 
         return redirect('admin/create-add')->with('message', 'User Added Successfully!');
     }
 }
+
