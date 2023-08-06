@@ -12,6 +12,7 @@
         {{ session('error') }}
     </div>
 @endif
+
 <div class="pagetitle">
     <!-- End Page Title -->
     <div class="row">

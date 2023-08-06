@@ -76,7 +76,7 @@ class ManageUsersController extends Controller
             'email' => $request->input('email'),
             'phone_number' => $request->input('phone_number'),
             'user_type' => $request->input('user_type'),
-            'status' => $request->input('status'),
+            'status' => $request->input('status')
         ]);
 
         // Redirect to a success page or show a success message

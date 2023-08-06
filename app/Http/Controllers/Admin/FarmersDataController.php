@@ -5,8 +5,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Crops;
 use App\Models\machine;
-use App\Models\Regions;
-use App\Models\Barangay;
+
 use App\Models\Barangays;
 use App\Models\Provinces;
 use App\Models\Commodities;
@@ -129,19 +128,18 @@ class FarmersDataController extends Controller
         ]);
 
         $crops = new Crops([
-            'commodities_id' => $commodityId,
-            'farm_size' => $farmSize,
-            'farm_location' => $farmLocation,
+            'commodities_id' => $request->input('commodities_id'),
+            'farm_size' => $request->input('farm_size'),
+            'farm_location' => $request->input('farm_location'), // Add a closing single quote here
         ]);
         $farmersprofile->crops()->save($crops);
 
         // Save the selected machine to the machineries table
         $machineries = new Machineries([
-            'machine_id' => $machineId,
-            'units' => $units,
+            'machine_id' => $request->input('machine_id'),
+            'units' => $request->input('units'),
         ]);
         $farmersprofile->machineries()->save($machineries);
-
 
         return redirect('admin/create-add')->with('message', 'User Added Successfully!');
     }
