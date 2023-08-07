@@ -25,13 +25,21 @@
 
                     <form action="{{ url('admin/users') }}" method="POST">
                         @csrf
-                        <div class="col-md-12 position-relative">
+                        <div class="row">
+                        <div class="col-md-6 position-relative">
                             <label class="form-label">Name<font color="red">*</font></label>
                             <input type="text" class="form-control" id="validationTooltip01" name="name" required
                                 autofocus="autofocus">
                             <div class="invalid-tooltip">
                                 The Fullname field is required.
                             </div>
+                        </div>
+
+                        <div class="col-md-6 position-relative">
+                            <label class="form-label">Address<font color="red">*</font></label>
+                            <input type="text" class="form-control" id="validationTooltip01" name="address"
+                                autofocus="autofocus">
+                        </div>
                         </div>
 
                         <div class="row">

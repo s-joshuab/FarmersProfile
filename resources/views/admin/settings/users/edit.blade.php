@@ -34,6 +34,12 @@
                             </div>
                         </div>
 
+                        <div class="col-md-12 position-relative">
+                            <label class="form-label">Address<font color="red">*</font></label>
+                            <input type="text" class="form-control" id="validationTooltip01" name="address"
+                                autofocus="autofocus" value="" >
+                        </div>
+
                             <div class="row">
                                 <div class="col-md-6 position-relative">
                                     <label class="form-label">Username<font color="red">*</font></label>

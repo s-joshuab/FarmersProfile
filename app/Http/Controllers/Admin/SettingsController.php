@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\AuditTrail;
+use App\Models\User;
+use App\Models\ImageUpload;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class SettingsController extends Controller
 {
@@ -12,12 +17,25 @@ class SettingsController extends Controller
      */
     public function audit()
     {
-        return view('admin.settings.audittrail');
+        $user = Auth::user();
+        $auditTrails = AuditTrail::orderBy('datetime', 'desc')->get();
+        return view('admin.settings.audittrail', compact('auditTrails'));
+    }
+
+    public function log($user, $action, $details)
+    {
+        AuditTrail::create([
+            'datetime' => now(),
+            'user' => $user,
+            'action' => $action,
+            'details' => $details,
+        ]);
     }
 
     public function profile()
     {
-        return view('admin.settings.profile');
+        $user = Auth::user(); // Fetch the authenticated user
+        return view('admin.settings.profile', compact('user'));
     }
 
     public function backup()

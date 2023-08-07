@@ -14,7 +14,7 @@ class User extends Authenticatable
 {
 
     use HasApiTokens, HasFactory, Notifiable;
-    use LogsActivity;
+
 
     protected static $logAttributes = ['name', 'username', 'email', 'password'];
 
