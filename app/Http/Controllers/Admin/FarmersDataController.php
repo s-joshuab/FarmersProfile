@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Models\Crops;
-use App\Models\machine;
-
+use App\Models\Machine;
 use App\Models\Barangays;
 use App\Models\Provinces;
 use App\Models\Commodities;
@@ -65,7 +64,7 @@ class FarmersDataController extends Controller
             'mname' => 'required',
             'ename' => 'required',
             'sex' => 'required',
-            'spouse' => 'required',
+            'spouse' => 'nullable',
             'number' => 'required',
             'mother' => 'required',
             'regions' => 'required',
@@ -123,25 +122,38 @@ class FarmersDataController extends Controller
             'livelihood' => $request->input('livelihood'),
             'gross' => $request->input('gross'),
             'parcels' => $request->input('parcels'),
-            'arb' => $request->input('arb'),
+            'arb' => $request->input('arb')
             // Add other attributes here...
         ]);
 
-        $crops = new Crops([
-            'commodities_id' => $request->input('commodities_id'),
-            'farm_size' => $request->input('farm_size'),
-            'farm_location' => $request->input('farm_location'), // Add a closing single quote here
-        ]);
-        $farmersprofile->crops()->save($crops);
 
-        // Save the selected machine to the machineries table
-        $machineries = new Machineries([
-            'machine_id' => $request->input('machine_id'),
-            'units' => $request->input('units'),
-        ]);
-        $farmersprofile->machineries()->save($machineries);
+        foreach ($request->input('crops') as $commodityId => $value) {
+            if ($value === 'on') {
+                $farmSize = $request->input('farm_size')[$commodityId];
+                $farmLocation = $request->input('farm_location')[$commodityId];
+                $crops = new Crops([
+                    'commodities_id' => $commodityId,
+                    'farm_size' => $farmSize,
+                    'farm_location' => $farmLocation,
+                ]);
+                $farmersprofile->crops()->save($crops);
+            }
+        }
 
+
+
+      foreach ($request->input('machineries') as $machineId => $value) {
+        if ($value === 'on') {
+            $units = $request->input('units')[$machineId];
+            $machineries = new Machineries([
+                'machine_id' => $machineId,
+                'units' => $units,
+            ]);
+            $farmersprofile->machineries()->save($machineries);
+
+        }
         return redirect('admin/create-add')->with('message', 'User Added Successfully!');
     }
 }
 
+}

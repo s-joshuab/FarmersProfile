@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Crop extends Model
+class Crops extends Model
 {
     use HasFactory;
 
@@ -21,7 +21,7 @@ class Crop extends Model
         return $this->belongsTo(FarmersProfile::class, 'farmersprofile_id');
     }
 
-    public function commodity()
+    public function commodities()
     {
         return $this->belongsTo(Commodities::class, 'commodities_id');
     }

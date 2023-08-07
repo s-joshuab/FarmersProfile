@@ -572,33 +572,34 @@
                                 </script>
 
                                     <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="container">
-                                                <div class="col-md-4">
-                                                    <label for="validationCustom04" class="form-label fw-bold mt-2">For Machineries</label>
-                                                </div>
-                                                <div class="row">
-                                                    @php $machineCount = 0; @endphp
-                                                    @foreach ($machine as $id => $machineName)
-                                                        @if ($machineCount % 3 === 0)
-                                                </div>
-                                                <div class="row">
-                                                    @endif
-                                                    <div class="col-md-4">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" id="machine_{{ $id }}" name="machineries[{{ $id }}]"
-                                                                value="{{ $id }}">
-                                                            <label class="form-check-label" for="machine_{{ $id }}">{{ $machineName }}</label>
-                                                        </div>
-                                                        <label for="noofunits_{{ $id }}" class="form-label">No. Of Units:</label>
-                                                        <input type="text" class="form-control" id="noofunits_{{ $id }}" name="units[{{ $id }}]">
-                                                    </div>
-                                                    @php $machineCount++; @endphp
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+    <div class="row">
+        <div class="container">
+            <div class="col-md-4">
+                <label for="validationCustom04" class="form-label fw-bold mt-2">For Machineries</label>
+            </div>
+            <div class="row">
+                @php $machineCount = 0; @endphp
+                @foreach ($machine as $id => $machineName)
+                    @if ($machineCount % 3 === 0)
+            </div>
+            <div class="row">
+                @endif
+                <div class="col-md-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="machine_{{ $id }}" name="machineries[{{ $id }}]"
+                            value="{{ $id }}">
+                        <label class="form-check-label" for="machine_{{ $id }}">{{ $machineName }}</label>
+                    </div>
+                    <label for="noofunits_{{ $id }}" class="form-label">No. Of Units:</label>
+                    <input type="text" class="form-control" id="noofunits_{{ $id }}" name="units[{{ $id }}]">
+                </div>
+                @php $machineCount++; @endphp
+                @endforeach
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
                                 <!-- resources/views/livewire/income-form.blade.php -->
