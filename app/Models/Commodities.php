@@ -12,7 +12,9 @@ class Commodities extends Model
     protected $table = 'commodities';
 
     protected $fillable = [
-        'commodities'
+        'commodities',
+        'category',
+
     ];
 
     public function crops()

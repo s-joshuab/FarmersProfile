@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TestControllerCrops;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\IdController;
@@ -114,5 +115,11 @@ Route::get('/get-municipalities/{provinces_id}', [TestController::class, 'getMun
 Route::get('/get-barangays/{municipalities_id}', [TestController::class, 'getBarangays']);
 
 Route::post('/save-data', [TestController::class, 'saveData']);
+
+//Test here
+Route::get('test/save', [TestControllerCrops::class, 'index']);
+
+
+Route::post('test/form/add', [TestControllerCrops::class, 'store']);
 
 

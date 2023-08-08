@@ -9,6 +9,7 @@ class Crops extends Model
 {
     use HasFactory;
 
+    protected $table = 'crops';
     protected $fillable = [
         'commodities_id',
         'farmersprofile_id',

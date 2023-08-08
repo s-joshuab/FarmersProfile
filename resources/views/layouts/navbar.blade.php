@@ -21,8 +21,8 @@
                         <h6>{{ Auth::user()->name }}</h6>
                     @endif
                 </span>
-                <img src="{{ Auth::user()->profileImage ? asset(Auth::user()->profileImage->image_url) : asset('assets/img/default-profile-img.jpg') }}"
-     alt="Profile" class="rounded-circle" style="width: 50px; height: 50px;">
+                {{-- <img src="{{ Auth::user()->profileImage ? asset(Auth::user()->profileImage->image_url) : asset('assets/img/default-profile-img.jpg') }}"
+     alt="Profile" class="rounded-circle" style="width: 50px; height: 50px;"> --}}
 
             </a>
             <!-- End Profile Iamge Icon -->
