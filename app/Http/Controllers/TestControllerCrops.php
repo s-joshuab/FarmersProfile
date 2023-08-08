@@ -20,6 +20,9 @@ public function store(Request $request)
     $farmSizes = $request->input('farm_size', []);
     $locations = $request->input('farm_location', []);
 
+
+
+//sample la atoy
     foreach ($selectedCommodities as $id => $commodityId) {
         Crops::create([
             'commodities_id' => $commodityId,
@@ -27,6 +30,21 @@ public function store(Request $request)
             'farm_location' => $locations[$commodityId],
         ]);
     }
+
+    // $profile = Profile::create([
+    //     'name' => name
+    // ])
+
+    //kastoy ton
+    //if addan to profilenn//
+    // foreach ($selectedCommodities as $id => $commodityId) {
+    //     $profile->crops->create([
+    //         'profile_id' => $profile,
+    //         'commodities_id' => $commodityId,
+    //         'farm_size' => $farmSizes[$commodityId],
+    //         'farm_location' => $locations[$commodityId],
+    //     ]);
+    // }
 
     return redirect()->back()->with('success', 'Selected commodities saved successfully.');
 }
