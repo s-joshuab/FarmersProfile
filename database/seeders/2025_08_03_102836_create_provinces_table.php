@@ -14,9 +14,6 @@ return new class extends Migration
         Schema::create('provinces', function (Blueprint $table) {
             $table->id();
             $table->string('provinces');
-
-            $table->unsignedBigInteger('regions_id');
-            $table->foreign('regions_id')->references('id')->on('regions')->onDelete('cascade');
             $table->timestamps();
         });
     }

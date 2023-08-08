@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('machineries', function (Blueprint $table) {
+        Schema::create('crops', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('commodities_id');
             $table->unsignedBigInteger('farmersprofile_id');
-            $table->unsignedBigInteger('machine_id');
-            $table->string('units');
+            $table->string('farm_size');
+            $table->string('farm_location');
 
-            // Define foreign key constraints
             $table->foreign('farmersprofile_id')->references('id')->on('farmersprofile')->onDelete('cascade');
-            $table->foreign('machine_id')->references('id')->on('machine');
+            $table->foreign('commodities_id')->references('id')->on('commodities');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('machineries');
+        Schema::dropIfExists('crops');
     }
 };

@@ -21,13 +21,15 @@ return new class extends Migration
             $table->string('spouse')->nullable();
             $table->string('mother');
             $table->integer('number')->unique();
-            $table->unsignedBigInteger('regions_id');
+            $table->integer('regions');
             $table->unsignedBigInteger('provinces_id');
             $table->unsignedBigInteger('municipalities_id');
             $table->unsignedBigInteger('barangays_id');
             $table->string('purok');
             $table->string('house')->nullable();
             $table->string('dob');
+            $table->unsignedBigInteger('crops_id');
+            $table->unsignedBigInteger('machineries_id');
             $table->string('pob');
             $table->string('religion');
             $table->string('cstatus');
@@ -39,9 +41,6 @@ return new class extends Migration
             $table->integer('parcels');
             $table->string('arb');
 
-
-
-            $table->foreign('regions_id')->references('id')->on('regions');
             $table->foreign('provinces_id')->references('id')->on('provinces');
             $table->foreign('municipalities_id')->references('id')->on('municipalities');
             $table->foreign('barangays_id')->references('id')->on('barangays');

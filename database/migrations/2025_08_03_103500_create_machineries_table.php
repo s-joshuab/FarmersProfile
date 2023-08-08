@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('crops', function (Blueprint $table) {
+        Schema::create('machineries', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('commodities_id');
             $table->unsignedBigInteger('farmersprofile_id');
-            $table->string('farm_size');
-            $table->string('farm_location');
-
+            $table->unsignedBigInteger('machine_id');
+            $table->string('units');
 
             $table->foreign('farmersprofile_id')->references('id')->on('farmersprofile')->onDelete('cascade');
-            $table->foreign('commodities_id')->references('id')->on('commodities');
+            $table->foreign('machine_id')->references('id')->on('machine'); // Corrected table name
             $table->timestamps();
         });
     }
@@ -30,6 +28,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('crops');
+        Schema::dropIfExists('machineries');
     }
 };
+// the machine

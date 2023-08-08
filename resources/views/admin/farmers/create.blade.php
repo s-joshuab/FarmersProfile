@@ -497,20 +497,28 @@
                             <div class="row">
                                 <div class="container">
                                     <div class="row">
-                                        @foreach ($farmers as $Id => $farmer)
-                                            <div class="col-md-4">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="crops[{{ $Id }}]" id="crops_{{ $Id }}"
-                                                        value="{{ $Id }}">
-                                                    <label class="form-check-label" for="livestock">{{ $farmer }}</label>
+                                        @foreach($farmers as $id => $farmer)
+                                        <div class="col-md-4"> <!-- Create columns with a width of 4 to achieve 3 per row -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="{{ $id }}" name="selected_commodities[]">
+                                                <label class="form-check-label" for="commodity{{ $id }}">
+                                                    {{ $farmer }}
+                                                </label>
+                                            </div>
+                                            <div class="commodity-inputs">
+                                                <div class="form-group">
+                                                    <label for="farmSize{{ $id }}">Farm Size</label>
+                                                    <input type="text" class="form-control" id="farmSize{{ $id }}" name="farm_size[{{ $id }}]">
                                                 </div>
-                                                <label for="farmSizeLivestock" class="form-label">Farm Size (area):</label>
-                                                <input type="text" class="form-control" id="farmSizeLivestock" name="farm_size[{{ $Id }}]">
-                                                <div class="form-group" id="livestockInput" style="display: block;">
-                                                    <label for="livestockFarmLocation">Farm Location:</label>
-                                                    <input type="text" class="form-control" id="livestockFarmLocation" name="farm_location[{{ $Id }}]">
+                                                <div class="form-group">
+                                                    <label for="location{{ $id }}">Location</label>
+                                                    <input type="text" class="form-control" id="location{{ $id }}" name="farm_location[{{ $id }}]">
                                                 </div>
                                             </div>
+                                        </div>
+                                        @if (($loop->iteration % 3) == 0)
+                                            </div><div class="row"> <!-- Start a new row after every 3 iterations -->
+                                        @endif
                                         @endforeach
                                     </div>
                                 </div>
@@ -520,7 +528,6 @@
 
                         <div class="col-md-12">
                             <div class="row">
-
                                 <div class="container">
                                     <div class="col-md-4 mb-3">
                                         <div class="form-check">
@@ -529,76 +536,65 @@
                                             <label class="form-check-label" for="highValueCrops">High Value Crops Please specify</label>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        @php $commodityCount = 0; @endphp
-                                        @foreach ($commodities as $Id => $commodity)
-                                            @if ($commodityCount % 3 === 0)
-                                    </div>
-                                    <div class="row">
-                                        @endif
-                                        <div class="col-md-4">
-                                            <div class="form-check">
-                                                <input class="form-check-input commodity-checkbox" type="checkbox" id="commodity_{{ $Id }}"
-                                                    name="crops[{{ $Id }}]" value="{{ $Id }}" disabled>
-                                                <label class="form-check-label" for="commodity_{{ $Id }}">{{ $commodity }}</label>
+                                    @foreach($commodities as $id => $commodity)
+                                    @if (($loop->iteration - 1) % 3 === 0)
+                                        <div class="row"> <!-- Start a new row every 3 iterations -->
+                                    @endif
+                                    <div class="col-md-4"> <!-- Create columns with a width of 4 to achieve 3 per row -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="{{ $id }}" name="selected_commodities[]">
+                                            <label class="form-check-label" for="commodity{{ $id }}">
+                                                {{ $commodity }}
+                                            </label>
+                                        </div>
+                                        <div class="commodity-inputs">
+                                            <div class="form-group">
+                                                <label for="farmSize{{ $id }}">Farm Size</label>
+                                                <input type="text" class="form-control" id="farmSize{{ $id }}" name="farm_size[{{ $id }}]">
                                             </div>
-                                            <label for="farmSize_{{ $Id }}" class="form-label">Farm Size (area):</label>
-                                            <input type="text" class="form-control commodity-farm-size" id="farmSize_{{ $Id }}"
-                                                name="farm_size[{{ $Id }}]">
-                                            <div class="form-group commodity-farm-location" style="display: block;">
-                                                <label for="farmLocation_{{ $Id }}">Farm Location:</label>
-                                                <input type="text" class="form-control" id="farmLocation_{{ $Id }}"
-                                                    name="farm_location[{{ $Id }}]">
+                                            <div class="form-group">
+                                                <label for="location{{ $id }}">Location</label>
+                                                <input type="text" class="form-control" id="location{{ $id }}" name="farm_location[{{ $id }}]">
                                             </div>
                                         </div>
-                                        @php $commodityCount++; @endphp
+                                    </div>
+                                    @if ($loop->iteration % 3 === 0 || $loop->last)
+                                        </div> <!-- Close the row after every 3 iterations or on the last iteration -->
+                                    @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="container">
+                                    <div class="col-md-4">
+                                        <label for="validationCustom04" class="form-label fw-bold mt-2">For Machineries</label>
+                                    </div>
+                                    <div class="row">
+                                        @php $machineCount = 0; @endphp
+                                        @foreach ($machine as $id => $machineName)
+                                            @if ($machineCount % 3 === 0)
+                                                </div>
+                                                <div class="row">
+                                            @endif
+                                            <div class="col-md-4">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="machine_{{ $id }}" name="machineries[{{ $id }}]"
+                                                        value="{{ $id }}">
+                                                    <label class="form-check-label" for="machine_{{ $id }}">{{ $machineName }}</label>
+                                                </div>
+                                                <label for="noofunits_{{ $id }}" class="form-label">No. Of Units:</label>
+                                                <input type="text" class="form-control" id="noofunits_{{ $id }}" name="units[{{ $id }}]">
+                                            </div>
+                                            @php $machineCount++; @endphp
                                         @endforeach
                                     </div>
                                 </div>
-
-
-
-                                <script>
-                                    // Disable/Enable checkboxes and form controls based on the "High Value Crops" checkbox
-                                    $(document).ready(function() {
-                                        $('#highValueCrops').on('change', function() {
-                                            var isChecked = $(this).prop('checked');
-                                            $('.commodity-checkbox').prop('disabled', !isChecked);
-                                            $('.commodity-farm-size').prop('disabled', !isChecked);
-                                            $('.commodity-farm-location input').prop('disabled', !isChecked);
-                                            $('.commodity-farm-location').toggle(isChecked);
-                                        });
-                                    });
-                                </script>
-
-                                    <div class="col-md-12">
-    <div class="row">
-        <div class="container">
-            <div class="col-md-4">
-                <label for="validationCustom04" class="form-label fw-bold mt-2">For Machineries</label>
-            </div>
-            <div class="row">
-                @php $machineCount = 0; @endphp
-                @foreach ($machine as $id => $machineName)
-                    @if ($machineCount % 3 === 0)
-            </div>
-            <div class="row">
-                @endif
-                <div class="col-md-4">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="machine_{{ $id }}" name="machineries[{{ $id }}]"
-                            value="{{ $id }}">
-                        <label class="form-check-label" for="machine_{{ $id }}">{{ $machineName }}</label>
-                    </div>
-                    <label for="noofunits_{{ $id }}" class="form-label">No. Of Units:</label>
-                    <input type="text" class="form-control" id="noofunits_{{ $id }}" name="units[{{ $id }}]">
-                </div>
-                @php $machineCount++; @endphp
-                @endforeach
-            </div>
-        </div>
-    </div>
-</div>
+                            </div>
+                        </div>
 
 
 

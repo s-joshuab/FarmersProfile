@@ -55,7 +55,13 @@ class FarmersDataController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the input data
+        $selectedCommodities = $request->input('selected_commodities', []);
+        $farmSizes = $request->input('farm_size', []);
+        $locations = $request->input('farm_location', []);
+
+        $selectedMachineries = $request->input('machineries', []);
+        $units = $request->input('units', []);
+
         $validator = Validator::make($request->all(), [
             'ref_no' => 'required',
             'status' => 'required',
@@ -84,8 +90,6 @@ class FarmersDataController extends Controller
             'gross' => 'required',
             'parcels' => 'required',
             'arb' => 'required',
-            'crops_id' => 'required',
-            'machineries_id' => 'required',
             // Add other validation rules for other fields here...
         ]);
 
@@ -126,34 +130,28 @@ class FarmersDataController extends Controller
             // Add other attributes here...
         ]);
 
-
-        foreach ($request->input('crops') as $commodityId => $value) {
-            if ($value === 'on') {
-                $farmSize = $request->input('farm_size')[$commodityId];
-                $farmLocation = $request->input('farm_location')[$commodityId];
-                $crops = new Crops([
-                    'commodities_id' => $commodityId,
-                    'farm_size' => $farmSize,
-                    'farm_location' => $farmLocation,
-                ]);
-                $farmersprofile->crops()->save($crops);
-            }
-        }
-
-
-
-      foreach ($request->input('machineries') as $machineId => $value) {
-        if ($value === 'on') {
-            $units = $request->input('units')[$machineId];
-            $machineries = new Machineries([
-                'machine_id' => $machineId,
-                'units' => $units,
+        foreach ($selectedCommodities as $id => $commodityId) {
+            Crops::create([
+                'farmersprofile_id' => $farmersprofile,
+                'commodities_id' => $commodityId,
+                'farm_size' => $farmSizes[$commodityId],
+                'farm_location' => $locations[$commodityId],
             ]);
-            $farmersprofile->machineries()->save($machineries);
-
         }
+
+        foreach ($selectedMachineries as $id => $machineId) {
+            Machineries::create([
+                'farmersprofile_id' => $farmersprofile,
+                'machine_id' => $machineId,
+                'units' => $units[$machineId],
+            ]);
+        }
+
+
+
+
         return redirect('admin/create-add')->with('message', 'User Added Successfully!');
-    }
+
 }
 
 }
