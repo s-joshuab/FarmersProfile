@@ -89,10 +89,6 @@
                                 </div>
                             </div>
 
-
-
-
-
                             <div class="col-md-6 position-relative">
                                 <label class="form-label">Status<font color="red">*</font></label>
                                 <div class="col-sm-12">
