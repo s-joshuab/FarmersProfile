@@ -500,7 +500,7 @@
                                         @foreach($farmers as $id => $farmer)
                                         <div class="col-md-4"> <!-- Create columns with a width of 4 to achieve 3 per row -->
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="{{ $id }}" name="selected_commodities[]">
+                                                <input class="form-check-input" type="checkbox" value="{{ $id }}" name="crops[{{ $id }}]">
                                                 <label class="form-check-label" for="commodity{{ $id }}">
                                                     {{ $farmer }}
                                                 </label>
@@ -542,7 +542,7 @@
                                     @endif
                                     <div class="col-md-4"> <!-- Create columns with a width of 4 to achieve 3 per row -->
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="{{ $id }}" name="selected_commodities[]">
+                                            <input class="form-check-input" type="checkbox" value="{{ $id }}" name="crops[{{ $id }}]">
                                             <label class="form-check-label" for="commodity{{ $id }}">
                                                 {{ $commodity }}
                                             </label>
