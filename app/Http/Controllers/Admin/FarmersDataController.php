@@ -55,12 +55,7 @@ class FarmersDataController extends Controller
 
     public function store(Request $request)
     {
-        $selectedCommodities = $request->input('selected_commodities', []);
-        $farmSizes = $request->input('farm_size', []);
-        $locations = $request->input('farm_location', []);
 
-        $selectedMachineries = $request->input('machineries', []);
-        $units = $request->input('units', []);
 
         $validator = Validator::make($request->all(), [
             'ref_no' => 'required',
@@ -130,6 +125,10 @@ class FarmersDataController extends Controller
             // Add other attributes here...
         ]);
 
+        $selectedCommodities = $request->input('crops', []);
+        $farmSizes = $request->input('farm_size', []);
+        $locations = $request->input('farm_location', []);
+
         foreach ($selectedCommodities as $id => $commodityId) {
             Crops::create([
                 'farmersprofile_id' => $farmersprofile,
@@ -139,6 +138,9 @@ class FarmersDataController extends Controller
             ]);
         }
 
+        $selectedMachineries = $request->input('machineries', []);
+        $units = $request->input('units', []);
+
         foreach ($selectedMachineries as $id => $machineId) {
             Machineries::create([
                 'farmersprofile_id' => $farmersprofile,
@@ -147,10 +149,7 @@ class FarmersDataController extends Controller
             ]);
         }
 
-
-
-
-        return redirect('admin/create-add')->with('message', 'User Added Successfully!');
+        return redirect('admin/create-add')->with('message', 'Farmer Added Successfully!');
 
 }
 
