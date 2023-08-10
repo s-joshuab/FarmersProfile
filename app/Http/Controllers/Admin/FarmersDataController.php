@@ -73,6 +73,8 @@ class FarmersDataController extends Controller
             'municipalities_id' => 'required',
             'barangays_id' => 'required',
             'purok' => 'required',
+            'crops_id' => 'nullable',
+            'machineries_id' => 'nullable',
             'house' => 'required',
             'dob' => 'required|date',
             'pob' => 'required',
@@ -112,6 +114,8 @@ class FarmersDataController extends Controller
             'purok' => $request->input('purok'),
             'house' => $request->input('house'),
             'dob' => $request->input('dob'),
+            'crops_id' => $request->input('commodities_id'),
+            'machineries_id' => $request->input('machine_id'),
             'pob' => $request->input('pob'),
             'religion' => $request->input('religion'),
             'cstatus' => $request->input('cstatus'),
@@ -122,7 +126,7 @@ class FarmersDataController extends Controller
             'gross' => $request->input('gross'),
             'parcels' => $request->input('parcels'),
             'arb' => $request->input('arb')
-            // Add other attributes here...
+                        // Add other attributes here...
         ]);
 
         $selectedCommodities = $request->input('crops', []);
@@ -131,26 +135,25 @@ class FarmersDataController extends Controller
 
         foreach ($selectedCommodities as $id => $commodityId) {
             Crops::create([
-                'farmersprofile_id' => $farmersprofile,
-                'commodities_id' => $commodityId,
+                'farmersprofile_id' => $farmersprofile->id,
+                'commodities_id' => $commodityId, // Make sure this is the correct field name
                 'farm_size' => $farmSizes[$commodityId],
                 'farm_location' => $locations[$commodityId],
             ]);
-        }
 
         $selectedMachineries = $request->input('machineries', []);
         $units = $request->input('units', []);
 
         foreach ($selectedMachineries as $id => $machineId) {
             Machineries::create([
-                'farmersprofile_id' => $farmersprofile,
+                'farmersprofile_id' => $farmersprofile->id,
                 'machine_id' => $machineId,
                 'units' => $units[$machineId],
             ]);
         }
-
-        return redirect('admin/create-add')->with('message', 'Farmer Added Successfully!');
+        return redirect('admin/farmreport')->with('message', 'Farmer Added Successfully!');
 
 }
 
+}
 }
