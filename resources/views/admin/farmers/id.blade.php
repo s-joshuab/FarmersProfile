@@ -63,8 +63,8 @@
                 <div class="signature-line"></div>
                 <p style="font-size: 12px; font-weight: bold; margin-left: 180px; margin-top: -130px;">Municipal Agriculture Office</p>
                 <p style="font-size: 12px; font-weight: bold; margin-left: 218px; margin-top: -20px;">FARMER'S ID</p>
-                <p style="font-size: 14px; font-weight: bold; margin-left: 110px; margin-top: -10px;">Andrei Eleazar B. Ballesteros</p>
-                <p style="font-size: 12px; font-weight: bold; margin-left: 110px; margin-top: -20px;">Ar-arampang, Balaoan, La Union</p>
+                <p style="font-size: 14px; font-weight: bold; margin-left: 142px; margin-top: -10px;">Andrei Eleazar B. Ballesteros</p>
+                <p style="font-size: 12px; font-weight: bold; margin-left: 142px; margin-top: -20px;">Ar-arampang, Balaoan, La Union</p>
                 <p style="font-size: 12px; font-weight: bold; margin-left: 140px; margin-top: -2px;">ID Number:<br> BLN 01 - 1</p>
                 <p style="font-size: 12px; font-weight: bold; margin-left: 230px; margin-top: -52px;">Sex:<br> Male</p>
                 <div class="row">
@@ -75,28 +75,39 @@
                 <div style="position: absolute; top: 90px; right: 20px; width: 80px; height: 80px; background-color: white;"></div>
             </div>
         </div>
-        <div class="page">
-            <div class="header">
-                <h4>Republic of the Philippines</h4>
-                <h4>Municipality of La Union</h4>
-                <h4>Bayan ng Balaoan</h4>
-            </div>
-            <hr class="design">
+
+
+        <div class="page" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        ">
             <div class="content">
-                <h4>Emergency Contact</h4>
-                <hr>
-                <p>Name: Jane Smith</p>
-                <p>Relationship: Sister</p>
-                <p>Contact No: 987-654-3210</p>
-                <hr class="design">
-                <h4>Certification</h4>
-                <hr>
-                <p>Certified to be true and correct.</p>
-                <div class="signature-line"></div>
-                <h5>OIC, Municipal Agriculturist</h5>
-                <div class="signature-line"></div>
-                <h5>Municipal Mayor</h5>
-                <div class="signature-line"></div>
+                <div style="border: 2px solid #ff1dec; padding: 15px; border-radius: 10px;">
+                    <h4 class="text-center mt-1" style="font-size: 16px; font-weight:bold; background-color: #ff1dec;">Person To Notify In Case of Emergency:</h4>
+                    <hr class="design" style="margin-top: -8px;">
+                    <div class="row text-center" style="margin-top: -15px;">
+                        <p style="margin: 0px 0; font-size: 12px; font-weight:bold;">Andrei Eleazar B. Ballesteros</p>
+                        <p style="margin: 0px 0; font-size: 12px; font-weight:bold;">Relationship: Sister</p>
+                        <p style="margin: 0px 0; margin-bottom: 0; font-size: 12px; font-weight:bold;">0987-654-3210</p>
+                    </div>
+                </div>
+
+
+                <hr class="design" style="margin-top: -1px;">
+                <h4 class="text-center" style="font-size: 16px; font-weight:bold; margin-top: -10px;">C E R T I F I C A T I O N</h4>
+                <p class="text-center" style="font-size: 12px; font-weight:bold; margin-top: -10px;">
+                    This is to certify that the person whose name, photograph, and signature appear herein is a duly bonafide farmer of Balaoan, La Union
+                </p>
+
+                <div class="signature-line" style="width: 35%; margin-left: 13px; margin-top: 50px;"></div>
+                <h5 style="font-size: 12px; margin-left: 15px; font-weight: bold;">ROGELIO C. OPINALDO JR.</h5>
+                <h5 style="font-size: 10px; margin-left: 25px; margin-top: -10px;">OIC, Municipal Agriculturist</h5>
+
+
+                <div class="signature-line" style="width: 35%; margin-left: 258px; margin-top: -33px"></div>
+                <h5 style="font-size: 12px; margin-left: 250px; font-weight: bold;">ATTY. ALELI C. CONCEPCION</h5>
+                <h5 style="font-size: 10px; margin-left: 300px; margin-top: -10px;">Municipal Mayor</h5>
+
             </div>
         </div>
     </div>

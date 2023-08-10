@@ -73,8 +73,6 @@ class FarmersDataController extends Controller
             'municipalities_id' => 'required',
             'barangays_id' => 'required',
             'purok' => 'required',
-            'crops_id' => 'nullable',
-            'machineries_id' => 'nullable',
             'house' => 'required',
             'dob' => 'required|date',
             'pob' => 'required',
@@ -131,18 +129,20 @@ class FarmersDataController extends Controller
 
         $selectedCommodities = $request->input('crops', []);
         $farmSizes = $request->input('farm_size', []);
-        $locations = $request->input('farm_location', []);
+        $farmLocations = $request->input('farm_location', []);
 
         foreach ($selectedCommodities as $id => $commodityId) {
             Crops::create([
                 'farmersprofile_id' => $farmersprofile->id,
                 'commodities_id' => $commodityId, // Make sure this is the correct field name
                 'farm_size' => $farmSizes[$commodityId],
-                'farm_location' => $locations[$commodityId],
+                'farm_location' => $farmLocations[$commodityId],
             ]);
+        }
 
         $selectedMachineries = $request->input('machineries', []);
         $units = $request->input('units', []);
+
 
         foreach ($selectedMachineries as $id => $machineId) {
             Machineries::create([
@@ -151,9 +151,10 @@ class FarmersDataController extends Controller
                 'units' => $units[$machineId],
             ]);
         }
+
         return redirect('admin/farmreport')->with('message', 'Farmer Added Successfully!');
 
 }
 
 }
-}
+
