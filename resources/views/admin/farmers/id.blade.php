@@ -43,10 +43,10 @@
 </head>
 
 
-<div class="container mt-4" >
+<div class="container mt-4 shadow-lg" >
 <div class="row">
     <div class="col-lg-12">
-        <div class="page" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover;
+        <div class="page mt-3 shadow-sm" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover;
         background-position: center center;
         background-repeat: no-repeat;
         ">
@@ -77,7 +77,7 @@
         </div>
 
 
-        <div class="page" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover;
+        <div class="page mt-3 shadow-sm" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover;
         background-position: center center;
         background-repeat: no-repeat;
         ">

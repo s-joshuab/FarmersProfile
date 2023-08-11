@@ -40,6 +40,7 @@
                             <option value="Peanut">Peanut</option>
                             <option value="Camote">Camote</option>
                             <option value="Banana">Banana</option>
+                            <option value="Banana">Others</option>
                             <!-- Add more commodity options here -->
                         </select>
                     </div>
@@ -61,11 +62,8 @@
 
             <div class="row">
                 <div class="col-md-12 mt-5">
-                    <button type="submit" class="btn btn-primary">Filter</button>
                     <button class="btn btn-success">Excel</button>
                     <button class="btn btn-danger">PDF</button>
-                    <button class="btn btn-primary">Docx</button>
-                    <button class="btn btn-dark" onclick="window.print()">Print</button>
                 </div>
             </div>
 
@@ -75,10 +73,10 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
+                            <th>ID Number</th>
                             <th>Name</th>
                             <th>Barangay</th>
                             <th>Commodity Planted</th>
-                            <th>4Ps Member</th>
                             <th>Farmsize</th>
                             <th>Farm Location</th>
                         </tr>

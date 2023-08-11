@@ -630,7 +630,7 @@ h6 {
   scrollbar-width: thin;
   scrollbar-color: #aab7cf transparent;
   box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
-  background-color:#00d4ff;
+  background-color:#fff;
 }
 
 @media (max-width: 1199px) {
@@ -704,9 +704,9 @@ h6 {
   align-items: center;
   font-size: 15px;
   font-weight: bold;
-  color: #4154f1;
+  color: #000000;
   transition: 0.3;
-  background: #f6f9ff;
+  background: #fff;
   padding: 10px 15px;
   border-radius: 4px;
 }
@@ -719,11 +719,11 @@ h6 {
 
 .sidebar-nav .nav-link.collapsed {
   color: #000000;
-  background: #00d4ff;
+  background: #fff;
 }
 
 .sidebar-nav .nav-link.collapsed i {
-  color: #899bbd;
+  color: #465bff;
 }
 
 .sidebar-nav .nav-link:hover {
