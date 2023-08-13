@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Request;
+use App\Models\FarmersProfile;
+use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
@@ -13,8 +14,11 @@ class AdminController extends Controller
      */
     public function admin()
     {
-        return view('admin.admin');
+        $farmerCount = FarmersProfile::count();
+        $benefits = FarmersProfile::where('benefits', 'yes')->count();
+        return view('admin.admin', compact('farmerCount', 'benefits'));
     }
+
 
     /**
      * Show the form for creating a new resource.

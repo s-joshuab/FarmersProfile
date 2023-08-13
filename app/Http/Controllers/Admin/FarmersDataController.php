@@ -56,8 +56,6 @@ class FarmersDataController extends Controller
 
     public function store(Request $request)
     {
-
-
         $validator = Validator::make($request->all(), [
             'ref_no' => 'required',
             'status' => 'required',

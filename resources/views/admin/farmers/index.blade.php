@@ -1,5 +1,18 @@
 @extends('layouts.index')
 @section('content')
+
+@if (session()->has('message'))
+    <div class="alert alert-success text-center">
+        {{ session('message') }}
+    </div>
+@endif
+
+@if (session()->has('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
 <div class="pagetitle">
     <!-- End Page Title -->
 
@@ -11,12 +24,12 @@
             <div class="card-body">
 
             <div class="add-employee mb-3 mt-3">
-              <a href="{{ url('admin/form') }}" class="btn btn-primary">
+              <a href="{{ url('admin/create-add') }}" class="btn btn-primary">
               <i class="bi bi-plus"></i>Add Farmer
            </a>
          </div>
 
-    <table id="myTable" class="table datatable">
+    <table id="myTable" class="table table-striped">
       <thead>
         <tr>
           <th scope="col">ID</th>

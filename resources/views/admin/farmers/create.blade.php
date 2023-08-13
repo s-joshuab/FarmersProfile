@@ -492,91 +492,113 @@
                             </div>
                             <p class="mt-0" style="font-size: 12px;">Types of Farming Activity</p>
                         </div>
+                    </div>
 
-
-                                    <div class="row">
-                                        <div class="container">
-                                            <div class="row">
-                                                @foreach($farmers as $id => $farmer)
-                                                <div class="col-md-4">
-                                                    <div class="form-check">
-                                                        <input
-                                                            class="form-check-input"
-                                                            type="checkbox"
-                                                            value="{{ $id }}"
-                                                            name="crops[{{ $id }}]"
-                                                            x-model="crops[{{ $id }}]"
-                                                        >
-                                                        <label class="form-check-label" for="commodity{{ $id }}">
-                                                            {{ $farmer }}
-                                                        </label>
-                                                    </div>
-                                                    <div class="commodity-inputs" x-show="crops[{{ $id }}]">
-                                                        <div class="form-group">
-                                                            <label for="farmSize{{ $id }}">Farm Size</label>
-                                                            <input
-                                                                type="text"
-                                                                class="form-control"
-                                                                id="farmSize{{ $id }}"
-                                                                name="farm_size[{{ $id }}]"
-                                                            >
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="location{{ $id }}">Location</label>
-                                                            <input
-                                                                type="text"
-                                                                class="form-control"
-                                                                id="location{{ $id }}"
-                                                                name="farm_location[{{ $id }}]"
-                                                            >
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="container">
-                                    <div class="col-md-4 mb-3">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="container">
+                                <div class="row" x-data="{ crops: {} }">
+                                    @foreach($farmers as $id => $farmer)
+                                    <div class="col-md-4">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="highValueCrops" name="highValueCrops"
-                                                value="High Value Crops">
-                                            <label class="form-check-label" for="highValueCrops">High Value Crops Please specify</label>
-                                        </div>
-                                    </div>
-                                    @foreach($commodities as $id => $commodity)
-                                    @if (($loop->iteration - 1) % 3 === 0)
-                                        <div class="row"> <!-- Start a new row every 3 iterations -->
-                                    @endif
-                                    <div class="col-md-4"> <!-- Create columns with a width of 4 to achieve 3 per row -->
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="{{ $id }}" name="crops[{{ $id }}]">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value="{{ $id }}"
+                                                name="crops[{{ $id }}]"
+                                                x-model="crops[{{ $id }}]"
+                                            >
                                             <label class="form-check-label" for="commodity{{ $id }}">
-                                                {{ $commodity }}
+                                                {{ $farmer }}
                                             </label>
                                         </div>
                                         <div class="commodity-inputs">
                                             <div class="form-group">
                                                 <label for="farmSize{{ $id }}">Farm Size</label>
-                                                <input type="text" class="form-control" id="farmSize{{ $id }}" name="farm_size[{{ $id }}]">
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="farmSize{{ $id }}"
+                                                    name="farm_size[{{ $id }}]"
+                                                    :disabled="!crops[{{ $id }}]"
+                                                >
                                             </div>
                                             <div class="form-group">
                                                 <label for="location{{ $id }}">Location</label>
-                                                <input type="text" class="form-control" id="location{{ $id }}" name="farm_location[{{ $id }}]">
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="location{{ $id }}"
+                                                    name="farm_location[{{ $id }}]"
+                                                    :disabled="!crops[{{ $id }}]"
+                                                >
                                             </div>
                                         </div>
                                     </div>
-                                    @if ($loop->iteration % 3 === 0 || $loop->last)
-                                        </div> <!-- Close the row after every 3 iterations or on the last iteration -->
-                                    @endif
                                     @endforeach
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="container">
+                                <div class="col-md-4 mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="highValueCrops" name="highValueCrops"
+                                            value="High Value Crops">
+                                        <label class="form-check-label" for="highValueCrops">High Value Crops Please specify</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @foreach($commodities as $id => $commodity)
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input crop-checkbox" type="checkbox" value="{{ $id }}" name="crops[{{ $id }}]"
+                                                data-target="cropInputs{{ $id }}" disabled>
+                                            <label class="form-check-label" for="commodity{{ $id }}">
+                                                {{ $commodity }}
+                                            </label>
+                                        </div>
+                                        <div class="commodity-inputs" id="cropInputs{{ $id }}">
+                                            <div class="form-group">
+                                                <label for="farmSize{{ $id }}">Farm Size</label>
+                                                <input type="text" class="form-control" id="farmSize{{ $id }}" name="farm_size[{{ $id }}]"
+                                                    disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="location{{ $id }}">Location</label>
+                                                <input type="text" class="form-control" id="location{{ $id }}" name="farm_location[{{ $id }}]"
+                                                    disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        $(document).ready(function() {
+                            $('#highValueCrops').on('change', function() {
+                                var isChecked = $(this).prop('checked');
+                                $('.crop-checkbox').prop('disabled', !isChecked);
+                                if (!isChecked) {
+                                    $('.commodity-inputs input').prop('disabled', true);
+                                }
+                            });
+
+                            $('.crop-checkbox').on('change', function() {
+                                var isChecked = $(this).prop('checked');
+                                var inputsContainer = $('#' + $(this).data('target'));
+                                inputsContainer.find('input').prop('disabled', !isChecked);
+                            });
+                        });
+                    </script>
+
+
 
 
                         <div class="col-md-12">
@@ -595,11 +617,11 @@
                                             <div class="col-md-4">
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" id="machine_{{ $id }}" name="machineries[{{ $id }}]"
-                                                        value="{{ $id }}">
+                                                        value="{{ $id }}" data-target="noofunits_{{ $id }}">
                                                     <label class="form-check-label" for="machine_{{ $id }}">{{ $machineName }}</label>
                                                 </div>
                                                 <label for="noofunits_{{ $id }}" class="form-label">No. Of Units:</label>
-                                                <input type="text" class="form-control" id="noofunits_{{ $id }}" name="units[{{ $id }}]">
+                                                <input type="text" class="form-control units-input" id="noofunits_{{ $id }}" name="units[{{ $id }}]" disabled>
                                             </div>
                                             @php $machineCount++; @endphp
                                         @endforeach
@@ -607,6 +629,21 @@
                                 </div>
                             </div>
                         </div>
+
+                        <script>
+                            $(document).ready(function() {
+                                $('.form-check-input').on('change', function() {
+                                    var targetInputId = $(this).data('target');
+                                    var unitsInput = $('#' + targetInputId);
+
+                                    if ($(this).prop('checked')) {
+                                        unitsInput.prop('disabled', false);
+                                    } else {
+                                        unitsInput.prop('disabled', true);
+                                    }
+                                });
+                            });
+                        </script>
 
 
 
