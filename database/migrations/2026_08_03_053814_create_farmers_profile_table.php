@@ -11,7 +11,7 @@ return new class extends Migration
     {
         Schema::create('farmersprofile', function (Blueprint $table) {
             $table->id();
-            $table->string('ref_no');
+            $table->string('ref_no');//ref_no
             $table->string('status');
             $table->string('sname');
             $table->string('fname');
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('sex');
             $table->string('spouse')->nullable();
             $table->string('mother');
-            $table->integer('number')->unique();
+            $table->integer('number');
             $table->integer('regions');
             $table->unsignedBigInteger('provinces_id');
             $table->unsignedBigInteger('municipalities_id');
@@ -28,8 +28,6 @@ return new class extends Migration
             $table->string('purok');
             $table->string('house')->nullable();
             $table->string('dob');
-            $table->unsignedBigInteger('crops_id');
-            $table->unsignedBigInteger('machineries_id');
             $table->string('pob');
             $table->string('religion');
             $table->string('cstatus');

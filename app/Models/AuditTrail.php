@@ -11,4 +11,8 @@ class AuditTrail extends Model
 
     protected $table = 'audit_trails'; // Set the correct table name
     protected $guarded = [];
+
+    public function user(){
+        return $this->belongsTo(User::class, 'causer_id');
+    }
 }

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('units');
 
             $table->foreign('farmersprofile_id')->references('id')->on('farmersprofile')->onDelete('cascade');
-            $table->foreign('machine_id')->references('id')->on('machine'); // Corrected table name
+            $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
             $table->timestamps();
         });
     }

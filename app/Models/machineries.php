@@ -11,7 +11,10 @@ class Machineries extends Model
 
     protected $table = 'machineries';
 
-    protected $fillable = ['farmersprofile_id', 'machine_id', 'units'];
+    protected $fillable = [
+        'farmersprofile_id',
+        'machine_id',
+        'units'];
 
     public function farmersProfile()
     {

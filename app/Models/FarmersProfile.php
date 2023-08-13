@@ -39,10 +39,13 @@ class FarmersProfile extends Model
         'gross',
         'parcels',
         'arb',
-        'crops_id',
-        'machineries_id'
+      //  'crops_id',
+        //'machineries_id'
     ];
-
+    public function crops()
+    {
+        return $this->hasMany(Crops::class, 'farmersprofile_id'); // Use the correct foreign key column name
+    }
     public function province()
     {
         return $this->belongsTo(Province::class, 'provinces_id');
@@ -55,16 +58,14 @@ class FarmersProfile extends Model
 
     public function barangay()
     {
-        return $this->belongsTo(Barangay::class, 'barangays_id');
+        return $this->belongsTo(Barangays::class, 'barangays_id');
     }
 
-    public function crops()
-    {
-        return $this->hasOne(Crops::class, 'crops_id');
-    }
 
     public function machineries()
     {
-        return $this->hasOne(Machineries::class, 'machineries_id');
+        return $this->hasMany(Machineries::class, 'farmersprofile_id');
     }
+
+
 }

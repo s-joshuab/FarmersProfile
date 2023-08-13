@@ -14,7 +14,7 @@ class User extends Authenticatable
 {
 
     use HasApiTokens, HasFactory, Notifiable;
-
+    use LogsActivity;
 
     protected static $logAttributes = ['name', 'username', 'email', 'password'];
 
@@ -59,6 +59,10 @@ class User extends Authenticatable
     {
         return LogOptions::defaults()
             ->logOnly(['name', 'username', 'email', 'password']);
+    }
+
+    public function activity(){
+        return $this->hasMany(Activity::class, 'causer_id');
     }
 }
 

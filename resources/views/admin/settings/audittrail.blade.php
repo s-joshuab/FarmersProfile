@@ -3,22 +3,23 @@
 <div class="col-lg-12">
     <div class="card">
         <div class="card-body">
-            <table class="table table-bordered mt-3">
+            <table class="table table-bordered mt-3 datatable table-striped">
                 <thead>
                     <tr>
                         <th>Date</th>
                         <th>User</th>
                         <th>Action</th>
-                        <th>Details</th>
+                        {{-- <th>Details</th> --}}
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($auditTrails as $auditTrail)
+                    @foreach ($activities as $activity)
                     <tr>
-                        <td>{{ $auditTrail->datetime }}</td>
-                        <td>{{ $auditTrail->user }}</td>
-                        <td>{{ $auditTrail->action }}</td>
-                        <td>{{ $auditTrail->details }}</td>
+                        <td>{{ $activity->created_at }}</td>
+                        <td>{{ $activity->user?->name ?? 'No Data' }}</td>
+
+                        {{-- <td>{{ $activity->log_name }}</td> --}}
+                        <td>{{ ucwords($activity->description) }}</td>
                     </tr>
                     @endforeach
                 </tbody>

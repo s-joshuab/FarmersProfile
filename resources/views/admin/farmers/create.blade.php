@@ -245,7 +245,7 @@
 
                                         <div class="col-md-6 position-relative mt-0">
                                             <label class="form-label">Contact Number</label>
-                                            <input type="text" class="form-control" id="validationTooltip01"
+                                            <input type="number" class="form-control" id="validationTooltip01"
                                                 name="number" required autofocus="autofocus">
                                             <div class="invalid-tooltip">
                                                 The contactnumber field is required.
@@ -493,37 +493,49 @@
                             <p class="mt-0" style="font-size: 12px;">Types of Farming Activity</p>
                         </div>
 
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="container">
+
                                     <div class="row">
-                                        @foreach($farmers as $id => $farmer)
-                                        <div class="col-md-4"> <!-- Create columns with a width of 4 to achieve 3 per row -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="{{ $id }}" name="crops[{{ $id }}]">
-                                                <label class="form-check-label" for="commodity{{ $id }}">
-                                                    {{ $farmer }}
-                                                </label>
-                                            </div>
-                                            <div class="commodity-inputs">
-                                                <div class="form-group">
-                                                    <label for="farmSize{{ $id }}">Farm Size</label>
-                                                    <input type="text" class="form-control" id="farmSize{{ $id }}" name="farm_size[{{ $id }}]">
+                                        <div class="container">
+                                            <div class="row">
+                                                @foreach($farmers as $id => $farmer)
+                                                <div class="col-md-4">
+                                                    <div class="form-check">
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="checkbox"
+                                                            value="{{ $id }}"
+                                                            name="crops[{{ $id }}]"
+                                                            x-model="crops[{{ $id }}]"
+                                                        >
+                                                        <label class="form-check-label" for="commodity{{ $id }}">
+                                                            {{ $farmer }}
+                                                        </label>
+                                                    </div>
+                                                    <div class="commodity-inputs" x-show="crops[{{ $id }}]">
+                                                        <div class="form-group">
+                                                            <label for="farmSize{{ $id }}">Farm Size</label>
+                                                            <input
+                                                                type="text"
+                                                                class="form-control"
+                                                                id="farmSize{{ $id }}"
+                                                                name="farm_size[{{ $id }}]"
+                                                            >
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="location{{ $id }}">Location</label>
+                                                            <input
+                                                                type="text"
+                                                                class="form-control"
+                                                                id="location{{ $id }}"
+                                                                name="farm_location[{{ $id }}]"
+                                                            >
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="location{{ $id }}">Location</label>
-                                                    <input type="text" class="form-control" id="location{{ $id }}" name="farm_location[{{ $id }}]">
-                                                </div>
+                                                @endforeach
                                             </div>
                                         </div>
-                                        @if (($loop->iteration % 3) == 0)
-                                            </div><div class="row"> <!-- Start a new row after every 3 iterations -->
-                                        @endif
-                                        @endforeach
                                     </div>
-                                </div>
-                            </div>
-                        </div>
 
 
                         <div class="col-md-12">
@@ -605,9 +617,9 @@
                                             Year:</label>
                                         <div class="d-flex align-items-center">
                                             <label class="me-2">Farming</label>
-                                            <input type="text" class="form-control" id="validationCustom01" name="gross" required>
+                                            <input type="number" class="form-control" id="validationCustom01" name="gross" required>
                                             <label class="ms-3 me-2">Non-Farming</label>
-                                            <input type="text" class="form-control" id="validationCustom02" name="gross" required>
+                                            <input type="number" class="form-control" id="validationCustom02" name="gross" required>
                                         </div>
                                         <div class="invalid-feedback">
                                             Please provide the gross annual income for both farming and non-farming.
@@ -618,7 +630,7 @@
                                 <!-- resources/views/livewire/farm-parcels-form.blade.php -->
                                 <div class="col-md-8 mt-3">
                                     <label class="form-label">No. of Farm Parcels</label>
-                                    <input type="text" class="form-control" id="validationTooltip01" required
+                                    <input type="number" class="form-control" id="validationTooltip01" required
                                     name="parcels"
                                         autofocus>
                                     <div class="invalid-tooltip">
@@ -681,16 +693,16 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <textarea class="form-control" style="height: 120px;"></textarea>
+                                                <textarea class="form-control" disabled style= "height: 120px;"></textarea>
                                             </td>
                                             <td>
-                                                <textarea class="form-control" style="height: 120px;"></textarea>
+                                                <textarea class="form-control" disabled style="height: 120px;"></textarea>
                                             </td>
                                             <td>
-                                                <textarea class="form-control" style="height: 120px;"></textarea>
+                                                <textarea class="form-control" disabled ="height: 120px;"></textarea>
                                             </td>
                                             <td>
-                                                <textarea class="form-control" style="height: 120px;"></textarea>
+                                                <textarea class="form-control" disabled style="height: 120px;"></textarea>
                                             </td>
                                         </tr>
 

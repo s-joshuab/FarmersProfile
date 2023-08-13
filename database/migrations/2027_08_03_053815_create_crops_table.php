@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('farm_location');
 
             $table->foreign('farmersprofile_id')->references('id')->on('farmersprofile')->onDelete('cascade');
-            $table->foreign('commodities_id')->references('id')->on('commodities');
+            $table->foreign('commodities_id')->references('id')->on('commodities')->onDelete('cascade');
             $table->timestamps();
         });
     }

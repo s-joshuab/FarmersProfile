@@ -19,7 +19,7 @@ class Crops extends Model
 
     public function farmersProfile()
     {
-        return $this->belongsTo(FarmersProfile::class, 'farmersprofile_id');
+        return $this->belongsTo(FarmersProfile::class, 'farmersprofile_id'); // Use the correct foreign key column name
     }
 
     public function commodities()

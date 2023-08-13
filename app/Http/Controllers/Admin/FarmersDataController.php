@@ -22,7 +22,8 @@ class FarmersDataController extends Controller
      */
    public function farmdata()
     {
-        return view('admin.farmers.index');
+        $farmers = FarmersProfile::all();
+        return view('admin.farmers.index', compact('farmers'));
     }
 
     public function ID()
@@ -112,8 +113,6 @@ class FarmersDataController extends Controller
             'purok' => $request->input('purok'),
             'house' => $request->input('house'),
             'dob' => $request->input('dob'),
-            'crops_id' => $request->input('commodities_id'),
-            'machineries_id' => $request->input('machine_id'),
             'pob' => $request->input('pob'),
             'religion' => $request->input('religion'),
             'cstatus' => $request->input('cstatus'),
@@ -127,26 +126,25 @@ class FarmersDataController extends Controller
                         // Add other attributes here...
         ]);
 
+
         $selectedCommodities = $request->input('crops', []);
         $farmSizes = $request->input('farm_size', []);
         $farmLocations = $request->input('farm_location', []);
 
         foreach ($selectedCommodities as $id => $commodityId) {
-            Crops::create([
-                'farmersprofile_id' => $farmersprofile->id,
-                'commodities_id' => $commodityId, // Make sure this is the correct field name
+            $farmersprofile->crops()->create([
+                'commodities_id' => $commodityId,
                 'farm_size' => $farmSizes[$commodityId],
                 'farm_location' => $farmLocations[$commodityId],
             ]);
-        }
+}
+
 
         $selectedMachineries = $request->input('machineries', []);
         $units = $request->input('units', []);
 
-
         foreach ($selectedMachineries as $id => $machineId) {
-            Machineries::create([
-                'farmersprofile_id' => $farmersprofile->id,
+            $farmersprofile->machineries()->create([
                 'machine_id' => $machineId,
                 'units' => $units[$machineId],
             ]);

@@ -28,47 +28,29 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th>1</th>
-          <td>Brandon Jacob</td>
-          <td>Designer</td>
-          <td>28</td>
-          <td>2016-05-25</td>
-          <td>
-            <div class="d-flex justify-content-center">
-              <a href="#" class="btn btn-sm btn-primary view-btn m-1" data-id="1">
-                <i class="bx bx-show-alt"></i>
-              </a>
-              <a href="#" class="btn btn-sm btn-info update-btn m-1" data-id="1">
-                <i class="bi bi-pencil-square"></i>
-              <a href="#" class="btn btn-sm btn-secondary generate-btn m-1" data-id="2">
-                <i class="bx bx-cog"></i>
-              </a>
-              </a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th>2</th>
-          <td>Bridie Kessler</td>
-          <td>Developer</td>
-          <td>35</td>
-          <td>2014-12-05</td>
-          <td>
-            <div class="d-flex justify-content-center">
-              <a href="#" class="btn btn-sm btn-primary view-btn m-1" data-id="2">
-                <i class="bx bx-show-alt"></i>
-              </a>
-              <a href="#" class="btn btn-sm btn-info update-btn m-1" data-id="2">
-                <i class="bi bi-pencil-square"></i>
-              </a>
-              <a href="#" class="btn btn-sm btn-secondary generate-btn m-1" data-id="2">
-                <i class="bx bx-cog"></i>
-              </a>
-            </div>
-          </td>
-        </tr>
-      </tbody>
+        @foreach ($farmers as $farmer)
+            <tr>
+                <th>{{ $farmer->id }}</th>
+                <td>{{ $farmer->fname }}</td>
+                <td>{{ $farmer->barangays_id }}</td>
+                <td>{{ $farmer->benefits}}</td>
+                <td>{{ $farmer->fname }}</td>
+                <td>
+                    <div class="d-flex justify-content-center">
+                        <a href="#" class="btn btn-sm btn-primary view-btn m-1" data-id="{{ $farmer->id }}">
+                            <i class="bx bx-show-alt"></i>
+                        </a>
+                        <a href="#" class="btn btn-sm btn-info update-btn m-1" data-id="{{ $farmer->id }}">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a href="#" class="btn btn-sm btn-secondary generate-btn m-1" data-id="{{ $farmer->id }}">
+                            <i class="bx bx-cog"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
     </table>
     <style>
       #myTable th,

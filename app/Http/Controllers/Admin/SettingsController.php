@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Activitylog\Models\Activity;
 
 class SettingsController extends Controller
 {
@@ -17,20 +18,10 @@ class SettingsController extends Controller
      */
     public function audit()
     {
-        $user = Auth::user();
-        $auditTrails = AuditTrail::orderBy('datetime', 'desc')->get();
-        return view('admin.settings.audittrail', compact('auditTrails'));
+        $activities = Activity::all();
+        return view('admin.settings.audittrail', compact('activities'));
     }
 
-    public function log($user, $action, $details)
-    {
-        AuditTrail::create([
-            'datetime' => now(),
-            'user' => $user,
-            'action' => $action,
-            'details' => $details,
-        ]);
-    }
 
     public function profile()
     {
