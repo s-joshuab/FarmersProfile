@@ -53,6 +53,12 @@ class FarmersDataController extends Controller
         return response()->json($barangays);
     }
 
+    public function show($id)
+    {
+        $farmer = FarmersProfile::findOrFail($id);
+        return view('admin.farmers.view', compact('farmer'));
+    }
+
 
     public function store(Request $request)
     {
