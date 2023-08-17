@@ -55,9 +55,17 @@ class FarmersDataController extends Controller
 
     public function show($id)
     {
-        $farmer = FarmersProfile::findOrFail($id);
-        return view('admin.farmers.view', compact('farmer'));
+        $farmersprofile = FarmersProfile::findorfail($id);
+        $provinces = Provinces::all();
+        $municipalities = Municipalities::all(); // Replace 'Municipalities' with your actual model
+        $barangays = Barangays::all(); // Replace 'Barangays' with your actual model
+        $commodities = Commodities::where('category', 0)->pluck('commodities', 'id')->all();
+        $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
+        $machine = Machine::pluck('machine', 'id')->all();
+
+        return view('admin.farmers.view', compact('commodities', 'farmers', 'machine', 'provinces', 'municipalities', 'barangays', 'farmersprofile'));
     }
+
 
 
     public function store(Request $request)

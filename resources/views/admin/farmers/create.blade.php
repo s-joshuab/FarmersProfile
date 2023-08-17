@@ -400,51 +400,60 @@
 
 
                     <div class="row">
-                        <div class="col-md-6 position-relative mt-4">
+                        <div class="col-md-6 position-relative mt-0">
                             <div class="form-group">
-                                <label for="status">Civil Status:</label>
-                                <div class="col-md-3 d-inline">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="single"
-                                            name="cstatus" value="single" onclick="handleCivilStatusRadio('single')"
-                                            required>
-                                        <label class="form-check-label" for="single">Single</label>
+                                <label for="highest_formal_education" class="mr-2">Highest Formal Education:</label>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="none" name="education" value="none">
+                                            <label class="form-check-label" for="none">None</label>
+                                        </div>
                                     </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="married"
-                                            name="cstatus" value="married"
-                                            onclick="handleCivilStatusRadio('married')" required>
-                                        <label class="form-check-label" for="married">Married</label>
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="elementary" name="education" value="elementary">
+                                            <label class="form-check-label" for="elementary">Elementary</label>
+                                        </div>
                                     </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="widowed"
-                                            name="cstatus" value="widowed"
-                                            onclick="handleCivilStatusRadio('widowed')" required>
-                                        <label class="form-check-label" for="widowed">Widowed</label>
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="highSchool" name="education" value="highSchool">
+                                            <label class="form-check-label" for="highSchool">High School</label>
+                                        </div>
                                     </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="separated"
-                                            name="cstatus" value="separated"
-                                            onclick="handleCivilStatusRadio('separated')" required>
-                                        <label class="form-check-label" for="separated">Separated</label>
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="vocational" name="education" value="vocational">
+                                            <label class="form-check-label" for="vocational">Vocational</label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="invalid-tooltip">
-                                    Please select one option for Civil Status.
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="college" name="education" value="college">
+                                            <label class="form-check-label" for="college">College</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="postGraduate" name="education" value="postGraduate">
+                                            <label class="form-check-label" for="postGraduate">Post-Graduate</label>
+                                        </div>
+                                    </div>
+                                    <div class="invalid-tooltip">
+                                        Please select at least one option for Highest Formal Education.
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
 
 
+
                         <div class="col-md-3 position-relative mt-2">
                             <div class="form-group">
                                 <label for="spouse">Name of Spouse if Married:</label>
-                                <input type="text" class="form-control d-inline" id="spouse" name="spouse"
-                                    required>
-                                <div class="invalid-tooltip">
-                                    Please enter the name of your spouse if you are married.
-                                </div>
+                                <input type="text" class="form-control d-inline" id="spouse" name="spouse">
                             </div>
                         </div>
 

@@ -53,9 +53,6 @@
                                                     <i class="bx bx-show-alt"></i>
                                                 </a>
 
-
-
-
                                                 <a href="#" class="btn btn-sm btn-info update-btn m-1"
                                                     data-id="{{ $farmer->id }}">
                                                     <i class="bi bi-pencil-square"></i>
