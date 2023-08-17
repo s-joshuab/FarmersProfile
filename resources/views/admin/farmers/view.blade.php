@@ -508,6 +508,7 @@
                                                 id="farmSize{{ $id }}"
                                                 name="farm_size[{{ $id }}]"
                                                 :disabled="!crops[{{ $id }}]"
+                                                x-bind:value="crops[{{ $id }}] ? crops[{{ $id }}].farm_size : ''"
                                             >
                                         </div>
                                         <div class="form-group">
@@ -518,6 +519,7 @@
                                                 id="location{{ $id }}"
                                                 name="farm_location[{{ $id }}]"
                                                 :disabled="!crops[{{ $id }}]"
+                                                x-bind:value="crops[{{ $id }}] ? crops[{{ $id }}].farm_location : ''"
                                             >
                                         </div>
                                     </div>
@@ -526,6 +528,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
 
                 <div class="col-md-12">
@@ -723,7 +726,7 @@
                                             <textarea class="form-control" disabled style="height: 120px;"></textarea>
                                         </td>
                                         <td>
-                                            <textarea class="form-control" disabled ="height: 120px;"></textarea>
+                                            <textarea class="form-control" disabled style="height: 120px;"></textarea>
                                         </td>
                                         <td>
                                             <textarea class="form-control" disabled style="height: 120px;"></textarea>
@@ -747,7 +750,7 @@
                                     <div class="col-12 d-flex justify-content-end p-3">
                                         <div class="button-container">
                                             <button class="btn btn-primary submit-button"
-                                                name="submit">Submit</button>
+                                                name="submit">ASAs</button>
 
                                         </div>
                                     </div>
