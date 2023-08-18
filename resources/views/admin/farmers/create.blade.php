@@ -400,49 +400,29 @@
 
 
                     <div class="row">
-                        <div class="col-md-6 position-relative mt-0">
+                        <div class="col-md-6 position-relative mt-4">
                             <div class="form-group">
-                                <label for="highest_formal_education" class="mr-2">Highest Formal Education:</label>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" id="none" name="education" value="none">
-                                            <label class="form-check-label" for="none">None</label>
-                                        </div>
+                                <label for="status">Civil Status:</label>
+                                <div class="col-md-3 d-inline">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" id="single" name="cstatus" value="single"  required>
+                                        <label class="form-check-label" for="single">Single</label>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" id="elementary" name="education" value="elementary">
-                                            <label class="form-check-label" for="elementary">Elementary</label>
-                                        </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" id="married" name="cstatus" value="married"  required >
+                                        <label class="form-check-label" for="married">Married</label>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" id="highSchool" name="education" value="highSchool">
-                                            <label class="form-check-label" for="highSchool">High School</label>
-                                        </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" id="widowed" name="cstatus" value="widowed" required >
+                                        <label class="form-check-label" for="widowed">Widowed</label>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" id="vocational" name="education" value="vocational">
-                                            <label class="form-check-label" for="vocational">Vocational</label>
-                                        </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" id="separated" name="cstatus" value="separated" required >
+                                        <label class="form-check-label" for="separated">Separated</label>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" id="college" name="education" value="college">
-                                            <label class="form-check-label" for="college">College</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" id="postGraduate" name="education" value="postGraduate">
-                                            <label class="form-check-label" for="postGraduate">Post-Graduate</label>
-                                        </div>
-                                    </div>
-                                    <div class="invalid-tooltip">
-                                        Please select at least one option for Highest Formal Education.
-                                    </div>
+                                </div>
+                                <div class="invalid-tooltip">
+                                    Please select one option for Civil Status.
                                 </div>
                             </div>
                         </div>

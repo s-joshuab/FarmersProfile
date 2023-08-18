@@ -46,6 +46,7 @@ class FarmersProfile extends Model
     {
         return $this->hasMany(Crops::class, 'farmersprofile_id'); // Use the correct foreign key column name
     }
+
     public function province()
     {
         return $this->belongsTo(Province::class, 'provinces_id');

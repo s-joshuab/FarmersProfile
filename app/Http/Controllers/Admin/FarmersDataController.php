@@ -15,6 +15,7 @@ use App\Models\Municipalities;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
+
 class FarmersDataController extends Controller
 {
     /**
@@ -22,7 +23,7 @@ class FarmersDataController extends Controller
      */
    public function farmdata()
     {
-        $farmers = FarmersProfile::all();
+        $farmers = FarmersProfile::with('crops')->get();
         return view('admin.farmers.index', compact('farmers'));
     }
 
@@ -53,9 +54,9 @@ class FarmersDataController extends Controller
         return response()->json($barangays);
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
-        $farmersprofile = FarmersProfile::findOrFail($id);
+        $farmersprofile = FarmersProfile::with('Crops')->findOrFail($id);
         $provinces = Provinces::all();
         $municipalities = Municipalities::all();
         $barangays = Barangays::all();
@@ -63,11 +64,11 @@ class FarmersDataController extends Controller
         $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
         $machine = Machine::pluck('machine', 'id')->all();
 
-        // Load the related crops for the farmer's profile
-        $cropsData = $farmersprofile->crops->pluck('farm_size', 'id')->all();
-
-        return view('admin.farmers.view', compact('commodities', 'farmers', 'machine', 'provinces', 'municipalities', 'barangays', 'farmersprofile', 'cropsData'));
+        return view('admin.farmers.view', compact(
+            'commodities', 'farmers', 'machine', 'provinces', 'municipalities', 'barangays', 'farmersprofile'
+        ));
     }
+
 
 
 
