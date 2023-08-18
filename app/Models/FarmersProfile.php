@@ -49,12 +49,12 @@ class FarmersProfile extends Model
 
     public function province()
     {
-        return $this->belongsTo(Province::class, 'provinces_id');
+        return $this->belongsTo(Provinces::class, 'provinces_id');
     }
 
     public function municipality()
     {
-        return $this->belongsTo(Municipality::class, 'municipalities_id');
+        return $this->belongsTo(Municipalities::class, 'municipalities_id');
     }
 
     public function barangay()

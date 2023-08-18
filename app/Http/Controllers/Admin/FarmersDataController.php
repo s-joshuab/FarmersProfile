@@ -54,24 +54,17 @@ class FarmersDataController extends Controller
         return response()->json($barangays);
     }
 
-    public function show($id, Request $request)
+    public function show($id)
     {
-        $farmersprofile = FarmersProfile::with('Crops')->findOrFail($id);
-        $provinces = Provinces::all();
-        $municipalities = Municipalities::all();
-        $barangays = Barangays::all();
+        $farmersprofile = FarmersProfile::findOrFail($id);
         $commodities = Commodities::where('category', 0)->pluck('commodities', 'id')->all();
         $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
         $machine = Machine::pluck('machine', 'id')->all();
 
         return view('admin.farmers.view', compact(
-            'commodities', 'farmers', 'machine', 'provinces', 'municipalities', 'barangays', 'farmersprofile'
+            'commodities', 'farmers', 'machine', 'farmersprofile'
         ));
     }
-
-
-
-
 
     public function store(Request $request)
     {

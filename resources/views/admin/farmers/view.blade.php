@@ -99,43 +99,31 @@
                                         </div>
                                       </div>
 
+
+
                                     <!-- Beekeeper Province Address -->
                                     <div class="col-md-4 position-relative mt-0">
                                         <label for="province">Province:</label>
-                                        <select id="province" name="provinces_id" class="form-control" disabled>
-                                            <option value="">Select Province</option>
-                                            @foreach ($provinces as $province)
-                                                <option value="{{ $province->id }}" {{ $farmersprofile->provinces_id == $province->id ? 'selected' : '' }}>
-                                                    {{ $province->provinces }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        <div class="form-control-custom">
+                                        <input type="text" class="form-control" value="{{ $farmersprofile?->province?->provinces ??  "No Data" }}" required disabled>
+                                        </div>
                                     </div>
 
                                     <!-- Municipality Dropdown -->
                                     <div class="col-md-4 position-relative mt-0">
                                         <label for="municipality">Municipality:</label>
-                                        <select id="municipality" name="municipalities_id" class="form-control" disabled>
-                                            <option value="">Select Municipality</option>
-                                            @foreach ($municipalities as $municipality)
-                                                <option value="{{ $municipality->id }}" {{ $farmersprofile->municipalities_id == $municipality->id ? 'selected' : '' }}>
-                                                    {{ $municipality->municipalities }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        <div class="form-control-custom">
+                                            <input type="text" class="form-control" value="{{ $farmersprofile?->municipality?->municipalities ??  "No Data" }}" required disabled>
+                                            </div>
                                     </div>
 
                                     <!-- Barangay Dropdown -->
                                     <div class="col-md-4 position-relative mt-2">
                                         <label for="barangay">Barangay:</label>
-                                        <select id="barangay" name="barangays_id" class="form-control" disabled>
-                                            <option value="">Select Barangay</option>
-                                            @foreach ($barangays as $barangay)
-                                                <option value="{{ $barangay->id }}" {{ $farmersprofile->barangays_id == $barangay->id ? 'selected' : '' }}>
-                                                    {{ $barangay->barangays }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        <div class="form-control-custom">
+                                            <input type="text" class="form-control" value="{{ $farmersprofile?->barangay?->barangays ??  "No Data" }}" required disabled>
+                                            </div>
+
                                     </div>
 
 
@@ -481,6 +469,8 @@
                     </div>
                 </div>
 
+
+
                 <div class="col-md-12">
                     <div class="row">
                         <div class="container">
@@ -528,8 +518,11 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
+
+
+
+
 
                 <div class="col-md-12">
                     <div class="row">
