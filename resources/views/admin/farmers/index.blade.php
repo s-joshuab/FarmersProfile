@@ -46,7 +46,11 @@
                                         <th>{{ $farmer->id }}</th>
                                         <td>{{ $farmer->fname }}</td>
                                         <td>{{ $farmer->barangay?->barangays ?? 'No Data' }}</td>
-                                        <td>{{ $farmer->status}}</td>
+                                        <td>
+                                            @foreach ($farmer->crops as $crop)
+                                                {{ $crop->commodities_id }},
+                                            @endforeach
+                                        </td>
                                         <td>
                                             <div class="d-flex justify-content-center">
                                                 <a href="{{ route('farmers.show', ['id' => $farmer->id]) }}" class="btn btn-sm btn-primary view-btn m-1">
@@ -64,7 +68,8 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    @endforeach
+                                @endforeach
+
                                 </tbody>
                             </table>
                         </div>

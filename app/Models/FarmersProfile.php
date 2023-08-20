@@ -37,6 +37,7 @@ class FarmersProfile extends Model
         'benefits',
         'livelihood',
         'gross',
+        'grosses',
         'parcels',
         'arb',
       //  'crops_id',
@@ -67,6 +68,12 @@ class FarmersProfile extends Model
     {
         return $this->hasMany(Machineries::class, 'farmersprofile_id');
     }
+
+    public function commodities()
+    {
+        return $this->belongsToMany(Commodities::class);
+    }
+
 
 
 }

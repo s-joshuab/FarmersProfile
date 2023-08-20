@@ -21,11 +21,12 @@ class FarmersDataController extends Controller
     /**
      * Display a listing of the resource.
      */
-   public function farmdata()
+    public function farmdata()
     {
         $farmers = FarmersProfile::with('crops')->get();
         return view('admin.farmers.index', compact('farmers'));
     }
+
 
     public function ID()
     {
@@ -57,12 +58,17 @@ class FarmersDataController extends Controller
     public function show($id)
     {
         $farmersprofile = FarmersProfile::findOrFail($id);
+        $crops = $farmersprofile->crops;
+        $machineries = $farmersprofile->machineries;
+        $provinces = Provinces::all();
+        $municipalities = Municipalities::all();
+        $barangays = Barangays::all();
         $commodities = Commodities::where('category', 0)->pluck('commodities', 'id')->all();
         $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
         $machine = Machine::pluck('machine', 'id')->all();
 
         return view('admin.farmers.view', compact(
-            'commodities', 'farmers', 'machine', 'farmersprofile'
+            'commodities', 'farmers', 'machine', 'farmersprofile', 'crops', 'machineries', 'provinces', 'municipalities', 'barangays'
         ));
     }
 
@@ -94,6 +100,7 @@ class FarmersDataController extends Controller
             'benefits' => 'required',
             'livelihood' => 'required',
             'gross' => 'required',
+            'grosses' => 'required',
             'parcels' => 'required',
             'arb' => 'required',
             // Add other validation rules for other fields here...
@@ -131,6 +138,7 @@ class FarmersDataController extends Controller
             'benefits' => $request->input('benefits'),
             'livelihood' => $request->input('livelihood'),
             'gross' => $request->input('gross'),
+            'grosses' => $request->input('grosses'),
             'parcels' => $request->input('parcels'),
             'arb' => $request->input('arb')
                         // Add other attributes here...

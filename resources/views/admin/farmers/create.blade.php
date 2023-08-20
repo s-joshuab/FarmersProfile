@@ -482,45 +482,29 @@
                             <p class="mt-0" style="font-size: 12px;">Types of Farming Activity</p>
                         </div>
                     </div>
-
                     <div class="col-md-12">
                         <div class="row">
                             <div class="container">
-                                <div class="row" x-data="{ crops: {} }">
+                                <div class="row">
                                     @foreach($farmers as $id => $farmer)
                                     <div class="col-md-4">
                                         <div class="form-check">
-                                            <input
-                                                class="form-check-input"
-                                                type="checkbox"
-                                                value="{{ $id }}"
-                                                name="crops[{{ $id }}]"
-                                                x-model="crops[{{ $id }}]"
-                                            >
-                                            <label class="form-check-label" for="commodity{{ $id }}">
+                                            <input class="form-check-input crop-checkbox farmer-checkbox" type="checkbox" value="{{ $id }}" id="crops[{{$id}}]" name="crops[{{ $id }}]"
+                                                data-target="cropInputs{{ $id }}">
+                                            <label class="form-check-label" for="farmer{{ $id }}">
                                                 {{ $farmer }}
                                             </label>
                                         </div>
-                                        <div class="commodity-inputs">
+                                        <div class="commodity-inputs" id="cropInputs{{ $id }}">
                                             <div class="form-group">
                                                 <label for="farmSize{{ $id }}">Farm Size</label>
-                                                <input
-                                                    type="text"
-                                                    class="form-control"
-                                                    id="farmSize{{ $id }}"
-                                                    name="farm_size[{{ $id }}]"
-                                                    :disabled="!crops[{{ $id }}]"
-                                                >
+                                                <input type="text" class="form-control farm-size-input" id="farmSize{{ $id }}" name="farm_size[{{ $id }}]"
+                                                    disabled>
                                             </div>
                                             <div class="form-group">
                                                 <label for="location{{ $id }}">Location</label>
-                                                <input
-                                                    type="text"
-                                                    class="form-control"
-                                                    id="location{{ $id }}"
-                                                    name="farm_location[{{ $id }}]"
-                                                    :disabled="!crops[{{ $id }}]"
-                                                >
+                                                <input type="text" class="form-control location-input" id="location{{ $id }}" name="farm_location[{{ $id }}]"
+                                                    disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -535,17 +519,15 @@
                             <div class="container">
                                 <div class="col-md-4 mb-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="highValueCrops" name="highValueCrops"
-                                            value="High Value Crops">
-                                        <label class="form-check-label" for="highValueCrops">High Value Crops Please specify</label>
+                                        <label class="form-check-label mt-2" style="margin-left: -12px; font-weight: bold;" for="highValueCrops">High Value Crops Please specify</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     @foreach($commodities as $id => $commodity)
                                     <div class="col-md-4">
                                         <div class="form-check">
-                                            <input class="form-check-input crop-checkbox" type="checkbox" value="{{ $id }}" name="crops[{{ $id }}]"
-                                                data-target="cropInputs{{ $id }}" disabled>
+                                            <input class="form-check-input crop-checkbox" type="checkbox" value="{{ $id }}" id="crops[{{$id}}]" name="crops[{{ $id }}]"
+                                                data-target="cropInputs{{ $id }}" >
                                             <label class="form-check-label" for="commodity{{ $id }}">
                                                 {{ $commodity }}
                                             </label>
@@ -571,14 +553,6 @@
 
                     <script>
                         $(document).ready(function() {
-                            $('#highValueCrops').on('change', function() {
-                                var isChecked = $(this).prop('checked');
-                                $('.crop-checkbox').prop('disabled', !isChecked);
-                                if (!isChecked) {
-                                    $('.commodity-inputs input').prop('disabled', true);
-                                }
-                            });
-
                             $('.crop-checkbox').on('change', function() {
                                 var isChecked = $(this).prop('checked');
                                 var inputsContainer = $('#' + $(this).data('target'));
@@ -586,9 +560,6 @@
                             });
                         });
                     </script>
-
-
-
 
                         <div class="col-md-12">
                             <div class="row">
@@ -645,7 +616,7 @@
                                             <label class="me-2">Farming</label>
                                             <input type="number" class="form-control" id="validationCustom01" name="gross" required>
                                             <label class="ms-3 me-2">Non-Farming</label>
-                                            <input type="number" class="form-control" id="validationCustom02" name="gross" required>
+                                            <input type="number" class="form-control" id="validationCustom02" name="grosses" required>
                                         </div>
                                         <div class="invalid-feedback">
                                             Please provide the gross annual income for both farming and non-farming.
