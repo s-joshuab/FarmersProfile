@@ -69,7 +69,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('admin/create-add', [FarmersDataController::class, 'create']);
     Route::post('admin/create', [FarmersDataController::class, 'store']);
     Route::get('farmers-view/{id}/view', [FarmersDataController::class, 'show'])->name('farmers.show');
-
+    Route::get('farmers-edit/{id}/edit', [FarmersDataController::class, 'edit'])->name('farmers.edit');
+    Route::put('farmers-update/{id}', [FarmersDataController::class, 'update']);
 
     // Admin Manage users
     Route::get('admin/users-add', [UserController::class, 'create']);
