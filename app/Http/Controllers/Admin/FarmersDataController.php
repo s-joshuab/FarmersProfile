@@ -265,57 +265,57 @@ class FarmersDataController extends Controller
 
 
             $selectedCommodities = $request->input('crops', []);
-$farmSizes = $request->input('farm_size', []);
-$farmLocations = $request->input('farm_location', []);
+            $farmSizes = $request->input('farm_size', []);
+            $farmLocations = $request->input('farm_location', []);
 
-// Delete old crops data not present in the current input
-$farmersprofile->crops()
-    ->whereNotIn('commodities_id', $selectedCommodities)
-    ->delete();
+            // Delete old crops data not present in the current input
+            $farmersprofile->crops()
+                ->whereNotIn('commodities_id', $selectedCommodities)
+                ->delete();
 
-foreach ($selectedCommodities as $id => $commodityId) {
-    $cropData = [
-        'commodities_id' => $commodityId,
-        'farm_size' => $farmSizes[$id],
-        'farm_location' => $farmLocations[$id],
-    ];
+            foreach ($selectedCommodities as $id => $commodityId) {
+                $cropData = [
+                    'commodities_id' => $commodityId,
+                    'farm_size' => $farmSizes[$id],
+                    'farm_location' => $farmLocations[$id],
+                ];
 
-    $farmersprofile->crops()->updateOrCreate(
-        ['commodities_id' => $commodityId],
-        $cropData
-    );
+                $farmersprofile->crops()->updateOrCreate(
+                    ['commodities_id' => $commodityId],
+                    $cropData
+                );
 
-    // Update or store farm_size and farm_location in the FarmersProfile itself
-    $farmersprofile->update([
-        'farm_size' => $farmSizes[$id],
-        'farm_location' => $farmLocations[$id],
-    ]);
-}
+                // Update or store farm_size and farm_location in the FarmersProfile itself
+                $farmersprofile->update([
+                    'farm_size' => $farmSizes[$id],
+                    'farm_location' => $farmLocations[$id],
+                ]);
+            }
 
-$selectedMachineries = $request->input('machineries', []);
-$units = $request->input('units', []);
+            $selectedMachineries = $request->input('machineries', []);
+            $units = $request->input('units', []);
 
-// Delete old machineries data not present in the current input
-$farmersprofile->machineries()
-    ->whereNotIn('machine_id', $selectedMachineries)
-    ->delete();
+            // Delete old machineries data not present in the current input
+            $farmersprofile->machineries()
+                ->whereNotIn('machine_id', $selectedMachineries)
+                ->delete();
 
-foreach ($selectedMachineries as $id => $machineId) {
-    $machineryData = [
-        'machine_id' => $machineId,
-        'units' => $units[$id],
-    ];
+            foreach ($selectedMachineries as $id => $machineId) {
+                $machineryData = [
+                    'machine_id' => $machineId,
+                    'units' => $units[$id],
+                ];
 
-    $farmersprofile->machineries()->updateOrCreate(
-        ['machine_id' => $machineId],
-        $machineryData
-    );
+                $farmersprofile->machineries()->updateOrCreate(
+                    ['machine_id' => $machineId],
+                    $machineryData
+                );
 
-    // Update or store units in the FarmersProfile itself
-    $farmersprofile->update([
-        'units' => $units[$id],
-    ]);
-}
+                // Update or store units in the FarmersProfile itself
+                $farmersprofile->update([
+                    'units' => $units[$id],
+                ]);
+            }
 
 
 

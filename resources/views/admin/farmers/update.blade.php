@@ -539,7 +539,7 @@
                         <div class="container">
                             <div class="col-md-4 mb-3">
                                 <div class="form-check">
-                                    <label class="form-check-label mt-2" style="margin-left: -12px; font-weight: bold;" for="highValueCrops">High Value Crops Please specify</label>
+                                    <label class="form-check-label mt-2" style="margin-left: -12px; font-weight: bold;" for="highValueCrops">High Value Crops</label>
                                 </div>
                             </div>
                             <div class="row">
@@ -607,6 +607,7 @@
                     });
                 </script>
 
+
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="container">
@@ -622,28 +623,25 @@
                                                 @endif
                                                 <div class="col-md-4">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="machine_{{ $id }}" name="machineries[{{ $id }}]"
-                                                            value="{{ $id }}" data-target="noofunits_{{ $id }}"
+                                                        <input class="form-check-input machineName-checkbox" type="checkbox"
+                                                            id="machine_{{ $id }}" name="machineries[{{ $id }}]" value="{{ $id }}"
+                                                            data-target="units_{{ $id }}"
                                                             @if($machineries->contains('machine_id', $id))
                                                                 checked
                                                             @endif
-                                                            >
+                                                        >
                                                         <label class="form-check-label" for="machine_{{ $id }}">{{ $machineName }}</label>
                                                     </div>
-                                                    @foreach($machineries->where('machine_id', $id) as $machineName)
                                                     <div class="form-group">
-                                                        <label for="units{{ $machineName->machine_id }}">No. of Units</label>
-                                                        <input type="text" class="form-control" id="units{{ $machineName->machine_id }}" name="units[{{ $machineName->machine_id }}]"
-                                                            value="{{ $machineName->units }}" >
+                                                        <label for="units{{ $id }}">No. of Units</label>
+                                                        <input type="text" class="form-control"
+                                                            id="units{{ $id }}" name="units[{{ $id }}]"
+                                                            value="{{ old('units.' . $id, $machineries->where('machine_id', $id)->first()->units ?? '') }}"
+                                                            @if(!$machineries->contains('machine_id', $id))
+                                                                disabled
+                                                            @endif
+                                                        >
                                                     </div>
-                                                @endforeach
-                                                @if($machineries->where('machine_id', $id)->isEmpty())
-                                                    <div class="form-group">
-                                                         <label for="units{{ $id }}">No. of Units</label>
-                                                        <input type="text" class="form-control" id="units{{ $id }}" name="units[{{ $id }}]"
-                                                        value="" disabled>
-                                                    </div>
-                                                @endif
                                                 </div>
                                                 @php $machineCount++; @endphp
                                             @endforeach
@@ -653,46 +651,22 @@
                             </div>
 
                             <script>
-                                $(document).ready(function() {
-                                    // When any machinery checkbox is changed
-                                    $('.form-check-input').on('change', function() {
-                                        var targetInputId = $(this).data('target');
-                                        var unitsInput = $('#' + targetInputId);
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    const checkboxes = document.querySelectorAll(".machineName-checkbox");
+                                    checkboxes.forEach(checkbox => {
+                                        const unitsInput = document.querySelector(`#units${checkbox.value}`);
 
-                                        console.log('Checkbox clicked. Target input ID: ' + targetInputId);
+                                        checkbox.addEventListener("change", function() {
+                                            unitsInput.disabled = !this.checked;
+                                        });
 
-                                        if ($(this).prop('checked')) {
-                                            unitsInput.prop('disabled', false);
-                                            console.log('Enabling input: ' + targetInputId);
-                                        } else {
-                                            unitsInput.prop('disabled', true);
-                                            console.log('Disabling input: ' + targetInputId);
-                                        }
-                                    });
-
-                                    // Additional logic to enable/disable inputs on page load
-                                    $('.form-check-input').each(function() {
-                                        var targetInputId = $(this).data('target');
-                                        var unitsInput = $('#' + targetInputId);
-
-                                        console.log('Checking initial state. Target input ID: ' + targetInputId);
-
-                                        if (!$(this).prop('checked')) {
-                                            unitsInput.prop('disabled', true);
-                                            console.log('Disabling input: ' + targetInputId);
-                                        }
+                                        // Initial state setup
+                                        unitsInput.disabled = !checkbox.checked;
                                     });
                                 });
                             </script>
 
 
-
-
-
-
-
-
-                            <!-- resources/views/livewire/income-form.blade.php -->
                             <div class="col-md-12 mt-3">
                                 <div class="form-group">
                                     <label for="validationCustom01" class="form-label">Gross Annual Income Last
@@ -745,10 +719,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
-
 
                             <hr class="mt-5">
 

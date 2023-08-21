@@ -459,7 +459,7 @@
                                 <label for="livelihood" class="mr-2">Main Livelihood:</label>
                                 <div class="col-md-3 form-check form-check-inline">
                                     <input class="form-check-input" type="checkbox" name="livelihood" value="Farmers" id="farmers" disabled required
-                                    @if($farmersprofile->livelihood === "on")
+                                    @if($farmersprofile->livelihood === "Farmers")
                                         checked
                                     @endif>
                                     <label class="form-check-label" for="farmers">Farmers</label>
@@ -540,7 +540,7 @@
                         <div class="container">
                             <div class="col-md-4 mb-3">
                                 <div class="form-check">
-                                    <label class="form-check-label mt-2" style="margin-left: -12px; font-weight: bold;" for="highValueCrops">High Value Crops Please specify</label>
+                                    <label class="form-check-label mt-2" style="margin-left: -12px; font-weight: bold;" for="highValueCrops">High Value Crops</label>
                                 </div>
                             </div>
                             <div class="row">

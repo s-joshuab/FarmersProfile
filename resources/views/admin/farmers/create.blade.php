@@ -519,7 +519,7 @@
                             <div class="container">
                                 <div class="col-md-4 mb-3">
                                     <div class="form-check">
-                                        <label class="form-check-label mt-2" style="margin-left: -12px; font-weight: bold;" for="highValueCrops">High Value Crops Please specify</label>
+                                        <label class="form-check-label mt-2" style="margin-left: -12px; font-weight: bold;" for="highValueCrops">High Value Crops</label>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -696,7 +696,7 @@
                                                 <textarea class="form-control" disabled style="height: 120px;"></textarea>
                                             </td>
                                             <td>
-                                                <textarea class="form-control" disabled ="height: 120px;"></textarea>
+                                                <textarea class="form-control" disabled style="height: 120px;"></textarea>
                                             </td>
                                             <td>
                                                 <textarea class="form-control" disabled style="height: 120px;"></textarea>
