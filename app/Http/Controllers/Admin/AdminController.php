@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Models\crops;
+use App\Models\Commodities;
 use Illuminate\Http\Request;
 use App\Models\FarmersProfile;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
@@ -14,10 +17,19 @@ class AdminController extends Controller
      */
     public function admin()
     {
+
         $farmerCount = FarmersProfile::count();
+        $user = User::count();
         $benefits = FarmersProfile::where('benefits', 'yes')->count();
-        return view('admin.admin', compact('farmerCount', 'benefits'));
+        $status = FarmersProfile::where('status', 'Active')->count();
+
+        return view('admin.admin', compact('farmerCount', 'benefits', 'status', 'user'));
     }
+
+
+
+
+
 
 
     /**

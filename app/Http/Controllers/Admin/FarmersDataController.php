@@ -10,10 +10,12 @@ use App\Models\Provinces;
 use App\Models\Commodities;
 use App\Models\Machineries;
 use Illuminate\Http\Request;
+use App\Models\FarmersNumber;
 use App\Models\FarmersProfile;
 use App\Models\Municipalities;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 
 class FarmersDataController extends Controller
@@ -71,7 +73,7 @@ class FarmersDataController extends Controller
             'regions' => 'required',
             'provinces_id' => 'required',
             'municipalities_id' => 'required',
-            'barangays_id' => 'required',
+            'barangays_id' => 'required|exists:barangays,id',
             'purok' => 'required',
             'house' => 'required',
             'dob' => 'required|date',
@@ -124,9 +126,9 @@ class FarmersDataController extends Controller
             'grosses' => $request->input('grosses'),
             'parcels' => $request->input('parcels'),
             'arb' => $request->input('arb')
+
                         // Add other attributes here...
         ]);
-
 
         $selectedCommodities = $request->input('crops', []);
         $farmSizes = $request->input('farm_size', []);
@@ -151,9 +153,39 @@ class FarmersDataController extends Controller
             ]);
         }
 
-        return redirect('admin/farmreport')->with('message', 'Farmer Added Successfully!');
 
+    $barangaysId = $request->input('barangays_id');
+
+    $existingBarangay = Barangays::find($barangaysId); // Validate the barangays_id before creating the record
+
+    if (!$existingBarangay) {
+        return redirect()->back()->withInput()->with('error', 'Invalid Barangays ID.');
+    }
+
+    // Create a new FarmersNumber record
+    $attributes = [
+        'barangays_id' => $barangaysId,
+        'farmersprofile_id' => $farmersprofile->id,
+    ];
+
+    $farmersNumber = $this->createFarmersNumber($attributes);
+
+    // Redirect to the desired route
+    return redirect('admin/farmreport')->with('message', 'Farmer Added Successfully!');
 }
+
+        public function createFarmersNumber(array $attributes)
+        {
+            $farmersnumber = DB::table('farmersnumber')
+                ->where('barangays_id', $attributes['barangays_id'])
+                ->max('id');
+
+            $count = $farmersnumber ? $farmersnumber + 1 : 1;
+
+            $attributes['farmersnumber'] = "BLN {$attributes['barangays_id']}-{$count}";
+
+            return FarmersNumber::create($attributes);
+        }
 
         public function show($id)
         {

@@ -74,6 +74,10 @@ class FarmersProfile extends Model
         return $this->belongsToMany(Commodities::class);
     }
 
+    public function farmersNumbers()
+    {
+        return $this->hasMany(FarmersNumber::class, 'farmersprofile_id');
+    }
 
 
 }
