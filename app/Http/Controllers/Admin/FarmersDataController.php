@@ -172,7 +172,7 @@ class FarmersDataController extends Controller
 
     // Redirect to the desired route
     return redirect('admin/farmreport')->with('message', 'Farmer Added Successfully!');
-}
+ }
 
         public function createFarmersNumber(array $attributes)
         {
@@ -182,7 +182,7 @@ class FarmersDataController extends Controller
 
             $count = $farmersnumber ? $farmersnumber + 1 : 1;
 
-            $attributes['farmersnumber'] = "BLN {$attributes['barangays_id']}-{$count}";
+            $attributes['farmersnumber'] = "BLN  {$attributes['barangays_id']} - {$count}";
 
             return FarmersNumber::create($attributes);
         }
@@ -293,6 +293,29 @@ class FarmersDataController extends Controller
                 'parcels' => $request->input('parcels'),
                 'arb' => $request->input('arb')
                             // Add other attributes here...
+            ]);
+
+            $barangaysId = $request->input('barangays_id');
+            $existingBarangay = Barangays::find($barangaysId);
+
+            if (!$existingBarangay) {
+                return redirect()->back()->withInput()->with('error', 'Invalid Barangays ID.');
+            }
+
+            // Find the existing FarmersNumber record associated with the FarmersProfile
+            $farmersNumber = FarmersNumber::where('farmersprofile_id', $farmersprofile->id)->first();
+
+            // Update or create the FarmersNumber record
+            if ($farmersNumber) {
+                $farmersNumber->delete(); // Delete the existing FarmersNumber record
+            }
+
+            // Create a new FarmersNumber record
+            $count = FarmersNumber::where('barangays_id', $barangaysId)->max('id') + 1;
+            $farmersNumber = FarmersNumber::create([
+                'farmersprofile_id' => $farmersprofile->id,
+                'barangays_id' => $barangaysId,
+                'farmersnumber' => "BLN {$barangaysId} - {$count}"
             ]);
 
 

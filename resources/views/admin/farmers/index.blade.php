@@ -33,7 +33,7 @@
                             <table id="myTable" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th scope="col">ID</th>
+                                        <th scope="col">ID Number</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Barangay</th>
                                         <th scope="col">Status</th>
@@ -43,7 +43,7 @@
                                 <tbody>
                                     @foreach ($farmers as $farmer)
                                     <tr>
-                                        <th>{{ $farmer->id }}</th>
+                                        <th>{{ $farmer->farmersNumbers->first()?->farmersnumber ?? 'No Data' }}</th>
                                         <td>{{ $farmer->fname }}</td>
                                         <td>{{ $farmer->barangay?->barangays ?? 'No Data' }}</td>
                                         <td>
