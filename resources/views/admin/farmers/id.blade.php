@@ -42,14 +42,11 @@
 </style>
 
 
-@foreach ($farmers as $farmer)
+
 <div class="container mt-4 shadow-lg" >
 <div class="row">
     <div class="col-lg-12">
-        <div class="page mt-3 shadow-sm" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover;
-        background-position: center center;
-        background-repeat: no-repeat;
-        ">
+        <div class="page mt-3 shadow-sm" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat; ">
         <div class="header">
             <img src="{{ asset('assets/img/12345.jpg') }}" alt="Logo" style="max-width: 50px; margin-left: -350px; margin-top: 5px; border-radius: 50%;">
             <h4 style="font-size: 14px; margin-top: -50px; font-weight:bold;">Republic of the Philippines</h4>
@@ -58,6 +55,8 @@
         </div>
 
             <hr class="design" style="margin-top: -15px;">
+
+            @foreach ($farmers as $farmer)
             <div class="content" style="position: relative;">
                 <div class="picture-square" style="margin-left: 10px; margin-top: -5px;"></div>
                 <div class="signature-line"></div>
@@ -77,10 +76,7 @@
         </div>
 
 
-        <div class="page mt-3 shadow-sm" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover;
-        background-position: center center;
-        background-repeat: no-repeat;
-        ">
+        <div class="page mt-3 shadow-sm" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
             <div class="content">
                 <div style="border: 2px solid #ff1dec; padding: 15px; border-radius: 10px;">
                     <h4 class="text-center mt-1" style="font-size: 16px; font-weight:bold; background-color: #ff1dec;">Person To Notify In Case of Emergency:</h4>
@@ -110,8 +106,10 @@
 
                 </div>
              </div>
-        </div>
+
+             </div>
+            </div>
     </div>
-</div>
-@endforeach
+
+    @endforeach
 @endsection

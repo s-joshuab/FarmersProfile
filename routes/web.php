@@ -74,6 +74,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('farmers-generate/{id}/generate', [FarmersDataController::class, 'generate'])->name('farmers.generate');
 
 
+
     // Admin Manage users
     Route::get('admin/users-add', [UserController::class, 'create']);
     Route::post('admin/users', [UserController::class, 'store']);

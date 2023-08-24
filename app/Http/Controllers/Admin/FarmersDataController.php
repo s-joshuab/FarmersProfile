@@ -23,11 +23,29 @@ class FarmersDataController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function farmdata()
-    {
-        $farmers = FarmersProfile::all();
-        return view('admin.farmers.index', compact('farmers'));
+    public function farmdata(Request $request)
+{
+    $query = FarmersProfile::query();
+
+    $selectedBarangay = $request->input('barangay');
+    $selectedCommodity = $request->input('commodity');
+
+    if ($selectedBarangay) {
+        $query->where('barangay_id', $selectedBarangay);
     }
+
+    if ($selectedCommodity) {
+        $query->whereHas('crops', function ($q) use ($selectedCommodity) {
+            $q->where('commodity_id', $selectedCommodity);
+        });
+    }
+
+    $farmers = $query->get();
+    $barangays = Barangays::all();
+    $commodities = Commodities::all();
+
+    return view('admin.farmers.index', compact('farmers', 'barangays', 'commodities'));
+}
 
 
     public function generate()
@@ -35,6 +53,7 @@ class FarmersDataController extends Controller
         $farmers = FarmersProfile::all();
         return view('admin.farmers.id', compact('farmers'));
     }
+
 
     public function create(Request $request)
     {
