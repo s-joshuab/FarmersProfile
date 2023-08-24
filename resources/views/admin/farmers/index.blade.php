@@ -44,12 +44,20 @@
                                     @foreach ($farmers as $farmer)
                                     <tr>
                                         <th>{{ $farmer->farmersNumbers->first()?->farmersnumber ?? 'No Data' }}</th>
-                                        <td>{{ $farmer->fname }}</td>
+                                        <td>{{ $farmer->fname }} {{ $farmer->sname }}</td>
                                         <td>{{ $farmer->barangay?->barangays ?? 'No Data' }}</td>
                                         <td>
-                                            @foreach ($farmer->crops as $crop)
-                                                {{ $crop->commodities_id }},
-                                            @endforeach
+                                            @php
+                                                $commoditiesList = $farmer->crops->map(function ($crop) {
+                                                    return $crop->commodity->commodities;
+                                                })->implode(', ');
+                                            @endphp
+
+                                            @if (strlen($commoditiesList) > 30)
+                                                {{ Str::limit($commoditiesList, 3) }}, etc.
+                                            @else
+                                                {{ $commoditiesList }}
+                                            @endif
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-center">
@@ -58,11 +66,9 @@
                                                 </a>
 
                                                 <a href="{{ route('farmers.edit', ['id' => $farmer->id]) }}" class="btn btn-sm btn-primary view-btn m-1">
-
                                                     <i class="bi bi-pencil-square"></i>
                                                 </a>
-                                                <a href="#" class="btn btn-sm btn-secondary generate-btn m-1"
-                                                    data-id="{{ $farmer->id }}">
+                                                <a href="{{ route('farmers.generate', ['id' => $farmer->id]) }}" class="btn btn-sm btn-secondary generate-btn m-1">
                                                     <i class="bx bx-cog"></i>
                                                 </a>
                                             </div>
@@ -83,26 +89,12 @@
                         </style>
                         <script>
                             $(document).ready(function () {
-                                var table = $('#myTable').DataTable();
-
-                                $('#myTable thead th').each(function () {
-                                    var title = $(this).text();
-                                    if (title !== "Action") {
-                                        $(this).html('<input type="text" placeholder="Search ' + title + '" />');
-                                    }
-                                });
-
-                                table.columns().every(function () {
-                                    var that = this;
-
-                                    $('input', this.header()).on('keyup change clear', function () {
-                                        if (that.search() !== this.value) {
-                                            that.search(this.value).draw();
-                                        }
-                                    });
+                                var table = $('#myTable').DataTable({
+                                    "ordering": false // Disable ordering (sorting) for all columns
                                 });
                             });
                         </script>
+
 
                         <!-- End Table with stripped rows -->
 

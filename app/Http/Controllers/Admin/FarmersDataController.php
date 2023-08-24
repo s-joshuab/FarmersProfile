@@ -25,14 +25,15 @@ class FarmersDataController extends Controller
      */
     public function farmdata()
     {
-        $farmers = FarmersProfile::with('crops')->get();
+        $farmers = FarmersProfile::all();
         return view('admin.farmers.index', compact('farmers'));
     }
 
 
-    public function ID()
+    public function generate()
     {
-        return view('admin.farmers.id');
+        $farmers = FarmersProfile::all();
+        return view('admin.farmers.id', compact('farmers'));
     }
 
     public function create(Request $request)
@@ -126,7 +127,6 @@ class FarmersDataController extends Controller
             'grosses' => $request->input('grosses'),
             'parcels' => $request->input('parcels'),
             'arb' => $request->input('arb')
-
                         // Add other attributes here...
         ]);
 
@@ -140,9 +140,7 @@ class FarmersDataController extends Controller
                 'farm_size' => $farmSizes[$commodityId],
                 'farm_location' => $farmLocations[$commodityId],
             ]);
-}
-
-
+        }
         $selectedMachineries = $request->input('machineries', []);
         $units = $request->input('units', []);
 
@@ -153,26 +151,24 @@ class FarmersDataController extends Controller
             ]);
         }
 
+        $barangaysId = $request->input('barangays_id');
+        $existingBarangay = Barangays::find($barangaysId); // Validate the barangays_id before creating the record
 
-    $barangaysId = $request->input('barangays_id');
+        if (!$existingBarangay) {
+            return redirect()->back()->withInput()->with('error', 'Invalid Barangays ID.');
+        }
 
-    $existingBarangay = Barangays::find($barangaysId); // Validate the barangays_id before creating the record
+        // Create a new FarmersNumber record
+        $attributes = [
+            'barangays_id' => $barangaysId,
+            'farmersprofile_id' => $farmersprofile->id,
+        ];
 
-    if (!$existingBarangay) {
-        return redirect()->back()->withInput()->with('error', 'Invalid Barangays ID.');
-    }
+        $farmersNumber = $this->createFarmersNumber($attributes);
 
-    // Create a new FarmersNumber record
-    $attributes = [
-        'barangays_id' => $barangaysId,
-        'farmersprofile_id' => $farmersprofile->id,
-    ];
-
-    $farmersNumber = $this->createFarmersNumber($attributes);
-
-    // Redirect to the desired route
-    return redirect('admin/farmreport')->with('message', 'Farmer Added Successfully!');
- }
+        // Redirect to the desired route
+        return redirect('admin/farmreport')->with('message', 'Farmer Added Successfully!');
+        }
 
         public function createFarmersNumber(array $attributes)
         {

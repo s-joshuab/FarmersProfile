@@ -33,8 +33,24 @@ class User extends Authenticatable
         'phone_number',
         'status',
         'user_type',
+        'provinces_id',
+        'municipalities_id',
+        'barangays_id'
     ];
+    public function province()
+    {
+        return $this->belongsTo(Provinces::class, 'provinces_id');
+    }
 
+    public function municipality()
+    {
+        return $this->belongsTo(Municipalities::class, 'municipalities_id');
+    }
+
+    public function barangay()
+    {
+        return $this->belongsTo(Barangays::class, 'barangays_id');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

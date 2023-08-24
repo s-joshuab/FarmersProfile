@@ -6,6 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use App\Models\Provinces;
+use App\Models\Barangays;
+use App\Models\Municipalities;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -36,7 +39,10 @@ class ManageUsersController extends Controller
     public function show($id)
     {
         $user = User::findorfail($id);
-        return view('admin.settings.users.view', compact('user'));
+        $provinces= Provinces::all();
+        $municipalities = Municipalities::all();
+        $barangays = Barangays::all();
+        return view('admin.settings.users.view', compact('user', 'provinces', 'municipalities', 'barangays'));
     }
 
     /**
@@ -45,7 +51,10 @@ class ManageUsersController extends Controller
     public function edit(string $id)
     {
         $user = User::findorfail($id);
-        return view('admin.settings.users.edit', compact('user'));
+        $provinces= Provinces::all();
+        $municipalities = Municipalities::all();
+        $barangays = Barangays::all();
+        return view('admin.settings.users.edit',compact('user', 'provinces', 'municipalities', 'barangays'));
     }
 
     /**
@@ -63,6 +72,9 @@ class ManageUsersController extends Controller
             'phone_number' => 'required|numeric',
             'user_type' => 'required',
             'status' => 'required',
+            'provinces_id' => 'required',
+            'municipalities_id' => 'required',
+            'barangays_id' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -76,7 +88,10 @@ class ManageUsersController extends Controller
             'email' => $request->input('email'),
             'phone_number' => $request->input('phone_number'),
             'user_type' => $request->input('user_type'),
-            'status' => $request->input('status')
+            'status' => $request->input('status'),
+            'provinces_id' => $request->input('provinces_id'),
+            'municipalities_id' => $request->input('municipalities_id'),
+            'barangays_id' => $request->input('barangays_id'),
         ]);
 
         // Redirect to a success page or show a success message

@@ -40,9 +40,9 @@
         margin: 0 auto;
     }
 </style>
-</head>
 
 
+@foreach ($farmers as $farmer)
 <div class="container mt-4 shadow-lg" >
 <div class="row">
     <div class="col-lg-12">
@@ -63,14 +63,14 @@
                 <div class="signature-line"></div>
                 <p style="font-size: 12px; font-weight: bold; margin-left: 180px; margin-top: -130px;">Municipal Agriculture Office</p>
                 <p style="font-size: 12px; font-weight: bold; margin-left: 218px; margin-top: -20px;">FARMER'S ID</p>
-                <p style="font-size: 14px; font-weight: bold; margin-left: 142px; margin-top: -10px;">Andrei Eleazar B. Ballesteros</p>
-                <p style="font-size: 12px; font-weight: bold; margin-left: 142px; margin-top: -20px;">Ar-arampang, Balaoan, La Union</p>
-                <p style="font-size: 12px; font-weight: bold; margin-left: 140px; margin-top: -2px;">ID Number:<br> BLN 01 - 1</p>
-                <p style="font-size: 12px; font-weight: bold; margin-left: 230px; margin-top: -52px;">Sex:<br> Male</p>
+                <p style="font-size: 14px; font-weight: bold; margin-left: 142px; margin-top: -10px;">{{ $farmer->fname }} {{ $farmer->sname }}</p>
+                <p style="font-size: 12px; font-weight: bold; margin-left: 142px; margin-top: -20px;">{{ $farmer->barangay->barangays }} , {{ $farmer->municipality->municipalities }} , {{ $farmer->province->provinces }}</p>
+                <p style="font-size: 12px; font-weight: bold; margin-left: 140px; margin-top: -2px;">ID Number:<br> {{ $farmer->farmersNumbers->first()->farmersnumber }}</p>
+                <p style="font-size: 12px; font-weight: bold; margin-left: 230px; margin-top: -52px;">Sex:<br> {{ $farmer->sex }} </p>
                 <div class="row">
                     <p style="font-size: 12px; font-weight: bold; margin-left: 33px; margin-top: -10px;">Signature</p>
-                    <p style="font-size: 12px; font-weight: bold; margin-left: 140px; margin-top: -30px;">Contact No:<br> 09617867892</p>
-                    <p style="font-size: 12px; font-weight: bold; margin-top: -53px; margin-left: 230px;">Civil Status:<br> Married</p>
+                    <p style="font-size: 12px; font-weight: bold; margin-left: 140px; margin-top: -30px;">Contact No:<br> {{ $farmer->number }} </p>
+                    <p style="font-size: 12px; font-weight: bold; margin-top: -53px; margin-left: 230px;">Civil Status:<br> {{ $farmer->cstatus }} </p>
                 </div>
                 <div style="position: absolute; top: 90px; right: 20px; width: 80px; height: 80px; background-color: white;"></div>
             </div>
@@ -108,9 +108,10 @@
                 <h5 style="font-size: 12px; margin-left: 250px; font-weight: bold;">ATTY. ALELI C. CONCEPCION</h5>
                 <h5 style="font-size: 10px; margin-left: 300px; margin-top: -10px;">Municipal Mayor</h5>
 
-            </div>
+                </div>
+             </div>
         </div>
     </div>
 </div>
-</div>
+@endforeach
 @endsection

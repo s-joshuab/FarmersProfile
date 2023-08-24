@@ -9,12 +9,15 @@ class QrCode extends Model
 {
     use HasFactory;
 
-    protected $table = 'qrcode';
+    protected $table = 'qr_codes';
 
-    protected $fillable = ['farmersprofile_id', 'qrcode'];
+    protected $fillable = [
+        'farmersnumber',
+        'qr_data',
+    ];
 
-    public function farmersProfile()
-    {
-        return $this->belongsTo(FarmersProfile::class, 'farmersprofile_id');
-    }
+    protected $casts = [
+        'qr_data' => 'json', // Cast qr_data column to JSON format
+    ];
 }
+

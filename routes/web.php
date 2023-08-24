@@ -55,14 +55,14 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
-//Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'admin']);
     Route::get('admin/farmreport', [FarmersDataController::class, 'farmdata']);
     Route::get('admin/reports', [ReportsController::class, 'reports']);
     Route::get('admin/profile', [SettingsController::class, 'profile']);
     Route::get('admin/audit', [SettingsController::class, 'audit']);
     Route::get('admin/backup', [SettingsController::class, 'backup']);
-    Route::get('admin/id', [FarmersDataController::class, 'ID']);
+    Route::get('admin/generate', [FarmersDataController::class, 'generate']);
     Route::get('/get-municipalities/{provinces_id}', [FarmersDataController::class, 'getMunicipalities']);
     Route::get('/get-barangays/{municipalities_id}', [FarmersDataController::class, 'getBarangays']);
 
@@ -71,6 +71,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('farmers-view/{id}/view', [FarmersDataController::class, 'show'])->name('farmers.show');
     Route::get('farmers-edit/{id}/edit', [FarmersDataController::class, 'edit'])->name('farmers.edit');
     Route::put('farmers-update/{id}', [FarmersDataController::class, 'update']);
+    Route::get('farmers-generate/{id}/generate', [FarmersDataController::class, 'generate'])->name('farmers.generate');
+
 
     // Admin Manage users
     Route::get('admin/users-add', [UserController::class, 'create']);
@@ -79,7 +81,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('user-view/{id}', [ManageUsersController::class, 'show']);
     Route::get('user-edit/{id}', [ManageUsersController::class, 'edit']);
     Route::put('user-update/{id}', [ManageUsersController::class, 'update']);
-//});
+});
 
 // Route group with the StaffMiddleware applied to all routes within
 Route::middleware(['auth', 'staff'])->group(function () {

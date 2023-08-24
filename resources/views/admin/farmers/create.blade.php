@@ -85,11 +85,11 @@
                                             <div class="form-inline">
                                                 <label for="sex" class="mr-2">Sex:</label>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="sex" id="maleOption" value="male" required>
+                                                    <input class="form-check-input" type="radio" name="sex" id="maleOption" value="Male" required>
                                                     <label class="form-check-label" for="maleOption">Male</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="sex" id="femaleOption" value="female" required>
+                                                    <input class="form-check-input" type="radio" name="sex" id="femaleOption" value="Female" required>
                                                     <label class="form-check-label" for="femaleOption">Female</label>
                                                 </div>
                                             </div>
@@ -405,19 +405,19 @@
                                 <label for="status">Civil Status:</label>
                                 <div class="col-md-3 d-inline">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="single" name="cstatus" value="single"  required>
+                                        <input class="form-check-input" type="radio" id="single" name="cstatus" value="Single"  required>
                                         <label class="form-check-label" for="single">Single</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="married" name="cstatus" value="married"  required >
+                                        <input class="form-check-input" type="radio" id="married" name="cstatus" value="Married"  required >
                                         <label class="form-check-label" for="married">Married</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="widowed" name="cstatus" value="widowed" required >
+                                        <input class="form-check-input" type="radio" id="widowed" name="cstatus" value="Widowed" required >
                                         <label class="form-check-label" for="widowed">Widowed</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="separated" name="cstatus" value="separated" required >
+                                        <input class="form-check-input" type="radio" id="separated" name="cstatus" value="Separated" required >
                                         <label class="form-check-label" for="separated">Separated</label>
                                     </div>
                                 </div>

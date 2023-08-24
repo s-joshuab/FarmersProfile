@@ -22,7 +22,7 @@ class Crops extends Model
         return $this->belongsTo(FarmersProfile::class, 'farmersprofile_id'); // Use the correct foreign key column name
     }
 
-    public function commodities()
+    public function commodity()
     {
         return $this->belongsTo(Commodities::class, 'commodities_id');
     }

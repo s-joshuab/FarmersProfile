@@ -1,65 +1,72 @@
-@extends('layouts.index')
-@section('content')
-<div class="pagetitle">
-    <!-- End Page Title -->
+    @extends('layouts.index')
+    @section('content')
+    <div class="pagetitle">
+        <!-- End Page Title -->
 
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center mt-4">
+                        <a href="{{ route('reports.generate.pdf') }}" class="btn btn-primary">Generate PDF</a>
+                        <a href="{{ route('reports.generate.excel') }}" class="btn btn-success">Generate Excel</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table table-striped" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th>ID Number</th>
+                                    <th>Name</th>
+                                    <th>
+                                    Barangay
+                                    </th>
+                                    <th>
+                                        Commodities
+                                    </th>
+                                    <th>Farmsize</th>
+                                    <th>
+                                    Farmlocation
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($farmers as $farmer)
+                                <tr>
+                                    <th>{{ $farmer->farmersNumbers->first()?->farmersnumber ?? 'No Data' }}</th>
+                                    <td>{{ $farmer->fname }} {{ $farmer->sname }}</td>
+                                    <td>{{ $farmer->barangay?->barangays ?? 'No Data' }}</td>
+                                    <td>
+                                        @php
+                                            $commoditiesList = $farmer->crops->map(function ($crop) {
+                                                return $crop->commodity->commodities;
+                                            })->implode(', ');
+                                        @endphp
 
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="myTable">
-                        <thead>
-                            <tr>
-                                <th>ID Number</th>
-                                <th>Name</th>
-                                <th>
-                                    <input type="text" class="form-control filter-input" data-column="2" placeholder="Filter Barangay">
-                                </th>
-                                <th>
-                                    <input type="text" class="form-control filter-input" data-column="3" placeholder="Filter Commodity">
-                                </th>
-                                <th>Farmsize</th>
-                                <th>
-                                    <select class="form-control filter-select" data-column="4">
-                                        <option value="">All</option>
-                                        <option value="1">Yes</option>
-                                        <option value="0">No</option>
-                                    </select>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Sample Names</td>
-                                <td>Sample Barangay</td>
-                                <td>Sample Commodity</td>
-                                <td>Farmsize</td>
-                                <td>Yes</td>
-                                <td>Sample Data</td>
-                            </tr>
-                            <!-- Add more rows here -->
-                        </tbody>
-                    </table>
+                                        @if (strlen($commoditiesList) > 30)
+                                            {{ Str::limit($commoditiesList, 3) }}, etc.
+                                        @else
+                                            {{ $commoditiesList }}
+                                        @endif
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <!-- Add more rows here -->
+                            </tbody>
+                            @endforeach
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    $(document).ready(function () {
-        var table = $('#myTable').DataTable();
 
-        $('.filter-input').on('keyup', function () {
-            var columnIdx = $(this).data('column');
-            table.column(columnIdx).search($(this).val()).draw();
+    <script>
+            $(document).ready(function () {
+            var table = $('#myTable').DataTable({
+            "ordering": false // Disable ordering (sorting) for all columns
+            });
         });
+    </script>
 
-        $('.filter-select').on('change', function () {
-            var columnIdx = $(this).data('column');
-            table.column(columnIdx).search($(this).val()).draw();
-        });
-    });
-</script>
-@endsection
+    @endsection

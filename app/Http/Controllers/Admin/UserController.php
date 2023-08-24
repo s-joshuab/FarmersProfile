@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Models\Provinces;
+use App\Models\Barangays;
+use App\Models\Municipalities;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -12,12 +15,23 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function users()
+    public function users(Request $request)
     {
         $users = User::all();
         return view('admin.users', compact('users'));
     }
 
+    public function getMunicipalities($province_id)
+    {
+        $municipalities = Municipalities::where('provinces_id', $province_id)->get();
+        return response()->json($municipalities);
+    }
+
+    public function getBarangays($municipality_id)
+    {
+        $barangays = Barangays::where('municipalities_id', $municipality_id)->get();
+        return response()->json($barangays);
+    }
 
     public function store(Request $request)
     {
@@ -36,7 +50,10 @@ class UserController extends Controller
             'password' => 'required',
             'phone_number' => 'required',
             'status' => 'required',
-            'user_type' => 'required'
+            'user_type' => 'required',
+            'provinces_id' => 'required',
+            'municipalities_id' => 'required',
+            'barangays_id' => 'required|exists:barangays,id',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Error occurred during Adding.');
@@ -49,7 +66,10 @@ class UserController extends Controller
             'password' => $request->input('password'),
             'phone_number' => $request->input('phone_number'),
             'status' => $request->input('status'),
-            'user_type' => $request->input('user_type')
+            'user_type' => $request->input('user_type'),
+            'provinces_id' => $request->input('provinces_id'),
+            'municipalities_id' => $request->input('municipalities_id'),
+            'barangays_id' => $request->input('barangays_id'),
         ]);
 
 
@@ -63,9 +83,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.users')->with('message', 'User Added Succesfully!');
+        $provinces = Provinces::all();
+        return view('admin.users', compact('provinces'));
     }
-
     /**
      * Show the form for editing the specified resource.
      */
