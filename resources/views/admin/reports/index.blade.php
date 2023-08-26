@@ -6,26 +6,20 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="text-center mt-4">
+                    {{-- <div class="text-center mt-4">
                         <a href="{{ route('reports.generate.pdf') }}" class="btn btn-primary">Generate PDF</a>
                         <a href="{{ route('reports.generate.excel') }}" class="btn btn-success">Generate Excel</a>
-                    </div>
+                    </div> --}}
                     <div class="table-responsive">
                         <table class="table table table-striped" id="myTable">
                             <thead>
                                 <tr>
                                     <th>ID Number</th>
                                     <th>Name</th>
-                                    <th>
-                                    Barangay
-                                    </th>
-                                    <th>
-                                        Commodities
-                                    </th>
+                                    <th>Barangay</th>
+                                    <th>Commodities</th>
                                     <th>Farmsize</th>
-                                    <th>
-                                    Farmlocation
-                                    </th>
+                                    <th>Farmlocation</th>
                                 </tr>
                             </thead>
                             <tbody>

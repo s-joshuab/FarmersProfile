@@ -20,33 +20,30 @@ use Illuminate\Support\Facades\DB;
 
 class FarmersDataController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function farmdata(Request $request)
 {
-    $query = FarmersProfile::query();
-
     $selectedBarangay = $request->input('barangay');
     $selectedCommodity = $request->input('commodity');
 
+    $farmersQuery = FarmersProfile::query();
+
     if ($selectedBarangay) {
-        $query->where('barangay_id', $selectedBarangay);
+        $farmersQuery->where('barangay_id', $selectedBarangay);
     }
 
     if ($selectedCommodity) {
-        $query->whereHas('crops', function ($q) use ($selectedCommodity) {
-            $q->where('commodity_id', $selectedCommodity);
+        $farmersQuery->whereHas('crops', function ($q) use ($selectedCommodity) {
+            $q->whereIn('commodity_id', [$selectedCommodity]);
         });
     }
 
-    $farmers = $query->get();
+    $farmers = $farmersQuery->get();
     $barangays = Barangays::all();
     $commodities = Commodities::all();
 
-    return view('admin.farmers.index', compact('farmers', 'barangays', 'commodities'));
+    return view('admin.farmers.index', compact('farmers', 'barangays', 'commodities', 'selectedCommodity'));
 }
-
 
     public function generate()
     {
@@ -108,7 +105,7 @@ class FarmersDataController extends Controller
             'grosses' => 'required',
             'parcels' => 'required',
             'arb' => 'required',
-            // Add other validation rules for other fields here...
+            // Add other validation rules for other fields here if needed
         ]);
 
         if ($validator->fails()) {
@@ -146,7 +143,7 @@ class FarmersDataController extends Controller
             'grosses' => $request->input('grosses'),
             'parcels' => $request->input('parcels'),
             'arb' => $request->input('arb')
-                        // Add other attributes here...
+                        // Add other attributes here if needed
         ]);
 
         $selectedCommodities = $request->input('crops', []);
@@ -185,22 +182,23 @@ class FarmersDataController extends Controller
 
         $farmersNumber = $this->createFarmersNumber($attributes);
 
-        // Redirect to the desired route
+
         return redirect('admin/farmreport')->with('message', 'Farmer Added Successfully!');
+
         }
 
+        //gegenerate ng ng id number
         public function createFarmersNumber(array $attributes)
         {
-            $farmersnumber = DB::table('farmersnumber')
-                ->where('barangays_id', $attributes['barangays_id'])
-                ->max('id');
+            $count = FarmersNumber::where('barangays_id', $attributes['barangays_id'])->count();
 
-            $count = $farmersnumber ? $farmersnumber + 1 : 1;
+            $count++; // Increment the count to generate the next unique number
 
-            $attributes['farmersnumber'] = "BLN  {$attributes['barangays_id']} - {$count}";
+            $attributes['farmersnumber'] = "BLN {$attributes['barangays_id']} - {$count}";
 
             return FarmersNumber::create($attributes);
         }
+
 
         public function show($id)
         {
@@ -269,7 +267,7 @@ class FarmersDataController extends Controller
                 'grosses' => 'required',
                 'parcels' => 'required',
                 'arb' => 'required',
-                // Add other validation rules for other fields here...
+                // Add other validation rules for other fields here if needed
             ]);
 
             if ($validator->fails()) {
@@ -277,7 +275,7 @@ class FarmersDataController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Error occurred during Adding.');
             }
 
-            // Create the farmer profile using the FarmersProfile model
+            // update part
             $farmersprofile->update([
                 'ref_no' => $request->input('ref_no'),
                 'status' => $request->input('status'),
@@ -307,7 +305,7 @@ class FarmersDataController extends Controller
                 'grosses' => $request->input('grosses'),
                 'parcels' => $request->input('parcels'),
                 'arb' => $request->input('arb')
-                            // Add other attributes here...
+                            // Add other attributes here if needed
             ]);
 
             $barangaysId = $request->input('barangays_id');
@@ -317,7 +315,7 @@ class FarmersDataController extends Controller
                 return redirect()->back()->withInput()->with('error', 'Invalid Barangays ID.');
             }
 
-            // Find the existing FarmersNumber record associated with the FarmersProfile
+            // Find the existing FarmersNumber record associated with the FarmersProfile if meron
             $farmersNumber = FarmersNumber::where('farmersprofile_id', $farmersprofile->id)->first();
 
             // Update or create the FarmersNumber record
@@ -325,7 +323,7 @@ class FarmersDataController extends Controller
                 $farmersNumber->delete(); // Delete the existing FarmersNumber record
             }
 
-            // Create a new FarmersNumber record
+            // update a new FarmersNumber record
             $count = FarmersNumber::where('barangays_id', $barangaysId)->max('id') + 1;
             $farmersNumber = FarmersNumber::create([
                 'farmersprofile_id' => $farmersprofile->id,
@@ -386,8 +384,6 @@ class FarmersDataController extends Controller
                     'units' => $units[$id],
                 ]);
             }
-
-
 
             return redirect('admin/farmreport')->with('message', 'Farmers Data Update Successfully!');
 

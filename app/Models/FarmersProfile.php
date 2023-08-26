@@ -45,7 +45,7 @@ class FarmersProfile extends Model
     ];
     public function crops()
     {
-        return $this->hasMany(Crops::class, 'farmersprofile_id'); // Use the correct foreign key column name
+        return $this->hasMany(Crops::class, 'farmersprofile_id');
     }
 
     public function province()
@@ -79,5 +79,9 @@ class FarmersProfile extends Model
         return $this->hasMany(FarmersNumber::class, 'farmersprofile_id');
     }
 
+    public function qrCode()
+    {
+        return $this->hasOne(QrCode::class, 'farmersprofile_id');
+    }
 
 }

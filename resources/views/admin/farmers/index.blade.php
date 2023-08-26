@@ -31,40 +31,50 @@
 
                         <div class="table-responsive">
                             <table id="myTable" class="table table-striped">
-                                <thead>
-                                    <tr >
-                                        <th scope="col">ID Number</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">
-                                            <select id="barangayFilter" class="form-select" aria-label="Barangay Filter">
-                                                <option value="">All Barangays</option>
-                                                @foreach ($barangays as $barangay)
-                                                    <option value="{{ $barangay->id }}">{{ $barangay->barangays }}</option>
-                                                @endforeach
-                                            </select>
-                                        </th>
-                                        <th scope="col">
-                                            <select id="commoditiesFilter" class="form-select" aria-label="Commodities Filter">
-                                                <option value="">All Commodities</option>
-                                                @foreach ($commodities as $commodity)
-                                                    <option value="{{ $commodity->id }}">{{ $commodity->commodities }}</option>
-                                                @endforeach
-                                            </select>
-                                        </th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($farmers as $farmer)
+
+                                <div class="row justify-content-center">
+                                    <div class="col-md-3">
+                                        <select id="barangayFilter" class="form-select" aria-label="Barangay Filter">
+                                            <option value="">All Barangays</option>
+                                            @foreach ($barangays as $barangay)
+                                                <option value="{{ $barangay->id }}">{{ $barangay->barangays }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <select id="commoditiesFilter" class="form-select" aria-label="Commodities Filter">
+                                            <option value="">All Commodities</option>
+                                            @foreach ($commodities as $commodity)
+                                                <option value="{{ $commodity->id }}">{{ $commodity->commodities }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                              <thead>
+                                <tr>
+                                    <th scope="col">ID Number</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Barangay</th>
+                                    <th scope="col">Commodities</th>
+                                    <th scope="col" class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($farmers as $farmer)
                                     <tr data-barangay="{{ $farmer->barangay->id }}">
-                                        <th>{{ $farmer->farmersNumbers->first()?->farmersnumber ?? 'No Data' }}</th>
+                                        <td>{{ $farmer->farmersNumbers->first()?->farmersnumber ?? 'No Data' }}</td>
                                         <td>{{ $farmer->fname }} {{ $farmer->sname }}</td>
                                         <td>{{ $farmer->barangay?->barangays ?? 'No Data' }}</td>
                                         <td data-barangay="{{ $farmer->barangay->id }}" data-commodity="{{ $farmer->crops->pluck('commodity_id')->implode(',') }}">
                                             @php
-                                                $commoditiesList = $farmer->crops->map(function ($crop) {
+                                                $commoditiesList = $farmer->crops->filter(function ($crop) use ($selectedCommodity) {
+                                                    return $crop->commodity_id == $selectedCommodity;
+                                                })->map(function ($crop) {
                                                     return $crop->commodity->commodities;
-                                                })->first(); // Get the first commodity
+                                                })->implode(', ');
                                             @endphp
 
                                             @if ($commoditiesList)
@@ -74,9 +84,7 @@
 
 
 
-
-
-                                        <td>
+                                        <td class="text-center">
                                             <div class="d-flex justify-content-center">
                                                 <a href="{{ route('farmers.show', ['id' => $farmer->id]) }}" class="btn btn-sm btn-primary view-btn m-1">
                                                     <i class="bx bx-show-alt"></i>
@@ -92,35 +100,21 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                            </tbody>
 
-                                </tbody>
                             </table>
                         </div>
 
-                        <style>
-                            #myTable th,
-                            #myTable td {
-                                text-align: left;
-                            }
-
-                        </style>
-                <script>
-                 $(document).ready(function() {
+                        <script>
+                           $(document).ready(function() {
     $('#myTable').DataTable({
         "ordering": false,
     });
 
-    // Filter datatable when Barangay dropdown changes
-    $('#barangayFilter').change(function() {
-        var selectedBarangayId = $(this).val();
-        var selectedCommodityId = $('#commoditiesFilter').val();
-        filterTable(selectedBarangayId, selectedCommodityId);
-    });
-
-    // Filter datatable when Commodities dropdown changes
-    $('#commoditiesFilter').change(function() {
-        var selectedCommodityId = $(this).val();
+    // Filter datatable when Barangay or Commodities dropdown changes
+    $('#barangayFilter, #commoditiesFilter').change(function() {
         var selectedBarangayId = $('#barangayFilter').val();
+        var selectedCommodityId = $('#commoditiesFilter').val();
         filterTable(selectedBarangayId, selectedCommodityId);
     });
 
@@ -133,14 +127,15 @@
         } else if (selectedBarangayId !== '' && selectedCommodityId === '') {
             $('#myTable tbody tr[data-barangay="' + selectedBarangayId + '"]').show();
         } else if (selectedBarangayId === '' && selectedCommodityId !== '') {
-            $('#myTable tbody tr[data-commodity*="' + selectedCommodityId + '"]').show();
+            $('#myTable tbody td[data-commodity*="' + selectedCommodityId + '"]').parent().show();
         } else {
             $('#myTable tbody tr[data-barangay="' + selectedBarangayId + '"][data-commodity*="' + selectedCommodityId + '"]').show();
         }
     }
 });
 
-                    </script>
+
+                        </script>
 
 
 

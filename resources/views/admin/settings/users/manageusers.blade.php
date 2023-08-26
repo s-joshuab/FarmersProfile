@@ -27,14 +27,14 @@
                     </div>
 
                     <table id="myTable" class="table table-bordered table-striped">
-                        <thead>
+                        <thead class="table-bordered" >
                             <tr>
                                 <th scope="col">Name</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Contact Number</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">UserType</th>
-                                <th scope="col">Action</th>
+                                <th scope="col" class="text-center">Barangay</th>
+                                <th scope="col" class="text-center">Contact Number</th>
+                                <th scope="col" class="text-center">Status</th>
+                                <th scope="col" class="text-center">UserType</th>
+                                <th scope="col" class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,11 +46,11 @@
                                         alt="Avatar" style="width: 50px; height: 50px;">
                                 @endif
                                      {{ $user->name }} </td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->phone_number }}</td>
-                                    <td>{{ $user->status }}</td>
-                                    <td>{{ $user->user_type }}</td>
-                                    <td>
+                                    <td class="text-center">{{ $user->barangay?->barangays ?? 'No Data' }}</</td>
+                                    <td class="text-center">{{ $user->phone_number }}</td>
+                                    <td class="text-center">{{ $user->status }}</td>
+                                    <td class="text-center">{{ $user->user_type }}</td>
+                                    <td class="text-center">
                                         <div class="d-flex justify-content-center">
                                             <a href="{{ url('user-view/' . $user->id) }}" class="btn btn-sm btn-info view-btn m-1">
                                                     View
@@ -72,8 +72,10 @@
 
                     </table>
                     <script>
-                        $(document).ready(function() {
-                            $('#myTable').DataTable();
+                            $(document).ready(function() {
+    $('#myTable').DataTable({
+        "ordering": false,
+    });
                         });
                     </script>
 
