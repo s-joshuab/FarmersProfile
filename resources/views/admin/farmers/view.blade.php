@@ -1,5 +1,17 @@
 @extends('layouts.index')
 @section('content')
+
+<div class="col-12 mb-2 d-flex justify-content-end">
+    <button type="reset" class="btn btn-success" id="backBtn">Back</button>
+</div>
+<script>
+    document.getElementById("backBtn").onclick = function() {
+        // Go back to the previous page
+        window.history.back();
+      };
+</script>
+
+
 <div class="row">
     <div class="container">
         <div class="col-lg-12">
@@ -724,78 +736,8 @@
                                 </div>
                             </div>
 
-
-
-
-
-                            <hr class="mt-5">
-
-                            <label class="form-check-label" for="termsCheck">
-                                <input class="form-check-input mr-2 text-center" type="checkbox" id="termsCheck"
-                                    required>
-                                I hereby declare that all information indicated above is true and
-                                correct,
-                                and that they may be used by Municipal Agriculurist Office of
-                                Balaoan, La
-                                Union for the purposes of registration to the Registry System for
-                                Basic
-                                Sectors in Agriculture (RSBSA) and other legitimate interests of the
-                                Department pursuant to its mandates.
-                            </label>
-                            <div class="invalid-tooltip">
-                                Please accept the declaration to proceed.
-                            </div>
-
-
-
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <textarea class="form-control" disabled style= "height: 120px;"></textarea>
-                                        </td>
-                                        <td>
-                                            <textarea class="form-control" disabled style="height: 120px;"></textarea>
-                                        </td>
-                                        <td>
-                                            <textarea class="form-control" disabled style="height: 120px;"></textarea>
-                                        </td>
-                                        <td>
-                                            <textarea class="form-control" disabled style="height: 120px;"></textarea>
-                                        </td>
-                                    </tr>
-
-                                <tfoot style="text-align: center;">
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>PRINTED NAME OF APPLICANT</th>
-                                        <th>SIGNATURE OF APPLICANT</th>
-                                        <th>THUMBMARK</th>
-                                    </tr>
-                                </tfoot>
-                                </tbody>
-                            </table>
-
-
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-12 d-flex justify-content-end p-3">
-                                        <div class="button-container">
-                                            <button class="btn btn-primary submit-button"
-                                                name="submit">ASAs</button>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </form>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
 @endsection

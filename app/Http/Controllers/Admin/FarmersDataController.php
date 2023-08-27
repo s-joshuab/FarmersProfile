@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Models\Crops;
+use App\Models\QrCode;
 use App\Models\Machine;
 use App\Models\Barangays;
 use App\Models\Provinces;
@@ -13,11 +14,14 @@ use Illuminate\Http\Request;
 use App\Models\FarmersNumber;
 use App\Models\FarmersProfile;
 use App\Models\Municipalities;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use App\Models\QrCode as QrCode ;
-use SimpleSoftwareIO\QrCode\Facades;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use SimpleSoftwareIO\QrCode\Facades\QrCode as QrCodeFacade;
+
+
+
 
 
 
@@ -149,25 +153,6 @@ class FarmersDataController extends Controller
                         // Add other attributes here if needed
         ]);
 
-        // $qrCodeText = json_encode($farmersprofile);
-        // $qrCode = QrCode::format('png')->errorCorrection('H')->size(200)->generate($qrCodeText);
-
-        // // Get the image data as a binary string
-        // $qrCodeImageData = $qrCode->string();
-
-        // // Convert the binary image data to base64
-        // $base64ImageData = base64_encode($qrCodeImageData);
-
-        // // Create and save the QR code data using the QrCode model
-        // $qrCodeModel = new QrCode([
-        //     'farmersprofile_id' => $farmersprofile->id,
-        //     'qr_code_data' => $base64ImageData,
-        // ]);
-
-        // $qrCodeModel->save();
-
-
-
         $selectedCommodities = $request->input('crops', []);
         $farmSizes = $request->input('farm_size', []);
         $farmLocations = $request->input('farm_location', []);
@@ -204,6 +189,22 @@ class FarmersDataController extends Controller
 
             $farmersNumber = $this->createFarmersNumber($attributes);
         }
+
+        $qrCodeContent = $farmersprofile->id; // Use the ID of the FarmersProfile instance
+
+// Generate QR code image using the QrCode facade
+$qrCodeImage = QrCodeFacade::format('png')->generate($qrCodeContent);
+
+// Save QR code image to storage using the Storage facade
+$qrCodeImagePath = 'public/qr_codes/' . $farmersprofile->id . '.png';
+Storage::put($qrCodeImagePath, $qrCodeImage);
+
+// Save QR code image path to the database using the QrCode model
+QrCode::create([
+    'farmersprofile_id' => $farmersprofile->id,
+    'qr_code_data' => $qrCodeImagePath, // Make sure this matches the attribute in the $fillable array
+]);
+
 
         return redirect('admin/farmreport')->with('message', 'Farmer Added Successfully!');
 
@@ -399,7 +400,9 @@ class FarmersDataController extends Controller
                 $lastFarmersNumber = FarmersNumber::where('barangays_id', $barangaysId)->orderByDesc('id')->first();
 
                 if ($lastFarmersNumber) {
-                    $count = intval(substr($lastFarmersNumber->farmersnumber, -1)) + 1;
+                    // Extract the current count from the last farmersnumber
+                    $lastFarmersNumberParts = explode(' - ', $lastFarmersNumber->farmersnumber);
+                    $count = intval($lastFarmersNumberParts[1]) + 1;
                 } else {
                     $count = 1;
                 }
@@ -407,7 +410,6 @@ class FarmersDataController extends Controller
                 $newFarmersNumber = "BLN {$barangaysId} - {$count}";
                 $farmersNumber->update(['farmersnumber' => $newFarmersNumber]);
             }
-
             return redirect('admin/farmreport')->with('message', 'Farmers Data Update Successfully!');
         }
 

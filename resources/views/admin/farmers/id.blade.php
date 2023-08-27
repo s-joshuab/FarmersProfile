@@ -71,7 +71,10 @@
                     <p style="font-size: 12px; font-weight: bold; margin-left: 140px; margin-top: -30px;">Contact No:<br> {{ $farmer->number }} </p>
                     <p style="font-size: 12px; font-weight: bold; margin-top: -53px; margin-left: 230px;">Civil Status:<br> {{ $farmer->cstatus }} </p>
                 </div>
-                <div style="position: absolute; top: 90px; right: 20px; width: 80px; height: 80px; background-color: white;"></div>
+                <div style="position: absolute; top: 90px; right: 20px; width: 80px; height: 80px; background-color: white;">
+                    <img src="{{ asset('storage/qr_codes/194.png') }}" alt="QR Code">
+                </div>
+
             </div>
         </div>
 

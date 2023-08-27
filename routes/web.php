@@ -60,7 +60,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'admin']);
-    Route::get('admin/index', [FarmersDataController::class, 'farmdata']);
+    Route::get('admin/farmreport', [FarmersDataController::class, 'farmdata']);
     Route::get('admin/reports', [ReportsController::class, 'reports']);
     Route::get('admin/profile', [SettingsController::class, 'profile']);
     Route::get('admin/audit', [SettingsController::class, 'audit']);

@@ -16,7 +16,7 @@
         "laravel/ui": "^4.2",
         "livewire/livewire": "^2.12",
         "maatwebsite/excel": "^1.1",
-        "simplesoftwareio/simple-qrcode": "~4",
+        "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/browsershot": "^3.58",
         "spatie/laravel-activitylog": "^4.7"
     },

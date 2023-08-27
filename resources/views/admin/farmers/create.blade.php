@@ -1,5 +1,17 @@
 @extends('layouts.index')
 @section('content')
+
+
+<div class="col-12 mb-2 d-flex justify-content-end">
+    <button type="reset" class="btn btn-success" id="backBtn">Back</button>
+</div>
+<script>
+    document.getElementById("backBtn").onclick = function() {
+        // Go back to the previous page
+        window.history.back();
+      };
+</script>
+
     <div class="row">
         <div class="container">
             <div class="col-lg-12">
@@ -730,12 +742,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    </div>
 
 <!-- Add this to your admin.farmers.create view -->
 
