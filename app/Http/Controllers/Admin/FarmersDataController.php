@@ -16,6 +16,9 @@ use App\Models\Municipalities;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\Models\QrCode as QrCode ;
+use SimpleSoftwareIO\QrCode\Facades;
+
 
 
 class FarmersDataController extends Controller
@@ -146,6 +149,25 @@ class FarmersDataController extends Controller
                         // Add other attributes here if needed
         ]);
 
+        // $qrCodeText = json_encode($farmersprofile);
+        // $qrCode = QrCode::format('png')->errorCorrection('H')->size(200)->generate($qrCodeText);
+
+        // // Get the image data as a binary string
+        // $qrCodeImageData = $qrCode->string();
+
+        // // Convert the binary image data to base64
+        // $base64ImageData = base64_encode($qrCodeImageData);
+
+        // // Create and save the QR code data using the QrCode model
+        // $qrCodeModel = new QrCode([
+        //     'farmersprofile_id' => $farmersprofile->id,
+        //     'qr_code_data' => $base64ImageData,
+        // ]);
+
+        // $qrCodeModel->save();
+
+
+
         $selectedCommodities = $request->input('crops', []);
         $farmSizes = $request->input('farm_size', []);
         $farmLocations = $request->input('farm_location', []);
@@ -168,34 +190,31 @@ class FarmersDataController extends Controller
         }
 
         $barangaysId = $request->input('barangays_id');
-        $existingBarangay = Barangays::find($barangaysId); // Validate the barangays_id before creating the record
+        $existingBarangay = Barangays::find($barangaysId);
 
-        if (!$existingBarangay) {
-            return redirect()->back()->withInput()->with('error', 'Invalid Barangays ID.');
+        // Find the existing FarmersNumber record associated with the FarmersProfile
+        $farmersNumber = FarmersNumber::where('farmersprofile_id', $farmersprofile->id)->first();
+
+        if (!$farmersNumber) {
+            // If there's no existing record, create a new one
+            $attributes = [
+                'barangays_id' => $barangaysId,
+                'farmersprofile_id' => $farmersprofile->id,
+            ];
+
+            $farmersNumber = $this->createFarmersNumber($attributes);
         }
-
-        // Create a new FarmersNumber record
-        $attributes = [
-            'barangays_id' => $barangaysId,
-            'farmersprofile_id' => $farmersprofile->id,
-        ];
-
-        $farmersNumber = $this->createFarmersNumber($attributes);
-
 
         return redirect('admin/farmreport')->with('message', 'Farmer Added Successfully!');
 
         }
 
         //gegenerate ng ng id number
-        public function createFarmersNumber(array $attributes)
+        protected function createFarmersNumber(array $attributes)
         {
             $count = FarmersNumber::where('barangays_id', $attributes['barangays_id'])->count();
-
-            $count++; // Increment the count to generate the next unique number
-
+            $count++;
             $attributes['farmersnumber'] = "BLN {$attributes['barangays_id']} - {$count}";
-
             return FarmersNumber::create($attributes);
         }
 
@@ -308,30 +327,6 @@ class FarmersDataController extends Controller
                             // Add other attributes here if needed
             ]);
 
-            $barangaysId = $request->input('barangays_id');
-            $existingBarangay = Barangays::find($barangaysId);
-
-            if (!$existingBarangay) {
-                return redirect()->back()->withInput()->with('error', 'Invalid Barangays ID.');
-            }
-
-            // Find the existing FarmersNumber record associated with the FarmersProfile if meron
-            $farmersNumber = FarmersNumber::where('farmersprofile_id', $farmersprofile->id)->first();
-
-            // Update or create the FarmersNumber record
-            if ($farmersNumber) {
-                $farmersNumber->delete(); // Delete the existing FarmersNumber record
-            }
-
-            // update a new FarmersNumber record
-            $count = FarmersNumber::where('barangays_id', $barangaysId)->max('id') + 1;
-            $farmersNumber = FarmersNumber::create([
-                'farmersprofile_id' => $farmersprofile->id,
-                'barangays_id' => $barangaysId,
-                'farmersnumber' => "BLN {$barangaysId} - {$count}"
-            ]);
-
-
             $selectedCommodities = $request->input('crops', []);
             $farmSizes = $request->input('farm_size', []);
             $farmLocations = $request->input('farm_location', []);
@@ -385,8 +380,37 @@ class FarmersDataController extends Controller
                 ]);
             }
 
-            return redirect('admin/farmreport')->with('message', 'Farmers Data Update Successfully!');
+            $barangaysId = $request->input('barangays_id');
+            $existingBarangay = Barangays::find($barangaysId);
 
-    }
+            // Find the existing FarmersNumber record associated with the FarmersProfile
+            $farmersNumber = FarmersNumber::where('farmersprofile_id', $farmersprofile->id)->first();
+
+            if (!$farmersNumber) {
+                // If there's no existing record, create a new one
+                $attributes = [
+                    'barangays_id' => $barangaysId,
+                    'farmersprofile_id' => $farmersprofile->id,
+                ];
+
+                $farmersNumber = $this->createFarmersNumber($attributes);
+            } else {
+                // If there's an existing record, update it with the new barangays_id
+                $lastFarmersNumber = FarmersNumber::where('barangays_id', $barangaysId)->orderByDesc('id')->first();
+
+                if ($lastFarmersNumber) {
+                    $count = intval(substr($lastFarmersNumber->farmersnumber, -1)) + 1;
+                } else {
+                    $count = 1;
+                }
+
+                $newFarmersNumber = "BLN {$barangaysId} - {$count}";
+                $farmersNumber->update(['farmersnumber' => $newFarmersNumber]);
+            }
+
+            return redirect('admin/farmreport')->with('message', 'Farmers Data Update Successfully!');
+        }
+
+
 }
 

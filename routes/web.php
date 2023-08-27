@@ -20,6 +20,7 @@ use App\Http\Controllers\staff\StaffAuditController;
 use App\Http\Controllers\Admin\FarmersDataController;
 use App\Http\Controllers\Admin\ManageUsersController;
 use App\Http\Controllers\Admin\SystemBackupController;
+
 use App\Http\Controllers\staff\StaffProfileController;
 use App\Http\Controllers\staff\StaffReportsController;
 use App\Http\Controllers\secretary\SecretaryController;
@@ -30,6 +31,8 @@ use App\Http\Controllers\staff\StaffSystemBackupController;
 use App\Http\Controllers\secretary\SecretaryProfileController;
 use App\Http\Controllers\secretary\SecretaryFarmDataController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\GenerateQr;
+use PgSql\Result;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,7 +60,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'admin']);
-    Route::get('admin/farmreport', [FarmersDataController::class, 'farmdata']);
+    Route::get('admin/index', [FarmersDataController::class, 'farmdata']);
     Route::get('admin/reports', [ReportsController::class, 'reports']);
     Route::get('admin/profile', [SettingsController::class, 'profile']);
     Route::get('admin/audit', [SettingsController::class, 'audit']);
@@ -72,6 +75,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('farmers-edit/{id}/edit', [FarmersDataController::class, 'edit'])->name('farmers.edit');
     Route::put('farmers-update/{id}', [FarmersDataController::class, 'update']);
     Route::get('farmers-generate/{id}/generate', [FarmersDataController::class, 'generate'])->name('farmers.generate');
+
+    Route::get('qr', [GenerateQr::class, 'qrGen']);
+
 
 
 
@@ -115,17 +121,8 @@ Route::middleware(['auth', 'secretary'])->group(function () {
 
 
 //test
-Route::get('test', [TestController::class, 'index']);
-Route::get('/get-municipalities/{provinces_id}', [TestController::class, 'getMunicipalities']);
-
-Route::get('/get-barangays/{municipalities_id}', [TestController::class, 'getBarangays']);
-
-Route::post('/save-data', [TestController::class, 'saveData']);
-
-//Test here
-Route::get('test/save', [TestControllerCrops::class, 'index']);
+Route::get('/test', [TestController::class, 'qrGen']);
 
 
-Route::post('test/form/add', [TestControllerCrops::class, 'store']);
 
 

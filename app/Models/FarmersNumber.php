@@ -18,18 +18,6 @@ class FarmersNumber extends Model
         'farmersnumber',
     ];
 
-    // public static function createFarmersNumber(array $attributes = [])
-    // {
-    //     $farmersnumber = DB::table('farmersnumber')
-    //         ->where('barangays_id', $attributes['barangays_id'])
-    //         ->max('id');
-
-    //     $count = $farmersnumber ? $farmersnumber + 1 : 1;
-
-    //     $attributes['farmersnumber'] = "BLN-{$attributes['barangays_id']}-{$count}";
-
-    //     return parent::create($attributes);
-    // }
 
     public function farmersprofile()
     {

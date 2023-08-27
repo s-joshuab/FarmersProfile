@@ -8,38 +8,13 @@ use App\Models\Provinces;
 use App\Models\Test;
 use Illuminate\Http\Request;
 use Faker\Provider\sv_SE\Municipality;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class TestController extends Controller
 {
-    public function index()
+    public function qrGen()
     {
-        $provinces = Provinces::all();
-        return view('test', compact('provinces'));
-    }
-
-    public function getMunicipalities($province_id)
-    {
-        $municipalities = Municipalities::where('provinces_id', $province_id)->get();
-        return response()->json($municipalities);
-    }
-
-    public function getBarangays($municipality_id)
-    {
-        $barangays = Barangays::where('municipalities_id', $municipality_id)->get();
-        return response()->json($barangays);
-    }
-
-
-    public function saveData(Request $request)
-    {
-        $validatedData = $request->validate([
-            'province_id' => 'integer',
-            'municipality_id' => 'integer',
-            'barangay_id' => 'integer',
-        ]);
-
-        Test::create($validatedData);
-        return response()->json(['message' => 'Data saved successfully']);
+        return QrCode::generate('Joshua Pogi');
     }
 
 }
