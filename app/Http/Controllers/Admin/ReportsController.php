@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 
 use PDF;
+use App\Models\Barangays;
+use App\Models\Commodities;
 use Illuminate\Http\Request;
 use App\Exports\FarmersExport;
 use App\Models\FarmersProfile;
@@ -19,8 +21,12 @@ class ReportsController extends Controller
     public function reports()
     {
         $farmers = FarmersProfile::all();
-        return view('admin.reports.index', compact('farmers'));
+        $barangays = Barangays::all(); // Replace with the actual model name for barangays
+        $commodities = Commodities::select('id', 'commodities')->distinct()->get(); // Replace with the actual model name for commodities
+
+        return view('admin.reports.index', compact('farmers', 'barangays', 'commodities'));
     }
+
 
     // public function generateExcel()
     // {

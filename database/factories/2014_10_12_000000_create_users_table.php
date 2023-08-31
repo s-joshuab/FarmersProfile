@@ -21,6 +21,13 @@ return new class extends Migration
                 $table->string('phone_number');
                 $table->string('status');
                 $table->string('user_type');
+                $table->unsignedBigInteger('barangays_id');
+                $table->unsignedBigInteger('municipalities_id');
+                $table->unsignedBigInteger('provinces_id');
+
+                $table->foreign('provinces_id')->references('id')->on('provinces');
+                $table->foreign('municipalities_id')->references('id')->on('municipalities');
+                $table->foreign('barangays_id')->references('id')->on('barangays');
                 $table->timestamps();
             });
         }

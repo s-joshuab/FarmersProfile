@@ -1,66 +1,75 @@
-    @extends('layouts.index')
-    @section('content')
-    <div class="pagetitle">
-        <!-- End Page Title -->
+@extends('layouts.index')
+@section('content')
+<div class="pagetitle">
+    <h1>Report</h1><br>
+  </div><!-- End Page Title -->
 
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    {{-- <div class="text-center mt-4">
-                        <a href="{{ route('reports.generate.pdf') }}" class="btn btn-primary">Generate PDF</a>
-                        <a href="{{ route('reports.generate.excel') }}" class="btn btn-success">Generate Excel</a>
-                    </div> --}}
-                    <div class="table-responsive">
-                        <table class="table table table-striped" id="myTable">
-                            <thead>
-                                <tr>
-                                    <th>ID Number</th>
-                                    <th>Name</th>
-                                    <th>Barangay</th>
-                                    <th>Commodities</th>
-                                    <th>Farmsize</th>
-                                    <th>Farmlocation</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($farmers as $farmer)
-                                <tr>
-                                    <th>{{ $farmer->farmersNumbers->first()?->farmersnumber ?? 'No Data' }}</th>
-                                    <td>{{ $farmer->fname }} {{ $farmer->sname }}</td>
-                                    <td>{{ $farmer->barangay?->barangays ?? 'No Data' }}</td>
-                                    <td>
-                                        @php
-                                            $commoditiesList = $farmer->crops->map(function ($crop) {
-                                                return $crop->commodity->commodities;
-                                            })->implode(', ');
-                                        @endphp
+  <section class="section">
 
-                                        @if (strlen($commoditiesList) > 30)
-                                            {{ Str::limit($commoditiesList, 3) }}, etc.
-                                        @else
-                                            {{ $commoditiesList }}
-                                        @endif
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <!-- Add more rows here -->
-                            </tbody>
-                            @endforeach
-                        </table>
-                    </div>
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-body">
+            <form class="row g-3 needs-validation" novalidate action="generate_report.php" enctype="multipart/form-data" method="POST">
+
+              <div class="col-md-6 position-relative">
+                <label class="form-label">Choose Report<font color="red">*</font></label>
+                <select class="form-select" aria-label="Default select example" name="report" id="report" required>
+                  <option value="" selected>Select Report</option>
+                </select>
+                <div class="invalid-tooltip">
+                  The Choose Report field is required.
+                </div>
+              </div>
+
+              <div class="col-md-6 position-relative">
+
+              </div>
+
+              <div class="col-md-6 position-relative">
+                <label class="form-label">Select Barangay</label>
+                <div class="col-sm-12">
+                    <select class="form-select" aria-label="Default select example" name="barangay" id="barangay">
+                        <option value="" selected disabled>Select Barangay</option>
+                        @foreach ($barangays as $barangay)
+                            <option value="{{ $barangay->id }}">{{ $barangay->barangays }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
+
+            <div class="col-md-6 position-relative">
+                <label class="form-label">Select Commodity</label>
+                <div class="col-sm-12">
+                    <select class="form-select" aria-label="Default select example" name="commodity" id="commodity">
+                        <option value="" selected disabled>Select Commodity</option>
+                        @foreach ($commodities as $commodity)
+                            <option value="{{ $commodity->id }}">{{ $commodity->commodities }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-warning" name="submit">Generate Report</button>
+                <button type="reset" class="btn btn-primary">Cancel</button>
+              </div>
+
+            </form>
+          </div>
         </div>
+
+      </div>
     </div>
+  </section>
 
 
-    <script>
-            $(document).ready(function () {
-            var table = $('#myTable').DataTable({
-            "ordering": false // Disable ordering (sorting) for all columns
-            });
-        });
-    </script>
+<!-- ... Your HTML code ... -->
 
-    @endsection
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+
+
+@endsection

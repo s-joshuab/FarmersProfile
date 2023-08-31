@@ -75,9 +75,13 @@
                                         });
                                     </script>
 
-                                    <div class="col-12">
-                                        <button class="btn btn-primary w-100" type="submit">Login</button>
-                                    </div>
+                                        <div class="col-12">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <a href="#" class="link-primary">Forgot Password?</a>
+                                                <button class="btn btn-primary" type="submit">Login</button>
+
+                                            </div>
+                                        </div>
                                 </form>
 
                                 <script>

@@ -2,12 +2,13 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-        <a href="admindashboard.php" class="logo d-flex align-items-center">
-            <img src="{{asset('assets/img/12345.jpg')}}" alt="" style="height: 40px; width: 40px; border-radius: 50%;">
-            <span class="d-none d-lg-block">MAO</span>
+        <a href="{{ url('admin/dashboard') }}" class="logo d-flex align-items-center">
+            <img src="{{asset('assets/img/12345.jpg')}}" alt="" style="border-radius: 50%;">
+            <span class="d-none d-lg-block" style="color: white; text-decoration: none;">MAO</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div>
+
     <!-- End Logo -->
 
     <nav class="header-nav ms-auto">
@@ -21,8 +22,8 @@
                         <h6>{{ Auth::user()->name }}</h6>
                     @endif
                 </span>
-                {{-- <img src="{{ Auth::user()->profileImage ? asset(Auth::user()->profileImage->image_url) : asset('assets/img/default-profile-img.jpg') }}"
-     alt="Profile" class="rounded-circle" style="width: 50px; height: 50px;"> --}}
+                <img src="{{ Auth::user()->profileImage ? asset(Auth::user()->profileImage->image_url) : asset('assets/img/profile-img.jpg') }}"
+     alt="Profile" class="rounded-circle" style="width: 50px; height: 50px; border-radius: 50%;">
 
             </a>
             <!-- End Profile Iamge Icon -->

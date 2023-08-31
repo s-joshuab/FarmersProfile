@@ -81,11 +81,11 @@
                                                             ->map(function ($crop) {
                                                                 return $crop->commodity->commodities;
                                                             })
-                                                            ->implode(', ');
+                                                            ->implode('<br />');
                                                     @endphp
 
                                                     @if ($commoditiesList)
-                                                        {{ $commoditiesList }}
+                                                        {!! $commoditiesList !!}
                                                     @endif
                                                 </td>
 
