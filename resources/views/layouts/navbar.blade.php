@@ -1,10 +1,10 @@
 
-<header id="header" class="header fixed-top d-flex align-items-center">
+<header id="header" class="header fixed-top d-flex align-items-center" style="background-color: #0d6efd;">
 
     <div class="d-flex align-items-center justify-content-between">
         <a href="{{ url('admin/dashboard') }}" class="logo d-flex align-items-center">
             <img src="{{asset('assets/img/12345.jpg')}}" alt="" style="border-radius: 50%;">
-            <span class="d-none d-lg-block" style="color: white; text-decoration: none;">MAO</span>
+            <span class="d-none d-lg-block" style="color: black; text-decoration: none;">MAO</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div>
@@ -16,39 +16,31 @@
 
         <li class="nav-item dropdown pe-3">
 
-            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                <span class="d-none d-md-block mt-2" style="margin-right: 10px;">
+            <div class="nav-profile d-flex align-items-center pe-0">
+                <span class="d-none d-md-block mt-2" style="margin-right: 10px; color: black; font-weight: bold;">
                     @if (Auth::check())
                         <h6>{{ Auth::user()->name }}</h6>
                     @endif
                 </span>
-                <img src="{{ Auth::user()->profileImage ? asset(Auth::user()->profileImage->image_url) : asset('assets/img/profile-img.jpg') }}"
-     alt="Profile" class="rounded-circle" style="width: 50px; height: 50px; border-radius: 50%;">
-
-            </a>
-            <!-- End Profile Iamge Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-                @if (Auth::check())
-                <h6>{{ Auth::user()->name }}</h6>
+                @if ($user->image)
+                <img src="data:image/jpeg;base64,{{ base64_encode($user->image) }}" alt="Profile Image">
+            @else
+                <img src="{{ asset('assets/img/default-profile.jpg') }}" alt="Default Profile Image">
             @endif
-            @if (Auth::check())
-            <span>{{ Auth::user()->username }}</span>
-        @endif
-            </li>
 
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
-            </li>
+            </div>
 
-          </ul><!-- End Profile Dropdown Items -->
+
         </li><!-- End Profile Nav -->
 
       </ul>
     </nav><!-- End Icons Navigation -->
 
     </header>
+<style>
+    .nav-profile:hover span {
+    background-color: #0d6efd;
+}
+
+</style>
+

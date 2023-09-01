@@ -8,10 +8,23 @@
     <div class="row">
       <div class="col-xl-4">
 
+
+        @if (session()->has('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session()->has('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
         <div class="card">
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+            <img src="data:image/jpeg;base64,{{ base64_encode($user->image) }}" alt="Profile" class="rounded-circle">
 
-            <img src="../assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
             <h2></h2>
             <h3></h3>
           </div>
@@ -52,12 +65,7 @@
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Address</div>
-                  <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Job</div>
-                  <div class="col-lg-9 col-md-8">Taga lako balot</div>
+                  <div class="col-lg-9 col-md-8">{{ $user->barangay->barangays }} , {{ $user->municipality->municipalities }} , {{ $user->province->provinces }}</div>
                 </div>
 
                 <div class="row">
@@ -73,60 +81,58 @@
               </div>
 
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                <form action="{{ route('admin.profile.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="row mb-3">
+                        <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                        <div class="col-md-8 col-lg-9">
+                            <img src="{{ asset('assets/img/profiles/' . $user->image) }}" alt="Profile">
+                            <div class="pt-2">
+                                <input type="file" name="image" id="image" accept="image/*">
 
-                <!-- Profile Edit Form -->
-                <form>
-                  <div class="row mb-3">
-                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
-                    <div class="col-md-8 col-lg-9">
-                      <img src="assets/img/profile-img.jpg" alt="Profile">
-                      <div class="pt-2">
-                        <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                        <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                      </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
+
+
 
                   <div class="row mb-3">
                     <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="fullName" type="text" class="form-control" id="fullName" value="">
+                        <input type="text" class="form-control" id="validationTooltip01" name="name" required
+                                autofocus="autofocus" value="{{ $user->name }}">
                     </div>
                 </div>
 
                   <div class="row mb-3">
                     <label for="company" class="col-md-4 col-lg-3 col-form-label">Address</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="company" type="text" class="form-control" id="company" value="Lueilwitz, Wisoky and Leuschke">
-                    </div>
-                  </div>
-
-                  <div class="row mb-3">
-                    <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="job" type="text" class="form-control" id="Job" value="Web Designer">
+                      <input name="address" type="text" class="form-control" id="company" value="{{ $user->barangay->barangays }} , {{ $user->municipality->municipalities }} , {{ $user->province->provinces }}" disabled>
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="phone" type="text" class="form-control" id="Phone" value="(436) 486-3538 x29071">
+                        <input type="text" class="form-control" id="validationTooltip01" name="phone_number"
+                        maxlength="11" required autofocus="autofocus" value="{{ $user->phone_number }}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
+                        <input type="email" class="form-control" id="validationTooltip01" name="email" required
+                        autofocus="autofocus" value="{{ $user->email }}">
                     </div>
                   </div>
 
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                  </div>
+                  <div class="col-12 mt-4 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary" style="margin-right: 5px;"
+                        name="submit">Save User</button>
+                </div>
                 </form><!-- End Profile Edit Form -->
-
               </div>
 
               <div class="tab-pane fade pt-3" id="profile-change-password">

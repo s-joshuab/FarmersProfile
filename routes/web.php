@@ -62,7 +62,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'admin']);
     Route::get('admin/farmreport', [FarmersDataController::class, 'farmdata']);
     Route::get('admin/reports', [ReportsController::class, 'reports']);
-    Route::get('admin/profile', [SettingsController::class, 'profile']);
     Route::get('admin/audit', [SettingsController::class, 'audit']);
     Route::get('admin/backup', [SettingsController::class, 'backup']);
     Route::get('admin/generate', [FarmersDataController::class, 'generate']);
@@ -77,10 +76,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('farmers-generate/{id}/generate', [FarmersDataController::class, 'generate'])->name('farmers.generate');
 
     Route::get('qr', [GenerateQr::class, 'qrGen']);
-
-
-
-
     // Admin Manage users
     Route::get('admin/users-add', [UserController::class, 'create']);
     Route::post('admin/users', [UserController::class, 'store']);
@@ -88,7 +83,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('user-view/{id}', [ManageUsersController::class, 'show']);
     Route::get('user-edit/{id}', [ManageUsersController::class, 'edit']);
     Route::put('user-update/{id}', [ManageUsersController::class, 'update']);
+
+    Route::get('admin/profile', [SettingsController::class, 'profile']);
+    Route::put('admin/profile-update/{id}', [SettingsController::class, 'update'])->name('admin.profile.update');
 });
+
 
 // Route group with the StaffMiddleware applied to all routes within
 Route::middleware(['auth', 'staff'])->group(function () {
