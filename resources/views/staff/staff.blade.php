@@ -5,7 +5,7 @@
       <h1>Dashboard</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item"><a href="{{ url('staff/dashboard') }}">Home</a></li>
           <li class="breadcrumb-item active">Dashboard</li>
         </ol>
       </nav>
@@ -15,14 +15,96 @@
       <div class="row">
 
         <!-- Left side columns -->
-        <div class="col-lg-8">
+        <div class="col-lg-12">
           <div class="row">
 
-            <!-- Sales Card -->
-              <div class="col-xxl-4 col-md-6">
+            <!-- Farmers -->
+              <div class="col-md-3">
+                <div class="card info-card sales-card">
+                    <div class="filter">
+                        <a class="icon" href="#" id="filter-dropdown-toggle"><i class="bi bi-three-dots"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end" id="filter-dropdown">
+                            <li class="dropdown-header text-start">
+                                <h6>Filter by Barangay</h6>
+                            </li>
+                            <li>
+                                <div class="dropdown-item">
+                                    <select class="form-select" id="barangay-select">
+                                        <option value="">All Barangay</option>
+                                        @foreach ($barangays as $barangay)
+                                            <option value="{{ $barangay->id }}">{{ $barangay->barangays }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+                    <div class="card-body">
+                        <h5 class="card-title">Total Farmers</h5>
+                        <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <div class="ps-3">
+                                <h6 id="farmer-count">{{ $farmerCount }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    const filterDropdownToggle = document.getElementById('filter-dropdown-toggle');
+                    const filterDropdown = document.getElementById('filter-dropdown');
+                    const farmerCountElement = document.getElementById('farmer-count');
+                    const barangaySelect = document.getElementById('barangay-select');
+
+                    filterDropdownToggle.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        filterDropdown.classList.toggle('show');
+                    });
+
+                    // Event listener for selecting a barangay
+                    barangaySelect.addEventListener('change', function() {
+                        const selectedBarangayId = this.value;
+
+                        // Check if "All Barangay" is selected
+                        if (selectedBarangayId === '') {
+                            // Make an AJAX request to fetch the count of all farmers
+                            fetch(`/get-all-farmers-count`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    // Update the farmer count
+                                    farmerCountElement.textContent = data.farmerCount;
+                                });
+                        } else {
+                            // Make an AJAX request to fetch the count of farmers for the selected barangay
+                            fetch(`/get-farmer-count/${selectedBarangayId}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    // Update the farmer count
+                                    farmerCountElement.textContent = data.farmerCount;
+                                });
+                        }
+                    });
+                });
+            </script>
+
+
+
+
+
+
+              <!-- 4ps -->
+              <div class="col-md-3">
                 <div class="card info-card sales-card">
 
-                  <div class="filter">
+                  {{-- <div class="filter">
                     <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                       <li class="dropdown-header text-start">
@@ -33,31 +115,92 @@
                       <li><a class="dropdown-item" href="#">This Month</a></li>
                       <li><a class="dropdown-item" href="#">This Year</a></li>
                     </ul>
-                  </div>
+                  </div> --}}
 
                   <div class="card-body">
-                    <h5 class="card-title">Sales <span>| Today</span></h5>
+                    <h5 class="card-title">4p's Beneficiaries</span></h5>
 
                     <div class="d-flex align-items-center">
                       <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="bi bi-cart"></i>
+                        <i class="bi bi-people"></i>
                       </div>
                       <div class="ps-3">
-                        <h6>145</h6>
-                        <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
+                        <h6>{{ $benefits }}</h6>
                       </div>
                     </div>
                   </div>
 
                 </div>
-              </div><!-- End Sales Card -->
+              </div>
 
-            <!-- Revenue Card -->
-            <div class="col-xxl-4 col-md-6">
+              <!-- Active -->
+              <div class="col-md-3">
+                <div class="card info-card revenue-card">
+                    <div class="filter">
+                        <a class="icon" href="#" id="status-filter-dropdown-toggle"><i class="bi bi-three-dots"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end " id="status-filter-dropdown">
+                            <li class="dropdown-header text-start">
+                                <h6>Filter by Status</h6>
+                            </li>
+                            <li><a class="dropdown-item filter-option" data-filter="active" href="#">Active</a></li>
+                            <li><a class="dropdown-item filter-option" data-filter="inactive" href="#">Inactive</a></li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Status</h5>
+                        <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <div class="ps-3">
+                                <h6 id="status-count">{{ $status }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    const statusFilterDropdownToggle = document.getElementById('status-filter-dropdown-toggle');
+                    const statusFilterDropdown = document.getElementById('status-filter-dropdown');
+                    const statusCountElement = document.getElementById('status-count');
+                    const filterTextElement = document.getElementById('filter-text'); // Element to display the selected filter
+
+                    statusFilterDropdownToggle.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        statusFilterDropdown.classList.toggle('show');
+                    });
+
+                    // Event listener for selecting a filter option
+                    const filterOptions = document.querySelectorAll('.filter-option');
+                    filterOptions.forEach(option => {
+                        option.addEventListener('click', function () {
+                            const selectedFilter = this.getAttribute('data-filter');
+                            // Make an AJAX request to fetch the count based on the selected filter
+                            fetch(`/get-status-count/${selectedFilter}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    // Update the count based on the response data
+                                    statusCountElement.textContent = data.count;
+
+                                    // Update the selected filter text in the card
+                                    filterTextElement.textContent = selectedFilter;
+
+                                    // Close the dropdown
+                                    statusFilterDropdown.classList.remove('show');
+                                });
+                        });
+                    });
+                });
+            </script>
+
+
+            <!-- Users -->
+            <div class="col-md-3">
               <div class="card info-card revenue-card">
 
-                <div class="filter">
+                {{-- <div class="filter">
                   <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <li class="dropdown-header text-start">
@@ -68,150 +211,34 @@
                     <li><a class="dropdown-item" href="#">This Month</a></li>
                     <li><a class="dropdown-item" href="#">This Year</a></li>
                   </ul>
-                </div>
+                </div> --}}
 
                 <div class="card-body">
-                  <h5 class="card-title">Revenue <span>| This Month</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-currency-dollar"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>$3,264</h6>
-                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div><!-- End Revenue Card -->
-
-            <!-- Customers Card -->
-            <div class="col-xxl-4 col-xl-12">
-
-              <div class="card info-card customers-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Customers <span>| This Year</span></h5>
+                  <h5 class="card-title">Users</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
-
+                      <h6>{{ $user }}</h6>
                     </div>
                   </div>
-
-                </div>
-              </div>
-
-            </div><!-- End Customers Card -->
-
-            <!-- Reports -->
-            <div class="col-12">
-              <div class="card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Reports <span>/Today</span></h5>
-
-                  <!-- Line Chart -->
-                  <div id="reportsChart"></div>
-
-                  <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                      new ApexCharts(document.querySelector("#reportsChart"), {
-                        series: [{
-                          name: 'Sales',
-                          data: [31, 40, 28, 51, 42, 82, 56],
-                        }, {
-                          name: 'Revenue',
-                          data: [11, 32, 45, 32, 34, 52, 41]
-                        }, {
-                          name: 'Customers',
-                          data: [15, 11, 32, 18, 9, 24, 11]
-                        }],
-                        chart: {
-                          height: 350,
-                          type: 'area',
-                          toolbar: {
-                            show: false
-                          },
-                        },
-                        markers: {
-                          size: 4
-                        },
-                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                        fill: {
-                          type: "gradient",
-                          gradient: {
-                            shadeIntensity: 1,
-                            opacityFrom: 0.3,
-                            opacityTo: 0.4,
-                            stops: [0, 90, 100]
-                          }
-                        },
-                        dataLabels: {
-                          enabled: false
-                        },
-                        stroke: {
-                          curve: 'smooth',
-                          width: 2
-                        },
-                        xaxis: {
-                          type: 'datetime',
-                          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-                        },
-                        tooltip: {
-                          x: {
-                            format: 'dd/MM/yy HH:mm'
-                          },
-                        }
-                      }).render();
-                    });
-                  </script>
-                  <!-- End Line Chart -->
-
                 </div>
 
               </div>
-            </div><!-- End Reports -->
+            </div>
 
-            <!-- Recent Sales -->
-            <div class="col-12">
+            </div>
+        </div>
+
+        <div class="col-lg-12">
+            <div class="row">
+
+            <div class="col-md-8">
               <div class="card recent-sales overflow-auto">
 
-                <div class="filter">
+                {{-- <div class="filter">
                   <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <li class="dropdown-header text-start">
@@ -222,111 +249,131 @@
                     <li><a class="dropdown-item" href="#">This Month</a></li>
                     <li><a class="dropdown-item" href="#">This Year</a></li>
                   </ul>
+                </div> --}}
+
+                <div class="card-body">
+                    <h5 class="card-title">Commodities</h5>
+
+                    <!-- Bar Chart -->
+                    <canvas id="barChart" style="max-height: 400px;"></canvas>
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+                    <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            new Chart(document.querySelector('#barChart'), {
+                                type: 'bar',
+                                data: {
+                                    labels: {!! json_encode($commodityNames) !!},
+                                    datasets: [{
+                                        label: 'Counts',
+                                        data: {!! json_encode($commodityCounts) !!},
+                                        backgroundColor: generateRandomColors({{ count($commodityNames) }}), // Generate random colors
+                                        borderColor: 'rgba(75, 192, 192, 1)',
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                            ticks: {
+                                                callback: function (value) {
+                                                    if (value % 1 === 0) { // Display whole numbers only
+                                                        return value;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    plugins: {
+                                        legend: {
+                                            display: false, // Hide legend
+                                        },
+                                    },
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                }
+                            });
+
+                            // Function to generate random colors
+                            function generateRandomColors(count) {
+                                const colors = [];
+                                for (let i = 0; i < count; i++) {
+                                    const color = getRandomColor();
+                                    colors.push(color);
+                                }
+                                return colors;
+                            }
+
+                            // Function to generate a random color
+                            function getRandomColor() {
+                                const letters = '0123456789ABCDEF';
+                                let color = '#';
+                                for (let i = 0; i < 6; i++) {
+                                    color += letters[Math.floor(Math.random() * 16)];
+                                }
+                                return color;
+                            }
+                        });
+                    </script>
+
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-md-4">
+
+            <!-- Budget Report -->
+            <div class="card">
+                <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                    <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                </ul>
                 </div>
 
                     <div class="card-body">
-                      <h5 class="card-title">Bar CHart</h5>
+                    <h5 class="card-title">Total Male and Female</h5>
 
-                      <!-- Bar Chart -->
-                      <canvas id="barChart" style="max-height: 400px;"></canvas>
-                      <script>
+                    <!-- Pie Chart -->
+                    <canvas id="pieChart" style="max-height: 400px; max-width: 400px;"></canvas>
+                    <script>
                         document.addEventListener("DOMContentLoaded", () => {
-                          new Chart(document.querySelector('#barChart'), {
-                            type: 'bar',
-                            data: {
-                              labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                              datasets: [{
-                                label: 'Bar Chart',
-                                data: [65, 59, 80, 81, 56, 55, 40],
-                                backgroundColor: [
-                                  'rgba(255, 99, 132, 0.2)',
-                                  'rgba(255, 159, 64, 0.2)',
-                                  'rgba(255, 205, 86, 0.2)',
-                                  'rgba(75, 192, 192, 0.2)',
-                                  'rgba(54, 162, 235, 0.2)',
-                                  'rgba(153, 102, 255, 0.2)',
-                                  'rgba(201, 203, 207, 0.2)'
-                                ],
-                                borderColor: [
-                                  'rgb(255, 99, 132)',
-                                  'rgb(255, 159, 64)',
-                                  'rgb(255, 205, 86)',
-                                  'rgb(75, 192, 192)',
-                                  'rgb(54, 162, 235)',
-                                  'rgb(153, 102, 255)',
-                                  'rgb(201, 203, 207)'
-                                ],
-                                borderWidth: 1
-                              }]
-                            },
-                            options: {
-                              scales: {
-                                y: {
-                                  beginAtZero: true
+                            new Chart(document.querySelector('#pieChart'), {
+                                type: 'pie',
+                                data: {
+                                    labels: [
+                                        'Male',
+                                        'Female'
+                                    ],
+                                    datasets: [{
+                                        data: [{!! $maleCount !!}, {!! $femaleCount !!}],
+                                        backgroundColor: [
+                                            'rgb(255, 99, 132)',
+                                            'rgb(255, 205, 86)'
+                                        ],
+                                        hoverOffset: 4
+                                    }]
                                 }
-                              }
-                            }
-                          });
+                            });
                         });
-                      </script>
+                    </script>
 
                     </div>
-              </div>
-            </div><!-- End Bar CHart -->
+            </div><!-- End Pie CHart -->
 
-          </div>
-        </div><!-- End Left side columns -->
 
-        <!-- Right side columns -->
-        <div class="col-lg-4">
-
-          <!-- Budget Report -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
             </div>
 
-                <div class="card-body">
-                  <h5 class="card-title">Pie Chart</h5>
-
-                  <!-- Pie Chart -->
-                  <canvas id="pieChart" style="max-height: 400px; max-width: 400px;"></canvas>
-                  <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                      new Chart(document.querySelector('#pieChart'), {
-                        type: 'pie',
-                        data: {
-                          labels: [
-                            'Male',
-                            'Female'
-                          ],
-                          datasets: [{
-                            label: 'My First Dataset',
-                            data: [300, 100],
-                            backgroundColor: [
-                              'rgb(255, 99, 132)',
-                              'rgb(255, 205, 86)'
-                            ],
-                            hoverOffset: 4
-                          }]
-                        }
-                      });
-                    });
-                  </script>
-                </div>
-          </div><!-- End Pie CHart -->
-
-
-        </div><!-- End Right side columns -->
+            </div>
+        </div>
 
       </div>
     </section>

@@ -1,5 +1,6 @@
 @extends('layouts.index')
 @section('content')
+<title>Add Users</title>
 
 @if (session()->has('message'))
     <div class="alert alert-success">

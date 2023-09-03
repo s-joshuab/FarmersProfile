@@ -18,15 +18,38 @@ class ReportsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function reports()
+    public function reports(Request $request)
     {
-        $farmers = FarmersProfile::all();
-        $barangays = Barangays::all(); // Replace with the actual model name for barangays
-        $commodities = Commodities::select('id', 'commodities')->distinct()->get(); // Replace with the actual model name for commodities
+        $selectedBarangay = $request->input('barangayFilter');
+        $selectedCommodity = $request->input('commoditiesFilter');
+        $selectedStatus = $request->input('statusFilter'); // Add status filter
 
-        return view('admin.reports.index', compact('farmers', 'barangays', 'commodities'));
+        $farmersQuery = FarmersProfile::query();
+
+        if ($selectedBarangay) {
+            $farmersQuery->where('barangays_id', $selectedBarangay);
+        }
+
+        if ($selectedCommodity) {
+            $farmersQuery->whereHas('crops', function ($q) use ($selectedCommodity) {
+                $q->whereIn('commodities_id', [$selectedCommodity]);
+            });
+        }
+
+        if ($selectedStatus) {
+            $farmersQuery->where('status', $selectedStatus);
+        }
+
+        $farmers = $farmersQuery->get();
+        $barangays = Barangays::all();
+        $commodities = Commodities::all();
+        $farm = FarmersProfile::paginate(10); // Change '10' to the number of records per page you desire
+
+
+        // You don't need to retrieve statuses separately; they are hardcoded in the dropdown
+
+        return view('admin.reports.index', compact('farm', 'farmers', 'barangays', 'commodities', 'selectedBarangay', 'selectedCommodity', 'selectedStatus'));
     }
-
 
     // public function generateExcel()
     // {

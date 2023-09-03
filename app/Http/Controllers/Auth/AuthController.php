@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Traits\LogsActivity;
+use App\Models\User; // Import the User model
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Spatie\Activitylog\Facades\Activity; // Import the Activity facade
 
 class AuthController extends Controller
 {
     use AuthenticatesUsers;
-// Default redirect path after login
+
 
     public function __construct()
     {
@@ -24,10 +27,15 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('username', 'password');
+
+        $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+
+            activity()
+                ->causedBy(Auth::user())
+                ->log('User logged in');
 
             if ($user->user_type === 'Admin') {
                 return redirect('admin/dashboard');
@@ -37,19 +45,46 @@ class AuthController extends Controller
                 return redirect('secretary/dashboard');
             }
 
+            // Log the login activity
+
+
         }
 
-        return redirect()->route('login')->with('message', 'Invalid credentials.');
+        return redirect()->route('login')->with('error', 'Invalid credentials.');
     }
 
     public function logout(Request $request)
     {
+        // Log the logout activity before logging the user out
+        activity()
+            ->causedBy(Auth::user())
+            ->log('User logged out');
+
         Auth::logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');
     }
 }
+
+
+    // public function forgotpassword()
+    // {
+    //     return view('components.auth.forgot');
+    // }
+
+    // public function PostForgotPassword(Request $request)
+    // {
+    //     $user = User::where('email', $request->email)->first();
+
+    //     if (!empty($user)) {
+    //         // Handle password reset logic
+    //         // ...
+    //         return redirect()->back()->with('success', 'Password reset instructions sent to your email.');
+    //     } else {
+    //         return redirect()->back()->with('error', 'Email Not Found in the System');
+    //     }
+    // }
+

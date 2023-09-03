@@ -17,6 +17,7 @@ return new class extends Migration
                 $table->integer('brgy_code');
                 $table->string('username')->unique();
                 $table->string('email')->unique();
+                $table->timestamp('email_verified_at')->nullable();
                 $table->string('password');
                 $table->string('phone_number');
                 $table->string('status');
@@ -28,6 +29,7 @@ return new class extends Migration
                 $table->foreign('provinces_id')->references('id')->on('provinces');
                 $table->foreign('municipalities_id')->references('id')->on('municipalities');
                 $table->foreign('barangays_id')->references('id')->on('barangays');
+                $table->rememberToken();
                 $table->timestamps();
             });
         }

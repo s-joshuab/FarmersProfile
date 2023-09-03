@@ -1,34 +1,40 @@
 @extends('layouts.staffindex')
 @section('content')
+
+<div class="pagetitle">
+    <h1>Audit Trail</h1>
+    <nav>
+      <ol class="breadcrumb">
+        {{-- <li class="breadcrumb-item active">Farmers Data</li> --}}
+      </ol>
+    </nav>
+  </div>
 <div class="col-lg-12">
     <div class="card">
-    <div class="card-body">
-    <table class="table table-bordered mt-3">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>User</th>
-                <th>Action</th>
-                <th>Details</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>2023-06-17 10:30 AM</td>
-                <td>User A</td>
-                <td>Login</td>
-                <td>User A logged into the system.</td>
-            </tr>
-            <tr>
-                <td>2023-06-17 11:00 AM</td>
-                <td>User B</td>
-                <td>Create</td>
-                <td>User B created a new record.</td>
-            </tr>
-            <!-- Add more audit trail records dynamically using your backend code -->
-        </tbody>
-    </table>
+        <div class="card-body">
+            <table class="table table-bordered mt-3 datatable table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>User</th>
+                        <th>Action</th>
+                        {{-- <th>Details</th> --}}
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($activities as $activity)
+                    <tr>
+                        <td>{{ $activity->created_at }}</td>
+                        <td>{{ $activity->user?->name ?? 'No Data' }}</td>
+
+                        {{-- <td>{{ $activity->log_name }}</td> --}}
+                        <td>{{ ucwords($activity->description) }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-    </div>
-  </div>
+</div>
+
 @endsection

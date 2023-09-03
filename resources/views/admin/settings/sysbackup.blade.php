@@ -1,5 +1,7 @@
 @extends('layouts.index')
 @section('content')
+<title>System Backup</title>
+
 @if(session('success'))
     <div class="alert alert-success">
         {{ session('success') }}

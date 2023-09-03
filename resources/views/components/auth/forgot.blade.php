@@ -1,5 +1,11 @@
 @include('layouts.header')
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+</head>
 <main>
     <div class="container" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover;
     background-position: center;
@@ -33,7 +39,7 @@
                                         {{ session('error') }}
                                     </div>
                                 @endif
-                                <form class="row g-3" action="{{ route('login') }}" method="post">
+                                <form class="row g-3" action="" method="post">
                                     @csrf
                                     <div class="col-12">
                                         <label for="yourEmail" class="form-label">Email</label>
@@ -46,40 +52,11 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-12">
-                                        <label for="yourPassword" class="form-label">Password</label>
-                                        <div class="input-group password-input-group">
-                                            <span class="input-group-text" id="inputGroupPrepend2">
-                                                <i class="bi bi-key-fill"></i> <!-- Key Icon -->
-                                            </span>
-                                            <input type="password" name="password" class="form-control" id="yourPassword" required>
-                                            <button class="password-toggle" type="button" id="showPasswordButton">
-                                                <i class="bi bi-eye"></i> <!-- Eye Icon -->
-                                            </button>
-                                            <div class="invalid-feedback">Please enter a password!</div>
-                                        </div>
-                                    </div>
-
-                                    <script>
-                                        const passwordInput = document.getElementById("yourPassword");
-                                        const showPasswordButton = document.getElementById("showPasswordButton");
-
-                                        showPasswordButton.addEventListener("click", () => {
-                                            if (passwordInput.type === "password") {
-                                                passwordInput.type = "text";
-                                                showPasswordButton.innerHTML = '<i class="bi bi-eye-slash"></i>'; // Change button icon
-                                            } else {
-                                                passwordInput.type = "password";
-                                                showPasswordButton.innerHTML = '<i class="bi bi-eye"></i>'; // Change button icon
-                                            }
-                                        });
-                                    </script>
 
                                         <div class="col-12">
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <a href="{{ url( 'forgot-password' ) }}" >Forgot Password?</a>
-                                                <button class="btn btn-primary" type="submit">Login</button>
-
+                                                <a href="{{ url('forgot-password') }}" class="btn btn-primary">Login</a>
+                                                <button class="btn btn-primary" type="submit">Forgot Password</button>
                                             </div>
                                         </div>
                                 </form>
@@ -121,21 +98,6 @@
     </div>
 </main><!-- End #main -->
 
-<style>
-    .password-input-group {
-        position: relative;
-    }
-
-    .password-toggle {
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        transform: translateY(-50%);
-        cursor: pointer;
-        background: none;
-        border: none;
-    }
-</style>
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
         class="bi bi-arrow-up-short"></i></a>
 

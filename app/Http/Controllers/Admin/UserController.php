@@ -59,7 +59,7 @@ class UserController extends Controller
             return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Error occurred during Adding.');
         }
 
-        User::create([
+        $newUser = User::create([
             'name' => $request->input('name'),
             'username' => $request->input('username'),
             'email' => $request->input('email'),
@@ -71,7 +71,11 @@ class UserController extends Controller
             'municipalities_id' => $request->input('municipalities_id'),
             'barangays_id' => $request->input('barangays_id'),
         ]);
-
+         // Log the "User created" activity
+    activity()
+    ->causedBy(auth()->user()) // Assuming you're logged in
+    ->performedOn($newUser) // The user being created
+    ->log('Added New User');
 
         return redirect('admin/manageusers')->with('message', 'User Added Succesfully!');
     }
@@ -89,24 +93,5 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

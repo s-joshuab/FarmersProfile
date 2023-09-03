@@ -1,6 +1,6 @@
-@extends('layouts.index')
+@extends('layouts.staffindex')
 @section('content')
-<title>Add Farmers</title>
+
 
 <div class="col-12 mb-2 d-flex justify-content-end">
     <button type="reset" class="btn btn-success" id="backBtn">Back</button>
@@ -15,7 +15,7 @@
     <div class="row">
         <div class="container">
             <div class="col-lg-12">
-                <form action="{{ url('admin/create') }}" method="post">
+                <form action="{{ url('staff/create') }}" method="post">
                     @csrf
                 <div class="card">
                     <div class="card-body">

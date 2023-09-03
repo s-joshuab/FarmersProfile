@@ -11,16 +11,31 @@ use App\Models\ImageUpload;
 use Illuminate\Http\Request;
 use App\Models\Municipalities;
 use Illuminate\Validation\Rule;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 
 class SettingsController extends Controller
 {
+
+    use LogsActivity;
+
+    /**
+     * Display a listing of the resource.
+     */
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'username', 'user_type']);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -33,66 +48,100 @@ class SettingsController extends Controller
 
     public function profile()
     {
-        $provinces= Provinces::all();
+        $user = Auth::user(); // Fetch the authenticated user
+        $provinces = Provinces::all();
         $municipalities = Municipalities::all();
         $barangays = Barangays::all();
-        $user = Auth::User(); // Fetch the authenticated user
-        return view('admin.settings.profile', compact('user', 'provinces', 'municipalities', 'barangays'));
+        // Fetch additional data as needed
+        $someData = User::where('id', $user->id)->get(); // Replace with your actual query
+
+        return view('admin.settings.profile', compact('user', 'provinces', 'municipalities', 'barangays', 'someData'));
     }
 
-    public function update(Request $request, $id)
-{
-    $user = User::findOrFail($id);
 
-    // Validate the form data for updating a profile
-    $validator = Validator::make($request->all(), [
-        'name' => 'required',
-        'email' => [
-            'required',
-            'email',
-            Rule::unique('users')->ignore($user->id),
-        ],
-        'phone_number' => 'required|numeric',
-        'image' => [
-            'image',
-            'mimes:jpeg,png,jpg,gif',
-            'max:2048',
-        ],
-    ]);
+    public function updateProfile(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
 
-    if ($validator->fails()) {
-        return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Validation failed.');
-    }
+        // Validate the form data for updating user details
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users')->ignore($user->id),
+            ],
+            'phone_number' => 'required|numeric',
+        ]);
 
-    // Update the user's profile information
-    $user->update([
-        'name' => $request->input('name'),
-        'email' => $request->input('email'),
-        'phone_number' => $request->input('phone_number'),
-    ]);
-
-    // Handle profile image upload if a new image was provided
-    if ($request->hasFile('image')) {
-        $image = $request->file('image');
-        $imageName = time() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('assets/img/profiles'), $imageName);
-
-        // Delete the old profile image if it exists
-        if ($user->image) {
-            $oldImagePath = public_path('assets/img/profiles') . '/' . $user->image;
-            if (file_exists($oldImagePath)) {
-                unlink($oldImagePath);
-            }
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Validation failed.');
         }
 
-        // Update the user's profile image path in the database
-        $user->image = $imageName;
-        $user->save();
+        // Update the user's profile information
+        $updatedAttributes = [
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'phone_number' => $request->input('phone_number'),
+        ];
+
+        // Handle profile image upload if a new image was provided
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageData = base64_encode(file_get_contents($image->getPathname()));
+
+            // Update the user's profile image data in the database
+            $user->image = $imageData;
+            $user->save();
+        }
+
+        activity()
+            ->causedBy(auth()->user()) // Assuming you're logged in
+            ->performedOn($user) // The user being updated
+            ->withProperties(['attributes' => $updatedAttributes]) // Include updated attributes
+            ->log('Updated his/her profile');
+
+        // Update the user's attributes
+        $user->update($updatedAttributes);
+
+        return redirect('admin/profile')->with('success', 'Profile updated successfully');
     }
 
-    return redirect('admin/profile')->with('success', 'Profile updated successfully');
-}
 
+    public function updatePassword(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'current_password' => 'required',
+            'new_password' => 'required|min:6|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Error occurred during password update.');
+        }
+
+        // Verify the current password
+        if (!Hash::check($request->input('current_password'), $user->password)) {
+            return redirect()->back()->withInput()->with('error', 'Current password is incorrect.');
+        }
+
+        $updatedAttributes = [
+            'password' => bcrypt($request->input('new_password')),
+        ];
+
+        activity()
+            ->causedBy(auth()->user()) // Assuming you're logged in
+            ->performedOn($user) // The user being updated
+            ->withProperties(['attributes' => $updatedAttributes]) // Include updated attributes
+            ->log('Updated his/her password');
+
+        // Update the user's attributes
+        $user->update($updatedAttributes);
+
+        // Redirect to a success page or show a success message
+        return redirect('admin/profile')->with('success', 'Password updated successfully.');
+    }
 
 
 

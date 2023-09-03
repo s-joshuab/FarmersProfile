@@ -1,5 +1,7 @@
 @extends('layouts.index')
 @section('content')
+<title>Update Users</title>
+
     @if (session()->has('success'))
         <div class="alert alert-success">
             {{ session('success') }}

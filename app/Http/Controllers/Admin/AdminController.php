@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Models\crops;
+use App\Models\Barangays;
 use App\Models\Commodities;
 use Illuminate\Http\Request;
 use App\Models\FarmersProfile;
@@ -17,14 +18,71 @@ class AdminController extends Controller
      */
     public function admin()
     {
-
+        $barangays = Barangays::all();
         $farmerCount = FarmersProfile::count();
         $user = User::count();
         $benefits = FarmersProfile::where('benefits', 'yes')->count();
         $status = FarmersProfile::where('status', 'Active')->count();
 
-        return view('admin.admin', compact('farmerCount', 'benefits', 'status', 'user'));
+        $maleCount = FarmersProfile::where('sex', 'Male')->count();
+        $femaleCount = FarmersProfile::where('sex', 'Female')->count();
+        // Fetch unique commodities_id values from the Crops table
+        $commoditiesIds = crops::distinct('commodities_id')->pluck('commodities_id')->toArray();
+
+        // Initialize an array to store commodity names
+        $commodityNames = [];
+
+        // Count the number of occurrences of each commodities_id in the Crops table
+        $commodityCounts = [];
+        foreach ($commoditiesIds as $commodityId) {
+            $count = crops::where('commodities_id', $commodityId)->count();
+            $commodityCounts[] = $count;
+
+            // Fetch and store the commodity name based on the commodities_id
+            $commodityName = Commodities::find($commodityId)->commodities;
+            $commodityNames[] = $commodityName;
+        }
+
+        return view('admin.admin', compact('farmerCount', 'benefits', 'status', 'user', 'commodityCounts', 'commodityNames', 'commoditiesIds', 'maleCount',
+         'femaleCount', 'barangays'));
     }
+
+    public function getFarmerCount($id)
+    {
+        // Fetch the barangay name and count of farmers
+        $barangay = Barangays::find($id);
+        $farmerCount = FarmersProfile::where('barangays_id', $id)->count();
+
+        return response()->json([
+            'barangayName' => $barangay->name,
+            'farmerCount' => $farmerCount,
+        ]);
+    }
+
+
+    public function getAllFarmersCount()
+{
+    $farmerCount = FarmersProfile::count();
+
+    return response()->json([
+        'barangayName' => 'All Barangay',
+        'farmerCount' => $farmerCount,
+    ]);
+}
+
+public function getStatusCount($status)
+{
+    // Fetch the count of items based on the selected status filter
+    $count = FarmersProfile::where('status', $status)->count();
+
+    return response()->json([
+        'count' => $count,
+    ]);
+}
+
+
+
+
 
 
 

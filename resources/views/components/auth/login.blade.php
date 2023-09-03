@@ -28,13 +28,13 @@
                   <form class="row g-3 needs-validation" action="{{ route('login') }}" method="post" novalidate>
                     @csrf
                     <div class="col-12">
-                        <label for="yourUsername" class="form-label">Username</label>
-                        <div class="input-group has-validation">
+                        <label for="yourEmail" class="form-label">Email</label>
+                        <div class="input-group">
                             <span class="input-group-text" id="inputGroupPrepend">
                                 <i class="bi bi-person-fill"></i> <!-- User Icon -->
                             </span>
-                            <input type="text" name="username" class="form-control" id="yourUsername" required>
-                            <div class="invalid-feedback">Please enter your username.</div>
+                            <input type="email" name="email" class="form-control" id="yourEmail" required>
+                            <div class="invalid-feedback">Please enter your Email.</div>
                         </div>
                     </div>
 

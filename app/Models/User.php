@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Activitylog\Models\Activity;
 
 class User extends Authenticatable
 {
@@ -72,6 +73,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    static public function getEmailSingle($email)
+    {
+        return User::where('email', '=', $email)->first();
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -81,5 +87,11 @@ class User extends Authenticatable
     public function activity(){
         return $this->hasMany(Activity::class, 'causer_id');
     }
+
+    public function causer()
+    {
+        return $this->belongsTo(User::class, 'causer_id');
+    }
+
 }
 

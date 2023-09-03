@@ -3,21 +3,31 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use App\Http\Controllers\Controller;
-use App\Models\Provinces;
 use App\Models\Barangays;
+use App\Models\Provinces;
+use Illuminate\Http\Request;
 use App\Models\Municipalities;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+use Spatie\Activitylog\LogOptions;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class ManageUsersController extends Controller
 {
+    use LogsActivity;
+
     /**
      * Display a listing of the resource.
      */
-    public function manage()//index
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'username', 'email', 'phone_number', 'user_type', 'status', 'provinces_id', 'municipalities_id', 'barangays_id']);
+    }
+
+    public function manage()
     {
         $users = User::all();
         return view('admin.settings.users.manageusers', compact('users'));
@@ -28,18 +38,16 @@ class ManageUsersController extends Controller
      */
     public function create()
     {
-        //
+        // You can add logic here if needed for user creation.
     }
-
-
 
     /**
      * Display the specified resource.
      */
     public function show($id)
     {
-        $user = User::findorfail($id);
-        $provinces= Provinces::all();
+        $user = User::findOrFail($id);
+        $provinces = Provinces::all();
         $municipalities = Municipalities::all();
         $barangays = Barangays::all();
         return view('admin.settings.users.view', compact('user', 'provinces', 'municipalities', 'barangays'));
@@ -50,11 +58,11 @@ class ManageUsersController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::findorfail($id);
-        $provinces= Provinces::all();
+        $user = User::findOrFail($id);
+        $provinces = Provinces::all();
         $municipalities = Municipalities::all();
         $barangays = Barangays::all();
-        return view('admin.settings.users.edit',compact('user', 'provinces', 'municipalities', 'barangays'));
+        return view('admin.settings.users.edit', compact('user', 'provinces', 'municipalities', 'barangays'));
     }
 
     /**
@@ -81,10 +89,11 @@ class ManageUsersController extends Controller
             return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Error occurred during user update.');
         }
 
-        $user->update([
+        // Create an array with the updated attributes for comparison
+        $updatedAttributes = [
             'name' => $request->input('name'),
             'username' => $request->input('username'),
-            'password' => $request->input('password'),
+            'password' => bcrypt($request->input('password')), // Hash the password
             'email' => $request->input('email'),
             'phone_number' => $request->input('phone_number'),
             'user_type' => $request->input('user_type'),
@@ -92,18 +101,23 @@ class ManageUsersController extends Controller
             'provinces_id' => $request->input('provinces_id'),
             'municipalities_id' => $request->input('municipalities_id'),
             'barangays_id' => $request->input('barangays_id'),
-        ]);
+        ];
+
+        // Log the update activity
+        activity()
+            ->causedBy(auth()->user()) // Assuming you're logged in
+            ->performedOn($user) // The user being updated
+            ->withProperties(['attributes' => $updatedAttributes]) // Include updated attributes
+            ->log('User updated');
+
+        // Update the user's attributes
+        $user->update($updatedAttributes);
 
         // Redirect to a success page or show a success message
         return redirect('admin/manageusers')->with('message', 'User Updated successfully.');
     }
 
-
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

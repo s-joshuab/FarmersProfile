@@ -19,13 +19,14 @@
             <div class="nav-profile d-flex align-items-center pe-0">
                 <span class="d-none d-md-block mt-2" style="margin-right: 10px; color: black; font-weight: bold;">
                     @if (Auth::check())
-                        <h6>{{ Auth::user()->name }}</h6>
+                        <h6 style="margin-right: 10px; color: black; font-weight: bold;">{{ Auth::user()->name }}</h6>
                     @endif
                 </span>
-                @if ($user->image)
-                <img src="data:image/jpeg;base64,{{ base64_encode($user->image) }}" alt="Profile Image">
+
+                @if (Auth::check() && Auth::user()->image)
+                <img src="data:image/jpeg;base64,{{ Auth::user()->image }}" alt="Profile" class="rounded-circle" style="margin-right: 10px;">
             @else
-                <img src="{{ asset('assets/img/default-profile.jpg') }}" alt="Default Profile Image">
+                <img src="{{ asset('path_to_default_image.jpg') }}" alt="Default Profile" class="rounded-circle" style="margin-right: 10px;">
             @endif
 
             </div>
