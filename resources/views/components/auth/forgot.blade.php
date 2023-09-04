@@ -39,8 +39,8 @@
                                         {{ session('error') }}
                                     </div>
                                 @endif
-                                <form class="row g-3" action="" method="post">
-                                    @csrf
+                                <form class="row g-3" action="{{ route('password.email') }}" method="post">
+                                    @csrf <!-- CSRF token -->
                                     <div class="col-12">
                                         <label for="yourEmail" class="form-label">Email</label>
                                         <div class="input-group">
@@ -51,15 +51,14 @@
                                             <div class="invalid-feedback">Please enter your Email.</div>
                                         </div>
                                     </div>
-
-
-                                        <div class="col-12">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <a href="{{ url('forgot-password') }}" class="btn btn-primary">Login</a>
-                                                <button class="btn btn-primary" type="submit">Forgot Password</button>
-                                            </div>
+                                    <div class="col-12">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <button class="btn btn-primary" type="submit">Forgot Password</button>
                                         </div>
+                                    </div>
                                 </form>
+
+
 
                                 <script>
                                     // JavaScript to add the 'was-validated' class to the form after submission

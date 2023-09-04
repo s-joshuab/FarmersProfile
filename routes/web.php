@@ -1,9 +1,14 @@
 <?php
 
-use App\Http\Controllers\TestControllerCrops;
+use PgSql\Result;
+use App\Http\Controllers\GenerateQr;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Admin\IdController;
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\Admin\IdController;
+use App\Http\Controllers\TestControllerCrops;
 use App\Http\Controllers\Admin\FormController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
@@ -12,6 +17,7 @@ use App\Http\Controllers\staff\StaffController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\staff\StaffFormController;
 use App\Http\Controllers\staff\StaffUserController;
 use App\Http\Controllers\Admin\AuditTrailController;
@@ -19,22 +25,17 @@ use App\Http\Controllers\staff\StaffAuditController;
 use App\Http\Controllers\Admin\FarmersDataController;
 use App\Http\Controllers\Admin\ManageUsersController;
 use App\Http\Controllers\Admin\SystemBackupController;
-use App\Http\Controllers\Auth\AuthController as AuthAuthController;
 use App\Http\Controllers\staff\StaffProfileController;
 use App\Http\Controllers\staff\StaffReportsController;
 use App\Http\Controllers\secretary\SecretaryController;
+use App\Http\Controllers\staff\StaffSettingsController;
 use App\Http\Controllers\staff\StaffFarmersDataController;
 use App\Http\Controllers\staff\StaffManageUsersController;
 use App\Http\Controllers\secretary\SecretaryFormController;
 use App\Http\Controllers\staff\StaffSystemBackupController;
 use App\Http\Controllers\secretary\SecretaryProfileController;
 use App\Http\Controllers\secretary\SecretaryFarmDataController;
-use App\Http\Controllers\TestController;
-use App\Http\Controllers\GenerateQr;
-use App\Http\Controllers\staff\StaffSettingsController;
-use PgSql\Result;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\AuthController as AuthAuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -145,3 +146,12 @@ Route::get('/test', [TestController::class, 'qrGen']);
 
 
 Route::get('qr-code/{id}', [QRCodeController::class, 'showProfile'])->name('qr-code.show');
+
+// Password Notification
+Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/password/email',  [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+
+//Password Reset
+Route::get('/password/reset/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/password/reset', [ForgotPasswordController::class, 'reset'])->name('password.update');

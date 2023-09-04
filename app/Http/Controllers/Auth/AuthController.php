@@ -67,24 +67,25 @@ class AuthController extends Controller
 
         return redirect('/');
     }
+
+
+
+    public function forgotpassword()
+    {
+        return view('components.auth.forgot');
+    }
+
+    public function PostForgotPassword(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+
+        if (!empty($user)) {
+            // Handle password reset logic
+            // ...
+            return redirect()->back()->with('success', 'Password reset instructions sent to your email.');
+        } else {
+            return redirect()->back()->with('error', 'Email Not Found in the System');
+        }
+    }
+
 }
-
-
-    // public function forgotpassword()
-    // {
-    //     return view('components.auth.forgot');
-    // }
-
-    // public function PostForgotPassword(Request $request)
-    // {
-    //     $user = User::where('email', $request->email)->first();
-
-    //     if (!empty($user)) {
-    //         // Handle password reset logic
-    //         // ...
-    //         return redirect()->back()->with('success', 'Password reset instructions sent to your email.');
-    //     } else {
-    //         return redirect()->back()->with('error', 'Email Not Found in the System');
-    //     }
-    // }
-
