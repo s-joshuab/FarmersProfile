@@ -102,21 +102,22 @@
                                     </div>
 
 
-
                                     <hr class="mt-2">
                                     <p class="mt-0" style="font-weight:bold; font-size: 12px;">ADDRESS</p>
                                     <div class="col-md-4 position-relative mt-0">
                                         <label for="Region">Region</label>
                                         <div class="form-control-custom">
-                                          <input type="text" id="regions" name="regions" class="form-control" value="Region I" readonly>
+                                          <input type="text" id="regions" name="regions" class="form-control" value="Region I" disabled>
                                         </div>
                                       </div>
+
+
 
                                     <!-- Beekeeper Province Address -->
                                     <div class="col-md-4 position-relative mt-0">
                                         <label for="municipality">Municipality:</label>
-                                        <select id="municipality" name="provinces_id" class="form-control">
-                                            <option value="">Select Province</option>
+                                        <select id="municipality" name="municipalities_id" class="form-control" disabled>
+                                            <option value="">Select Municipality</option>
                                             @foreach ($provinces as $province)
                                                 <option value="{{ $province->id }}" {{ $farmersprofile->provinces_id == $province->id ? 'selected' : '' }}>
                                                     {{ $province->provinces }}
@@ -128,7 +129,7 @@
                                     <!-- Municipality Dropdown -->
                                     <div class="col-md-4 position-relative mt-0">
                                         <label for="municipality">Municipality:</label>
-                                        <select id="municipality" name="municipalities_id" class="form-control">
+                                        <select id="municipality" name="municipalities_id" class="form-control" disabled>
                                             <option value="">Select Municipality</option>
                                             @foreach ($municipalities as $municipality)
                                                 <option value="{{ $municipality->id }}" {{ $farmersprofile->municipalities_id == $municipality->id ? 'selected' : '' }}>
@@ -141,8 +142,8 @@
                                     <!-- Barangay Dropdown -->
                                     <div class="col-md-4 position-relative mt-0">
                                         <label for="municipality">Municipality:</label>
-                                        <select id="municipality" name="barangays_id" class="form-control">
-                                            <option value="">Select Barangay</option>
+                                        <select id="municipality" name="municipalities_id" class="form-control" disabled>
+                                            <option value="">Select Municipality</option>
                                             @foreach ($barangays as $barangay)
                                                 <option value="{{ $barangay->id }}" {{ $farmersprofile->barangays_id == $barangay->id ? 'selected' : '' }}>
                                                     {{ $barangay->barangays }}
@@ -239,23 +240,23 @@
                                         });
                                     </script>
 
-                                    <div class="col-md-4 position-relative mt-0">
-                                        <label class="form-label">Street/Sitio/Purok/Subdv.</label>
-                                        <input type="text" class="form-control" id="validationTooltip01"
-                                            name="purok" value="{{ $farmersprofile->purok}}" required autofocus="autofocus" >
-                                        <div class="invalid-tooltip">
-                                            The Street/Sitio/Purok/Subdv. field is required.
-                                        </div>
-                                    </div>
+<div class="col-md-4 position-relative mt-0">
+    <label class="form-label">Street/Sitio/Purok/Subdv.</label>
+    <input type="text" class="form-control" id="validationTooltip01"
+        name="purok" value="{{ $farmersprofile->purok}}" required autofocus="autofocus" disabled>
+    <div class="invalid-tooltip">
+        The Street/Sitio/Purok/Subdv. field is required.
+    </div>
+</div>
 
-                                    <div class="col-md-4 position-relative mt-0">
-                                        <label class="form-label">House/Lot/Bldg. No.</label>
-                                        <input type="text" class="form-control" id="validationTooltip01" value="{{ $farmersprofile->house}}"
-                                            name="house" required autofocus="autofocus" >
-                                        <div class="invalid-tooltip">
-                                            The House/Lot/Bldg. No. field is required.
-                                        </div>
-                                    </div>
+<div class="col-md-4 position-relative mt-0">
+    <label class="form-label">House/Lot/Bldg. No.</label>
+    <input type="text" class="form-control" id="validationTooltip01" value="{{ $farmersprofile->house}}"
+        name="house" required autofocus="autofocus" disabled>
+    <div class="invalid-tooltip">
+        The House/Lot/Bldg. No. field is required.
+    </div>
+</div>
 
                                     <hr class="mt-2">
 

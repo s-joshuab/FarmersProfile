@@ -243,7 +243,7 @@ class FarmersDataController extends Controller
             ->performedOn($farmersprofile) // The user being created
             ->log('Added Farmers Informations');
 
-        return redirect('farmreport')->with('message', 'Farmer Added Successfully!');
+        return redirect('admin/farmreport')->with('message', 'Farmer Added Successfully!');
     }
 
     //gegenerate ng ng id number
@@ -475,6 +475,6 @@ class FarmersDataController extends Controller
         // Update the FarmersProfile's attributes
         $farmersprofile->update($updatedAttributes);
 
-        return redirect('farmreport')->with('message', 'Farmers Data Update Successfully!');
+        return redirect('admin/farmreport')->with('message', 'Farmers Data Update Successfully!');
     }
 }

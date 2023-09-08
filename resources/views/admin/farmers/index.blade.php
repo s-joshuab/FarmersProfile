@@ -46,7 +46,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="add-employee mb-3 mt-3">
-                            <a href="{{ url('admin/create-add') }}" class="btn btn-primary">
+                            <a href="{{ url('create-add') }}" class="btn btn-primary">
                                 <i class="bi bi-plus"></i> Add Farmer
                             </a>
                         </div>
@@ -103,7 +103,8 @@
                                         <tr data-barangay="{{ $farmer->barangay->id }}"
                                             data-commodities="{{ implode(',', $farmer->crops->pluck('commodities_id')->toArray()) }}"
                                             data-status="{{ $farmer->status }}">
-                                            <td>{{ $farmer->farmersNumbers->first()?->farmersnumber ?? 'No Data' }}</td>
+                                            <td>{{ $farmer->farmersNumbers?->first()?->farmersnumber ?? 'No Data' }}</td>
+
                                             <td>{{ $farmer->fname }} {{ $farmer->sname }}</td>
                                             <td>{{ $farmer->barangay?->barangays ?? 'No Data' }}</td>
                                             <td>

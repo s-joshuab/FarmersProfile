@@ -1,13 +1,33 @@
 
-<header id="header" class="header fixed-top d-flex align-items-center" style="background-color: #0d6efd;">
+<header id="header" class="header fixed-top d-flex align-items-center" style="background-color: #0d6efd;  ">
+
+    <style>
+        .logo-container {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo-text {
+            color: black;
+            margin-left: 10px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+    </style>
 
     <div class="d-flex align-items-center justify-content-between">
-        <a href="{{ url('admin/dashboard') }}" class="logo d-flex align-items-center">
-            <img src="{{asset('assets/img/12345.jpg')}}" alt="" style="border-radius: 50%;">
-            <span class="d-none d-lg-block" style="color: black; text-decoration: none;">MAO</span>
+        <a href="{{ url('admin/dashboard') }}" class="logo-container">
+            <img src="{{ asset('assets/img/12345.jpg') }}" class="avatar" alt="Avatar">
+            <span class="d-none d-lg-block logo-text" style="color: black; font-weight: bold; font-size: 25px;">MAO</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div>
+
 
     <!-- End Logo -->
 
@@ -24,7 +44,7 @@
                 </span>
 
                 @if (Auth::check() && Auth::user()->image)
-                <img src="data:image/jpeg;base64,{{ Auth::user()->image }}" alt="Profile" class="rounded-circle" style="margin-right: 10px;">
+                <img src="data:image/jpeg;base64,{{ Auth::user()->image }}" alt="Avatar" class="rounded-circle" style="width: 50px; height: 50px;">
             @else
                 <img src="{{ asset('path_to_default_image.jpg') }}" alt="Default Profile" class="rounded-circle" style="margin-right: 10px;">
             @endif

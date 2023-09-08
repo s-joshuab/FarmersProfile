@@ -19,7 +19,7 @@
     <div class="card">
         <div class="card-body">
             <h2 class="card-title">Manual Backup</h2>
-            <form method="post" action="{{ route('admin.settings.manualDatabaseBackup') }}">
+            <form method="post" action="">
 
                 @csrf
                 <button type="submit" class="btn btn-primary">Perform Manual Backup</button>

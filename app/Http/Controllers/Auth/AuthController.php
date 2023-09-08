@@ -37,10 +37,10 @@ class AuthController extends Controller
                 ->causedBy(Auth::user())
                 ->log('User logged in');
 
-            if ($user->user_type === 'Admin') {
-                return redirect('admin/dashboard');
-            } elseif ($user->user_type === 'Staff') {
-                return redirect('staff/dashboard');
+            if ($user->user_type === "Admin") {
+                return redirect('dashboard');
+            } elseif ($user->user_type === "Staff") {
+                return redirect('dashboard');
             } elseif ($user->user_type === 'Secretary') {
                 return redirect('secretary/dashboard');
             }

@@ -38,7 +38,7 @@
         <!-- Dashboard Nav -->
         <li class="nav-item">
             <a class="nav-link collapsed" id="dashboard-link" data-bs-target="#dashboard"
-               href="{{ url('admin/dashboard') }}" onclick="setActiveNavItem(this)">
+               href="{{ url('dashboard') }}" onclick="setActiveNavItem(this)">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
@@ -46,7 +46,7 @@
 
         <!-- Farmers Data Page Nav -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ url('admin/farmreport') }}" onclick="setActiveNavItem(this)">
+            <a class="nav-link collapsed" href="{{ url('farmreport') }}" onclick="setActiveNavItem(this)">
                 <i class="bi bi-list-task"></i>
                 <span>Farmers Data</span>
             </a>
@@ -54,7 +54,7 @@
 
         <!-- Reports Page Nav -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ url('admin/reports') }}" onclick="setActiveNavItem(this)">
+            <a class="nav-link collapsed" href="{{ url('reports') }}" onclick="setActiveNavItem(this)">
                 <i class="bi bi-folder"></i>
                 <span>Reports</span>
             </a>
@@ -71,22 +71,22 @@
             </a>
             <ul id="settings-nav" class="nav-content">
                 <li>
-                    <a href="{{ url('admin/profile') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                    <a href="{{ url('profile') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
                         <i class="bi bi-person-circle" style="font-size: 16px;"></i><span style="color: #0000000;">Profile</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url('admin/audit') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                    <a href="{{ url('audit') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
                         <i class="bi bi-journal-text" style="font-size: 16px;"></i><span style="color: #0000000;">Audit Trail</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url('admin/manageusers') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                    <a href="{{ url('manageusers') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
                         <i class="bi bi-people" style="font-size: 16px;"></i><span style="color: #0000000;">Manage Users</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url('admin/backup') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                    <a href="{{ url('backup') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
                         <i class="bi bi-database-check" style="font-size: 16px;"></i><span style="color: #0000000;">System Backup</span>
                     </a>
                 </li>

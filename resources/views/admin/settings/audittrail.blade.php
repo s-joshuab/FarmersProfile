@@ -25,7 +25,7 @@
                 <table class="table datatable table-bordered table-striped">
                     <thead class="thead-dark">
                         <tr>
-                            <th>Date</th>
+                            <th>Date and Time</th>
                             <th>Name</th>
                             <th>User Type</th>
                             <th>Action</th>

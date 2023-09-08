@@ -80,8 +80,8 @@
                                 </select>
                             </div>
                         </div>
-                        <button type="button" id="generatePDFButton" class="btn btn-primary">Generate PDF</button>
 
+                        <a href="{{ url('/export-farmers') }}" class="btn btn-success">Export Farmers</a>
                         <div class="table-responsive mt-3">
                             <table id="myTable" class="table table-bordered table-striped">
                                 <thead>
@@ -96,34 +96,63 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($farmers as $farmer)
-                                        <tr data-barangay="{{ $farmer->barangay->id }}"
-                                            data-commodities="{{ implode(',', $farmer->crops->pluck('commodities_id')->toArray()) }}"
-                                            data-status="{{ $farmer->status }}">
-                                            <td>{{ $farmer->fname }} {{ $farmer->sname }}</td>
-                                            <td>{{ $farmer->barangay?->barangays ?? 'No Data' }}</td>
-                                            <td>
-                                                @php
-                                                    $commoditiesList = $farmer->crops
-                                                        ->filter(function ($crop) use ($selectedCommodity) {
-                                                            return $crop->commodity_id == $selectedCommodity;
-                                                        })
-                                                        ->map(function ($crop) {
-                                                            return $crop->commodity->commodities;
-                                                        })
-                                                        ->implode('<br>');
-
-                                                    if ($commoditiesList) {
-                                                        echo $commoditiesList;
-                                                    } else {
-                                                        echo 'No Data';
-                                                    }
-                                                @endphp
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-
-
-                                        </tr>
+                                    <tr data-barangay="{{ $farmer->barangay->id }}"
+                                        data-commodities="{{ implode(',', $farmer->crops->pluck('commodities_id')->toArray()) }}"
+                                        data-status="{{ $farmer->status }}">
+                                        <td>{{ $farmer->fname }} {{ $farmer->sname }}</td>
+                                        <td>{{ $farmer->barangay?->barangays ?? 'No Data' }}</td>
+                                        <td>
+                                            @php
+                                                $commoditiesList = $farmer->crops
+                                                    ->filter(function ($crop) use ($selectedCommodity) {
+                                                        return $crop->commodity_id == $selectedCommodity;
+                                                    })
+                                                    ->map(function ($crop) {
+                                                        return $crop->commodity->commodities;
+                                                    })
+                                                    ->implode('<hr>'); // Use <hr> tag to separate values
+                                                if ($commoditiesList) {
+                                                    echo $commoditiesList;
+                                                } else {
+                                                    echo 'No Data';
+                                                }
+                                            @endphp
+                                        </td>
+                                        <td>
+                                            @php
+                                                $farmSizeList = $farmer->crops
+                                                    ->filter(function ($crop) use ($selectedCommodity) {
+                                                        return $crop->commodity_id == $selectedCommodity;
+                                                    })
+                                                    ->map(function ($crop) {
+                                                        return $crop->farm_size;
+                                                    })
+                                                    ->implode('<hr>'); // Use <hr> tag to separate values
+                                                if ($farmSizeList) {
+                                                    echo $farmSizeList;
+                                                } else {
+                                                    echo 'No Data';
+                                                }
+                                            @endphp
+                                        </td>
+                                        <td>
+                                            @php
+                                                $farmLocationList = $farmer->crops
+                                                    ->filter(function ($crop) use ($selectedCommodity) {
+                                                        return $crop->commodity_id == $selectedCommodity;
+                                                    })
+                                                    ->map(function ($crop) {
+                                                        return $crop->farm_location;
+                                                    })
+                                                    ->implode('<hr>'); // Use <hr> tag to separate values
+                                                if ($farmLocationList) {
+                                                    echo $farmLocationList;
+                                                } else {
+                                                    echo 'No Data';
+                                                }
+                                            @endphp
+                                        </td>
+                                    </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -133,41 +162,49 @@
             </div>
         </div>
     </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/5.2.0/js/tableexport.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+
     <script>
-        // Function to hide the alert after a specified number of milliseconds
-        function hideAlert(alertId, delay) {
-            setTimeout(function () {
-                document.getElementById(alertId).style.display = 'none';
-            }, delay);
+        function generateExcel() {
+            // Select the table element
+            var table = document.getElementById('myTable');
+
+            // Create a new Excel workbook
+            var wb = XLSX.utils.table_to_book(table, { sheet: "Farmers Data" });
+
+            // Generate a blob containing the Excel data
+            var blob = XLSX.write(wb, { bookType: 'xlsx', type: 'blob' });
+
+            // Create a URL for the blob
+            var url = URL.createObjectURL(blob);
+
+            // Create a download link
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'farmers_data.xlsx';
+
+            // Trigger a click event to download the file
+            a.click();
+
+            // Clean up by revoking the blob URL
+            URL.revokeObjectURL(url);
         }
 
-        // Automatically hide success alert after 3 seconds
-        if (document.getElementById('success-alert')) {
-            hideAlert('success-alert', 3000);
-        }
+        // Attach the generateExcel function to the button click event
+        document.getElementById('generateExcelButton').addEventListener('click', generateExcel);
 
-        // Automatically hide error alert after 3 seconds
-        if (document.getElementById('error-alert')) {
-            hideAlert('error-alert', 3000);
-        }
+        // Rest of your filtering and other JavaScript code
+    </script>
 
-        // Function to generate a PDF
-        // Function to generate a PDF
-// Function to generate a PDF
-function generatePDF() {
-    const table = document.getElementById('myTable'); // Replace 'myTable' with the ID of your table.
 
-    const doc = new jsPDF();
-    doc.text('BALAOANS FARMERS REPORT', 10, 10); // Add the title to the PDF
 
-    // Generate the PDF table from your HTML table
-    doc.autoTable({ html: table });
-
-    // Save the PDF with a specified filename
-    doc.save('balaoans_farmers_report.pdf');
-}
+    <script>
 
 
         // Function to filter the table based on selected filters

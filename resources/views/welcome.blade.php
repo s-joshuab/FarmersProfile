@@ -15,7 +15,7 @@
                             <div class="card-body">
                                 <div class="d-flex flex-column align-items-center py-4">
                                     <a href="#" class="balaoann-logo">
-                                        <img src="assets/img/balaoann.png" alt="" class="logo-image">
+                                        <img src="assets/img/balaoann.png" alt="" class="logo-image" style="height: 80px; width: 80px;">
                                     </a>
                                     <span class="balaoann-text">Municipal Agriculturist Office</span>
                                 </div>

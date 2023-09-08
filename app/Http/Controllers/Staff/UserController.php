@@ -77,7 +77,7 @@ class UserController extends Controller
     ->performedOn($newUser) // The user being created
     ->log('Added New User');
 
-        return redirect('manageusers')->with('message', 'User Added Succesfully!');
+        return redirect('admin/manageusers')->with('message', 'User Added Succesfully!');
     }
 
 

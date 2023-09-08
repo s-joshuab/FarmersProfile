@@ -20,7 +20,7 @@
               <div class="card-body">
               <div class="d-flex justify-content-center py-4">
                     <a href="index.php" class="d-flex align-items-center w-auto">
-                      <img src="assets/img/logo2.png" alt="" style="height: 100px; width: 100px;">
+                      <img src="assets/img/logo2.png" alt="" style="height: 50px; width: 50px;">
                     </a>
                   </div>
 

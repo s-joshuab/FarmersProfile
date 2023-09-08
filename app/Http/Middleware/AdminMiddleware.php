@@ -17,12 +17,13 @@ class AdminMiddleware
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
-    {
-        // Check if the user is authenticated and their role is Admin
-        if (!Auth::check() || Auth::user()->user_type !== 'Admin') {
-            return redirect('admin/dashboard')->with('message', 'Access Denied!');
-        }
-
-        return $next($request);
+{
+    // Check if the user is authenticated and their role is either 'Admin' or 'Staff'
+    if (!Auth::check() || !in_array(Auth::user()->user_type, ['Admin', 'Staff'])) {
+        return redirect('admin/dashboard')->with('message', 'Access Denied!');
     }
+
+    return $next($request);
+}
+
 }

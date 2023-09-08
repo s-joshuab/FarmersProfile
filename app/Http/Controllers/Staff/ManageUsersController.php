@@ -114,7 +114,7 @@ class ManageUsersController extends Controller
         $user->update($updatedAttributes);
 
         // Redirect to a success page or show a success message
-        return redirect('manageusers')->with('message', 'User Updated successfully.');
+        return redirect('admin/manageusers')->with('message', 'User Updated successfully.');
     }
 
     /**

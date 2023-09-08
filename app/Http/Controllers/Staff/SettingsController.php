@@ -103,7 +103,7 @@ class SettingsController extends Controller
         // Update the user's attributes
         $user->update($updatedAttributes);
 
-        return redirect('profile')->with('success', 'Profile updated successfully');
+        return redirect('admin/profile')->with('success', 'Profile updated successfully');
     }
 
 
@@ -139,7 +139,7 @@ class SettingsController extends Controller
         $user->update($updatedAttributes);
 
         // Redirect to a success page or show a success message
-        return redirect('profile')->with('success', 'Password updated successfully.');
+        return redirect('admin/profile')->with('success', 'Password updated successfully.');
     }
 
 

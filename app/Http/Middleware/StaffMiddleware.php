@@ -13,7 +13,7 @@ class StaffMiddleware
     {
         // Check if the user role is Staff (assuming 'user_type' field represents the role)
         if (Auth::check() && Auth::user()->user_type !== 'Staff') {
-            return redirect('staff/dashboard')->with('status', 'Access Denied!');
+            return redirect('admin/dashboard')->with('status', 'Access Denied!');
         }
 
         return $next($request);

@@ -24,7 +24,7 @@
 
                     <h5 class="card-title"></h5>
 
-                    <form action="{{ url('admin/users') }}" method="POST">
+                    <form action="{{ url('users') }}" method="POST">
                         @csrf
                         <div class="row">
                         <div class="col-md-12 position-relative">
@@ -190,6 +190,7 @@
                         </div>
 
                         <div class="row">
+                            @can('admin-access')
                             <div class="col-md-6 position-relative">
                                 <label class="form-label">User Type<font color="red">*</font></label>
                                 <div class="col-sm-12">
@@ -204,7 +205,21 @@
                                     </div>
                                 </div>
                             </div>
-
+                            @endcan
+                            @can('staff-access')
+                            <div class="col-md-6 position-relative">
+                                <label class="form-label">User Type<font color="red">*</font></label>
+                                <div class="col-sm-12">
+                                    <select class="form-select" aria-label="Default select example" name="user_type" id="validationTooltip03" required>
+                                        <option value="" selected disabled>Select User Type</option>
+                                        <option value="Secretary">Secretary</option>
+                                    </select>
+                                    <div class="invalid-tooltip">
+                                        The User Type field is required.
+                                    </div>
+                                </div>
+                            </div>
+                            @endcan
                             <div class="col-md-6 position-relative">
                                 <label class="form-label">Status<font color="red">*</font></label>
                                 <div class="col-sm-12">

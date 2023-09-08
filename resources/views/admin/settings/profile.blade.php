@@ -29,7 +29,7 @@
     @foreach ($someData as $data)
     <div class="card">
         <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-            <img src="data:image/jpeg;base64,{{ $data->image }}" alt="Profile" class="rounded-circle">
+            <img src="data:image/jpeg;base64,{{ $data->image }}" alt="Avatar" class="rounded-circle" style="width: 100px; height: 100px;">
             <h2>{{ $data->name }}</h2>
             <h3>{{ $data->user_type }}</h3>
         </div>
@@ -88,13 +88,13 @@
               </div>
 
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-                <form action="{{ route('admin.profile.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('profile.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row mb-3">
                         <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                         <div class="col-md-8 col-lg-9">
-                            <img src="data:image/jpeg;base64,{{ $data->image }}" alt="Profile">
+                            <img src="data:image/jpeg;base64,{{ $data->image }}" alt="Avatar" class="rounded-circle" style="width: 100px; height: 100px;">
                             <div class="pt-2">
                                 <input type="file" name="image" id="image" accept="image/*">
 
@@ -147,7 +147,7 @@
 
               <div class="tab-pane fade pt-3" id="profile-change-password">
                 <!-- Change Password Form -->
-                <form action="{{ route('admin.password.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('password.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
