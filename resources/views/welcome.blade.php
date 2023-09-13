@@ -1,7 +1,8 @@
 @include('layouts.header')
 
 <main>
-    <div class="container" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover;
+    <div class="container"
+        style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     ">
@@ -15,12 +16,11 @@
                             <div class="card-body">
                                 <div class="d-flex flex-column align-items-center py-4">
                                     <a href="#" class="balaoann-logo">
-                                        <img src="assets/img/balaoann.png" alt="" class="logo-image" style="height: 80px; width: 80px;">
+                                        <img src="{{ asset('assets/img/balaoan-5.webp') }}" alt="Balaoan Image"
+                                            class="logo-image" style="height: 80px; width: 80px;">
                                     </a>
                                     <span class="balaoann-text">Municipal Agriculturist Office</span>
                                 </div>
-
-
 
                                 @if (session()->has('message'))
                                     <div class="alert alert-success text-center">
@@ -33,7 +33,9 @@
                                         {{ session('error') }}
                                     </div>
                                 @endif
-                                <form class="row g-3" action="{{ route('login') }}" method="post">
+
+                                <form class="row g-3 needs-validation" action="{{ route('login') }}" method="post"
+                                    novalidate>
                                     @csrf
                                     <div class="col-12">
                                         <label for="yourEmail" class="form-label">Email</label>
@@ -41,7 +43,8 @@
                                             <span class="input-group-text" id="inputGroupPrepend">
                                                 <i class="bi bi-person-fill"></i> <!-- User Icon -->
                                             </span>
-                                            <input type="email" name="email" class="form-control" id="yourEmail" required>
+                                            <input type="email" name="email" class="form-control" id="yourEmail"
+                                                required>
                                             <div class="invalid-feedback">Please enter your Email.</div>
                                         </div>
                                     </div>
@@ -52,7 +55,8 @@
                                             <span class="input-group-text" id="inputGroupPrepend2">
                                                 <i class="bi bi-key-fill"></i> <!-- Key Icon -->
                                             </span>
-                                            <input type="password" name="password" class="form-control" id="yourPassword" required>
+                                            <input type="password" name="password" class="form-control"
+                                                id="yourPassword" required>
                                             <button class="password-toggle" type="button" id="showPasswordButton">
                                                 <i class="bi bi-eye"></i> <!-- Eye Icon -->
                                             </button>
@@ -60,46 +64,28 @@
                                         </div>
                                     </div>
 
-                                    <script>
-                                        const passwordInput = document.getElementById("yourPassword");
-                                        const showPasswordButton = document.getElementById("showPasswordButton");
-
-                                        showPasswordButton.addEventListener("click", () => {
-                                            if (passwordInput.type === "password") {
-                                                passwordInput.type = "text";
-                                                showPasswordButton.innerHTML = '<i class="bi bi-eye-slash"></i>'; // Change button icon
-                                            } else {
-                                                passwordInput.type = "password";
-                                                showPasswordButton.innerHTML = '<i class="bi bi-eye"></i>'; // Change button icon
-                                            }
-                                        });
-                                    </script>
-
-                                        <div class="col-12">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <a href="{{ url( 'forgot-password' ) }}" >Forgot Password?</a>
-                                                <button class="btn btn-primary" type="submit">Login</button>
-
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="acceptTerms"
+                                                name="acceptTerms" required>
+                                            <label class="form-check-label" for="acceptTerms">
+                                                I accept the <a href="#" id="openTermsModal">terms and
+                                                    conditions</a>
+                                            </label>
+                                            <div class="invalid-feedback">You must accept the Terms and Conditions.
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <a href="{{ url('forgot-password') }}">Forgot Password?</a>
+                                            <button class="btn btn-primary" type="submit">Login</button>
+                                        </div>
+                                    </div>
                                 </form>
-
-                                <script>
-                                    // JavaScript to add the 'was-validated' class to the form after submission
-                                    const form = document.querySelector('.needs-validation');
-                                    form.addEventListener('submit', function (event) {
-                                        if (!form.checkValidity()) {
-                                            event.preventDefault();
-                                            event.stopPropagation();
-                                        }
-                                        form.classList.add('was-validated');
-                                    });
-                                </script>
-
-
                             </div>
                         </div>
-
 
                         <div class="copyright">
                             &copy; Copyright <strong><span>Balaoan, La Union</span></strong>. All Rights Reserved
@@ -111,15 +97,45 @@
                             <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
                             {{-- Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> --}}
                         </div>
-
                     </div>
                 </div>
             </div>
-
         </section>
-
     </div>
-</main><!-- End #main -->
+</main>
+
+<!-- Modal for Terms and Conditions -->
+<!-- Modal for Terms and Conditions -->
+<div class="modal" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
+                {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+            </div>
+            <div class="modal-body">
+                <!-- Place your terms and conditions content here -->
+                <p>Kunware Meron MUna</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<!-- JavaScript to open the modal -->
+<script>
+    document.getElementById("openTermsModal").addEventListener("click", function(e) {
+        e.preventDefault();
+        $('#termsModal').modal('show'); // Show the modal
+    });
+</script>
+
 
 <style>
     .password-input-group {
@@ -136,9 +152,22 @@
         border: none;
     }
 </style>
+<script>
+    const passwordInput = document.getElementById("yourPassword");
+    const showPasswordButton = document.getElementById("showPasswordButton");
+
+    showPasswordButton.addEventListener("click", () => {
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            showPasswordButton.innerHTML = '<i class="bi bi-eye-slash"></i>'; // Change button icon
+        } else {
+            passwordInput.type = "password";
+            showPasswordButton.innerHTML = '<i class="bi bi-eye"></i>'; // Change button icon
+        }
+    });
+</script>
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
         class="bi bi-arrow-up-short"></i></a>
-
 
 <!-- Vendor JS Files -->
 <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -154,6 +183,5 @@
 <script src="assets/js/main.js"></script>
 
 </body>
-
 
 </html>

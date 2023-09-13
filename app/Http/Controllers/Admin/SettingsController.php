@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Barangays;
 use App\Models\Provinces;
@@ -39,11 +40,33 @@ class SettingsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function audit()
+    public function audit(Request $request)
     {
-        $activities = Activity::orderBy('created_at', 'desc')->get();
+        $dateFilter = $request->input('date_filter');
+        $activitiesQuery = Activity::orderBy('created_at', 'desc');
+
+        if ($dateFilter !== 'all') {
+            $now = Carbon::now();
+
+            if ($dateFilter === 'today') {
+                $activitiesQuery->whereDate('created_at', $now->toDateString());
+            } elseif ($dateFilter === 'yesterday') {
+                $activitiesQuery->whereDate('created_at', $now->subDay()->toDateString());
+            } elseif ($dateFilter === 'last_week') {
+                $startOfWeek = $now->startOfWeek();
+                $endOfWeek = $now->endOfWeek();
+                $activitiesQuery->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
+            }
+        }
+
+        $activities = $activitiesQuery->get();
+
         return view('admin.settings.audittrail', compact('activities'));
     }
+
+
+
+
 
     public function profile()
     {

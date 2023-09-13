@@ -51,6 +51,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('/table', function () {
+    return view('table');
+});
 Route::get('/login', [AuthAuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthAuthController::class, 'login']);
 Route::post('/logout', [AuthAuthController::class, 'logout'])->name('logout');
@@ -67,6 +71,8 @@ Route::middleware(['auth', 'admin_or_staff'])->group(function () {
     Route::get('/get-farmer-count/{barangays_id}', [AdminController::class, 'getFarmerCount']);
     Route::get('/get-all-farmers-count', [AdminController::class, 'getAllFarmersCount']);
     Route::get('/get-status-count/{status}', [AdminController::class, 'getStatusCount']);
+    Route::get('/audit/filter', [SettingsController::class, 'audit'])->name('audit.filter');
+
 
     Route::get('farmreport', [FarmersDataController::class, 'farmdata']);
     Route::get('reports', [ReportsController::class, 'reports']);
@@ -110,4 +116,10 @@ Route::get('/test', [TestController::class, 'qrGen']);
 Route::get('qr-code/{id}', [QRCodeController::class, 'showProfile'])->name('qr-code.show');
 
 
+// Secretary
 
+Route::get('farmreport', [SecretaryController::class, 'farmdata']);
+Route::get('profile', [SettingsController::class, 'profile']);
+    Route::put('profile-update/{id}', [SettingsController::class, 'updateProfile'])->name('profile.update');
+    Route::put('password-update/{id}', [SettingsController::class, 'updatePassword'])->name('password.update');
+//Table

@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Models\Crops;
-use App\Models\QrCode;
 use App\Models\Machine;
 use App\Models\Barangays;
 use App\Models\Provinces;
 use App\Models\Commodities;
 use App\Models\Machineries;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\FarmersNumber;
 use App\Models\FarmersProfile;
@@ -20,6 +20,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Spatie\Activitylog\Traits\LogsActivity;
 use SimpleSoftwareIO\QrCode\Facades\QrCode as QrCodeFacade;
 
@@ -225,18 +226,30 @@ class FarmersDataController extends Controller
         ]);
 
 
-        // Generate QR code image using the QrCode facade
-        $qrCodeImage = QrCodeFacade::format('png')->generate($qrCodeContent);
-
-        // Save QR code image to storage using the Storage facade
-        $qrCodeImagePath = 'public/qr_codes/' . $farmersprofile->id . '.png';
-        Storage::put($qrCodeImagePath, $qrCodeImage);
-
-        // Save QR code image path to the database using the QrCode model
-        QrCode::create([
-            'farmersprofile_id' => $farmersprofile->id,
-            'qr_code_data' => $qrCodeImagePath, // Make sure this matches the attribute in the $fillable array
+        $qrCodeContent = json_encode([
+            'farmersnumber' => $farmersprofile->farmersNumbers->first()->farmersnumber,
+            'sname' => $farmersprofile->sname,
+            'regions' => $farmersprofile->regions,
+            'provinces_id' => $farmersprofile->provinces,
+            'municipalities_id' => $farmersprofile->municipalities,
+            'barangays_id' => $farmersprofile->barangays,
+            // Add more attributes as needed
         ]);
+
+        // Generate QR code image using the QrCode facade
+        $qrCodeImage = QrCode::size(200)->generate($qrCodeContent); // Adjust size as needed
+
+        // Convert the QR code image to base64
+        $base64Image = base64_encode($qrCodeImage);
+
+        // Create a new QrCode instance
+        $qrCode = new \App\Models\QrCode([
+            'farmersprofile_id' => $farmersprofile->id,
+            'qr_code_data' => $base64Image,
+        ]);
+
+        // Save the QR code to the database
+        $qrCode->save();
 
         activity()
             ->causedBy(auth()->user()) // Assuming you're logged in

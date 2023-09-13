@@ -19,10 +19,21 @@
 
 <div class="container-fluid">
     <h1 class="my-4">Audit Trail</h1>
+
+    <div class="form-group col-sm-4">
+        <label for="date_filter">Select Date Range:</label>
+        <select class="form-control" id="date_filter" name="date_filter">
+            <option value="all">All</option>
+            <option value="today">Today</option>
+            <option value="yesterday">Yesterday</option>
+            <option value="last_week">Last Week</option>
+        </select>
+    </div>
+
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table datatable table-bordered table-striped">
+                <table class="table datatable table-bordered table-striped" id="auditTrailTable">
                     <thead class="thead-dark">
                         <tr>
                             <th>Date and Time</th>
@@ -48,5 +59,40 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Function to filter the table based on the selected date filter
+    function filterTable(selectedValue) {
+        var table = document.getElementById('auditTrailTable').getElementsByTagName('tbody')[0];
+        var rows = table.getElementsByTagName('tr');
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var dateCell = row.getElementsByTagName('td')[0];
+            var date = dateCell.textContent || dateCell.innerText;
+            var showRow = false;
+
+            if (selectedValue === 'all' || selectedValue === 'All') {
+                showRow = true; // Show all rows when "All" is selected
+            } else if (date.includes(selectedValue)) {
+                showRow = true; // Show rows matching the selected date filter
+            }
+
+            row.style.display = showRow ? '' : 'none';
+        }
+    }
+
+    // Initial filter when the page loads
+    filterTable(document.getElementById('date_filter').value);
+
+    // Filter the table when the user selects a date range
+    document.getElementById('date_filter').addEventListener('change', function() {
+        var selectedValue = this.value;
+        filterTable(selectedValue);
+    });
+</script>
+
+
+
 
 @endsection

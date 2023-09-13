@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Secretary;
 
-use App\Models\FarmersNumber;
+use App\Models\FarmersProfile;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
@@ -10,7 +10,7 @@ use PowerComponents\LivewirePowerGrid\Traits\{ActionButton, WithExport};
 use PowerComponents\LivewirePowerGrid\Filters\Filter;
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridColumns};
 
-final class farmerstable extends PowerGridComponent
+final class SecretaryFarmersTable extends PowerGridComponent
 {
     use ActionButton;
     use WithExport;
@@ -48,19 +48,11 @@ final class farmerstable extends PowerGridComponent
     /**
      * PowerGrid datasource.
      *
-     * @return Builder<\App\Models\FarmersNumber>
+     * @return Builder<\App\Models\FarmersProfile>
      */
     public function datasource(): Builder
     {
-        return FarmersNumber::query()
-        ->join('farmersprofile', 'farmersnumber.farmersprofile_id', '=', 'farmersprofile.id')
-        ->select(
-            'farmersnumber.*',
-            'farmersnumber.created_at',
-            'farmersprofile.fname'
-
-        );
-
+        return FarmersProfile::query();
     }
 
     /*
@@ -95,14 +87,14 @@ final class farmerstable extends PowerGridComponent
     public function addColumns(): PowerGridColumns
     {
         return PowerGrid::columns()
-        ->addColumn('farmersnumber')
-        ->addColumn('fname')
-        ->addColumn('barangays_id')
-
+            ->addColumn('ref_no')
            /** Example of custom column using a closure **/
-            ->addColumn('farmersnumber_lower', fn (FarmersNumber $model) => strtolower(e($model->farmersnumber)))
+            ->addColumn('ref_no_lower', fn (FarmersProfile $model) => strtolower(e($model->ref_no)))
+            ->addColumn('fname')
+            ->addColumn('barangays_id')
+            ->addColumn('status')
+            ->addColumn('crops_id');
 
-            ->addColumn('created_at_formatted', fn (FarmersNumber $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
 
     /*
@@ -122,14 +114,23 @@ final class farmerstable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Farmersnumber', 'farmersnumber'),
-            Column::make('farmersprofile.fname', 'fname'),
-            Column::make('Barangays id', 'barangays_id')
+            Column::make('Ref no', 'ref_no')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Created at', 'created_at_formatted', 'created_at')
-                ->sortable(),
+
+            Column::make('Fname', 'fname')
+                ->sortable()
+                ->searchable(),
+
+
+            Column::make('Crops', 'crops_id'),
+            Column::make('Barangays id', 'barangays_id'),
+            Column::make('Status', 'status')
+            ->sortable()
+            ->searchable(),
+
+
 
         ];
     }
@@ -142,8 +143,10 @@ final class farmerstable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::inputText('farmersnumber')->operators(['contains']),
-            Filter::datetimepicker('created_at'),
+            Filter::inputText('ref_no')->operators(['contains']),
+            Filter::inputText('status')->operators(['contains']),
+            Filter::inputText('fname')->operators(['contains']),
+
         ];
     }
 
@@ -156,7 +159,7 @@ final class farmerstable extends PowerGridComponent
     */
 
     /**
-     * PowerGrid FarmersNumber Action Buttons.
+     * PowerGrid FarmersProfile Action Buttons.
      *
      * @return array<int, Button>
      */
@@ -167,13 +170,13 @@ final class farmerstable extends PowerGridComponent
        return [
            Button::make('edit', 'Edit')
                ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('farmers-number.edit', function(\App\Models\FarmersNumber $model) {
+               ->route('farmers-profile.edit', function(\App\Models\FarmersProfile $model) {
                     return $model->id;
                }),
 
            Button::make('destroy', 'Delete')
                ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('farmers-number.destroy', function(\App\Models\FarmersNumber $model) {
+               ->route('farmers-profile.destroy', function(\App\Models\FarmersProfile $model) {
                     return $model->id;
                })
                ->method('delete')
@@ -190,7 +193,7 @@ final class farmerstable extends PowerGridComponent
     */
 
     /**
-     * PowerGrid FarmersNumber Action Rules.
+     * PowerGrid FarmersProfile Action Rules.
      *
      * @return array<int, RuleActions>
      */
@@ -202,7 +205,7 @@ final class farmerstable extends PowerGridComponent
 
            //Hide button edit for ID 1
             Rule::button('edit')
-                ->when(fn($farmers-number) => $farmers-number->id === 1)
+                ->when(fn($farmers-profile) => $farmers-profile->id === 1)
                 ->hide(),
         ];
     }

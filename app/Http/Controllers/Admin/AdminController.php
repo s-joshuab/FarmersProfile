@@ -26,14 +26,16 @@ class AdminController extends Controller
 
         $maleCount = FarmersProfile::where('sex', 'Male')->count();
         $femaleCount = FarmersProfile::where('sex', 'Female')->count();
+
         // Fetch unique commodities_id values from the Crops table
         $commoditiesIds = crops::distinct('commodities_id')->pluck('commodities_id')->toArray();
 
-        // Initialize an array to store commodity names
+        // Initialize variables to store commodity names and counts
         $commodityNames = [];
-
-        // Count the number of occurrences of each commodities_id in the Crops table
         $commodityCounts = [];
+
+        $maxCommodityIndex = null; // Initialize maxCommodityIndex with null
+
         foreach ($commoditiesIds as $commodityId) {
             $count = crops::where('commodities_id', $commodityId)->count();
             $commodityCounts[] = $count;
@@ -42,17 +44,29 @@ class AdminController extends Controller
             $commodityName = Commodities::find($commodityId)->commodities;
             $commodityNames[] = $commodityName;
 
-            $maxCommodityCount = max($commodityCounts);
-            $maxCommodityIndex = array_search($maxCommodityCount, $commodityCounts);
-            $maxCommodityName = $commodityNames[$maxCommodityIndex];
-            $maxCommodityId = $commoditiesIds[$maxCommodityIndex];
+            // Update maxCommodityIndex if needed
+            if ($maxCommodityIndex === null || $count > $commodityCounts[$maxCommodityIndex]) {
+                $maxCommodityIndex = count($commodityCounts) - 1;
+            }
         }
 
+        // Find the maximum commodity count and its corresponding name and ID
+        if ($maxCommodityIndex !== null) {
+            $maxCommodityCount = $commodityCounts[$maxCommodityIndex];
+            $maxCommodityName = $commodityNames[$maxCommodityIndex];
+            $maxCommodityId = $commoditiesIds[$maxCommodityIndex];
+        } else {
+            // Set default values if there are no commodities
+            $maxCommodityCount = 0;
+            $maxCommodityName = "No Commodities";
+            $maxCommodityId = null;
+        }
 
-
-        return view('admin.admin', compact('maxCommodityName','farmerCount', 'benefits', 'status', 'user', 'commodityCounts', 'commodityNames', 'commoditiesIds', 'maleCount',
-         'femaleCount', 'barangays', 'maxCommodityIndex', 'maxCommodityCount', 'maxCommodityId' ));
+        return view('admin.admin', compact('maxCommodityName', 'farmerCount', 'benefits', 'status', 'user', 'commodityCounts', 'commodityNames', 'commoditiesIds', 'maleCount', 'femaleCount', 'barangays', 'maxCommodityIndex', 'maxCommodityCount', 'maxCommodityId'));
     }
+
+
+
 
     public function getFarmerCount($id)
     {

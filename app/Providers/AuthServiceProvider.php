@@ -31,7 +31,7 @@ class AuthServiceProvider extends ServiceProvider
             return $user->user_type === "Staff";
         });
         Gate::define('secretary-access', function ($user) {
-            return $user->ruser_type === "Secretary";
+            return $user->user_type === "Secretary";
         });
     }
 }

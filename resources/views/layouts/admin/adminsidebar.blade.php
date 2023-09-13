@@ -33,6 +33,9 @@
     </style>
 </head>
 <body>
+
+    @can('admin-access')
+
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <!-- Dashboard Nav -->
@@ -107,6 +110,132 @@
              style="width: 150px; height: 150px; border-radius: 50%;">
     </div>
 </aside>
+@endcan
+
+
+{{-- Staff --}}
+@can('staff-access')
+
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <!-- Dashboard Nav -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" id="dashboard-link" data-bs-target="#dashboard"
+               href="{{ url('dashboard') }}" onclick="setActiveNavItem(this)">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+
+        <!-- Farmers Data Page Nav -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ url('farmreport') }}" onclick="setActiveNavItem(this)">
+                <i class="bi bi-list-task"></i>
+                <span>Farmers Data</span>
+            </a>
+        </li>
+
+        <!-- Reports Page Nav -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ url('reports') }}" onclick="setActiveNavItem(this)">
+                <i class="bi bi-folder"></i>
+                <span>Reports</span>
+            </a>
+        </li>
+
+        <!-- Profile -->
+        <li class="nav-heading">Profile</li>
+
+        <!-- Settings Nav -->
+        <li class="nav-item">
+            <a class="nav-link" href="#" onclick="toggleSettingsNav()">
+                <i class="bi bi-sliders"></i><span>Settings</span>
+                <i class="bi bi-caret-down ms-auto" id="chevron-icon"></i>
+            </a>
+            <ul id="settings-nav" class="nav-content">
+                <li>
+                    <a href="{{ url('profile') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                        <i class="bi bi-person-circle" style="font-size: 16px;"></i><span style="color: #0000000;">Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('audit') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                        <i class="bi bi-journal-text" style="font-size: 16px;"></i><span style="color: #0000000;">Audit Trail</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('manageusers') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                        <i class="bi bi-people" style="font-size: 16px;"></i><span style="color: #0000000;">Manage Users</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('backup') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                        <i class="bi bi-database-check" style="font-size: 16px;"></i><span style="color: #0000000;">System Backup</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- Logout Nav -->
+        <li class="nav-item">
+            <a href="#" onclick="logout()" class="nav-link" style="background-color: #00d3fd; cursor: pointer;">
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span style="color: black;">Logout</span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="d-flex align-items-center justify-content-center mt-5" style="flex-direction: column;">
+        <img src="{{ asset('assets/img/12345.jpg') }}" alt=""
+             style="width: 150px; height: 150px; border-radius: 50%;">
+    </div>
+</aside>
+@endcan
+
+
+
+
+
+
+
+@can('secretary-access')
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <!-- Dashboard Nav -->
+
+        <!-- Farmers Data Page Nav -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ url('farmreport') }}" onclick="setActiveNavItem(this)">
+                <i class="bi bi-list-task"></i>
+                <span>Farmers Data</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ url('profile') }}" onclick="setActiveNavItem(this)">
+                <i class="bi bi-list-task"></i>
+                <span>Profile</span>
+            </a>
+        </li>
+
+
+
+        <!-- Logout Nav -->
+        <li class="nav-item">
+            <a href="#" onclick="logout()" class="nav-link" style="background-color: #00d3fd; cursor: pointer;">
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span style="color: black;">Logout</span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="d-flex align-items-center justify-content-center mt-5" style="flex-direction: column;">
+        <img src="{{ asset('assets/img/12345.jpg') }}" alt=""
+             style="width: 150px; height: 150px; border-radius: 50%;">
+    </div>
+</aside>
+@endcan
+
+
 
 <script>
     let settingsNavVisible = false;
