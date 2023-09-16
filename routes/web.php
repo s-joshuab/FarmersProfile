@@ -36,6 +36,8 @@ use App\Http\Controllers\staff\StaffSystemBackupController;
 use App\Http\Controllers\secretary\SecretaryProfileController;
 use App\Http\Controllers\secretary\SecretaryFarmDataController;
 use App\Http\Controllers\Auth\AuthController as AuthAuthController;
+use App\Http\Controllers\Secretary\SecretaryDataController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -105,21 +107,25 @@ Route::middleware(['auth', 'admin_or_staff'])->group(function () {
 });
 
 
+Route::middleware(['auth', 'secretary'])->group(function () {
+    Route::get('farmdata', [SecretaryController::class, 'farmdata']);
+    Route::get('profilee', [SecretaryController::class, 'profile']);
+    Route::put('profilee-update/{id}', [SecretaryController::class, 'updateProfile'])->name('profile.update');
+    Route::put('passwordd-update/{id}', [SecretaryController::class, 'updatePassword'])->name('password.update');
+
+    Route::get('/get-municipality/{provinces_id}', [SecretaryDataController::class, 'getMunicipality']);
+    Route::get('/get-barangay/{municipalities_id}', [SecretaryDataController::class, 'getBarangay']);
+
+    Route::get('add', [SecretaryDataController::class, 'create']);
+    Route::post('store', [SecretaryDataController::class, 'store']);
+    Route::get('farm-view/{id}/view', [SecretaryDataController::class, 'show'])->name('farmers.show');
 
 
-//test
+});
+
 Route::get('/test', [TestController::class, 'qrGen']);
 
 
 
 
 Route::get('qr-code/{id}', [QRCodeController::class, 'showProfile'])->name('qr-code.show');
-
-
-// Secretary
-
-Route::get('farmreport', [SecretaryController::class, 'farmdata']);
-Route::get('profile', [SettingsController::class, 'profile']);
-    Route::put('profile-update/{id}', [SettingsController::class, 'updateProfile'])->name('profile.update');
-    Route::put('password-update/{id}', [SettingsController::class, 'updatePassword'])->name('password.update');
-//Table

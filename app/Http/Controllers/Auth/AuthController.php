@@ -42,7 +42,7 @@ class AuthController extends Controller
             } elseif ($user->user_type === "Staff") {
                 return redirect('dashboard');
             } elseif ($user->user_type === 'Secretary') {
-            return redirect('secretary/dashboard');
+            return redirect('farmdata');
             }
 
             // Log the login activity

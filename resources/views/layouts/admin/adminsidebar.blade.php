@@ -205,13 +205,13 @@
 
         <!-- Farmers Data Page Nav -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ url('farmreport') }}" onclick="setActiveNavItem(this)">
+            <a class="nav-link collapsed" href="{{ url('farmdata') }}" onclick="setActiveNavItem(this)">
                 <i class="bi bi-list-task"></i>
                 <span>Farmers Data</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ url('profile') }}" onclick="setActiveNavItem(this)">
+            <a class="nav-link collapsed" href="{{ url('profilee') }}" onclick="setActiveNavItem(this)">
                 <i class="bi bi-list-task"></i>
                 <span>Profile</span>
             </a>

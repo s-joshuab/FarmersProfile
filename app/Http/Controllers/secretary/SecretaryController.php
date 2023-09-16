@@ -19,11 +19,12 @@ class SecretaryController extends Controller
 {
     public function farmdata(Request $request)
     {
+        $user = Auth::user();
         $selectedBarangay = $request->input('barangayFilter');
         $selectedCommodity = $request->input('commoditiesFilter');
         $selectedStatus = $request->input('statusFilter'); // Add status filter
 
-        $farmersQuery = FarmersProfile::query();
+        $farmersQuery = FarmersProfile::where('barangays_id', $user->barangays_id);
 
         if ($selectedBarangay) {
             $farmersQuery->where('barangays_id', $selectedBarangay);
@@ -60,7 +61,7 @@ class SecretaryController extends Controller
         // Fetch additional data as needed
         $someData = User::where('id', $user->id)->get(); // Replace with your actual query
 
-        return view('admin.settings.profile', compact('user', 'provinces', 'municipalities', 'barangays', 'someData'));
+        return view('secretary.farmers-data.profile', compact('user', 'provinces', 'municipalities', 'barangays', 'someData'));
     }
 
 
@@ -109,7 +110,7 @@ class SecretaryController extends Controller
         // Update the user's attributes
         $user->update($updatedAttributes);
 
-        return redirect('profile')->with('success', 'Profile updated successfully');
+        return redirect('profilee')->with('success', 'Profile updated successfully');
     }
 
 
@@ -145,6 +146,6 @@ class SecretaryController extends Controller
         $user->update($updatedAttributes);
 
         // Redirect to a success page or show a success message
-        return redirect('profile')->with('success', 'Password updated successfully.');
+        return redirect('profilee')->with('success', 'Password updated successfully.');
     }
 }

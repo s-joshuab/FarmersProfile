@@ -46,7 +46,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="add-employee mb-3 mt-3">
-                            <a href="{{ url('create-add') }}" class="btn btn-primary">
+                            <a href="{{ url('add') }}" class="btn btn-primary">
                                 <i class="bi bi-plus"></i> Add Farmer
                             </a>
                         </div>
@@ -59,7 +59,7 @@
 
                         <div class="row d-flex justify-content-end mt-3">
                             <div class="col-md-2">
-                                <select id="barangayFilter" class="form-select" aria-label="Barangay Filter">
+                                <select id="barangayFilter" class="form-select" aria-label="Barangay Filter" disabled>
                                     <option value="">All Barangays</option>
                                     @foreach ($barangays as $barangay)
                                         <option value="{{ $barangay->id }}">{{ $barangay->barangays }}</option>
@@ -140,7 +140,7 @@
                                                         View
                                                     </a>
 
-                                                    {{-- <a href="{{ route('farmers.edit', ['id' => $farmer->id]) }}"
+                                                    <a href="{{ route('farmers.edit', ['id' => $farmer->id]) }}"
                                                         class="btn btn-sm btn-primary" style="margin-right: 10px;">
                                                         Update
                                                     </a>
@@ -148,7 +148,7 @@
                                                     <a href="{{ route('farmers.generate', ['id' => $farmer->id]) }}"
                                                         class="btn btn-sm btn-secondary">
                                                         </i> Generate
-                                                    </a> --}}
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
