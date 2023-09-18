@@ -71,21 +71,28 @@
                     <p style="font-size: 12px; font-weight: bold; margin-left: 140px; margin-top: -30px;">Contact No:<br> {{ $farmer->number }} </p>
                     <p style="font-size: 12px; font-weight: bold; margin-top: -53px; margin-left: 230px;">Civil Status:<br> {{ $farmer->cstatus }} </p>
                 </div>
+                @if ($farmer)
                 <div style="position: absolute; top: 90px; right: 20px; width: 80px; height: 80px;">
-                    <!-- Decode the base64 image data and display the image -->
-                    @php
-                        $qrCodeBase64 = $farmer->qr_code_data;
-                        $qrCodeData = base64_decode($qrCodeBase64);
-                    @endphp
+                    @if ($farmer->qrCode) {{-- Assuming 'qrCode' is the relationship to the QR code model --}}
 
-
-
-                    @if ($qrCodeData)
-                        <img src="data:image/jpeg;base64,{{ base64_encode($qrCodeData) }}" alt="QR Code" style="width: 80px; height: 80px;">
+                        @php
+                            $qrCodeData = $farmer->qrCode->qr_code_data;
+                        @endphp
+                        @if ($qrCodeData)
+                            <img src="data:image/jpeg;base64,{{ $qrCodeData }}" alt="QR Code" style="width: 80px; height: 80px;">
+                        @else
+                            <p>No QR Code Data</p>
+                        @endif
                     @else
                         <p>No QR Code available</p>
                     @endif
                 </div>
+            @else
+                <p>Farmer not found</p>
+            @endif
+
+
+
 
 
 

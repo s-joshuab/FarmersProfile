@@ -212,7 +212,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ url('profilee') }}" onclick="setActiveNavItem(this)">
-                <i class="bi bi-list-task"></i>
+                <i class="bi bi-person-circle"></i>
                 <span>Profile</span>
             </a>
         </li>

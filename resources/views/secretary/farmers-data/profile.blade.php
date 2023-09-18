@@ -88,7 +88,7 @@
               </div>
 
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-                <form action="{{ route('profilee.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('profile.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row mb-3">
@@ -147,7 +147,7 @@
 
               <div class="tab-pane fade pt-3" id="profile-change-password">
                 <!-- Change Password Form -->
-                <form action="{{ route('passwordd.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('password.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 

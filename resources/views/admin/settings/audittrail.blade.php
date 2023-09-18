@@ -20,18 +20,19 @@
 <div class="container-fluid">
     <h1 class="my-4">Audit Trail</h1>
 
-    <div class="form-group col-sm-4">
-        <label for="date_filter">Select Date Range:</label>
-        <select class="form-control" id="date_filter" name="date_filter">
-            <option value="all">All</option>
-            <option value="today">Today</option>
-            <option value="yesterday">Yesterday</option>
-            <option value="last_week">Last Week</option>
-        </select>
-    </div>
-
     <div class="card">
         <div class="card-body">
+            <form action="{{ route('audit') }}" method="GET" class="container">
+                <label for="date_filter">Filter by Date:</label>
+                <select name="date_filter" id="date_filter">
+                    <option value="all">All</option>
+                    <option value="today">Today</option>
+                    <option value="yesterday">Yesterday</option>
+                    <option value="this_week">This Week</option>
+                    <option value="this_month">This Month</option>
+                </select>
+                <button type="submit" class="btn btn-primary btn-sm">Apply Filter</button>
+            </form>
             <div class="table-responsive">
                 <table class="table datatable table-bordered table-striped" id="auditTrailTable">
                     <thead class="thead-dark">
@@ -59,6 +60,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     // Function to filter the table based on the selected date filter
@@ -91,8 +93,5 @@
         filterTable(selectedValue);
     });
 </script>
-
-
-
 
 @endsection

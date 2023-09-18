@@ -225,17 +225,6 @@ class FarmersDataController extends Controller
             // Add more attributes as needed
         ]);
 
-
-        $qrCodeContent = json_encode([
-            'farmersnumber' => $farmersprofile->farmersNumbers->first()->farmersnumber,
-            'sname' => $farmersprofile->sname,
-            'regions' => $farmersprofile->regions,
-            'provinces_id' => $farmersprofile->provinces,
-            'municipalities_id' => $farmersprofile->municipalities,
-            'barangays_id' => $farmersprofile->barangays,
-            // Add more attributes as needed
-        ]);
-
         // Generate QR code image using the QrCode facade
         $qrCodeImage = QrCode::size(200)->generate($qrCodeContent); // Adjust size as needed
 
@@ -250,6 +239,19 @@ class FarmersDataController extends Controller
 
         // Save the QR code to the database
         $qrCode->save();
+
+        // Save the QR code image to the storage path
+        $storagePath = 'public/qrcodes/' . $qrCode->id . '.jpg'; // Adjust the storage path as needed
+        Storage::put($storagePath, $qrCodeImage);
+
+        // Optionally, you can also generate a public URL for the QR code
+        $qrCodeUrl = Storage::url($storagePath);
+
+        // Fetch the QR code image by its URL
+        $qrCodeImageUrl = asset($qrCodeUrl);
+
+        // Now you can use $qrCodeImageUrl to display the QR code image in your view
+
 
         activity()
             ->causedBy(auth()->user()) // Assuming you're logged in

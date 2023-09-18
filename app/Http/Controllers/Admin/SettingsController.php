@@ -10,13 +10,16 @@ use App\Models\Provinces;
 use App\Models\AuditTrail;
 use App\Models\ImageUpload;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\Municipalities;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Facades\Validator;
@@ -52,10 +55,14 @@ class SettingsController extends Controller
                 $activitiesQuery->whereDate('created_at', $now->toDateString());
             } elseif ($dateFilter === 'yesterday') {
                 $activitiesQuery->whereDate('created_at', $now->subDay()->toDateString());
-            } elseif ($dateFilter === 'last_week') {
+            } elseif ($dateFilter === 'this_week') {
                 $startOfWeek = $now->startOfWeek();
                 $endOfWeek = $now->endOfWeek();
                 $activitiesQuery->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
+            } elseif ($dateFilter === 'this_month') {
+                $startOfMonth = $now->startOfMonth();
+                $endOfMonth = $now->endOfMonth();
+                $activitiesQuery->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
             }
         }
 
@@ -176,39 +183,77 @@ class SettingsController extends Controller
         return view('admin.settings.sysbackup');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function performManualBackup()
     {
-        //
+        // Define the backup file name (you can customize this)
+        $backupFileName = 'backupdata_' . date('Y_m_d_His') . '.sql';
+
+        // Define the mysqldump command with the full path to mysqldump executable
+        $mysqlDumpPath = 'D:\xampp\mysql\bin\mysqldump.exe'; // Replace with your actual path
+        $command = "{$mysqlDumpPath} --user=root --host=127.0.0.1 MAO > " . storage_path('app/backup/') . $backupFileName;
+
+        // Execute the mysqldump command
+        shell_exec($command);
+
+        // Set the path to the backup file
+        $backupFilePath = storage_path('app/backup/') . $backupFileName;
+
+        // Check if the backup file exists
+        if (file_exists($backupFilePath)) {
+            // Create a response with the file for download
+            $response = new Response(file_get_contents($backupFilePath), 200);
+
+            // Set the content type and headers for the download
+            $response->header('Content-Type', 'application/sql');
+            $response->header('Content-Disposition', 'attachment; filename=' . $backupFileName);
+
+            // Delete the backup file after it's sent to the user
+            unlink($backupFilePath);
+
+            // Redirect back with a success message
+            return redirect()->back()->with('success', 'Manual backup completed successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Manual backup failed. Backup file not found.');
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function scheduleAutomaticBackup(Request $request)
     {
-        //
-    }
+        // Validate the request input
+        $request->validate([
+            'automatic_backup_date' => 'required|date',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        // Define the mysqldump command with the full path to mysqldump executable
+        $mysqlDumpPath = 'D:\xampp\mysql\bin\mysqldump.exe'; // Replace with your actual path
 
-    /**
-     * Show the form for editing the specified resource.
-     *
+        // Define the database name
+        $databaseName = env('MAO'); // Get the database name from your .env file
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        // Build the mysqldump command
+        $backupFileName = 'automatic_backup_' . date('Y_m_d_His') . '.sql';
+        $command = "{$mysqlDumpPath} --user=root --host=127.0.0.1 {$databaseName} > " . storage_path('app/backup/') . $backupFileName;
+
+        // Execute the mysqldump command
+        shell_exec($command);
+
+        // Set the path to the backup file
+        $backupFilePath = storage_path('app/backup/') . $backupFileName;
+
+        // Check if the backup file exists
+        if (file_exists($backupFilePath)) {
+            // Store the backup file in a storage location or cloud storage (e.g., Amazon S3)
+            Storage::put('backups/' . $backupFileName, file_get_contents($backupFilePath));
+
+            // Delete the local backup file after it's stored in the cloud
+            unlink($backupFilePath);
+
+            // You should define the monthly schedule within app/Console/Kernel.php
+            // Example: Schedule::command('backup:run')->monthly();
+
+            return redirect()->back()->with('success', 'Automatic backup scheduled successfully for ' . $request->input('automatic_backup_date'));
+        } else {
+            return redirect()->back()->with('error', 'Automatic backup failed. Backup file not found.');
+        }
     }
 }

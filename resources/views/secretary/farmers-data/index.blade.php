@@ -59,13 +59,22 @@
 
                         <div class="row d-flex justify-content-end mt-3">
                             <div class="col-md-2">
-                                <select id="barangayFilter" class="form-select" aria-label="Barangay Filter" disabled>
+                                <select id="barangayFilter" class="form-select" aria-label="Barangay Filter" style="display: none;">
                                     <option value="">All Barangays</option>
                                     @foreach ($barangays as $barangay)
                                         <option value="{{ $barangay->id }}">{{ $barangay->barangays }}</option>
                                     @endforeach
                                 </select>
                             </div>
+
+<script>
+    // To show the select element
+document.getElementById('barangayFilter').style.display = 'block';
+
+// To hide the select element
+document.getElementById('barangayFilter').style.display = 'none';
+
+</script>
 
                             <div class="col-md-2">
                                 <select id="commoditiesFilter" class="form-select" aria-label="Commodities Filter">
@@ -85,7 +94,7 @@
                                 </select>
                             </div>
                         </div>
-
+                    </div>
                         <div class="table-responsive mt-3">
                             <table id="myTable" class="table table-bordered table-striped">
                                 <thead>

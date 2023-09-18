@@ -19,18 +19,19 @@
     <div class="card">
         <div class="card-body">
             <h2 class="card-title">Manual Backup</h2>
-            <form method="post" action="">
-
+            <form method="POST" action="{{ route('manual.backup') }}">
                 @csrf
                 <button type="submit" class="btn btn-primary">Perform Manual Backup</button>
             </form>
+
         </div>
     </div>
 
     <div class="card mt-4">
         <div class="card-body">
             <h2 class="card-title">Automatic Backup (Monthly)</h2>
-            <form method="post" action="automatic_backup.php">
+            <form method="post" action="{{ route('schedule-automatic-backup') }}">
+                @csrf
                 <div class="form-group">
                     <label for="automatic_backup_date">Backup Date:</label>
                     <input type="date" class="form-control" name="automatic_backup_date" id="automatic_backup_date" required>

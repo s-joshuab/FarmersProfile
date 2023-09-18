@@ -65,7 +65,8 @@ Route::post('forgot-password', [AuthAuthController::class, 'PostForgotPassword']
 Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('/password/email',  [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('/password/reset/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('/password/reset', [ForgotPasswordController::class, 'reset'])->name('password.update');
+Route::post('/password/reset', [ForgotPasswordController::class, 'reset'])->name('password.updated');
+
 
 
 Route::middleware(['auth', 'admin_or_staff'])->group(function () {
@@ -79,7 +80,11 @@ Route::middleware(['auth', 'admin_or_staff'])->group(function () {
     Route::get('farmreport', [FarmersDataController::class, 'farmdata']);
     Route::get('reports', [ReportsController::class, 'reports']);
     Route::get('audit', [SettingsController::class, 'audit']);
+    Route::get('/audit', [SettingsController::class,'audit'])->name('audit');
+
     Route::get('backup', [SettingsController::class, 'backup']);
+    Route::post('perform-manual-backup', [SettingsController::class, 'performManualBackup'])->name('manual.backup');
+    Route::post('schedule-automatic-backup', [SettingsController::class, 'scheduleAutomaticBackup'])->name('schedule-automatic-backup');
     Route::get('generate', [FarmersDataController::class, 'generate']);
     Route::get('/get-municipalities/{provinces_id}', [FarmersDataController::class, 'getMunicipalities']);
     Route::get('/get-barangays/{municipalities_id}', [FarmersDataController::class, 'getBarangays']);
@@ -102,8 +107,8 @@ Route::middleware(['auth', 'admin_or_staff'])->group(function () {
 
     Route::get('/export-farmers', [ReportsController::class, 'exportFarmers']);
     Route::get('profile', [SettingsController::class, 'profile']);
-    Route::put('profile-update/{id}', [SettingsController::class, 'updateProfile'])->name('profile.update');
-    Route::put('password-update/{id}', [SettingsController::class, 'updatePassword'])->name('password.update');
+    Route::put('profile-update/{id}', [SettingsController::class, 'updateProfile'])->name('profile.updated');
+    Route::put('password-update/{id}', [SettingsController::class, 'updatePassword'])->name('password.updated');
 });
 
 
