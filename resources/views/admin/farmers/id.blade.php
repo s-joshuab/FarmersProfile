@@ -43,9 +43,9 @@
 
 
 
-<div class="container mt-4 shadow-lg" id="content-to-capture" >
+<div class="container mt-4 shadow-lg" >
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-12" id="content-to-capture">
         <div id="content-to-capture" class="page mt-3 shadow-sm" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat; ">
         <div class="header">
             <img src="{{ asset('assets/img/12345.jpg') }}" alt="Logo" style="max-width: 50px; margin-left: -350px; margin-top: 5px; border-radius: 50%;">
@@ -98,7 +98,7 @@
         </div>
 
 
-        <div id="content-to-capture" class="page mt-3 shadow-sm" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
+        <div  class="page mt-3 shadow-sm" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
             <div class="content">
                 <div style="border: 2px solid #ff1dec; padding: 15px; border-radius: 10px;">
                     <h4 class="text-center mt-1" style="font-size: 16px; font-weight:bold; background-color: #ff1dec;">Person To Notify In Case of Emergency:</h4>
@@ -134,11 +134,8 @@
     </div>
 
     <div class="text-center mt-3">
-        <button id="downloadImageBtn" class="btn btn-primary">Save Image</button>
-
-    </div>
-
     <button id="capture-button" class="btn btn-primary">Capture</button>
+    </div>
     <script>
         document.getElementById('capture-button').addEventListener('click', function() {
             // Specify the element to capture
