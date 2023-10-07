@@ -45,8 +45,8 @@
 
 <div class="container mt-4 shadow-lg" >
 <div class="row">
-    <div class="col-lg-12" id="content-to-capture">
-        <div  class="page mt-3 shadow-sm" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat; ">
+    <div class="col-lg-12" >
+        <div id="content-to-capture" class="page mt-3 shadow-sm" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat; ">
         <div class="header">
             <img src="{{ asset('assets/img/12345.jpg') }}" alt="Logo" style="max-width: 50px; margin-left: -350px; margin-top: 5px; border-radius: 50%;">
             <h4 style="font-size: 14px; margin-top: -50px; font-weight:bold;">Republic of the Philippines</h4>
