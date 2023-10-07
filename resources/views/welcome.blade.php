@@ -1,5 +1,6 @@
 @include('layouts.header')
 
+
 <body style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover;
 background-position: center;
 background-repeat: no-repeat;

@@ -72,31 +72,28 @@
                     <p style="font-size: 12px; font-weight: bold; margin-top: -53px; margin-left: 230px;">Civil Status:<br> {{ $farmer->cstatus }} </p>
                 </div>
                 @if ($farmer)
-                <div style="position: absolute; top: 90px; right: 20px; width: 80px; height: 80px;">
-                    @if ($farmer->qrCode) {{-- Assuming 'qrCode' is the relationship to the QR code model --}}
+                <div style="position: absolute; top: 80px; right: 10px; width: 80px; height: 80px;">
+                    @php
+                        // Define the path to the QR code image
+                        $qrCodeImagePath = 'public/qr_codes/' . $farmer->id . '.png';
 
-                        @php
-                            $qrCodeData = $farmer->qrCode->qr_code_data;
-                        @endphp
-                        @if ($qrCodeData)
-                            <img src="data:image/jpeg;base64,{{ $qrCodeData }}" alt="QR Code" style="width: 80px; height: 80px;">
-                        @else
-                            <p>No QR Code Data</p>
-                        @endif
+                        // Fetch the QR code image data from storage
+                        $qrCodeImageData = Storage::get($qrCodeImagePath);
+
+                        // Convert the image data to base64
+                        $qrCodeBase64 = base64_encode($qrCodeImageData);
+                    @endphp
+
+                    @if (!empty($qrCodeImageData))
+                        {{-- Embed the QR code image directly in the <img> tag --}}
+                        <img src="data:image/png;base64,{{ $qrCodeBase64 }}" alt="QR Code" style="width: 80px; height: 80px;">
                     @else
-                        <p>No QR Code available</p>
+                        <p>No QR Code Data</p>
                     @endif
                 </div>
             @else
                 <p>Farmer not found</p>
             @endif
-
-
-
-
-
-
-
             </div>
         </div>
 
@@ -135,6 +132,49 @@
              </div>
             </div>
     </div>
+
+    <div class="text-center mt-3">
+        <button id="downloadImageBtn" class="btn btn-primary">Save Image</button>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Function to trigger the image download
+        function downloadImage() {
+            // Get the first page element with class 'page'
+            const page = document.querySelector('.page');
+
+            // Create a new canvas element
+            const canvas = document.createElement('canvas');
+
+            // Set the canvas dimensions to match the page
+            canvas.width = page.offsetWidth;
+            canvas.height = page.offsetHeight;
+
+            // Get the canvas context
+            const context = canvas.getContext('2d');
+
+            // Draw the content of the page onto the canvas
+            const pageContent = page.cloneNode(true);
+            context.drawImage(pageContent, 0, 0);
+
+            // Convert the canvas to a data URL (PNG format)
+            const dataURL = canvas.toDataURL('image/png');
+
+            // Create a temporary anchor element
+            const downloadLink = document.createElement('a');
+            downloadLink.href = dataURL;
+            downloadLink.download = 'farmer_id.png'; // You can customize the filename here
+
+            // Trigger a click event on the link to initiate the download
+            downloadLink.click();
+        }
+
+        // Add a click event listener to the "Save Image" button
+        document.getElementById('downloadImageBtn').addEventListener('click', downloadImage);
+    </script>
+
+
 
     @endforeach
 @endsection

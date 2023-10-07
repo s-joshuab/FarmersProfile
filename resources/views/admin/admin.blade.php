@@ -113,16 +113,16 @@
                     <!-- Active -->
                     <div class="col-md-3">
                         <div class="card info-card revenue-card">
-                            <div class="filter">
+                            {{-- <div class="filter">
                                 <a class="icon" href="#" id="status-filter-dropdown-toggle"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end " id="status-filter-dropdown">
+                                <ul class="dropdown-menu dropdown-menu-end" id="status-filter-dropdown">
                                     <li class="dropdown-header text-start">
                                         <h6>Filter by Status</h6>
                                     </li>
                                     <li><a class="dropdown-item filter-option" data-filter="active" href="#">Active</a></li>
                                     <li><a class="dropdown-item filter-option" data-filter="inactive" href="#">Inactive</a></li>
                                 </ul>
-                            </div>
+                            </div> --}}
                             <div class="card-body">
                                 <h5 class="card-title">Status</h5>
                                 <div class="d-flex align-items-center">
@@ -130,7 +130,8 @@
                                         <i class="bi bi-people"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6 id="status-count">{{ $status }}</h6>
+                                        <h6 id="active-status-count">{{ $activeStatusCount }} Active</h6>
+                                        <h6 id="inactive-status-count" class="mt-1">{{ $inactiveStatusCount }} InActive</h6>
                                     </div>
                                 </div>
                             </div>
@@ -141,7 +142,6 @@
                         document.addEventListener("DOMContentLoaded", () => {
                             const statusFilterDropdownToggle = document.getElementById('status-filter-dropdown-toggle');
                             const statusFilterDropdown = document.getElementById('status-filter-dropdown');
-                            const statusCountElement = document.getElementById('status-count');
                             const filterTextElement = document.getElementById('filter-text'); // Element to display the selected filter
 
                             statusFilterDropdownToggle.addEventListener('click', (e) => {
@@ -154,12 +154,14 @@
                             filterOptions.forEach(option => {
                                 option.addEventListener('click', function () {
                                     const selectedFilter = this.getAttribute('data-filter');
-                                    // Make an AJAX request to fetch the count based on the selected filter
+
+                                    // Make an AJAX request to fetch the counts based on the selected filter
                                     fetch(`/get-status-count/${selectedFilter}`)
                                         .then(response => response.json())
                                         .then(data => {
-                                            // Update the count based on the response data
-                                            statusCountElement.textContent = data.count;
+                                            // Update the counts based on the response data
+                                            document.getElementById('active-status-count').textContent = data.activeStatusCount;
+                                            document.getElementById('inactive-status-count').textContent = data.inactiveStatusCount;
 
                                             // Update the selected filter text in the card
                                             filterTextElement.textContent = selectedFilter;
@@ -171,6 +173,7 @@
                             });
                         });
                     </script>
+
 
                     <!-- Users -->
                     <div class="col-md-3">

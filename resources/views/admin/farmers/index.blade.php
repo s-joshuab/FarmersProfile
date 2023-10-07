@@ -59,7 +59,7 @@
 
                         <div class="row d-flex justify-content-end mt-3">
                             <div class="col-md-2">
-                                <select id="barangayFilter" class="form-select" aria-label="Barangay Filter">
+                                <select id="barangayFilter" class="form-select" aria-label="Barangay Filter" multiple>
                                     <option value="">All Barangays</option>
                                     @foreach ($barangays as $barangay)
                                         <option value="{{ $barangay->id }}">{{ $barangay->barangays }}</option>
@@ -68,17 +68,19 @@
                             </div>
 
                             <div class="col-md-2">
-                                <select id="commoditiesFilter" class="form-select" aria-label="Commodities Filter">
-                                    <option value="">All Commodities</option>
+                                <select id="commoditiesFilter" class="form-select" aria-label="Commodities Filter" multiple>
+                                    <option value="all">All Commodities</option> <!-- Added "All Commodities" option -->
                                     @foreach ($commodities as $commodity)
                                         <option value="{{ $commodity->id }}">{{ $commodity->commodities }}</option>
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="col-md-2">
+                                <div id="commoditiesFilterDisplay"></div>
+                            </div>
 
                             <div class="col-md-2">
-                                <select name="statusFilter" id="statusFilter" class="form-select"
-                                    aria-label="Status Filter">
+                                <select name="statusFilter" id="statusFilter" class="form-select" aria-label="Status Filter">
                                     <option value="">All Status</option>
                                     <option value="Active">Active</option>
                                     <option value="Inactive">Inactive</option>
@@ -104,27 +106,24 @@
                                             data-commodities="{{ implode(',', $farmer->crops->pluck('commodities_id')->toArray()) }}"
                                             data-status="{{ $farmer->status }}">
                                             <td>{{ $farmer->farmersNumbers?->first()?->farmersnumber ?? 'No Data' }}</td>
-
                                             <td>{{ $farmer->fname }} {{ $farmer->sname }}</td>
                                             <td>{{ $farmer->barangay?->barangays ?? 'No Data' }}</td>
                                             <td>
                                                 @php
-                                                    $commoditiesList = $farmer->crops
-                                                        ->filter(function ($crop) use ($selectedCommodity) {
-                                                            return $crop->commodity_id == $selectedCommodity;
-                                                        })
-                                                        ->map(function ($crop) {
-                                                            return $crop->commodity->commodities;
-                                                        })
-                                                        ->implode('<br>');
+                                                    $farmerCommodities = $farmer->crops->pluck('commodities_id')->toArray();
+                                                    $selectedCommodities = $selectedCommodities ?? []; // Ensure $selectedCommodities is an array
 
-                                                    if ($commoditiesList) {
-                                                        echo $commoditiesList;
+                                                    $selectedFarmerCommodities = array_intersect($farmerCommodities, $selectedCommodities);
+
+                                                    if (!empty($selectedFarmerCommodities)) {
+                                                        echo implode('<br>', $commodities->whereIn('id', $selectedFarmerCommodities)->pluck('commodities')->toArray());
                                                     } else {
                                                         echo 'No Data';
                                                     }
                                                 @endphp
                                             </td>
+
+
                                             <td>
                                                 @if ($farmer->status === 'Active')
                                                     <span class="badge bg-success">Active</span>
@@ -132,10 +131,9 @@
                                                     <span class="badge bg-danger">Inactive</span>
                                                 @endif
                                             </td>
-
                                             <td class="text-center">
                                                 <div class="btn-group" role="group">
-                                                    <a href="{{ route('farmers.show', ['id' => $farmer->id]) }}"
+                                                    <a href="{{ route('farmers.showed', ['id' => $farmer->id]) }}"
                                                         class="btn btn-sm btn-info" style="margin-right: 10px;">
                                                         View
                                                     </a>
@@ -145,7 +143,7 @@
                                                         Update
                                                     </a>
 
-                                                    <a href="{{ route('farmers.generate', ['id' => $farmer->id]) }}"
+                                                  <a href="{{ route('farmers.generate', ['id' => $farmer->id]) }}"
                                                         class="btn btn-sm btn-secondary">
                                                         </i> Generate
                                                     </a>
@@ -185,64 +183,116 @@
         }
     </style>
 
-    <script>
-        $(document).ready(function() {
-            $('#myTable').DataTable({
-                "lengthMenu": [10, 25, 50, 100], // Set your desired entries per page values
-                "pageLength": 10, // Default number of entries per page
-                "pagingType": "full_numbers", // Use full pagination control
-                "searching": false // Disable the search bar
-            });
+<script>
+    // JavaScript variable containing the mapping of commodity IDs to names
+    var commodityMap = {
+        @foreach ($commodities as $commodity)
+            {{ $commodity->id }}: '{{ $commodity->commodities }}',
+        @endforeach
+    };
 
-            // Event listener for changing the number of entries per page
-            $('#showEntries').on('change', function() {
-                var entriesPerPage = parseInt($(this).val());
-                $('#myTable').DataTable().page.len(entriesPerPage).draw();
-            });
+    $(document).ready(function() {
+        $('#myTable').DataTable({
+            "lengthMenu": [10, 25, 50, 100], // Set your desired entries per page values
+            "pageLength": 10, // Default number of entries per page
+            "pagingType": "full_numbers", // Use full pagination control
+            "searching": false // Disable the search bar
         });
-    </script>
 
-    <script>
+        // Event listener for changing the number of entries per page
+        $('#showEntries').on('change', function() {
+            var entriesPerPage = parseInt($(this).val());
+            $('#myTable').DataTable().page.len(entriesPerPage).draw();
+        });
+
+        // Event listener for "All Commodities" option
+        $('#commoditiesFilter').on('change', function() {
+            filterTable();
+            updateCommoditiesFilterDisplay();
+        });
+
+        // Function to update the displayed commodity names in the filter
+        function updateCommoditiesFilterDisplay() {
+            var selectedCommodityIds = $('#commoditiesFilter').val();
+            var selectedCommodityNames = [];
+
+            if (selectedCommodityIds.includes('all')) {
+                $('#commoditiesFilter option').each(function() {
+                    if ($(this).val() !== 'all') { // Exclude the "All Commodities" option
+                        selectedCommodityNames.push($(this).text());
+                    }
+                });
+            } else {
+                $('#commoditiesFilter option:selected').each(function() {
+                    if ($(this).val() !== 'all') { // Exclude the "All Commodities" option
+                        var commodityId = $(this).val();
+                        selectedCommodityNames.push(commodityMap[commodityId]);
+                    }
+                });
+            }
+
+            $('#commoditiesFilterDisplay').text(selectedCommodityNames.join(', '));
+        }
+
         // Function to filter the table based on selected filters
         function filterTable() {
-            var selectedBarangayId = $('#barangayFilter').val();
-            var selectedCommodityId = $('#commoditiesFilter').val();
+            var selectedBarangayIds = $('#barangayFilter').val();
+            var selectedCommodityIds = $('#commoditiesFilter').val();
             var selectedStatus = $('#statusFilter').val();
             var searchText = $('#search').val().toLowerCase();
 
             $('#myTable tbody tr').each(function() {
                 var tr = $(this);
                 var trBarangayId = tr.data('barangay');
-                var trCommodities = tr.data('commodities');
+                var trCommodities = tr.data('commodities').split(',').map(Number);
                 var trStatus = tr.data('status');
                 var trText = tr.text().toLowerCase();
 
                 var showRow = true;
 
-                // Check if selectedBarangayId is not empty and doesn't match the row's barangay
-                if (selectedBarangayId !== '' && selectedBarangayId != trBarangayId) {
-                    showRow = false;
-                }
-
-                // Check if selectedCommodityId is not empty
-                if (selectedCommodityId !== '') {
-                    var rowCommodities = trCommodities.split(',');
-                    if (!rowCommodities.includes(selectedCommodityId)) {
+                if (selectedBarangayIds.length > 0 && selectedBarangayIds[0] !== '') {
+                    // Check if the row's barangay is in the selected barangays
+                    if (!selectedBarangayIds.includes(trBarangayId.toString())) {
                         showRow = false;
                     }
                 }
 
-                // Check if selectedStatus is not empty and doesn't match the row's status
                 if (selectedStatus !== '' && selectedStatus != trStatus) {
                     showRow = false;
                 }
 
-                // Check if the search text is not empty and doesn't match the row's text
                 if (searchText !== '' && !trText.includes(searchText)) {
                     showRow = false;
                 }
 
-                // Show or hide the row based on the filtering result
+                if (selectedCommodityIds.length > 0) {
+                    // Check if the row's commodities match any of the selected commodities
+                    var hasSelectedCommodity = trCommodities.some(commodityId => selectedCommodityIds.includes(commodityId.toString()));
+
+                    // Update the displayed commodities in the table cell
+                    var displayedCommodities = [];
+                    if (hasSelectedCommodity) {
+                        trCommodities.filter(commodityId => selectedCommodityIds.includes(commodityId.toString())).forEach(function(commodityId) {
+                            displayedCommodities.push(commodityMap[commodityId]);
+                        });
+                    }
+
+                    // Set the HTML content of the cell with the selected commodities
+                    tr.find('td:eq(3)').html(displayedCommodities.join('<br>'));
+
+                    if (!hasSelectedCommodity) {
+                        showRow = false;
+                    }
+                }
+
+                // Handle the case when "All Barangays" and "All Commodities" are selected
+                if (selectedBarangayIds.length === 0 && selectedCommodityIds.includes('all') && selectedStatus === '' && searchText === '') {
+                    showRow = true;
+                    // Show all commodities the farmer has
+                    var allCommodities = trCommodities.map(commodityId => commodityMap[commodityId]);
+                    tr.find('td:eq(3)').html(allCommodities.join('<br>'));
+                }
+
                 if (showRow) {
                     tr.show();
                 } else {
@@ -251,12 +301,21 @@
             });
         }
 
-        // Filter the table when either Barangay, Commodities, Status, or Search changes
+        // Add the event listener for changes in the filters
         $('#barangayFilter, #commoditiesFilter, #statusFilter, #search').on('change keyup', function() {
             filterTable();
         });
 
         // Initial filter when the page loads
         filterTable();
-    </script>
+        updateCommoditiesFilterDisplay(); // Initial update of the displayed commodities in the filter
+    });
+</script>
+
+
+
+
+
+
+
 @endsection

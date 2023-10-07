@@ -27,3 +27,5 @@
         </div>
     </x-grid>
 @endfor
+
+{{-- <livewire:farmers-profile/> --}}

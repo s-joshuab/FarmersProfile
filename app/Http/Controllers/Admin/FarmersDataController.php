@@ -25,6 +25,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use SimpleSoftwareIO\QrCode\Facades\QrCode as QrCodeFacade;
 
 
+
 class FarmersDataController extends Controller
 {
 
@@ -43,8 +44,8 @@ class FarmersDataController extends Controller
     public function farmdata(Request $request)
     {
         $selectedBarangay = $request->input('barangayFilter');
-        $selectedCommodity = $request->input('commoditiesFilter');
-        $selectedStatus = $request->input('statusFilter'); // Add status filter
+        $selectedCommodities = $request->input('commoditiesFilter');
+        $selectedStatus = $request->input('statusFilter');
 
         $farmersQuery = FarmersProfile::query();
 
@@ -52,34 +53,48 @@ class FarmersDataController extends Controller
             $farmersQuery->where('barangays_id', $selectedBarangay);
         }
 
-        if ($selectedCommodity) {
-            $farmersQuery->whereHas('crops', function ($q) use ($selectedCommodity) {
-                $q->whereIn('commodities_id', [$selectedCommodity]);
-            });
-        }
-
         if ($selectedStatus) {
             $farmersQuery->where('status', $selectedStatus);
         }
 
+        $farmersQuery->with(['crops']);
+
         $farmers = $farmersQuery->get();
         $barangays = Barangays::all();
         $commodities = Commodities::all();
-        $farm = FarmersProfile::paginate(10); // Change '10' to the number of records per page you desire
+        $farm = FarmersProfile::paginate(10);
 
-
-        // You don't need to retrieve statuses separately; they are hardcoded in the dropdown
-
-        return view('admin.farmers.index', compact('farm', 'farmers', 'barangays', 'commodities', 'selectedBarangay', 'selectedCommodity', 'selectedStatus'));
+        return view('admin.farmers.index', compact('farm', 'farmers', 'barangays', 'commodities', 'selectedBarangay', 'selectedCommodities', 'selectedStatus'));
     }
 
+
+
+
+
+
+    public function saveImage(Request $request)
+    {
+        // Get the image data URL from the request
+        $imageDataUrl = $request->input('image');
+
+        // Decode the data URL and save it to storage
+        $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imageDataUrl));
+
+        // Generate a unique filename (you can customize this logic)
+        $filename = 'farmer_id_' . time() . '.png';
+
+        // Save the image to the storage path
+        Storage::put('public/' . $filename, $imageData);
+
+        return response()->json(['message' => 'Image saved successfully', 'filename' => $filename]);
+    }
 
 
     public function generate($id)
     {
         $ids = [$id];
         $farmers = FarmersProfile::whereIn('id', $ids)->get();
-        return view('admin.farmers.id', compact('farmers'));
+        return view('admin.farmers.id', compact('farmers', 'ids'));
     }
 
 
@@ -182,13 +197,27 @@ class FarmersDataController extends Controller
         $farmSizes = $request->input('farm_size', []);
         $farmLocations = $request->input('farm_location', []);
 
-        foreach ($selectedCommodities as $id => $commodityId) {
+
+        if (empty($selectedCommodities)) {
+            // If no commodities are selected, save null values
             $farmersprofile->crops()->create([
-                'commodities_id' => $commodityId,
-                'farm_size' => $farmSizes[$commodityId],
-                'farm_location' => $farmLocations[$commodityId],
+                'commodities_id' => null,
+                'farm_size' => null,
+                'farm_location' => null,
             ]);
+        } else {
+            // If commodities are selected, loop through them and save the data
+            foreach ($selectedCommodities as $id => $commodityId) {
+                $farmersprofile->crops()->create([
+                    'commodities_id' => $commodityId,
+                    'farm_size' => $farmSizes[$commodityId],
+                    'farm_location' => $farmLocations[$commodityId],
+                ]);
+            }
         }
+
+
+
         $selectedMachineries = $request->input('machineries', []);
         $units = $request->input('units', []);
 
@@ -215,44 +244,16 @@ class FarmersDataController extends Controller
             $farmersNumber = $this->createFarmersNumber($attributes);
         }
 
-        $qrCodeContent = json_encode([
-            'farmersnumber' => $farmersprofile->farmersNumbers->first()->farmersnumber,
-            'sname' => $farmersprofile->sname,
-            'regions' => $farmersprofile->regions,
-            'provinces_id' => $farmersprofile->provinces,
-            'municipalities_id' => $farmersprofile->municipalities,
-            'barangays_id' => $farmersprofile->barangays,
-            // Add more attributes as needed
-        ]);
+        $qrCodeContent = $farmersprofile->id; // Use the ID of the FarmersProfile instance
 
         // Generate QR code image using the QrCode facade
-        $qrCodeImage = QrCode::size(200)->generate($qrCodeContent); // Adjust size as needed
+        $qrCodeImage = QrCodeFacade::format('png')->generate($qrCodeContent);
 
-        // Convert the QR code image to base64
-        $base64Image = base64_encode($qrCodeImage);
+        // Save QR code image to storage using the Storage facade
+        $qrCodeImagePath = 'public/qr_codes/' . $farmersprofile->id . '.png';
+        Storage::put($qrCodeImagePath, $qrCodeImage);
 
-        // Create a new QrCode instance
-        $qrCode = new \App\Models\QrCode([
-            'farmersprofile_id' => $farmersprofile->id,
-            'qr_code_data' => $base64Image,
-        ]);
-
-        // Save the QR code to the database
-        $qrCode->save();
-
-        // Save the QR code image to the storage path
-        $storagePath = 'public/qrcodes/' . $qrCode->id . '.jpg'; // Adjust the storage path as needed
-        Storage::put($storagePath, $qrCodeImage);
-
-        // Optionally, you can also generate a public URL for the QR code
-        $qrCodeUrl = Storage::url($storagePath);
-
-        // Fetch the QR code image by its URL
-        $qrCodeImageUrl = asset($qrCodeUrl);
-
-        // Now you can use $qrCodeImageUrl to display the QR code image in your view
-
-
+        // Do not save the QR code image data to the database, only save the path in the 'qr_code_data' column
         activity()
             ->causedBy(auth()->user()) // Assuming you're logged in
             ->performedOn($farmersprofile) // The user being created
@@ -336,7 +337,7 @@ class FarmersDataController extends Controller
             'spouse' => 'nullable',
             'number' => 'required',
             'mother' => 'required',
-            'regions' => 'required',
+            // 'regions' => 'required',
             'provinces_id' => 'required',
             'municipalities_id' => 'required',
             'barangays_id' => 'required',
@@ -374,7 +375,7 @@ class FarmersDataController extends Controller
             'spouse' => $request->input('spouse'),
             'mother' => $request->input('mother'),
             'number' => $request->input('number'),
-            'regions' => $request->input('regions'),
+            // 'regions' => $request->input('regions'),
             'provinces_id' => $request->input('provinces_id'),
             'municipalities_id' => $request->input('municipalities_id'),
             'barangays_id' => $request->input('barangays_id'),

@@ -65,7 +65,8 @@ Route::post('forgot-password', [AuthAuthController::class, 'PostForgotPassword']
 Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('/password/email',  [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('/password/reset/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('/password/reset', [ForgotPasswordController::class, 'reset'])->name('password.updated');
+Route::post('/password/reset', [ForgotPasswordController::class, 'reset'])->name('password.updates');
+
 
 
 
@@ -91,7 +92,7 @@ Route::middleware(['auth', 'admin_or_staff'])->group(function () {
 
     Route::get('create-add', [FarmersDataController::class, 'create']);
     Route::post('create', [FarmersDataController::class, 'store']);
-    Route::get('farmers-view/{id}/view', [FarmersDataController::class, 'show'])->name('farmers.show');
+    Route::get('farmers-view/{id}/view', [FarmersDataController::class, 'show'])->name('farmers.showed');
     Route::get('farmers-edit/{id}/edit', [FarmersDataController::class, 'edit'])->name('farmers.edit');
     Route::put('farmers-update/{id}', [FarmersDataController::class, 'update']);
     Route::get('farmers-generate/{id}/generate', [FarmersDataController::class, 'generate'])->name('farmers.generate');
@@ -109,6 +110,9 @@ Route::middleware(['auth', 'admin_or_staff'])->group(function () {
     Route::get('profile', [SettingsController::class, 'profile']);
     Route::put('profile-update/{id}', [SettingsController::class, 'updateProfile'])->name('profile.updated');
     Route::put('password-update/{id}', [SettingsController::class, 'updatePassword'])->name('password.updated');
+
+    Route::post('/save-image', [FarmersDataController::class, 'saveImage']);
+
 });
 
 

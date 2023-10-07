@@ -21,7 +21,7 @@
 
 
 <!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 <!-- Vendor JS Files -->
 <script src="../../assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -39,18 +39,17 @@
 <script src="../../assets/js/main.js"></script>
 <script src="../../assets/js/script.js"></script>
 <script src="../../assets/js/checkbox.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="{{ asset('assets/js/datatbl.js') }}"></script>
 
 <!-- Bootstrap CSS and JS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<link href="../../assets/css/boostrap2.css" rel="stylesheet">
+<script src="{{ asset('assets/js/boostrapjs.js') }}"></script>
 
 <!-- DataTables CSS -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<link href="../../assets/css/tables.css" rel="stylesheet">
 
 <!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="../../assets/css/fontawesome.css" rel="stylesheet">
 
 <!-- HTML2Canvas -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
-
+<link href="../../assets/css/canvas.css" rel="stylesheet">

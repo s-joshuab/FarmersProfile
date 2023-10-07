@@ -26,7 +26,10 @@ class AdminController extends Controller
 
         $maleCount = FarmersProfile::where('sex', 'Male')->count();
         $femaleCount = FarmersProfile::where('sex', 'Female')->count();
+        $activeStatusCount = FarmersProfile::where('status', 'Active')->count();
 
+        // Fetch the count of inactive farmers
+        $inactiveStatusCount = FarmersProfile::where('status', 'Inactive')->count();
         // Fetch unique commodities_id values from the Crops table
         $commoditiesIds = crops::distinct('commodities_id')->pluck('commodities_id')->toArray();
 
@@ -41,8 +44,13 @@ class AdminController extends Controller
             $commodityCounts[] = $count;
 
             // Fetch and store the commodity name based on the commodities_id
-            $commodityName = Commodities::find($commodityId)->commodities;
-            $commodityNames[] = $commodityName;
+            $commodity = Commodities::find($commodityId);
+            if ($commodity) {
+                $commodityName = $commodity->commodities;
+                $commodityNames[] = $commodityName;
+            } else {
+                $commodityNames[] = "Unknown"; // Provide a default value for missing commodities
+            }
 
             // Update maxCommodityIndex if needed
             if ($maxCommodityIndex === null || $count > $commodityCounts[$maxCommodityIndex]) {
@@ -62,8 +70,10 @@ class AdminController extends Controller
             $maxCommodityId = null;
         }
 
-        return view('admin.admin', compact('maxCommodityName', 'farmerCount', 'benefits', 'status', 'user', 'commodityCounts', 'commodityNames', 'commoditiesIds', 'maleCount', 'femaleCount', 'barangays', 'maxCommodityIndex', 'maxCommodityCount', 'maxCommodityId'));
+        return view('admin.admin', compact('maxCommodityName', 'farmerCount', 'benefits', 'status', 'user', 'commodityCounts', 'commodityNames', 'commoditiesIds', 'maleCount', 'femaleCount', 'barangays', 'maxCommodityIndex',
+        'activeStatusCount', 'inactiveStatusCount','maxCommodityCount', 'maxCommodityId'));
     }
+
 
 
 

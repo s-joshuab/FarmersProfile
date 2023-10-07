@@ -84,4 +84,5 @@ class FarmersProfile extends Model
         return $this->hasOne(QrCode::class, 'farmersprofile_id');
     }
 
+
 }

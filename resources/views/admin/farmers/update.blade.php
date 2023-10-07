@@ -115,9 +115,9 @@
 
                                     <!-- Beekeeper Province Address -->
                                     <div class="col-md-4 position-relative mt-0">
-                                        <label for="municipality">Municipality:</label>
-                                        <select id="municipality" name="municipalities_id" class="form-control" disabled>
-                                            <option value="">Select Municipality</option>
+                                        <label for="province">Province:</label>
+                                        <select id="province" name="provinces_id" class="form-control" >
+                                            <option value="">Select Province</option>
                                             @foreach ($provinces as $province)
                                                 <option value="{{ $province->id }}" {{ $farmersprofile->provinces_id == $province->id ? 'selected' : '' }}>
                                                     {{ $province->provinces }}
@@ -129,7 +129,7 @@
                                     <!-- Municipality Dropdown -->
                                     <div class="col-md-4 position-relative mt-0">
                                         <label for="municipality">Municipality:</label>
-                                        <select id="municipality" name="municipalities_id" class="form-control" disabled>
+                                        <select id="municipality" name="municipalities_id" class="form-control" >
                                             <option value="">Select Municipality</option>
                                             @foreach ($municipalities as $municipality)
                                                 <option value="{{ $municipality->id }}" {{ $farmersprofile->municipalities_id == $municipality->id ? 'selected' : '' }}>
@@ -141,9 +141,9 @@
 
                                     <!-- Barangay Dropdown -->
                                     <div class="col-md-4 position-relative mt-0">
-                                        <label for="municipality">Municipality:</label>
-                                        <select id="municipality" name="municipalities_id" class="form-control" disabled>
-                                            <option value="">Select Municipality</option>
+                                        <label for="barangay">Barangay:</label>
+                                        <select id="barangay" name="barangays_id" class="form-control" >
+                                            <option value="">Select Barangay</option>
                                             @foreach ($barangays as $barangay)
                                                 <option value="{{ $barangay->id }}" {{ $farmersprofile->barangays_id == $barangay->id ? 'selected' : '' }}>
                                                     {{ $barangay->barangays }}
@@ -151,6 +151,7 @@
                                             @endforeach
                                         </select>
                                     </div>
+
 
                                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                                     <script>
@@ -243,7 +244,7 @@
 <div class="col-md-4 position-relative mt-0">
     <label class="form-label">Street/Sitio/Purok/Subdv.</label>
     <input type="text" class="form-control" id="validationTooltip01"
-        name="purok" value="{{ $farmersprofile->purok}}" required autofocus="autofocus" disabled>
+        name="purok" value="{{ $farmersprofile->purok}}" required autofocus="autofocus" >
     <div class="invalid-tooltip">
         The Street/Sitio/Purok/Subdv. field is required.
     </div>
@@ -252,7 +253,7 @@
 <div class="col-md-4 position-relative mt-0">
     <label class="form-label">House/Lot/Bldg. No.</label>
     <input type="text" class="form-control" id="validationTooltip01" value="{{ $farmersprofile->house}}"
-        name="house" required autofocus="autofocus" disabled>
+        name="house" required autofocus="autofocus" >
     <div class="invalid-tooltip">
         The House/Lot/Bldg. No. field is required.
     </div>

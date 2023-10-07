@@ -18,6 +18,6 @@ class QrCode extends Model
 
     public function farmersProfile()
     {
-        return $this->belongsTo(FarmersProfile::class);
+        return $this->belongsTo(FarmersProfile::class, 'farmersprofile_id');
     }
 }
