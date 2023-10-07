@@ -43,10 +43,10 @@
 
 
 
-<div class="container mt-4 shadow-lg" >
+<div class="container mt-4 shadow-lg" id="content-to-capture" >
 <div class="row">
     <div class="col-lg-12">
-        <div class="page mt-3 shadow-sm" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat; ">
+        <div id="content-to-capture" class="page mt-3 shadow-sm" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat; ">
         <div class="header">
             <img src="{{ asset('assets/img/12345.jpg') }}" alt="Logo" style="max-width: 50px; margin-left: -350px; margin-top: 5px; border-radius: 50%;">
             <h4 style="font-size: 14px; margin-top: -50px; font-weight:bold;">Republic of the Philippines</h4>
@@ -98,7 +98,7 @@
         </div>
 
 
-        <div class="page mt-3 shadow-sm" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
+        <div id="content-to-capture" class="page mt-3 shadow-sm" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
             <div class="content">
                 <div style="border: 2px solid #ff1dec; padding: 15px; border-radius: 10px;">
                     <h4 class="text-center mt-1" style="font-size: 16px; font-weight:bold; background-color: #ff1dec;">Person To Notify In Case of Emergency:</h4>
@@ -114,7 +114,7 @@
                 <hr class="design" style="margin-top: -1px;">
                 <h4 class="text-center" style="font-size: 16px; font-weight:bold; margin-top: -10px;">C E R T I F I C A T I O N</h4>
                 <p class="text-center" style="font-size: 12px; font-weight:bold; margin-top: -10px;">
-                    This is to certify that the person whose name, photograph, and signature appear herein is a duly bonafide farmer of Balaoan, La Union
+                   This is to certify that the person whose name, photograph, and signature appear herein is a duly bonafide farmer of Balaoan, La Union
                 </p>
 
                 <div class="signature-line" style="width: 35%; margin-left: 13px; margin-top: 50px;"></div>
@@ -137,7 +137,31 @@
         <button id="downloadImageBtn" class="btn btn-primary">Save Image</button>
 
     </div>
+
+    <button id="capture-button" class="btn btn-primary">Capture</button>
+    <script>
+        document.getElementById('capture-button').addEventListener('click', function() {
+            // Specify the element to capture
+            var elementToCapture = document.getElementById('content-to-capture');
+
+            // Use html2canvas to capture the content
+            html2canvas(elementToCapture).then(function(canvas) {
+                // Convert the captured content to a PNG image
+                var image = canvas.toDataURL('image/png');
+
+                // You can send the 'image' variable to your server or display it as needed.
+                // For example, create an image element and append it to the page.
+                var imgElement = document.createElement('img');
+                imgElement.src = image;
+                document.body.appendChild(imgElement);
+            });
+        });
+    </script>
+
+
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('assets/js/html2canvas.min.js') }}"></script>
     <script>
         // Function to trigger the image download
         function downloadImage() {
