@@ -129,7 +129,7 @@ class FarmersDataController extends Controller
             'sname' => 'required',
             'fname' => 'required',
             'mname' => 'required',
-            'ename' => 'required',
+            'ename' => 'nullable',
             'sex' => 'required',
             'spouse' => 'nullable',
             'number' => 'required',

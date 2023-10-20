@@ -183,37 +183,47 @@ class SettingsController extends Controller
         return view('admin.settings.sysbackup');
     }
 
-    public function performManualBackup()
+    public function performManualBackup(Request $request)
     {
-        // Define the backup file name (you can customize this)
+        // Define the backup file name
         $backupFileName = 'backupdata_' . date('Y_m_d_His') . '.sql';
 
-        // Define the mysqldump command with the full path to mysqldump executable
+        // Define the path to mysqldump executable (use Laravel database configuration)
         $mysqlDumpPath = 'D:\xampp\mysql\bin\mysqldump.exe'; // Replace with your actual path
-        $command = "{$mysqlDumpPath} --user=root --host=127.0.0.1 MAO > " . storage_path('app/backup/') . $backupFileName;
+        $databaseConfig = config('database.connections.mysql');
+
+        // Build the mysqldump command
+        $command = "{$mysqlDumpPath} --user={$databaseConfig['username']} --host={$databaseConfig['host']} {$databaseConfig['database']} > " . storage_path('app/backup/') . $backupFileName;
+
 
         // Execute the mysqldump command
-        shell_exec($command);
+        exec($command, $output, $returnCode);
 
-        // Set the path to the backup file
-        $backupFilePath = storage_path('app/backup/') . $backupFileName;
+        if ($returnCode === 0) {
+            // Backup completed successfully, create a response for download
+            $backupFilePath = storage_path('app/backup/') . $backupFileName;
+            if (file_exists($backupFilePath)) {
+                $response = new Response(file_get_contents($backupFilePath), 200);
+                $response->header('Content-Type', 'application/sql');
+                $response->header('Content-Disposition', 'attachment; filename=' . $backupFileName);
 
-        // Check if the backup file exists
-        if (file_exists($backupFilePath)) {
-            // Create a response with the file for download
-            $response = new Response(file_get_contents($backupFilePath), 200);
+                // Log the backup event
+                Log::info('Manual backup completed successfully: ' . $backupFileName);
 
-            // Set the content type and headers for the download
-            $response->header('Content-Type', 'application/sql');
-            $response->header('Content-Disposition', 'attachment; filename=' . $backupFileName);
+                // Delete the backup file after it's sent to the user
+                unlink($backupFilePath);
 
-            // Delete the backup file after it's sent to the user
-            unlink($backupFilePath);
-
-            // Redirect back with a success message
-            return redirect()->back()->with('success', 'Manual backup completed successfully.');
+                return $response;
+            } else {
+                Log::error('Manual backup file not found: ' . $backupFileName);
+                return redirect()->back()->with('error', 'Manual backup failed. Backup file not found.');
+            }
         } else {
-            return redirect()->back()->with('error', 'Manual backup failed. Backup file not found.');
+            // Log and handle errors
+            $errorOutput = implode("\n", $output);
+            Log::error('Manual backup failed: ' . $errorOutput);
+
+            return redirect()->back()->with('error', 'Manual backup failed. See logs for details.');
         }
     }
 

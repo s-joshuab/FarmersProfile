@@ -80,30 +80,16 @@ final class farmerstable extends PowerGridComponent
         ];
     }
 
-    // public function actions(): array
-    // {
-    //     return [
-    //         Button::make('edit', 'Edit')
-    //             ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-    //             ->route('farmers-number.edit', function(\App\Models\FarmersNumber $model) {
-    //                 return $model->id;
-    //             }),
+    public function actions(): array
+    {
+        return [
+            Button::make('view', 'View')
+                ->class('btn-primary btn bg-primary cursor-pointer text-dark fw-bold px-3 py-2.5 m-1 rounded text-sm')
+                ->route('farmreport', function(\App\Models\FarmersNumber $model) {
+                    return ['id' => $model->id];
+                })
 
-    //         Button::make('destroy', 'Delete')
-    //             ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-    //             ->route('farmers-number.destroy', function(\App\Models\FarmersNumber $model) {
-    //                 return $model->id;
-    //             })
-    //             ->method('delete')
-    //     ];
-    // }
+        ];
+    }
 
-    // public function actionRules(): array
-    // {
-    //     return [
-    //         Rule::button('edit')
-    //             ->when(fn($farmers-number) => $farmers-number->id === 1)
-    //             ->hide(),
-    //     ];
-    // }
 }

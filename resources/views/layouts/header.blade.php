@@ -8,6 +8,9 @@
     <!-- Favicons -->
     <link href="../../assets/img/balaoan-5.webp" rel="icon">
     <link href="../../assets/img/balaoan-5.webp" rel="apple-touch-icon">
+    {{-- title --}}
+    <title>Balaoan Farmer's Profile</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <link href="../../assets/css/bootstrap1.css" rel="stylesheet">
 <!-- Google Fonts -->
@@ -28,9 +31,11 @@
 <script defer src="{{ asset('assets/js/defersrc.js') }}"></script>
 <script src="{{ asset('assets/js/jquery-3.6.3.min.js') }}"></script>
 <!-- jQuery -->
+<script src="{{ asset('assets/js/app.js') }}"></script>
 
 <!-- Template Main CSS File -->
 <link href="../../assets/css/style.css" rel="stylesheet">
+<link href="../../assets/css/id.css" rel="stylesheet">
 
 @livewireStyles
   </head>

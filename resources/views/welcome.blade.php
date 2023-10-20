@@ -22,11 +22,11 @@ background-repeat: no-repeat;
                                     <span class="balaoann-text">Municipal Agriculturist Office</span>
                                 </div>
 
-                                @if (session()->has('message'))
+                                {{-- @if (session()->has('message'))
                                     <div class="alert alert-success text-center">
                                         {{ session('message') }}
                                     </div>
-                                @endif
+                                @endif --}}
 
                                 @if (session()->has('error'))
                                     <div class="alert alert-danger">

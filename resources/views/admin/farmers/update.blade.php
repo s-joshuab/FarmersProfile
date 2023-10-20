@@ -91,11 +91,11 @@
                                         <div class="form-inline">
                                             <label for="sex" class="mr-2">Sex:</label>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="sex" id="maleOption" value="male" {{ $farmersprofile->sex === 'Male' ? 'checked' : '' }} required >
+                                                <input class="form-check-input" type="radio" name="sex" id="maleOption" value="male" {{ $farmersprofile->sex === 'male' ? 'checked' : '' }} required >
                                                 <label class="form-check-label" for="maleOption">Male</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="sex" id="femaleOption" value="female" {{ $farmersprofile->sex === 'Female' ? 'checked' : '' }} required >
+                                                <input class="form-check-input" type="radio" name="sex" id="femaleOption" value="female" {{ $farmersprofile->sex === 'female' ? 'checked' : '' }} required >
                                                 <label class="form-check-label" for="femaleOption">Female</label>
                                             </div>
                                         </div>
@@ -412,19 +412,19 @@
                             <label for="status">Civil Status:</label>
                             <div class="col-md-3 d-inline">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="single" name="cstatus" value="single" {{ $farmersprofile->cstatus === 'Single' ? 'checked' : '' }}  required>
+                                    <input class="form-check-input" type="radio" id="single" name="cstatus" value="single" {{ $farmersprofile->cstatus === 'single' ? 'checked' : '' }}  required>
                                     <label class="form-check-label" for="single">Single</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="married" name="cstatus" value="married" {{ $farmersprofile->cstatus === 'Married' ? 'checked' : '' }} required >
+                                    <input class="form-check-input" type="radio" id="married" name="cstatus" value="married" {{ $farmersprofile->cstatus === 'married' ? 'checked' : '' }} required >
                                     <label class="form-check-label" for="married">Married</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="widowed" name="cstatus" value="widowed" {{ $farmersprofile->cstatus === 'Widowed' ? 'checked' : '' }} required >
+                                    <input class="form-check-input" type="radio" id="widowed" name="cstatus" value="widowed" {{ $farmersprofile->cstatus === 'widowed' ? 'checked' : '' }} required >
                                     <label class="form-check-label" for="widowed">Widowed</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="separated" name="cstatus" value="separated" {{ $farmersprofile->cstatus === 'Separated' ? 'checked' : '' }} required >
+                                    <input class="form-check-input" type="radio" id="separated" name="cstatus" value="separated" {{ $farmersprofile->cstatus === 'separated' ? 'checked' : '' }} required >
                                     <label class="form-check-label" for="separated">Separated</label>
                                 </div>
                             </div>

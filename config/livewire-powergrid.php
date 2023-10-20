@@ -47,11 +47,11 @@ return [
              */
             'tom' => [
                 'plugins' => [
-                    'clear_button' => [
-                        'title' => 'Remove all selected options',
-                    ],
-                ],
-            ],
+                      'clear_button' => [
+                           'title' => 'Remove all selected options',
+                      ],
+                 ],
+               ],
 
             /*
              * Slim Select options
@@ -59,10 +59,9 @@ return [
              */
             'slim' => [
                 'settings' => [
-                    'alwaysOpen' => false,
+                      'alwaysOpen' => true,
                 ],
             ],
-        ],
     ],
 
     /*

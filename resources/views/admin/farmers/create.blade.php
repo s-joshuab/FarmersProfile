@@ -88,20 +88,17 @@
                                         <div class="col-md-3 position-relative mt-0">
                                             <label class="form-label">Extension Name</label>
                                             <input type="text" class="form-control" id="validationTooltip01" name="ename"
-                                                required autofocus="autofocus">
-                                            <div class="invalid-tooltip">
-                                                The Extension Name field is required.
-                                            </div>
+                                                 autofocus="autofocus">
                                         </div>
                                         <div class="col-md-4 position-relative" style="margin-top: 35px;">
                                             <div class="form-inline">
                                                 <label for="sex" class="mr-2">Sex:</label>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="sex" id="maleOption" value="Male" required>
+                                                    <input class="form-check-input" type="radio" name="sex" id="maleOption" value="male" required>
                                                     <label class="form-check-label" for="maleOption">Male</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="sex" id="femaleOption" value="Female" required>
+                                                    <input class="form-check-input" type="radio" name="sex" id="femaleOption" value="female" required>
                                                     <label class="form-check-label" for="femaleOption">Female</label>
                                                 </div>
                                             </div>
@@ -120,7 +117,7 @@
                                         <!-- Beekeeper Province Address -->
                                         <div class="col-md-4 position-relative mt-0">
                                             <label for="province">Province:</label>
-                                            <select id="province" name="provinces_id" class="form-control">
+                                            <select id="province" name="provinces_id" class="form-control" required>
                                                 <option value="">Select Province</option>
                                                 @foreach ($provinces as $province)
                                                     <option value="{{ $province->id }}">{{ $province->provinces }}</option>
@@ -130,14 +127,14 @@
 
                                         <div class="col-md-4 position-relative mt-0">
                                             <label for="municipality">Municipality:</label>
-                                            <select id="municipality" name="municipalities_id" class="form-control">
+                                            <select id="municipality" name="municipalities_id" class="form-control" required>
                                                 <option value="">Select Municipality</option>
                                             </select>
                                         </div>
 
                                         <div class="col-md-4 position-relative mt-2">
                                             <label for="barangay">Barangay:</label>
-                                            <select id="barangay" name="barangays_id" class="form-control">
+                                            <select id="barangay" name="barangays_id" class="form-control" required>
                                                 <option value="">Select Barangay</option>
                                             </select>
                                         </div>
@@ -417,19 +414,19 @@
                                 <label for="status">Civil Status:</label>
                                 <div class="col-md-3 d-inline">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="single" name="cstatus" value="Single"  required>
+                                        <input class="form-check-input" type="radio" id="single" name="cstatus" value="single"  required>
                                         <label class="form-check-label" for="single">Single</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="married" name="cstatus" value="Married"  required >
+                                        <input class="form-check-input" type="radio" id="married" name="cstatus" value="married"  required >
                                         <label class="form-check-label" for="married">Married</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="widowed" name="cstatus" value="Widowed" required >
+                                        <input class="form-check-input" type="radio" id="widowed" name="cstatus" value="widowed" required >
                                         <label class="form-check-label" for="widowed">Widowed</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="separated" name="cstatus" value="Separated" required >
+                                        <input class="form-check-input" type="radio" id="separated" name="cstatus" value="separated" required >
                                         <label class="form-check-label" for="separated">Separated</label>
                                     </div>
                                 </div>

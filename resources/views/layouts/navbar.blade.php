@@ -23,7 +23,7 @@
     <div class="d-flex align-items-center justify-content-between">
         <a href="{{ url('dashboard') }}" class="logo-container">
             <img src="{{ asset('assets/img/12345.jpg') }}" class="avatar" alt="Avatar">
-            <span class="d-none d-lg-block logo-text" style="color: black; font-weight: bold; font-size: 25px;">MAO</span>
+            <span class="d-none d-lg-block logo-text" style="color: black; font-weight: bold; font-size: 25px;">Municipal Agriculturist Office</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div>

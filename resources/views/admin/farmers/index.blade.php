@@ -182,7 +182,6 @@
             /* Adjust the margin as needed */
         }
     </style>
-
 <script>
     // JavaScript variable containing the mapping of commodity IDs to names
     var commodityMap = {
@@ -190,6 +189,9 @@
             {{ $commodity->id }}: '{{ $commodity->commodities }}',
         @endforeach
     };
+
+    // Keep track of the selected commodity IDs
+    var selectedCommodityIds = [];
 
     $(document).ready(function() {
         $('#myTable').DataTable({
@@ -205,15 +207,15 @@
             $('#myTable').DataTable().page.len(entriesPerPage).draw();
         });
 
-        // Event listener for "All Commodities" option
+        // Event listener for "All Commodities" option and individual commodity selection
         $('#commoditiesFilter').on('change', function() {
+            selectedCommodityIds = $(this).val();
             filterTable();
             updateCommoditiesFilterDisplay();
         });
 
         // Function to update the displayed commodity names in the filter
         function updateCommoditiesFilterDisplay() {
-            var selectedCommodityIds = $('#commoditiesFilter').val();
             var selectedCommodityNames = [];
 
             if (selectedCommodityIds.includes('all')) {
@@ -237,7 +239,6 @@
         // Function to filter the table based on selected filters
         function filterTable() {
             var selectedBarangayIds = $('#barangayFilter').val();
-            var selectedCommodityIds = $('#commoditiesFilter').val();
             var selectedStatus = $('#statusFilter').val();
             var searchText = $('#search').val().toLowerCase();
 
@@ -265,32 +266,22 @@
                     showRow = false;
                 }
 
-                if (selectedCommodityIds.length > 0) {
+                if (selectedCommodityIds.length > 0 && !selectedCommodityIds.includes('all')) {
                     // Check if the row's commodities match any of the selected commodities
                     var hasSelectedCommodity = trCommodities.some(commodityId => selectedCommodityIds.includes(commodityId.toString()));
 
-                    // Update the displayed commodities in the table cell
-                    var displayedCommodities = [];
                     if (hasSelectedCommodity) {
-                        trCommodities.filter(commodityId => selectedCommodityIds.includes(commodityId.toString())).forEach(function(commodityId) {
-                            displayedCommodities.push(commodityMap[commodityId]);
-                        });
+                        // Update the displayed commodities in the table cell
+                        var displayedCommodities = trCommodities.filter(commodityId => selectedCommodityIds.includes(commodityId.toString())).map(commodityId => commodityMap[commodityId]);
+                        tr.find('td:eq(3)').html(displayedCommodities.join('<br>'));
+                    } else {
+                        // If the farmer doesn't have the selected commodities, show "No Data"
+                        tr.find('td:eq(3)').html('No Data');
                     }
-
-                    // Set the HTML content of the cell with the selected commodities
-                    tr.find('td:eq(3)').html(displayedCommodities.join('<br>'));
-
-                    if (!hasSelectedCommodity) {
-                        showRow = false;
-                    }
-                }
-
-                // Handle the case when "All Barangays" and "All Commodities" are selected
-                if (selectedBarangayIds.length === 0 && selectedCommodityIds.includes('all') && selectedStatus === '' && searchText === '') {
-                    showRow = true;
-                    // Show all commodities the farmer has
+                } else {
+                    // If no specific commodities are selected, show all the commodities for the farmer
                     var allCommodities = trCommodities.map(commodityId => commodityMap[commodityId]);
-                    tr.find('td:eq(3)').html(allCommodities.join('<br>'));
+                    tr.find('td:eq(3)').html(allCommodities.length > 0 ? allCommodities.join('<br>') : 'No Data');
                 }
 
                 if (showRow) {
@@ -302,7 +293,7 @@
         }
 
         // Add the event listener for changes in the filters
-        $('#barangayFilter, #commoditiesFilter, #statusFilter, #search').on('change keyup', function() {
+        $('#barangayFilter, #statusFilter, #search').on('change keyup', function() {
             filterTable();
         });
 
@@ -311,6 +302,8 @@
         updateCommoditiesFilterDisplay(); // Initial update of the displayed commodities in the filter
     });
 </script>
+
+
 
 
 
