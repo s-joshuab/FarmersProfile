@@ -121,6 +121,10 @@ return [
         'openspout_v3' => [
             'xlsx' => \PowerComponents\LivewirePowerGrid\Services\OpenSpout\v3\ExportToXLS::class,
             'csv'  => \PowerComponents\LivewirePowerGrid\Services\OpenSpout\v3\ExportToCsv::class,
+        ]
         ],
+
     ],
+
 ];
+

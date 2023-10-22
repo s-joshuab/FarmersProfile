@@ -106,28 +106,27 @@ final class CropsTable extends PowerGridComponent
             public function filters(): array
             {
                 return [
-                    'commodities' => Filter::multiSelect('commodities', 'commodities.commodities')
+                Filter::multiSelect('commodities', 'commodities.commodities')
                         ->dataSource(Commodities::all())
                         ->optionValue('commodities') // Make sure 'id' is the primary key of Commodity model
                         ->optionLabel('commodities'),
 
-                    'barangays' => Filter::multiSelect('barangays', 'barangays.barangays')
-                        ->dataSource(Barangays::all())
-                        ->optionValue('barangays') // Make sure 'id' is the primary key of Barangay model
+                // Filter::multiSelect('barangays', 'barangays.barangays')
+                //         ->dataSource(Barangays::all())
+                //         ->optionValue('barangays') // Make sure 'id' is the primary key of Barangay model
+                //         ->optionLabel('barangays'),
+
+                        Filter::select('barangays', 'barangays.barangays')
+                        ->dataSource(Barangays::select('barangays')->distinct()->get())
+                        ->optionValue('barangays')
                         ->optionLabel('barangays'),
                 ];
             }
 
 
-
-
-
-
-
-
-        public function fetchAllFarmersProfiles()
-        {
-            return FarmersProfile::all();
-        }
+        // public function fetchAllFarmersProfiles()
+        // {
+        //     return FarmersProfile::all();
+        // }
 
     }
