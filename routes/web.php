@@ -137,4 +137,4 @@ Route::get('/test', [TestController::class, 'qrGen']);
 
 
 
-Route::get('qr-code/{id}', [QRCodeController::class, 'showProfile'])->name('qr-code.show');
+// Route::get('qr-code/{id}', [QRCodeController::class, 'showProfile'])->name('qr-code.show');
