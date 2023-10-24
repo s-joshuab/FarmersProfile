@@ -83,13 +83,10 @@ class Kernel extends HttpKernel
     ];
 
     // In app/Console/Kernel.php
-
-protected function schedule(Schedule $schedule)
-{
-    // Schedule the backup task to run monthly on the first day of the month at 2:00 AM
-    $schedule->exec('mysqldump --user=root --host=127.0.0.1 MAO > storage/app/backup/automatic_backup_' . date('Y_m_d_His') . '.sql')
-        ->monthlyOn(1, '2:00');
-}
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule->command('backup:run')->monthly();
+    }
 
 
 }

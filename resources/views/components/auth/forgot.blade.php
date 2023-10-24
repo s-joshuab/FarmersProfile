@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forgot Password</title>
 </head>
+<body style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+">
 <main>
-    <div class="container" style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    ">
+    <div class="container">
 
         <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
             <div class="container">

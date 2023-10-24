@@ -44,15 +44,17 @@
                 background-color: #ccc;
                 margin: 0 auto;
             }
+
+
         </style>
 
-        <div class="container" id="to_print">
-            <div class="card">
+        {{-- <div id="to_print"> --}}
+            <div class="card" id = "to_print">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-9">
-                            <div class="page mt-3 shadow-sm"
-                                style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
+                        <div class="col-lg-6">
+                            <div class="page mt-3 shadow-sm container"
+                                style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 430px;">
                                 <div class="header">
                                     <img src="{{ asset('assets/img/12345.jpg') }}" alt="Logo"
                                         style="max-width: 50px; margin-left: -350px; margin-top: 5px; border-radius: 50%;">
@@ -127,8 +129,8 @@
                             </div>
                             @endforeach
 
-                            <div class="page mt-3 shadow-sm align-center"
-                                style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
+                            <div class="page mt-3 shadow-sm align-center container"
+                                style="background-image: url('{{ asset('assets/img/bg.png') }}');  width: 430px;  background-size: cover; background-position: center center; background-repeat: no-repeat;">
                                 <div class="content">
                                     <div style="border: 2px solid #ff1dec; padding: 15px; border-radius: 10px;">
                                         <h4 class="text-center mt-1"
@@ -158,11 +160,11 @@
                                         JR.</h5>
                                     <h5 style="font-size: 10px; margin-left: 25px; margin-top: -10px;">OIC, Municipal
                                         Agriculturist</h5>
-                                    <div class="signature-line" style="width: 35%; margin-left: 258px; margin-top: -33px">
+                                    <div class="signature-line" style="width: 35%; margin-left: 235px; margin-top: -33px">
                                     </div>
-                                    <h5 style="font-size: 12px; margin-left: 250px; font-weight: bold;">ATTY. ALELI C.
+                                    <h5 style="font-size: 12px; margin-left: 220px; font-weight: bold;">ATTY. ALELI C.
                                         CONCEPCION</h5>
-                                    <h5 style="font-size: 10px; margin-left: 300px; margin-top: -10px;">Municipal Mayor</h5>
+                                    <h5 style="font-size: 10px; margin-left: 255px; margin-top: -10px;">Municipal Mayor</h5>
                                 </div>
                             </div>
                         </div>
@@ -176,10 +178,14 @@
     <script>
         function print_this(id) {
             var prtContent = document.getElementById(id);
-            var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+            var WinPrint = window.open('', '', 'left=0,top=0,width=1300,height=1100,toolbar=0,scrollbars=0,status=0');
 
-            WinPrint.document.write(
-                '<html><head><title>Print</title><link rel="stylesheet" href="path/to/your/external.css" type="text/css"></head><body>'
+           // WinPrint.document.write(
+            //    '<html><head><title>Print</title><link rel="stylesheet" href="path/to/your/external.css" type="text/css"></head><body>'
+              //  );
+
+              WinPrint.document.write(
+                '<html><head><title>Print</title><link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"></head><body>'
                 );
             WinPrint.document.write(prtContent.innerHTML);
             WinPrint.document.write('</body></html>');

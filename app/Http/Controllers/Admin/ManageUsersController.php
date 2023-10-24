@@ -29,9 +29,22 @@ class ManageUsersController extends Controller
 
     public function manage()
     {
-        $users = User::all();
+        $user = auth()->user();
+
+        if (strtolower($user->user_type) === 'admin') {
+            $users = User::all();
+        } elseif (in_array(strtolower($user->user_type), ['staff', 'secretary'])) {
+            $users = User::whereIn('user_type', ['staff', 'secretary'])->get();
+        } else {
+            abort(403, 'Unauthorized'); // If the role is neither admin nor staff/secretary
+        }
+
         return view('admin.settings.users.manageusers', compact('users'));
     }
+
+
+
+
 
     /**
      * Show the form for creating a new resource.

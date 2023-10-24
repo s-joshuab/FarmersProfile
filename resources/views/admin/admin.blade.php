@@ -5,10 +5,10 @@
     <div class="pagetitle">
         <h1>Dashboard</h1>
         <nav>
-            <ol class="breadcrumb">
+            {{-- <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
+            </ol> --}}
         </nav>
     </div><!-- End Page Title -->
 
@@ -202,6 +202,13 @@
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Highest Commodities</h5>
+                                <div class="card-text">
+                                    <ul>
+                                        @foreach($maxCommodities as $commodity)
+                                            <li>{{ $commodity['name'] }} - Count: {{ $commodity['count'] }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                                 <!-- Bar Chart -->
                                 <canvas id="barChart1" style="max-height: 400px;"></canvas>
                                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

@@ -3,7 +3,8 @@
 use PgSql\Result;
 use App\Http\Controllers\GenerateQr;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\FarmersProfile;
+use App\Models\FarmersNumber;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TestController;
@@ -66,7 +67,6 @@ Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequest
 Route::post('/password/email',  [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('/password/reset/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/password/reset', [ForgotPasswordController::class, 'reset'])->name('password.updates');
-
 
 
 

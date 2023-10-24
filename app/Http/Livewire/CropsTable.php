@@ -53,7 +53,7 @@ final class CropsTable extends PowerGridComponent
                     'farmersprofile.sname',
                     'commodities.commodities',
                     'farmersnumber.farmersnumber',
-                    // 'farmersprofile.status',
+                    'farmersprofile.status',
                     'barangays.barangays' // Select the 'barangays' column from 'barangays' and give it an alias
                 );
 
@@ -64,7 +64,7 @@ final class CropsTable extends PowerGridComponent
         {
             return [
 
-                'farmersProfile' => ['fname', 'sname', 'status', 'farmersnumber'], // Use 'barangay_name' here
+                'farmersProfile' => ['fname', 'sname', 'farmersnumber'], // Use 'barangay_name' here
                 'commodity' => ['commodities', 'category'],
             ];
         }
@@ -77,8 +77,8 @@ final class CropsTable extends PowerGridComponent
                 ->addColumn('farmersprofile.sname')
                 ->addColumn('farmersprofile.barangays.barangays') // Display 'barangay_name' as 'Barangay'
                 ->addColumn('commodities.commodities')
-                ->addColumn('farm_size');
-                // ->addColumn('farmersprofile.status');
+                ->addColumn('farm_size')
+                ->addColumn('farmersprofile.status');
         }
 
 
@@ -96,7 +96,7 @@ final class CropsTable extends PowerGridComponent
                 Column::make('Farm location', 'farm_location')
                     ->sortable()
                     ->searchable(),
-                // Column::make('Status', 'farmersprofile.status')
+                Column::make('Status', 'farmersprofile.status')
 
 
             ];
@@ -120,6 +120,12 @@ final class CropsTable extends PowerGridComponent
                         ->dataSource(Barangays::select('barangays')->distinct()->get())
                         ->optionValue('barangays')
                         ->optionLabel('barangays'),
+
+
+                        Filter::select('farmersprofile.status', 'farmersprofile.status')
+                        ->dataSource(FarmersProfile::select('farmersprofile.status')->distinct()->get())
+                        ->optionValue('status')
+                        ->optionLabel('status'),
                 ];
             }
 

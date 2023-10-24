@@ -40,7 +40,6 @@
         </nav>
     </div>
 
-    @can('admin-access')
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -70,7 +69,7 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th class="text-center">Barangay</th>
+                                        {{-- <th class="text-center">Barangay</th> --}}
                                         <th class="text-center">Contact Number</th>
                                         <th class="text-center">Status</th>
                                         <th class="text-center">UserType</th>
@@ -90,7 +89,7 @@
                                                 @endif
                                                 {{ $user->name }}
                                             </td>
-                                            <td class="text-center">{{ $user->barangay ? $user->barangay->barangays : 'No Data' }}</td>
+                                            {{-- <td class="text-center">{{ $user->barangay ? $user->barangay->barangays : 'No Data' }}</td> --}}
                                             <td class="text-center">{{ $user->phone_number }}</td>
                                             <td class="text-center">
                                                 @if ($user->status === 'Active')
@@ -125,7 +124,7 @@
                 </div>
             </div>
         </div>
-    @endcan
+
 
     <style>
         .status-circle {

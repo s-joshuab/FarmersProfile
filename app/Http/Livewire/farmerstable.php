@@ -2,23 +2,34 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Crops;
+use App\Models\crops;
+use App\Models\Barangays;
+use App\Models\Commodities;
+use App\Models\FarmersProfile;
 use App\Models\FarmersNumber;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use PowerComponents\LivewirePowerGrid\Filters\Filter;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\{ActionButton, WithExport};
-use PowerComponents\LivewirePowerGrid\Filters\Filter;
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridColumns};
-final class farmerstable extends PowerGridComponent
+
+final class FarmersTable extends PowerGridComponent
 {
     use ActionButton;
     use WithExport;
 
+    /*
+    |--------------------------------------------------------------------------
+    |  Features Setup
+    |--------------------------------------------------------------------------
+    | Setup Table's general features
+    |
+    */
     public function setUp(): array
     {
         return [
-            Exportable::make('export')
+            Exportable::make('Farmers Report')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput()->withoutLoading(),
@@ -28,68 +39,121 @@ final class farmerstable extends PowerGridComponent
         ];
     }
 
-    public function datasource(): Builder
-    {
-        return FarmersNumber::query()
-            ->join('farmersprofile', 'farmersnumber.farmersprofile_id', '=', 'farmersprofile.id')
-            ->join('crops', 'farmersnumber.farmersprofile_id', '=', 'crops.farmersprofile_id')
-            ->select(
-                'farmersnumber.*',
-                'farmersnumber.created_at',
-                'farmersprofile.fname',
-                'crops.farm_size',
-                'crops.farm_location',
-            );
+        public function datasource(): Builder
+        {
+
+            return Crops::query()
+                ->join('farmersprofile', 'farmersprofile.id', '=', 'crops.farmersprofile_id')
+                ->join('commodities', 'commodities.id', '=', 'crops.commodities_id')
+                ->join('farmersnumber', 'farmersnumber.farmersprofile_id', '=', 'farmersprofile.id')
+                ->join('barangays', 'barangays.id', '=', 'farmersprofile.barangays_id')
+                ->select(
+                    'crops.*',
+                    'farmersprofile.fname',
+                    'farmersprofile.sname',
+                    'commodities.commodities',
+                    'farmersnumber.farmersnumber',
+                    'farmersprofile.status',
+                    'barangays.barangays' // Select the 'barangays' column from 'barangays' and give it an alias
+                );
+
+
+        }
+
+        public function relationSearch(): array
+        {
+            return [
+
+                'farmersProfile' => ['fname', 'sname', 'farmersnumber'], // Use 'barangay_name' here
+                'commodity' => ['commodities', 'category'],
+            ];
+        }
+
+        public function addColumns(): PowerGridColumns
+        {
+            return PowerGrid::columns()
+                ->addColumn('farmersnumber.farmersnumber')
+                ->addColumn('farmersprofile.fname')
+                ->addColumn('farmersprofile.sname')
+                ->addColumn('farmersprofile.barangays.barangays') // Display 'barangay_name' as 'Barangay'
+                ->addColumn('commodities.commodities')
+                ->addColumn('farmersprofile.status');
+        }
+
+
+        public function columns(): array
+        {
+            return [
+                Column::make('Farmers Number', 'farmersnumber','farmersnumber.farmersnumber'),
+                Column::make('First Name', 'farmersprofile.fname'),
+                Column::make('Last Name', 'farmersprofile.sname'),
+                Column::make('Barangays', 'barangays', 'barangays.barangays'), // Use 'barangay_name' here
+                Column::make('Commodities', 'commodities', 'commodities.commodities'),
+                Column::make('Status', 'farmersprofile.status')
+
+
+            ];
+        }
+
+
+            public function filters(): array
+            {
+                return [
+                Filter::multiSelect('commodities', 'commodities.commodities')
+                        ->dataSource(Commodities::all())
+                        ->optionValue('commodities') // Make sure 'id' is the primary key of Commodity model
+                        ->optionLabel('commodities'),
+
+                // Filter::multiSelect('barangays', 'barangays.barangays')
+                //         ->dataSource(Barangays::all())
+                //         ->optionValue('barangays') // Make sure 'id' is the primary key of Barangay model
+                //         ->optionLabel('barangays'),
+
+                        Filter::select('barangays', 'barangays.barangays')
+                        ->dataSource(Barangays::select('barangays')->distinct()->get())
+                        ->optionValue('barangays')
+                        ->optionLabel('barangays'),
+
+
+                        Filter::select('farmersprofile.status', 'farmersprofile.status')
+                        ->dataSource(FarmersProfile::select('farmersprofile.status')->distinct()->get())
+                        ->optionValue('status')
+                        ->optionLabel('status'),
+                ];
+            }
+
+            public function actions(): array
+            {
+                return [
+                    Button::make('view', 'View')
+                        ->class('btn-primary btn bg-primary cursor-pointer text-dark fw-bold px-3 py-2.5 m-1 rounded text-sm')
+                        ->route('farmers.showed', function (Crops $model) {
+                            return ['id' => $model->id];
+                        }),
+
+                    Button::make('update', 'Update')
+                        ->class('btn-secondary btn cursor-pointer text-dark fw-bold px-3 py-2.5 m-1 rounded text-sm')
+                        ->route('farmers.edit', function (Crops $model) {
+                            return ['id' => $model->id];
+                        }),
+
+                    Button::make('generate', 'Generate')
+                        ->class('btn-success btn bg-success cursor-pointer text-light fw-bold px-3 py-2.5 m-1 rounded text-sm')
+                        ->route('farmers.generate', function (Crops $model) {
+                            return ['id' => $model->id];
+                        }),
+                ];
+            }
+
+
+
+
+
+
+
+        // public function fetchAllFarmersProfiles()
+        // {
+        //     return FarmersProfile::all();
+        // }
+
     }
-
-    public function relationSearch(): array
-    {
-        return [];
-    }
-
-    public function addColumns(): PowerGridColumns
-    {
-        return PowerGrid::columns()
-
-            ->addColumn('farmersnumber')
-            ->addColumn('fname')
-            ->addColumn('Crops')
-            ->addColumn('Farm Size')
-            ->addColumn('Farm Location')
-            ->addColumn('farmersnumber_lower', fn (FarmersNumber $model) => strtolower(e($model->farmersnumber)));
-    }
-
-    public function columns(): array
-    {
-        return [
-            Column::make('Farmersnumber', 'farmersnumber'),
-            Column::make('farmersprofile.fname', 'fname'),
-            Column::make('Crops', 'commodities_id', 'commodities.commodities')
-                ->sortable()
-                ->searchable(),
-            Column::make('Farm Size', 'crops_id'),
-            Column::make('Farm Location', 'crops_id')
-        ];
-    }
-
-    public function filters(): array
-    {
-        return [
-            Filter::inputText('farmersnumber')->operators(['contains']),
-            Filter::datetimepicker('created_at'),
-        ];
-    }
-
-    public function actions(): array
-    {
-        return [
-            Button::make('view', 'View')
-                ->class('btn-primary btn bg-primary cursor-pointer text-dark fw-bold px-3 py-2.5 m-1 rounded text-sm')
-                ->route('farmreport', function(\App\Models\FarmersNumber $model) {
-                    return ['id' => $model->id];
-                })
-
-        ];
-    }
-
-}

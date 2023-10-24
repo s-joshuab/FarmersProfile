@@ -289,7 +289,7 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" id="highSchool" name="education" value="highSchool" {{ $farmersprofile->education === 'highschool' ? 'checked' : '' }} required  >
+                                                        <input class="form-check-input" type="radio" id="highSchool" name="education" value="highSchool" {{ $farmersprofile->education === 'highSchool' ? 'checked' : '' }} required  >
                                                         <label class="form-check-label" for="highSchool">High School</label>
                                                     </div>
                                                 </div>

@@ -52,14 +52,17 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-3" style="display: none;">
                                 <input type="text" id="search" class="form-control" placeholder="Search">
                             </div>
                         </div>
 
                         <div class="row d-flex justify-content-end mt-3">
                             <div class="col-md-2">
-                                <select id="barangayFilter" class="form-select" aria-label="Barangay Filter" multiple>
+                                <div id="commoditiesFilterDisplay" style="display: none;"></div>
+                            </div>
+                            <div class="col-md-2">
+                                <select id="barangayFilter" class="form-select" aria-label="Barangay Filter" >
                                     <option value="">All Barangays</option>
                                     @foreach ($barangays as $barangay)
                                         <option value="{{ $barangay->id }}">{{ $barangay->barangays }}</option>
@@ -75,9 +78,8 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-2">
-                                <div id="commoditiesFilterDisplay"></div>
-                            </div>
+
+
 
                             <div class="col-md-2">
                                 <select name="statusFilter" id="statusFilter" class="form-select" aria-label="Status Filter">
@@ -116,12 +118,14 @@
                                                     $selectedFarmerCommodities = array_intersect($farmerCommodities, $selectedCommodities);
 
                                                     if (!empty($selectedFarmerCommodities)) {
-                                                        echo implode('<br>', $commodities->whereIn('id', $selectedFarmerCommodities)->pluck('commodities')->toArray());
+                                                        $selectedCommodityNames = $commodities->whereIn('id', $selectedFarmerCommodities)->pluck('commodities')->toArray();
+                                                        echo implode('<br>', $selectedCommodityNames);
                                                     } else {
                                                         echo 'No Data';
                                                     }
                                                 @endphp
                                             </td>
+
 
 
                                             <td>
@@ -198,7 +202,7 @@
             "lengthMenu": [10, 25, 50, 100], // Set your desired entries per page values
             "pageLength": 10, // Default number of entries per page
             "pagingType": "full_numbers", // Use full pagination control
-            "searching": false // Disable the search bar
+             // Disable the search bar
         });
 
         // Event listener for changing the number of entries per page

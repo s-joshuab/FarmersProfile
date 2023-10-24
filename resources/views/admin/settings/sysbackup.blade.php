@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    {{-- <div class="card mt-4">
+    <div class="card mt-4">
         <div class="card-body">
             <h2 class="card-title">Automatic Backup (Monthly)</h2>
             <form method="post" action="{{ route('schedule-automatic-backup') }}">
@@ -37,11 +37,11 @@
                     <input type="date" class="form-control" name="automatic_backup_date" id="automatic_backup_date" required>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group mt-3">
                     <button type="submit" class="btn btn-primary">Schedule Automatic Backup</button>
                 </div>
             </form>
         </div>
-    </div> --}}
+    </div>
 </div>
 @endsection

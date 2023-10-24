@@ -33,14 +33,23 @@
 
 @livewireStyles
   </head>
-
+<body style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+">
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card mt-4">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+        <div class="col-md-4">
+            <div class="card" style="margin-top: 200px;">
+
 
                 <div class="card-body">
+                    <div class="d-flex flex-column align-items-center py-4">
+                        <a href="#" class="balaoann-logo">
+                            <img src="/assets/img/balaoann.png" style="height: 100px; width: 100px;" alt="" class="logo-image">
+                        </a>
+                        <span class="balaoann-text">Municipal Agriculturist Office</span>
+                    </div>
                     <form method="POST" action="{{ route('password.updates') }}">
 
                         @csrf
@@ -83,7 +92,7 @@
     </div>
 </div>
 @yield('scripts')
-<footer id="footer" class="footer">
+{{-- <footer id="footer" class="footer">
     <div class="copyright">
         &copy; Copyright <strong><span>Balaoan, La Union</span></strong>. All Rights Reserved
     </div>
@@ -94,7 +103,7 @@
       <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
       Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
     </div>
-  </footer><!-- End Footer -->
+  </footer><!-- End Footer --> --}}
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
   @livewireScripts
@@ -138,3 +147,4 @@
 <!-- HTML2Canvas -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
 
+</body>

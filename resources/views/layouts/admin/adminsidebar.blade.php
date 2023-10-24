@@ -105,10 +105,7 @@
         </li>
     </ul>
 
-    <div class="d-flex align-items-center justify-content-center mt-5" style="flex-direction: column;">
-        <img src="{{ asset('assets/img/12345.jpg') }}" alt=""
-             style="width: 150px; height: 150px; border-radius: 50%;">
-    </div>
+
 </aside>
 @endcan
 
@@ -185,10 +182,7 @@
         </li>
     </ul>
 
-    <div class="d-flex align-items-center justify-content-center mt-5" style="flex-direction: column;">
-        <img src="{{ asset('assets/img/12345.jpg') }}" alt=""
-             style="width: 150px; height: 150px; border-radius: 50%;">
-    </div>
+
 </aside>
 @endcan
 
@@ -228,10 +222,7 @@
         </li>
     </ul>
 
-    <div class="d-flex align-items-center justify-content-center mt-5" style="flex-direction: column;">
-        <img src="{{ asset('assets/img/12345.jpg') }}" alt=""
-             style="width: 150px; height: 150px; border-radius: 50%;">
-    </div>
+
 </aside>
 @endcan
 
