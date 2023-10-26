@@ -64,7 +64,7 @@ final class CropsTable extends PowerGridComponent
         {
             return [
 
-                'farmersProfile' => ['fname', 'sname', 'farmersnumber'], // Use 'barangay_name' here
+                'farmersProfile' => ['fname', 'sname', 'farmersnumber', 'farm_size', 'farm_location'], // Use 'barangay_name' here
                 'commodity' => ['commodities', 'category'],
             ];
         }
@@ -106,7 +106,7 @@ final class CropsTable extends PowerGridComponent
             public function filters(): array
             {
                 return [
-                Filter::multiSelect('commodities', 'commodities.commodities')
+                Filter::select('commodities', 'commodities.commodities')
                         ->dataSource(Commodities::all())
                         ->optionValue('commodities') // Make sure 'id' is the primary key of Commodity model
                         ->optionLabel('commodities'),

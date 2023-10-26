@@ -42,28 +42,27 @@ return [
             'default' => 'tom',
 
             /*
-             * TomSelect Options
+            * TomSelect Options
              * https://tom-select.js.org
              */
-            'tom' => [
-                'plugins' => [
-                      'clear_button' => [
-                           'title' => 'Remove all selected options',
-                      ],
-                 ],
+              'tom' => [
+              'plugins' => [
+                    'clear_button' => [
+                         'title' => 'Remove all selected options',
+                    ],
                ],
+             ],
 
-            /*
-             * Slim Select options
+             /*
+            * Slim Select options
              * https://slimselectjs.com/
              */
-            'slim' => [
-                'settings' => [
-                      'alwaysOpen' => true,
-                ],
-            ],
-    ],
-
+              'slim' => [
+              'settings' => [
+                    'alwaysOpen' => false,
+              ],
+          ],
+        ],
     /*
     |--------------------------------------------------------------------------
     | Filters

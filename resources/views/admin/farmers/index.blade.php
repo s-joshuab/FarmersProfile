@@ -71,7 +71,7 @@
                             </div>
 
                             <div class="col-md-2">
-                                <select id="commoditiesFilter" class="form-select" aria-label="Commodities Filter" multiple>
+                                <select id="commoditiesFilter" class="form-select" aria-label="Commodities Filter">
                                     <option value="all">All Commodities</option> <!-- Added "All Commodities" option -->
                                     @foreach ($commodities as $commodity)
                                         <option value="{{ $commodity->id }}">{{ $commodity->commodities }}</option>
