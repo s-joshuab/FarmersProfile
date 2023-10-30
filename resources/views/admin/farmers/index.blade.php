@@ -1,4 +1,5 @@
 @extends('layouts.index')
+
 @section('content')
     @if (session()->has('message'))
         <div id="success-alert" class="alert alert-success text-center">
@@ -62,7 +63,7 @@
                                 <div id="commoditiesFilterDisplay" style="display: none;"></div>
                             </div>
                             <div class="col-md-2">
-                                <select id="barangayFilter" class="form-select" aria-label="Barangay Filter" >
+                                <select id="barangayFilter" class="form-select" aria-label="Barangay Filter">
                                     <option value="">All Barangays</option>
                                     @foreach ($barangays as $barangay)
                                         <option value="{{ $barangay->id }}">{{ $barangay->barangays }}</option>
@@ -71,15 +72,25 @@
                             </div>
 
                             <div class="col-md-2">
-                                <select id="commoditiesFilter" class="form-select" aria-label="Commodities Filter">
-                                    <option value="all">All Commodities</option> <!-- Added "All Commodities" option -->
-                                    @foreach ($commodities as $commodity)
-                                        <option value="{{ $commodity->id }}">{{ $commodity->commodities }}</option>
-                                    @endforeach
-                                </select>
+                                <div class="dropdown" style="margin-left: 10px;">
+                                    <button class="btn btn-light dropdown-toggle" type="button" id="commoditiesDropdown" data-bs-toggle="dropdown" style="background-color: white; border: 1px solid #ccc;">
+                                        Commodities
+                                    </button>
+
+                                    <ul class="dropdown-menu" aria-labelledby="commoditiesDropdown">
+                                        <li>
+                                            <input class="form-check-input" type="checkbox" value="all" id="commodityCheckboxAll">
+                                            <label class="form-check-label" for="commodityCheckboxAll">All Commodities</label>
+                                        </li>
+                                        @foreach ($commodities as $commodity)
+                                            <li>
+                                                <input class="form-check-input commodity-checkbox" type="checkbox" value="{{ $commodity->id }}" id="commodityCheckbox{{ $commodity->id }}">
+                                                <label class="form-check-label" for="commodityCheckbox{{ $commodity->id }}">{{ $commodity->commodities }}</label>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </div>
-
-
 
                             <div class="col-md-2">
                                 <select name="statusFilter" id="statusFilter" class="form-select" aria-label="Status Filter">
@@ -126,8 +137,6 @@
                                                 @endphp
                                             </td>
 
-
-
                                             <td>
                                                 @if ($farmer->status === 'Active')
                                                     <span class="badge bg-success">Active</span>
@@ -137,22 +146,24 @@
                                             </td>
                                             <td class="text-center">
                                                 <div class="btn-group" role="group">
-                                                    <a href="{{ route('farmers.showed', ['id' => $farmer->id]) }}"
-                                                        class="btn btn-sm btn-info" style="margin-right: 10px;">
-                                                        View
+                                                    <a href="{{ route('generate.pdf', ['id' => $farmer->id]) }}" class="btn btn-sm btn-info" style="margin-right: 10px;">
+                                                        <i class="fa fa-file-pdf"></i> <!-- Replace with the appropriate Font Awesome icon class -->
                                                     </a>
 
-                                                    <a href="{{ route('farmers.edit', ['id' => $farmer->id]) }}"
-                                                        class="btn btn-sm btn-primary" style="margin-right: 10px;">
-                                                        Update
+                                                    <a href="{{ route('farmers.showed', ['id' => $farmer->id]) }}" class="btn btn-sm btn-info" style="margin-right: 10px;">
+                                                        <i class="fa fa-eye"></i> <!-- Replace with the appropriate Font Awesome icon class -->
                                                     </a>
 
-                                                  <a href="{{ route('farmers.generate', ['id' => $farmer->id]) }}"
-                                                        class="btn btn-sm btn-secondary">
-                                                        </i> Generate
+                                                    <a href="{{ route('farmers.edit', ['id' => $farmer->id]) }}" class="btn btn-sm btn-primary" style="margin-right: 10px;">
+                                                        <i class="fa fa-pencil"></i> <!-- Replace with the appropriate Font Awesome icon class -->
+                                                    </a>
+
+                                                    <a href="{{ route('farmers.generate', ['id' => $farmer->id]) }}" class="btn btn-sm btn-secondary">
+                                                        <i class="fa fa-cog"></i> <!-- Replace with the appropriate Font Awesome icon class -->
                                                     </a>
                                                 </div>
                                             </td>
+
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -186,59 +197,64 @@
             /* Adjust the margin as needed */
         }
     </style>
+</div>
+
+
 <script>
-    // JavaScript variable containing the mapping of commodity IDs to names
-    var commodityMap = {
-        @foreach ($commodities as $commodity)
-            {{ $commodity->id }}: '{{ $commodity->commodities }}',
-        @endforeach
-    };
+// JavaScript variable containing the mapping of commodity IDs to names
+var commodityMap = {
+    @foreach ($commodities as $commodity)
+        {{ $commodity->id }}: '{{ $commodity->commodities }}',
+    @endforeach
+};
 
-    // Keep track of the selected commodity IDs
-    var selectedCommodityIds = [];
+// Keep track of the selected commodity IDs
+var selectedCommodityIds = [];
 
-    $(document).ready(function() {
-        $('#myTable').DataTable({
-            "lengthMenu": [10, 25, 50, 100], // Set your desired entries per page values
-            "pageLength": 10, // Default number of entries per page
-            "pagingType": "full_numbers", // Use full pagination control
-             // Disable the search bar
-        });
+$(document).ready(function() {
+    $('#myTable').DataTable({
+        "lengthMenu": [10, 25, 50, 100], // Set your desired entries per page values
+        "pageLength": 10, // Default number of entries per page
+        "pagingType": "full_numbers", // Use full pagination control
+        // Disable the search bar
+    });
 
-        // Event listener for changing the number of entries per page
-        $('#showEntries').on('change', function() {
-            var entriesPerPage = parseInt($(this).val());
-            $('#myTable').DataTable().page.len(entriesPerPage).draw();
-        });
+    // Event listener for changing the number of entries per page
+    $('#showEntries').on('change', function() {
+        var entriesPerPage = parseInt($(this).val());
+        $('#myTable').DataTable().page.len(entriesPerPage).draw();
+    });
 
-        // Event listener for "All Commodities" option and individual commodity selection
-        $('#commoditiesFilter').on('change', function() {
-            selectedCommodityIds = $(this).val();
-            filterTable();
-            updateCommoditiesFilterDisplay();
-        });
+    // Event listener for checkboxes
+    $('.commodity-checkbox').on('change', function() {
+        updateSelectedCommodities();
+        filterTable();
+    });
 
-        // Function to update the displayed commodity names in the filter
-        function updateCommoditiesFilterDisplay() {
-            var selectedCommodityNames = [];
-
-            if (selectedCommodityIds.includes('all')) {
-                $('#commoditiesFilter option').each(function() {
-                    if ($(this).val() !== 'all') { // Exclude the "All Commodities" option
-                        selectedCommodityNames.push($(this).text());
-                    }
-                });
-            } else {
-                $('#commoditiesFilter option:selected').each(function() {
-                    if ($(this).val() !== 'all') { // Exclude the "All Commodities" option
-                        var commodityId = $(this).val();
-                        selectedCommodityNames.push(commodityMap[commodityId]);
-                    }
-                });
-            }
-
-            $('#commoditiesFilterDisplay').text(selectedCommodityNames.join(', '));
+    // Event listener for the "All Commodities" checkbox
+    $('#commodityCheckboxAll').on('change', function() {
+        // If "All Commodities" is checked, uncheck all other checkboxes
+        if ($(this).is(':checked')) {
+            $('.commodity-checkbox').prop('checked', false);
         }
+        updateSelectedCommodities();
+        filterTable();
+    });
+
+    // Update the selectedCommodityIds array based on the checkboxes
+    function updateSelectedCommodities() {
+        selectedCommodityIds = [];
+
+        if ($('#commodityCheckboxAll').is(':checked')) {
+            selectedCommodityIds.push('all');
+        } else {
+            $('.commodity-checkbox:checked').each(function() {
+                selectedCommodityIds.push($(this).val());
+            });
+        }
+    }
+
+
 
         // Function to filter the table based on selected filters
         function filterTable() {
@@ -306,13 +322,5 @@
         updateCommoditiesFilterDisplay(); // Initial update of the displayed commodities in the filter
     });
 </script>
-
-
-
-
-
-
-
-
 
 @endsection

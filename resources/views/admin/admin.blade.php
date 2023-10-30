@@ -20,7 +20,7 @@
                 <div class="row">
 
                     <!-- Farmers -->
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="card info-card sales-card">
                             <div class="filter">
                                 <a class="icon" href="#" id="filter-dropdown-toggle"><i class="bi bi-three-dots"></i></a>
@@ -94,7 +94,7 @@
                     </script>
 
                     <!-- 4ps -->
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="card info-card sales-card">
                             <div class="card-body">
                                 <h5 class="card-title">4p's Beneficiaries</h5>
@@ -111,7 +111,7 @@
                     </div>
 
                     <!-- Active -->
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="card info-card revenue-card">
                             {{-- <div class="filter">
                                 <a class="icon" href="#" id="status-filter-dropdown-toggle"><i class="bi bi-three-dots"></i></a>
@@ -131,7 +131,7 @@
                                     </div>
                                     <div class="ps-3">
                                         <h6 id="active-status-count">{{ $activeStatusCount }} Active</h6>
-                                        <h6 id="inactive-status-count" class="mt-1">{{ $inactiveStatusCount }} InActive</h6>
+                                        <h6 id="inactive-status-count" class="mt-1" style="font-size: 16px">{{ $inactiveStatusCount }} InActive</h6>
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +176,7 @@
 
 
                     <!-- Users -->
-                    <div class="col-md-3">
+                    {{-- <div class="col-md-3">
                         <div class="card info-card revenue-card">
                             <div class="card-body">
                                 <h5 class="card-title">Users</h5>
@@ -190,7 +190,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>
@@ -205,12 +205,12 @@
                                 <div class="card-text">
                                     <ul>
                                         @foreach($maxCommodities as $commodity)
-                                            <li>{{ $commodity['name'] }} - Count: {{ $commodity['count'] }}</li>
+                                            <li>{{ $commodity['name'] }} : {{ $commodity['count'] }}</li>
                                         @endforeach
                                     </ul>
                                 </div>
                                 <!-- Bar Chart -->
-                                <canvas id="barChart1" style="max-height: 400px;"></canvas>
+                                {{-- <canvas id="barChart1" style="max-height: 400px;"></canvas>
                                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                                 <script>
                                     document.addEventListener("DOMContentLoaded", () => {
@@ -269,7 +269,7 @@
                                             return color;
                                         }
                                     });
-                                </script>
+                                </script> --}}
                             </div>
                         </div>
                     </div>
@@ -346,7 +346,7 @@
                     <div class="col-md-3">
                         <!-- Budget Report -->
                         <div class="card">
-                            <div class="filter">
+                            {{-- <div class="filter">
                                 <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                     <li class="dropdown-header text-start">
@@ -356,10 +356,10 @@
                                     <li><a class="dropdown-item" href="#">This Month</a></li>
                                     <li><a class="dropdown-item" href="#">This Year</a></li>
                                 </ul>
-                            </div>
+                            </div> --}}
 
                             <div class="card-body">
-                                <h5 class="card-title">Total Male and Female</h5>
+                                <h5 class="card-title">Total Male and Female Farmers</h5>
 
                                 <!-- Pie Chart -->
                                 <canvas id="pieChart" style="max-height: 400px; max-width: 400px;"></canvas>

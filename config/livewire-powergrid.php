@@ -40,17 +40,16 @@ return [
 
         'select' => [
             'default' => 'tom',
-
             /*
             * TomSelect Options
              * https://tom-select.js.org
              */
-              'tom' => [
-              'plugins' => [
-                    'clear_button' => [
-                         'title' => 'Remove all selected options',
-                    ],
-               ],
+            'tom' => [
+                'plugins' => [
+                      'clear_button' => [
+                           'title' => 'Remove all selected options',
+                      ],
+                 ],
              ],
 
              /*

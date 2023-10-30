@@ -21,57 +21,35 @@ class ReportsController extends Controller
      * Display a listing of the resource.
      */
     public function reports(Request $request)
-{
-    $selectedBarangay = $request->input('barangayFilter');
-    $selectedCommodity = $request->input('commoditiesFilter');
-    $selectedStatus = $request->input('statusFilter');
+    {
+        $selectedBarangay = $request->input('barangayFilter');
+        $selectedCommodity = $request->input('commoditiesFilter');
+        $selectedStatus = $request->input('statusFilter');
 
-    $farmersQuery = FarmersProfile::query();
+        $farmersQuery = FarmersProfile::with(['crops.commodity', 'crops.farmersprofile']); // Eager load the related data // Eager load the related data
 
-    if ($selectedBarangay) {
-        $farmersQuery->where('barangays_id', $selectedBarangay);
+        if ($selectedBarangay) {
+            $farmersQuery->where('barangays_id', $selectedBarangay);
+        }
+
+        if ($selectedCommodity) {
+            $farmersQuery->whereHas('crops.commodity', function ($q) use ($selectedCommodity) {
+                $q->whereIn('id', [$selectedCommodity]);
+            });
+        }
+
+        if ($selectedStatus) {
+            $farmersQuery->where('status', $selectedStatus);
+        }
+
+        $farmers = $farmersQuery->get();
+        $barangays = Barangays::all();
+        $commodities = Commodities::all();
+        $farm = FarmersProfile::paginate(10);
+
+        return view('admin.reports.index', compact('farm', 'farmers', 'barangays', 'commodities', 'selectedBarangay', 'selectedStatus', 'selectedCommodity'));
     }
 
-    if ($selectedCommodity) {
-        $farmersQuery->whereHas('crops', function ($q) use ($selectedCommodity) {
-            $q->whereIn('commodities_id', [$selectedCommodity]);
-        });
-    }
 
-    if ($selectedStatus) {
-        $farmersQuery->where('status', $selectedStatus);
-    }
-
-    $farmers = $farmersQuery->with('crops')->get();
-    $barangays = Barangays::all();
-    $commodities = Commodities::all();
-    $farm = FarmersProfile::paginate(10);
-
-    return view('admin.reports.index', compact('farm', 'farmers', 'barangays', 'commodities', 'selectedBarangay', 'selectedStatus', 'selectedCommodity'));
-}
-
-
-    public function exportFarmers()
-{
-    return Excel::download(new FarmersExport(), 'farmers.xlsx');
-}
-
-
-
-
-    // public function generateExcel()
-    // {
-    //     return Excel::download(new FarmersExport(), 'farmers_report.xlsx');
-    // }
-
-    // public function generatePdf()
-    // {
-    //     $farmers = FarmersProfile::all();
-    //     $pdf = PDF::loadView('admin.reports.index', compact('farmers'));
-    //     return $pdf->stream('farmers_report.index');
-    // }
-    /**
-     * Show the form for creating a new resource.
-     */
 
 }

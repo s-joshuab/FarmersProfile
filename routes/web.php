@@ -24,6 +24,7 @@ use App\Http\Controllers\staff\StaffUserController;
 use App\Http\Controllers\Admin\AuditTrailController;
 use App\Http\Controllers\staff\StaffAuditController;
 use App\Http\Controllers\Admin\FarmersDataController;
+use App\Http\Controllers\Admin\IdGenerate\QrCodeController as IdGenerateQrCodeController;
 use App\Http\Controllers\Admin\ManageUsersController;
 use App\Http\Controllers\Admin\SystemBackupController;
 use App\Http\Controllers\staff\StaffProfileController;
@@ -37,6 +38,8 @@ use App\Http\Controllers\staff\StaffSystemBackupController;
 use App\Http\Controllers\secretary\SecretaryProfileController;
 use App\Http\Controllers\secretary\SecretaryFarmDataController;
 use App\Http\Controllers\Auth\AuthController as AuthAuthController;
+use App\Http\Controllers\PdfController;
+use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\Secretary\SecretaryDataController;
 
 /*
@@ -96,6 +99,16 @@ Route::middleware(['auth', 'admin_or_staff'])->group(function () {
     Route::get('farmers-edit/{id}/edit', [FarmersDataController::class, 'edit'])->name('farmers.edit');
     Route::put('farmers-update/{id}', [FarmersDataController::class, 'update']);
     Route::get('farmers-generate/{id}/generate', [FarmersDataController::class, 'generate'])->name('farmers.generate');
+
+    // New id generation
+    // Route::get('farmers-generate/{id}/generate', [IdGenerateQrCodeController::class, 'generate'])
+    // ->name('farmers.generate');
+
+
+    // PDF Generate
+    Route::get('farmers-view/{id}/pdf',
+    [PdfController::class, 'generatePdf'])->name('generate.pdf');
+
 
     Route::get('qr', [GenerateQr::class, 'qrGen']);
     // Admin Manage users

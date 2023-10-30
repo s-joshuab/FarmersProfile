@@ -31,7 +31,7 @@ final class CropsTable extends PowerGridComponent
         return [
             Exportable::make('Farmers Report')
                 ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                ->type(Exportable::TYPE_XLS),
             Header::make()->showSearchInput()->withoutLoading(),
             Footer::make()
                 ->showPerPage()
@@ -90,13 +90,9 @@ final class CropsTable extends PowerGridComponent
                 Column::make('Last Name', 'farmersprofile.sname'),
                 Column::make('Barangays', 'barangays', 'barangays.barangays'), // Use 'barangay_name' here
                 Column::make('Commodities', 'commodities', 'commodities.commodities'),
-                Column::make('Farm size', 'farm_size')
-                    ->sortable()
-                    ->searchable(),
-                Column::make('Farm location', 'farm_location')
-                    ->sortable()
-                    ->searchable(),
-                Column::make('Status', 'farmersprofile.status')
+                Column::make('Farm size', 'farm_size'),
+                Column::make('Farm location', 'farm_location'),
+                Column::make('Status', 'farmersprofile.status'),
 
 
             ];
@@ -115,6 +111,15 @@ final class CropsTable extends PowerGridComponent
                 //         ->dataSource(Barangays::all())
                 //         ->optionValue('barangays') // Make sure 'id' is the primary key of Barangay model
                 //         ->optionLabel('barangays'),
+
+                        Filter::inputText('farmersnumber', 'farmersnumber.farmersnumber')
+                        ->operators(['contains']),
+
+                        Filter::inputText('farm_size', 'farm_size')
+                        ->operators(['contains']),
+
+                        Filter::inputText('farm_location', 'farm_location')
+                        ->operators(['contains']),
 
                         Filter::select('barangays', 'barangays.barangays')
                         ->dataSource(Barangays::select('barangays')->distinct()->get())

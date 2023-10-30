@@ -1,4 +1,43 @@
 @extends('layouts.index')
+
+@section('content')
+    <section>
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                <div class="col-lg-12">
+                    <livewire:crops-table />
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+@endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////
+
+
+
+@extends('layouts.index')
 @section('content')
 <div class="col-md-12">
     @if(session('success'))

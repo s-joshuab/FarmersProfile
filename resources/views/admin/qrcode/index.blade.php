@@ -66,7 +66,7 @@
 
                                 <hr class="design" style="margin-top: -15px;">
 
-
+                                @foreach ($farmers as $farmers)
                                     <div class="content" style="position: relative;">
                                         <div class="picture-square" style="margin-left: 10px; margin-top: -5px;"></div>
                                         <div class="signature-line"></div>
@@ -78,42 +78,61 @@
                                             FARMER'S ID</p>
                                         <p
                                             style="font-size: 14px; font-weight: bold; margin-left: 142px; margin-top: -10px;">
-                                            {{ $farmers->fname }} {{ $farmers->sname }}</p>
+                                            {{ $farmers->fname }} {{ $farmer->sname }}</p>
                                         <p
                                             style="font-size: 12px; font-weight: bold; margin-left: 142px; margin-top: -20px;">
-                                            {{ $farmers->barangay->barangays }} , {{ $farmers->municipality->municipalities }}
-                                            , {{ $farmers->province->provinces }}</p>
+                                            {{ $farmer->barangay->barangays }} , {{ $farmer->municipality->municipalities }}
+                                            , {{ $farmer->province->provinces }}</p>
                                         <p
                                             style="font-size: 12px; font-weight: bold; margin-left: 140px; margin-top: -2px;">
-                                            ID Number:<br> {{ $farmers->farmersNumbers->first()->farmersnumber }}</p>
+                                            ID Number:<br> {{ $farmer->farmersNumbers->first()->farmersnumber }}</p>
                                         <p
                                             style="font-size: 12px; font-weight: bold; margin-left: 230px; margin-top: -52px;">
-                                            Sex:<br> {{ $farmers->sex }} </p>
+                                            Sex:<br> {{ $farmer->sex }} </p>
                                         <div class="row">
                                             <p
                                                 style="font-size: 12px; font-weight: bold; margin-left: 33px; margin-top: -10px;">
                                                 Signature</p>
                                             <p
                                                 style="font-size: 12px; font-weight: bold; margin-left: 140px; margin-top: -30px;">
-                                                Contact No:<br> {{ $farmers->number }} </p>
+                                                Contact No:<br> {{ $farmer->number }} </p>
                                             <p
                                                 style="font-size: 12px; font-weight: bold; margin-top: -53px; margin-left: 230px;">
-                                                Civil Status:<br> {{ $farmers->cstatus }} </p>
+                                                Civil Status:<br> {{ $farmer->cstatus }} </p>
                                         </div>
+                                        @if ($farmer)
+                                            <div
+                                                style="position: absolute; top: 80px; right: 10px; width: 80px; height: 80px;">
+                                                @php
+                                                    // Define the path to the QR code image
+                                                    $qrCodeImagePath = 'public/qr_codes/' . $farmer->id . '.png';
 
-                                        <div style="position: absolute; top: 80px; right: 10px; width: 80px; height: 80px;">
-                                            <img src="data:image/png;base64,{{ base64_encode(
-                                                QrCode::format('png')->size(200)->generate(
-                                                    $farmers->farmersNumbers->first()->farmersnumber . "\n" . $farmers->fname . ' ' . $farmers->sname . "\n" . $farmers->barangay->barangays . ' ' .
-                                                    $farmers->municipality->municipalities . ' ' . $farmers->province->provinces
-                                                )
-                                            ) }}" style="width: 80px; height: 80px;">
-                                        </div>
+                                                    // Fetch the QR code image data from storage
+                                                    $qrCodeImageData = Storage::get($qrCodeImagePath);
 
+                                                    // Convert the image data to base64
+                                                    $qrCodeBase64 = base64_encode($qrCodeImageData);
+                                                @endphp
 
+                                                @if (!empty($qrCodeImageData))
+                                                    {{-- Embed the QR code image directly in the <img> tag --}}
+                                                    {{-- <img src="data:image/png;base64,{{ $qrCodeBase64 }}" alt="QR Code"
+                                                        style="width: 80px; height: 80px;"> --}}
+
+                                                    <img src="data:image/png;base64,{{ base64_encode(
+                                                        QrCode::format('png')->size(200)->generate($qrCodeImageData->id),
+                                                    ) }}"  style="width: 80px; height: 80px;" >
+
+                                                @else
+                                                    <p>No QR Code Data</p>
+                                                @endif
+                                            </div>
+                                        @else
+                                            <p>Farmer not found</p>
+                                        @endif
                                     </div>
                             </div>
-
+                            @endforeach
 
                             <div class="page mt-3 shadow-sm align-center container"
                                 style="background-image: url('{{ asset('assets/img/bg.png') }}');  width: 430px;  background-size: cover; background-position: center center; background-repeat: no-repeat;">

@@ -43,6 +43,7 @@
 
 <!-- Bootstrap CSS and JS -->
 <link href="../../assets/css/boostrap2.css" rel="stylesheet">
+<link href="../../assets/css/boostrap1.css" rel="stylesheet">
 <script src="{{ asset('assets/js/boostrapjs.js') }}"></script>
 
 <!-- DataTables CSS -->

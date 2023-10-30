@@ -16,6 +16,6 @@
     "dependencies": {
         "html-to-image": "^1.11.11",
         "slim-select": "^2.6.0",
-        "tom-select": "^2.2.2"
+        "tom-select": "^2.3.0"
     }
 }

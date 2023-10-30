@@ -93,7 +93,7 @@ class FarmersDataController extends Controller
     public function generate($id)
     {
         $ids = [$id];
-        $farmers = FarmersProfile::whereIn('id', $ids)->get();
+        $farmers = FarmersProfile::findOrFail($id);
         return view('admin.farmers.id', compact('farmers', 'ids'));
     }
 
@@ -244,13 +244,14 @@ class FarmersDataController extends Controller
             $farmersNumber = $this->createFarmersNumber($attributes);
         }
 
-        $qrCodeContent = $farmersprofile->id; // Use the ID of the FarmersProfile instance
+        $qrCodeContent = $farmersprofile->farmersnumber->farmersnumber; // Use the ID of the FarmersProfile instance
 
         // Generate QR code image using the QrCode facade
         $qrCodeImage = QrCodeFacade::format('png')->generate($qrCodeContent);
 
         // Save QR code image to storage using the Storage facade
         $qrCodeImagePath = 'public/qr_codes/' . $farmersprofile->id . '.png';
+        $qrCodeImagePath = FarmersProfile::findOrFail($farmersprofile);
         Storage::put($qrCodeImagePath, $qrCodeImage);
 
         // Do not save the QR code image data to the database, only save the path in the 'qr_code_data' column
@@ -261,6 +262,10 @@ class FarmersDataController extends Controller
 
         return redirect('farmreport')->with('message', 'Farmer Added Successfully!');
     }
+
+
+
+
 
     //gegenerate ng ng id number
     protected function createFarmersNumber(array $attributes)

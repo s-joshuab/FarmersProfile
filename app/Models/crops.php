@@ -26,4 +26,5 @@ class Crops extends Model
     {
         return $this->belongsTo(Commodities::class, 'commodities_id');
     }
+
 }
