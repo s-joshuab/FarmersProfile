@@ -81,8 +81,8 @@
                                             {{ $farmers->fname }} {{ $farmers->sname }}</p>
                                         <p
                                             style="font-size: 12px; font-weight: bold; margin-left: 142px; margin-top: -20px;">
-                                            {{ $farmers->barangay->barangays }} , {{ $farmers->municipality->municipalities }}
-                                            , {{ $farmers->province->provinces }}</p>
+                                            {{ $farmers->barangay->barangays }} , {{ $farmers->municipalities_id }}
+                                            , {{ $farmers->provinces_id }}</p>
                                         <p
                                             style="font-size: 12px; font-weight: bold; margin-left: 140px; margin-top: -2px;">
                                             ID Number:<br> {{ $farmers->farmersNumbers->first()->farmersnumber }}</p>
@@ -101,11 +101,11 @@
                                                 Civil Status:<br> {{ $farmers->cstatus }} </p>
                                         </div>
 
-                                        <div style="position: absolute; top: 80px; right: 10px; width: 80px; height: 80px;">
+                                        <div style="position: absolute; top: 80px; right: -5px; width: 80px; height: 80px; ">
                                             <img src="data:image/png;base64,{{ base64_encode(
                                                 QrCode::format('png')->size(200)->generate(
                                                     $farmers->farmersNumbers->first()->farmersnumber . "\n" . $farmers->fname . ' ' . $farmers->sname . "\n" . $farmers->barangay->barangays . ' ' .
-                                                    $farmers->municipality->municipalities . ' ' . $farmers->province->provinces
+                                                    $farmers->municipalities_id . ' ' . $farmers->provinces_id
                                                 )
                                             ) }}" style="width: 80px; height: 80px;">
                                         </div>
@@ -124,13 +124,11 @@
                                             Notify In Case of Emergency:</h4>
                                         <hr class="design" style="margin-top: -8px;">
                                         <div class="row text-center" style="margin-top: -15px;">
-                                            <p style="margin: 0px 0; font-size: 12px; font-weight: bold;">Andrei Eleazar B.
-                                                Ballesteros</p>
-                                            <p style="margin: 0px 0; font-size: 12px; font-weight: bold;">Relationship:
-                                                Sister</p>
-                                            <p style="margin: 0px 0; margin-bottom: 0; font-size: 12px; font-weight: bold;">
-                                                0987-654-3210</p>
+                                            <p style="margin: 0px 0; font-size: 12px; font-weight: bold;"> {{ $farmers->mother }}</p>
+                                            {{-- <p style="margin: 0px 0; font-size: 12px; font-weight: bold;">Relationship: Sister</p> --}}
+                                            <p style="margin: 0px 0; margin-bottom: 0; font-size: 12px; font-weight: bold;">{{ $farmers->emergency }}</p>
                                         </div>
+
                                     </div>
 
                                     <hr class="design" style="margin-top: -1px;">
@@ -140,17 +138,37 @@
                                         This is to certify that the person whose name, photograph, and signature appear
                                         herein is a duly bonafide farmer of Balaoan, La Union
                                     </p>
-                                    <div class="signature-line" style="width: 35%; margin-left: 13px; margin-top: 50px;">
-                                    </div>
-                                    <h5 style="font-size: 12px; margin-left: 15px; font-weight: bold;">ROGELIO C. OPINALDO
-                                        JR.</h5>
-                                    <h5 style="font-size: 10px; margin-left: 25px; margin-top: -10px;">OIC, Municipal
-                                        Agriculturist</h5>
-                                    <div class="signature-line" style="width: 35%; margin-left: 235px; margin-top: -33px">
-                                    </div>
-                                    <h5 style="font-size: 12px; margin-left: 220px; font-weight: bold;">ATTY. ALELI C.
-                                        CONCEPCION</h5>
-                                    <h5 style="font-size: 10px; margin-left: 255px; margin-top: -10px;">Municipal Mayor</h5>
+                                   <!-- Use a table for proper alignment -->
+<table style="width: 100%; margin-top: 10px;">
+    <tr>
+        <td style="width: 50%; text-align: center;">
+            <div class="signature-line" style="width: 80%; margin: 0 auto;"></div>
+            @foreach($users as $user)
+            @if ($user->username === 'admin')
+                <h5 style="font-size: 15px; font-weight: bold; margin: 10px 0;">
+                    {{ $user->name }}
+                </h5>
+            @endif
+        @endforeach
+
+
+
+            <h5 style="font-size: 10px; margin-top: -10px;">OIC, Municipal Agriculturist</h5>
+        </td>
+        <td style="width: 50%; text-align: center;">
+            <div class="signature-line" style="width: 80%; margin: 0 auto;"></div>
+            @foreach($users as $user)
+            @if ($user->username === 'mayor')
+                <h5 style="font-size: 15px; font-weight: bold; margin: 10px 0;">
+                    {{ $user->name }}
+                </h5>
+            @endif
+        @endforeach
+            <h5 style="font-size: 10px; margin-top: -10px;">Municipal Mayor</h5>
+        </td>
+    </tr>
+</table>
+
                                 </div>
                             </div>
                         </div>
@@ -159,7 +177,7 @@
             </div>
         </div>
     </div>
-    <button type="button" class="btn btn-lg btn-default print_no" onclick="print_this('to_print')">Print!</button>
+    <button type="button" class="btn btn-lg btn-primary print_no" onclick="print_this('to_print')">Print!</button>
 
     <script>
         function print_this(id) {

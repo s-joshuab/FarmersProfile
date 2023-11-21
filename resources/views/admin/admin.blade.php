@@ -198,83 +198,26 @@
             <div class="col-lg-12">
                 <div class="row">
 
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Highest Commodities</h5>
                                 <div class="card-text">
-                                    <ul>
+                                    <ul class="list-group">
                                         @foreach($maxCommodities as $commodity)
-                                            <li>{{ $commodity['name'] }} : {{ $commodity['count'] }}</li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                {{ $commodity['name'] }}
+                                                <span class="badge bg-primary rounded-pill">{{ $commodity['count'] }}</span>
+                                            </li>
                                         @endforeach
                                     </ul>
                                 </div>
-                                <!-- Bar Chart -->
-                                {{-- <canvas id="barChart1" style="max-height: 400px;"></canvas>
-                                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                                <script>
-                                    document.addEventListener("DOMContentLoaded", () => {
-                                        new Chart(document.querySelector('#barChart1'), {
-                                            type: 'bar',
-                                            data: {
-                                                labels: {!! json_encode([$maxCommodityName]) !!}, // Use the commodity name
-                                                datasets: [{
-                                                    label: 'Counts',
-                                                    data: {!! json_encode([$maxCommodityCount]) !!}, // Use the count of the highest-count commodity
-                                                    backgroundColor: generateRandomColors(1), // Generate a single random color
-                                                    borderColor: 'rgba(75, 192, 192, 1)',
-                                                    borderWidth: 1
-                                                }]
-                                            },
-                                            options: {
-                                                scales: {
-                                                    y: {
-                                                        beginAtZero: true,
-                                                        ticks: {
-                                                            callback: function (value) {
-                                                                if (value % 1 === 0) { // Display whole numbers only
-                                                                    return value;
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                },
-                                                plugins: {
-                                                    legend: {
-                                                        display: false, // Hide legend
-                                                    },
-                                                },
-                                                responsive: true,
-                                                maintainAspectRatio: false,
-                                            }
-                                        });
-
-                                        // Function to generate a random color
-                                        function generateRandomColors(count) {
-                                            const colors = [];
-                                            for (let i = 0; i < count; i++) {
-                                                const color = getRandomColor();
-                                                colors.push(color);
-                                            }
-                                            return colors;
-                                        }
-
-                                        // Function to generate a random color
-                                        function getRandomColor() {
-                                            const letters = '0123456789ABCDEF';
-                                            let color = '#';
-                                            for (let i = 0; i < 6; i++) {
-                                                color += letters[Math.floor(Math.random() * 16)];
-                                            }
-                                            return color;
-                                        }
-                                    });
-                                </script> --}}
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-7">
+
+                    <div class="col-md-8">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Commodities</h5>
@@ -343,7 +286,37 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
+                        <div class="card recent-sales overflow-auto" style="margin-top: -250px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Most Planted Commodities by Barangay</h5>
+
+                                <!-- Table -->
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Barangay</th>
+                                            <th>Most Commodities Planted</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($mostPlantedByBarangay as $item)
+                                            <tr>
+                                                <td>{{ $item['barangay'] ?? 'No Data' }}</td>
+                                                <td>{{ $item['most_commodity'] ?? 'No Data' }} </td>
+
+                                                {{-- ({{ $item['commodities_count'] ?? '0' }}) --}}
+
+
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
                         <!-- Budget Report -->
                         <div class="card">
                             {{-- <div class="filter">
@@ -389,9 +362,11 @@
 
                     </div>
 
-                </div>
+
+
             </div>
 
+        </div>
         </div>
     </section>
 @endsection

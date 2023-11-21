@@ -4,6 +4,8 @@ namespace App\Http\Livewire;
 
 use App\Models\crops;
 use App\Models\Barangays;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use App\Models\Commodities;
 use App\Models\FarmersProfile;
 use App\Models\FarmersNumber;
@@ -14,7 +16,7 @@ use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\{ActionButton, WithExport};
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridColumns};
 
-final class FarmersTable extends PowerGridComponent
+final class farmerstable extends PowerGridComponent
 {
     use ActionButton;
     use WithExport;
@@ -31,7 +33,7 @@ final class FarmersTable extends PowerGridComponent
         return [
             Exportable::make('Farmers Report')
                 ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                ->type(Exportable::TYPE_XLS),
             Header::make()->showSearchInput()->withoutLoading(),
             Footer::make()
                 ->showPerPage()
@@ -64,8 +66,8 @@ final class FarmersTable extends PowerGridComponent
         {
             return [
 
-                'farmersProfile' => ['fname', 'sname', 'farmersnumber'], // Use 'barangay_name' here
-                'commodity' => ['commodities', 'category'],
+                'farmersProfile' => ['fname', 'sname', 'farmersnumber', 'farm_size', 'farm_location'], // Use 'barangay_name' here
+                'commodity' => ['commodities', 'category', 'farm_size', 'farm_location'],
             ];
         }
 
@@ -77,6 +79,7 @@ final class FarmersTable extends PowerGridComponent
                 ->addColumn('farmersprofile.sname')
                 ->addColumn('farmersprofile.barangays.barangays') // Display 'barangay_name' as 'Barangay'
                 ->addColumn('commodities.commodities')
+                ->addColumn('farm_size')
                 ->addColumn('farmersprofile.status');
         }
 
@@ -84,12 +87,15 @@ final class FarmersTable extends PowerGridComponent
         public function columns(): array
         {
             return [
-                Column::make('Farmers Number', 'farmersnumber','farmersnumber.farmersnumber'),
+                Column::make('Farmers Number', 'farmersnumber.farmersnumber')
+                ->component('livewire.farmers-number-link'),
                 Column::make('First Name', 'farmersprofile.fname'),
                 Column::make('Last Name', 'farmersprofile.sname'),
                 Column::make('Barangays', 'barangays', 'barangays.barangays'), // Use 'barangay_name' here
                 Column::make('Commodities', 'commodities', 'commodities.commodities'),
-                Column::make('Status', 'farmersprofile.status')
+                Column::make('Farm size', 'farm_size'),
+                Column::make('Farm location', 'farm_location'),
+                Column::make('Status', 'farmersprofile.status'),
 
 
             ];
@@ -99,7 +105,7 @@ final class FarmersTable extends PowerGridComponent
             public function filters(): array
             {
                 return [
-                Filter::multiSelect('commodities', 'commodities.commodities')
+                Filter::select('commodities', 'commodities.commodities')
                         ->dataSource(Commodities::all())
                         ->optionValue('commodities') // Make sure 'id' is the primary key of Commodity model
                         ->optionLabel('commodities'),
@@ -108,6 +114,15 @@ final class FarmersTable extends PowerGridComponent
                 //         ->dataSource(Barangays::all())
                 //         ->optionValue('barangays') // Make sure 'id' is the primary key of Barangay model
                 //         ->optionLabel('barangays'),
+
+                        Filter::inputText('farmersnumber', 'farmersnumber.farmersnumber')
+                        ->operators(['contains']),
+
+                        Filter::inputText('farm_size', 'farm_size')
+                        ->operators(['contains']),
+
+                        Filter::inputText('farm_location', 'farm_location')
+                        ->operators(['contains']),
 
                         Filter::select('barangays', 'barangays.barangays')
                         ->dataSource(Barangays::select('barangays')->distinct()->get())
@@ -121,34 +136,6 @@ final class FarmersTable extends PowerGridComponent
                         ->optionLabel('status'),
                 ];
             }
-
-            public function actions(): array
-            {
-                return [
-                    Button::make('view', 'View')
-                        ->class('btn-primary btn bg-primary cursor-pointer text-dark fw-bold px-3 py-2.5 m-1 rounded text-sm')
-                        ->route('farmers.showed', function (Crops $model) {
-                            return ['id' => $model->id];
-                        }),
-
-                    Button::make('update', 'Update')
-                        ->class('btn-secondary btn cursor-pointer text-dark fw-bold px-3 py-2.5 m-1 rounded text-sm')
-                        ->route('farmers.edit', function (Crops $model) {
-                            return ['id' => $model->id];
-                        }),
-
-                    Button::make('generate', 'Generate')
-                        ->class('btn-success btn bg-success cursor-pointer text-light fw-bold px-3 py-2.5 m-1 rounded text-sm')
-                        ->route('farmers.generate', function (Crops $model) {
-                            return ['id' => $model->id];
-                        }),
-                ];
-            }
-
-
-
-
-
 
 
         // public function fetchAllFarmersProfiles()

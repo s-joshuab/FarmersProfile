@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Validator;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 
+date_default_timezone_set('Asia/Manila');
 class SettingsController extends Controller
 {
 
@@ -43,6 +44,7 @@ class SettingsController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function audit(Request $request)
     {
         $dateFilter = $request->input('date_filter');
@@ -56,12 +58,12 @@ class SettingsController extends Controller
             } elseif ($dateFilter === 'yesterday') {
                 $activitiesQuery->whereDate('created_at', $now->subDay()->toDateString());
             } elseif ($dateFilter === 'this_week') {
-                $startOfWeek = $now->startOfWeek();
-                $endOfWeek = $now->endOfWeek();
+                $startOfWeek = $now->startOfWeek()->toDateString();
+                $endOfWeek = $now->endOfWeek()->toDateString();
                 $activitiesQuery->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
             } elseif ($dateFilter === 'this_month') {
-                $startOfMonth = $now->startOfMonth();
-                $endOfMonth = $now->endOfMonth();
+                $startOfMonth = $now->startOfMonth()->toDateString();
+                $endOfMonth = $now->endOfMonth()->toDateString();
                 $activitiesQuery->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
             }
         }
@@ -101,6 +103,9 @@ class SettingsController extends Controller
                 Rule::unique('users')->ignore($user->id),
             ],
             'phone_number' => 'required|numeric',
+            'provinces_id' => 'required',
+            'municipalities_id' => 'required',
+            'barangays_id' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -112,6 +117,7 @@ class SettingsController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'phone_number' => $request->input('phone_number'),
+
         ];
 
         // Handle profile image upload if a new image was provided
@@ -185,85 +191,93 @@ class SettingsController extends Controller
 
     public function performManualBackup(Request $request)
     {
-        // Define the backup file name
         $backupFileName = 'backupdata_' . date('Y_m_d_His') . '.sql';
-
-        // Define the path to mysqldump executable (use Laravel database configuration)
         $mysqlDumpPath = 'D:\xampp\mysql\bin\mysqldump.exe'; // Replace with your actual path
         $databaseConfig = config('database.connections.mysql');
-
-        // Build the mysqldump command
         $command = "{$mysqlDumpPath} --user={$databaseConfig['username']} --host={$databaseConfig['host']} {$databaseConfig['database']} > " . storage_path('app/backup/') . $backupFileName;
 
-
-        // Execute the mysqldump command
         exec($command, $output, $returnCode);
 
         if ($returnCode === 0) {
-            // Backup completed successfully, create a response for download
-            $backupFilePath = storage_path('app/backup/') . $backupFileName;
-            if (file_exists($backupFilePath)) {
-                $response = new Response(file_get_contents($backupFilePath), 200);
-                $response->header('Content-Type', 'application/sql');
-                $response->header('Content-Disposition', 'attachment; filename=' . $backupFileName);
-
-                // Log the backup event
-                Log::info('Manual backup completed successfully: ' . $backupFileName);
-
-                // Delete the backup file after it's sent to the user
-                unlink($backupFilePath);
-
-                return $response;
-            } else {
-                Log::error('Manual backup file not found: ' . $backupFileName);
-                return redirect()->back()->with('error', 'Manual backup failed. Backup file not found.');
-            }
+            return $this->createBackupResponse($backupFileName);
         } else {
-            // Log and handle errors
             $errorOutput = implode("\n", $output);
             Log::error('Manual backup failed: ' . $errorOutput);
-
             return redirect()->back()->with('error', 'Manual backup failed. See logs for details.');
         }
     }
 
-    public function scheduleAutomaticBackup(Request $request)
+    protected function createBackupResponse($backupFileName)
     {
-        // Validate the request input
-        $request->validate([
-            'automatic_backup_date' => 'required|date',
-        ]);
+        $backupPath = storage_path('app/backup/') . $backupFileName;
 
-        // Define the mysqldump command with the full path to mysqldump executable
-        $mysqlDumpPath = 'D:\xampp\mysql\bin\mysqldump.exe'; // Replace with your actual path
-
-        // Define the database name
-        $databaseName = env('MAO'); // Get the database name from your .env file
-
-        // Build the mysqldump command
-        $backupFileName = 'automatic_backup_' . date('Y_m_d_His') . '.sql';
-        $command = "{$mysqlDumpPath} --user=root --host=127.0.0.1 {$databaseName} > " . storage_path('app/backup/') . $backupFileName;
-
-        // Execute the mysqldump command
-        shell_exec($command);
-
-        // Set the path to the backup file
-        $backupFilePath = storage_path('app/backup/') . $backupFileName;
-
-        // Check if the backup file exists
-        if (file_exists($backupFilePath)) {
-            // Store the backup file in a storage location or cloud storage (e.g., Amazon S3)
-            Storage::put('backups/' . $backupFileName, file_get_contents($backupFilePath));
-
-            // Delete the local backup file after it's stored in the cloud
-            unlink($backupFilePath);
-
-            // You should define the monthly schedule within app/Console/Kernel.php
-            // Example: Schedule::command('backup:run')->monthly();
-
-            return redirect()->back()->with('success', 'Automatic backup scheduled successfully for ' . $request->input('automatic_backup_date'));
-        } else {
-            return redirect()->back()->with('error', 'Automatic backup failed. Backup file not found.');
-        }
+        return response()->download($backupPath)->deleteFileAfterSend(true);
     }
+
+    // public function performDatabaseUpload(Request $request)
+    // {
+    //     $request->validate([
+    //         'database_file' => 'required|mimes:sql|max:10240',
+    //         'new_database_name' => 'required|string|max:255',
+    //     ]);
+
+    //     $databaseFile = $request->file('database_file');
+    //     $newDatabaseName = $request->input('new_database_name');
+
+    //     // Move the uploaded SQL file to storage
+    //     $uploadPath = storage_path('app/uploads/');
+    //     $uploadedFileName = 'uploaded_database_' . date('Y_m_d_His') . '.sql';
+    //     $databaseFile->move($uploadPath, $uploadedFileName);
+
+    //     try {
+    //         // Create a new database and import the SQL file
+    //         $this->createAndImportDatabase($newDatabaseName, $uploadPath . $uploadedFileName);
+
+    //         // Clean up: delete the uploaded SQL file
+    //         Storage::delete('uploads/' . $uploadedFileName);
+
+    //         Log::info("Database upload and creation completed successfully for database: $newDatabaseName");
+
+    //         return redirect()->back()->with('success', "Database upload and creation completed successfully for database: $newDatabaseName");
+    //     } catch (\Exception $e) {
+    //         Log::error("Database upload and creation failed for database: $newDatabaseName. Error: " . $e->getMessage());
+    //         return redirect()->back()->with('error', "Database upload and creation failed for database: $newDatabaseName");
+    //     }
+    // }
+
+    // protected function createAndImportDatabase($databaseName, $filePath)
+    // {
+    //     // Create a new database
+    //     $this->createNewDatabase($databaseName);
+
+    //     // Import the SQL file into the new database
+    //     $this->importSqlFile($databaseName, $filePath);
+    // }
+
+    // protected function createNewDatabase($databaseName)
+    // {
+    //     $dbConnection = config('database.connections.mysql');
+
+    //     try {
+    //         $pdo = new \PDO("mysql:host={$dbConnection['host']};port={$dbConnection['port']}", $dbConnection['username'], $dbConnection['password']);
+    //         $pdo->exec("CREATE DATABASE IF NOT EXISTS $databaseName");
+    //         $pdo = null;
+    //         Log::info("Database $databaseName created successfully");
+    //     } catch (\PDOException $e) {
+    //         Log::error("Error creating database $databaseName: " . $e->getMessage());
+    //         throw $e; // Rethrow the exception to indicate a failure
+    //     }
+    // }
+
+    // protected function importSqlFile($databaseName, $filePath)
+    // {
+    //     $dbConnection = config('database.connections.mysql');
+    //     $password = $dbConnection['password'] ? "-p{$dbConnection['password']}" : "";
+    //     $command = "mysql --host={$dbConnection['host']} --port={$dbConnection['port']} --user={$dbConnection['username']} $password $databaseName < $filePath";
+    //     shell_exec($command);
+    //     Log::info("SQL file imported into database: $databaseName");
+    // }
+
+
+
 }

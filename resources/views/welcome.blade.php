@@ -105,24 +105,93 @@ background-repeat: no-repeat;
 </main>
 </body>
 <!-- Modal for Terms and Conditions -->
-<!-- Modal for Terms and Conditions -->
-<div class="modal" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="termsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
-                {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
-            </div>
-            <div class="modal-body">
-                <!-- Place your terms and conditions content here -->
-                <p>Kunware Meron MUna</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+<div class="modal fade" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="termsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="terms-content">
+                        <p><strong>1. Acceptance of Terms</strong></p>
+                        <p>
+                            By accessing or using our profiling system, you agree to comply with and be bound by the
+                            following terms and conditions. If you do not agree to these terms, please do not use the
+                            profiling system.
+                        </p>
+
+                        <p><strong>2. Description of the Profiling System</strong></p>
+                        <p>
+                            Our profiling system is designed and develop a system to store large data of farmers allowing them have an organized, summarized, and secured records of farmers.
+                        </p>
+
+                        <p><strong>3. User Consent</strong></p>
+                        <p>
+                            By using the profiling system, you consent to the collection, use, and disclosure of your
+                            information as outlined in these terms and our privacy policy.
+                        </p>
+
+                        <p><strong>4. Data Collection and Usage</strong></p>
+                        <p>
+                            We may collect and process various types of information, including but not limited to
+                            [describe the types of data collected]. This information is used for [explain the purpose of
+                            data collection].
+                        </p>
+
+                        <p><strong>5. Data Security</strong></p>
+                        <p>
+                            We take reasonable measures to secure your data; however, we cannot guarantee the absolute
+                            security of your information. By using the profiling system, you acknowledge and accept this
+                            risk.
+                        </p>
+
+                        <p><strong>6. User Responsibilities</strong></p>
+                        <p>
+                            You are responsible for maintaining the confidentiality of your account information and for
+                            all activities that occur under your account.
+                        </p>
+
+                        <p><strong>7. Cookies and Tracking</strong></p>
+                        <p>
+                            Our profiling system may use cookies or similar technologies to enhance user experience.
+                            You can manage cookie preferences through your browser settings.
+                        </p>
+
+                        <p><strong>8. Termination</strong></p>
+                        <p>
+                            We reserve the right to terminate or suspend your account for any reason without prior
+                            notice.
+                        </p>
+
+                        <p><strong>9. Changes to Terms</strong></p>
+                        <p>
+                            We may update these terms from time to time. You will be notified of any changes, and
+                            continued use of the profiling system after such modifications constitutes your acceptance
+                            of the new terms.
+                        </p>
+
+                        <p><strong>10. Governing Law</strong></p>
+                        <p>
+                            These terms are governed by and construed in accordance with the laws of [your jurisdiction].
+                        </p>
+
+                        <p><strong>11. Contact Information</strong></p>
+                        <p>
+                            For questions or concerns regarding these terms, please contact us at [provide contact
+                            information].
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

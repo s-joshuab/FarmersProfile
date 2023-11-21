@@ -15,7 +15,7 @@
     <div class="row">
         <div class="container">
             <div class="col-lg-12">
-                <form action="{{ url('create') }}" method="post">
+                <form action="{{ url('store') }}" method="post">
                     @csrf
                     <div class="card">
                         <div class="card-body">

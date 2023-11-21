@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Status;
+use App\Models\Machine;
+use App\Models\Barangays;
+use App\Models\Provinces;
+use App\Models\Commodities;
 use Illuminate\Http\Request;
 use App\Models\FarmersProfile;
+use App\Models\Municipalities;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
-use App\Models\Barangays;
-use App\Models\Commodities;
-use App\Models\Machine;
-use App\Models\Municipalities;
-use App\Models\Provinces;
 
 class PdfController extends Controller
 {
@@ -18,7 +19,7 @@ class PdfController extends Controller
     public function generatePdf($id)
     {
 
-
+        $civilStatusOptions = Status::all();
         $provinces = Provinces::all();
         $municipalities = Municipalities::all();
         $barangays = Barangays::all();
@@ -34,17 +35,19 @@ class PdfController extends Controller
         if (!$farmersprofile) {
             abort(403);
         }
-        $pdf = Pdf::loadView('admin.pdf.pdf',
-        ['farmersprofile' => $farmersprofile,
-        'provinces' => $provinces,
-        'municipalities' => $municipalities,
-        'barangays' => $barangays,
-        'commodities' => $commodities,
-        'farmers' => $farmers,
-        'machine' => $machine,
-        'crops' => $crops,
-        'machineries' => $machineries
-    ]);
+        $pdf = Pdf::loadView('admin.pdf.pdf', [
+            'farmersprofile' => $farmersprofile,
+            'provinces' => $provinces,
+            'civilStatusOptions' => $civilStatusOptions, // Fix the syntax here
+            'municipalities' => $municipalities,
+            'barangays' => $barangays,
+            'commodities' => $commodities,
+            'farmers' => $farmers,
+            'machine' => $machine,
+            'crops' => $crops,
+            'machineries' => $machineries
+        ]);
+
 
         return $pdf->stream();
     }

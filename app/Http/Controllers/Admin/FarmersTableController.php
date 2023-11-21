@@ -11,7 +11,7 @@ use App\Models\Barangays;
 use App\Models\Commodities;
 use App\Models\Machine      ;
 use App\Http\Controllers\Controller;
-
+date_default_timezone_set('Asia/Manila');
 class FarmersTableController extends Controller
 {
     public function show($id)

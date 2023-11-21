@@ -2,16 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
+date_default_timezone_set('Asia/Manila');
 class ForgotPasswordController extends Controller
 {
     use SendsPasswordResetEmails;
 
-    //send email
+    protected $farmersprofile;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'email', 'user_type']);
+    }
+
     public function __construct()
     {
         $this->middleware('guest');
@@ -21,8 +31,6 @@ class ForgotPasswordController extends Controller
     {
         return view('components.auth.forgot');
     }
-
-    //forgot pass
 
     public function showResetForm(Request $request, $token)
     {
@@ -46,9 +54,24 @@ class ForgotPasswordController extends Controller
             }
         );
 
+        // Retrieve the FarmerProfile based on the email
+        $farmersprofile = User::where('email', $request->email)->first();
+
+        // Check if the FarmerProfile exists before logging the activity
+        if ($farmersprofile) {
+            $updatedAttributes = ['password'];
+
+            // Log the "forgot password" action in the audit trail
+            activity()
+                ->causedBy(auth()->user())
+                ->performedOn($farmersprofile)
+                ->withProperties(['attributes' => $updatedAttributes])
+                ->log('Forgot Password');
+        }
+
         return $response == Password::PASSWORD_RESET
             ? redirect()->route('login')->with('status', trans($response))
             : back()->withInput($request->only('email'))
-            ->withErrors(['email' => trans($response)]);
+                ->withErrors(['email' => trans($response)]);
     }
 }

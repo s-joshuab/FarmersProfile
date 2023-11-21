@@ -81,20 +81,28 @@ Route::middleware(['auth', 'admin_or_staff'])->group(function () {
     Route::get('/audit/filter', [SettingsController::class, 'audit'])->name('audit.filter');
 
 
-    Route::get('farmreport', [FarmersDataController::class, 'farmdata']);
+    Route::get('farmreport', [FarmersDataController::class, 'farmdata'])->name('farmers.report');
     Route::get('reports', [ReportsController::class, 'reports']);
+    Route::get('search', [ReportsController::class, 'search']);
     Route::get('audit', [SettingsController::class, 'audit']);
     Route::get('/audit', [SettingsController::class,'audit'])->name('audit');
 
     Route::get('backup', [SettingsController::class, 'backup']);
     Route::post('perform-manual-backup', [SettingsController::class, 'performManualBackup'])->name('manual.backup');
     Route::post('schedule-automatic-backup', [SettingsController::class, 'scheduleAutomaticBackup'])->name('schedule-automatic-backup');
+    Route::post('/database-upload', [SettingsController::class, 'performDatabaseUpload'])->name('database.upload');
     Route::get('generate', [FarmersDataController::class, 'generate']);
     Route::get('/get-municipalities/{provinces_id}', [FarmersDataController::class, 'getMunicipalities']);
     Route::get('/get-barangays/{municipalities_id}', [FarmersDataController::class, 'getBarangays']);
+    Route::post('/get-education', [FarmersDataController::class, 'fetchEducationData']);
+    Route::post('/get-civil-status-data', [FarmersDataController::class, 'fetchCivilStatus']);
 
-    Route::get('create-add', [FarmersDataController::class, 'create']);
+
+
     Route::post('create', [FarmersDataController::class, 'store']);
+    Route::get('create-add', [FarmersDataController::class, 'createAdd']);
+
+
     Route::get('farmers-view/{id}/view', [FarmersDataController::class, 'show'])->name('farmers.showed');
     Route::get('farmers-edit/{id}/edit', [FarmersDataController::class, 'edit'])->name('farmers.edit');
     Route::put('farmers-update/{id}', [FarmersDataController::class, 'update']);
@@ -130,7 +138,7 @@ Route::middleware(['auth', 'admin_or_staff'])->group(function () {
 
 
 Route::middleware(['auth', 'secretary'])->group(function () {
-    Route::get('farmdata', [SecretaryController::class, 'farmdata']);
+    Route::get('farmdata', [SecretaryController::class, 'farmdata'])->name('farmdata');
     Route::get('profilee', [SecretaryController::class, 'profile']);
     Route::put('profilee-update/{id}', [SecretaryController::class, 'updateProfile'])->name('profile.update');
     Route::put('passwordd-update/{id}', [SecretaryController::class, 'updatePassword'])->name('password.update');

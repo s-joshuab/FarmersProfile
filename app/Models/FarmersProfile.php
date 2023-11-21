@@ -22,6 +22,7 @@ class FarmersProfile extends Model
         'spouse',
         'mother',
         'number',
+        'emergency',
         'regions',
         'provinces_id',
         'municipalities_id',
@@ -31,8 +32,9 @@ class FarmersProfile extends Model
         'dob',
         'pob',
         'religion',
-        'cstatus',
-        'education',
+        // 'cstatus',
+        'civil_status_id',
+        'highest_formal_education_id',
         'pwd',
         'benefits',
         'livelihood',
@@ -48,19 +50,34 @@ class FarmersProfile extends Model
         return $this->hasMany(Crops::class, 'farmersprofile_id');
     }
 
-    public function province()
-    {
-        return $this->belongsTo(Provinces::class, 'provinces_id');
-    }
+    public function user()
+{
+    return $this->belongsTo(User::class);
+}
 
-    public function municipality()
-    {
-        return $this->belongsTo(Municipalities::class, 'municipalities_id');
-    }
+    // public function province()
+    // {
+    //     return $this->belongsTo(Provinces::class, 'provinces_id');
+    // }
+
+    // public function municipality()
+    // {
+    //     return $this->belongsTo(Municipalities::class, 'municipalities_id');
+    // }
 
     public function barangay()
     {
         return $this->belongsTo(Barangays::class, 'barangays_id');
+    }
+
+    public function civil_status()
+    {
+        return $this->belongsTo(Status::class, 'civil_status_id');
+    }
+
+    public function highest_formal_education()
+    {
+        return $this->belongsTo(HighestFormalEducation::class, 'highest_formal_education_id');
     }
 
 

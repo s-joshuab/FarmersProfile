@@ -11,7 +11,11 @@
         window.history.back();
       };
 </script>
-
+<style>
+    label {
+        font-weight: bold;
+    }
+</style>
 <div class="row">
     <div class="container">
         <div class="col-lg-12">
@@ -31,19 +35,21 @@
                                 <label for="referenceNo" class="mr-2">Reference/Control No.: </label>
                                 <div class="flex-grow-1">
                                     <input type="text" class="form-control" id="referenceNo"
-                                        name="ref_no" value="{{ $farmersprofile->ref_no }}" required>
+                                        name="ref_no" value="{{ $farmersprofile->ref_no }}" maxlength="15"  required>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6 position-relative mt-3">
+                                    <div class="col-md-6 position-relative mt-5">
+                                        <div class="d-flex align-items-center">
                                         <label class="form-label">Status</label>
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-10">
                                             <select class="form-select" aria-label="Default select example" id="validationTooltip03" name="status" required>
                                                 <option value="" selected disabled>Select Status</option>
                                                 <option value="Active" {{ $farmersprofile->status === 'Active' ? 'selected' : '' }}>Active</option>
                                                 <option value="Inactive" {{ $farmersprofile->status === 'Inactive' ? 'selected' : '' }}>Inactive</option>
                                             </select>
+                                        </div>
                                         </div>
                                     </div>
 
@@ -72,7 +78,7 @@
                                     <div class="col-md-5 position-relative mt-0">
                                         <label class="form-label">Middle Name</label>
                                         <input type="text" class="form-control" id="validationTooltip01" name="mname" value="{{ $farmersprofile->mname }}"
-                                            required autofocus="autofocus" >
+                                             autofocus="autofocus" >
                                         <div class="invalid-tooltip">
                                             The Middle Name field is required.
                                         </div>
@@ -81,7 +87,7 @@
                                     <div class="col-md-3 position-relative mt-0">
                                         <label class="form-label">Extension Name</label>
                                         <input type="text" class="form-control" id="validationTooltip01" name="ename" value="{{ $farmersprofile->ename}}"
-                                            required autofocus="autofocus" >
+                                            autofocus="autofocus" >
                                         <div class="invalid-tooltip">
                                             The Extension Name field is required.
                                         </div>
@@ -91,11 +97,11 @@
                                         <div class="form-inline">
                                             <label for="sex" class="mr-2">Sex:</label>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="sex" id="maleOption" value="male" {{ $farmersprofile->sex === 'male' ? 'checked' : '' }} required >
+                                                <input class="form-check-input" type="radio" name="sex" id="maleOption" value="Male" {{ $farmersprofile->sex === 'Male' ? 'checked' : '' }} required >
                                                 <label class="form-check-label" for="maleOption">Male</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="sex" id="femaleOption" value="female" {{ $farmersprofile->sex === 'female' ? 'checked' : '' }} required >
+                                                <input class="form-check-input" type="radio" name="sex" id="femaleOption" value="Female" {{ $farmersprofile->sex === 'Female' ? 'checked' : '' }} required >
                                                 <label class="form-check-label" for="femaleOption">Female</label>
                                             </div>
                                         </div>
@@ -107,42 +113,27 @@
                                     <div class="col-md-4 position-relative mt-0">
                                         <label for="Region">Region</label>
                                         <div class="form-control-custom">
-                                          <input type="text" id="regions" name="regions" class="form-control" value="Region I" disabled>
+                                          <input type="text" id="regions" style="border-bottom:solid 1px; border-radius:0; border-top: none; border-left: none; border-right: none;" name="regions" class="form-control" value="Region I" readonly>
                                         </div>
                                       </div>
 
-
-
-                                    <!-- Beekeeper Province Address -->
-                                    <div class="col-md-4 position-relative mt-0">
+                                      <div class="col-md-4 position-relative mt-0">
                                         <label for="province">Province:</label>
-                                        <select id="province" name="provinces_id" class="form-control" >
-                                            <option value="">Select Province</option>
-                                            @foreach ($provinces as $province)
-                                                <option value="{{ $province->id }}" {{ $farmersprofile->provinces_id == $province->id ? 'selected' : '' }}>
-                                                    {{ $province->provinces }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        <div class="form-control-custom">
+                                            <input type="text" id="provinces_id" style="border-bottom:solid 1px; border-radius:0; border-top: none; border-left: none; border-right: none;" name="provinces_id" class="form-control" value="La Union" readonly>
+                                          </div>
                                     </div>
 
-                                    <!-- Municipality Dropdown -->
                                     <div class="col-md-4 position-relative mt-0">
                                         <label for="municipality">Municipality:</label>
-                                        <select id="municipality" name="municipalities_id" class="form-control" >
-                                            <option value="">Select Municipality</option>
-                                            @foreach ($municipalities as $municipality)
-                                                <option value="{{ $municipality->id }}" {{ $farmersprofile->municipalities_id == $municipality->id ? 'selected' : '' }}>
-                                                    {{ $municipality->municipalities }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        <div class="form-control-custom">
+                                            <input type="text" id="provinces_id" style="border-bottom:solid 1px; border-radius:0; border-top: none; border-left: none; border-right: none;" name="municipalities_id" class="form-control" value="Balaoan" readonly>
+                                          </div>
                                     </div>
 
-                                    <!-- Barangay Dropdown -->
-                                    <div class="col-md-4 position-relative mt-0">
+                                    <div class="col-md-4 position-relative mt-2">
                                         <label for="barangay">Barangay:</label>
-                                        <select id="barangay" name="barangays_id" class="form-control" >
+                                        <select id="barangay" name="barangays_id" class="form-control" required>
                                             <option value="">Select Barangay</option>
                                             @foreach ($barangays as $barangay)
                                                 <option value="{{ $barangay->id }}" {{ $farmersprofile->barangays_id == $barangay->id ? 'selected' : '' }}>
@@ -152,94 +143,56 @@
                                         </select>
                                     </div>
 
+                                <script>
+                                    // Function to fetch province and municipality based on the selected barangay
+                                    function getProvinceAndMunicipality(barangay_id) {
+                                        // Placeholder for fetching data based on barangay (replace with actual logic)
+                                        var province_id = 1; // La Union
+                                        var municipality_id = 1; // Balaoan
 
-                                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                                    <script>
-                                        // Function to fetch municipalities based on the selected province
-                                        function getMunicipalities(province_id) {
-                                            $.ajax({
-                                                url: '/get-municipalities/' + province_id,
-                                                type: 'GET',
-                                                dataType: 'json',
-                                                success: function(response) {
-                                                    // Clear previous options
-                                                    $('#municipality').empty().append('<option value="">Select Municipality</option>');
-                                                    $('#barangay').empty().append('<option value="">Select Barangay</option>');
+                                        // Set the selected province and municipality
+                                        $('#province').val(province_id);
+                                        $('#municipality').val(municipality_id);
 
-                                                    // Append new options
-                                                    $.each(response, function(index, municipality) {
-                                                        $('#municipality').append('<option value="' + municipality.id + '">' + municipality.municipalities + '</option>');
-                                                    });
-                                                },
-                                                error: function(xhr, status, error) {
-                                                    console.error(error);
-                                                }
-                                            });
+                                        // Show the hidden dropdowns
+                                        $('#province, #municipality').show();
+                                    }
+
+                                    // Add event listener for the barangay select dropdown
+                                    $('#barangay').change(function() {
+                                        var barangay_id = $(this).val();
+                                        if (barangay_id !== '') {
+                                            getProvinceAndMunicipality(barangay_id);
                                         }
+                                    });
 
-                                        // Function to fetch barangays based on the selected municipality
-                                        function getBarangays(municipality_id) {
-                                            $.ajax({
-                                                url: '/get-barangays/' + municipality_id,
-                                                type: 'GET',
-                                                dataType: 'json',
-                                                success: function(response) {
-                                                    // Clear previous options
-                                                    $('#barangay').empty().append('<option value="">Select Barangay</option>');
+                                    // Add event listener for the form submission
+                                    $('#dataForm').submit(function(event) {
+                                        event.preventDefault(); // Prevent the default form submission
 
-                                                    // Append new options
-                                                    $.each(response, function(index, barangay) {
-                                                        $('#barangay').append('<option value="' + barangay.id + '">' + barangay.barangays + '</option>');
-                                                    });
-                                                },
-                                                error: function(xhr, status, error) {
-                                                    console.error(error);
-                                                }
-                                            });
-                                        }
+                                        var formData = $(this).serialize(); // Serialize the form data
 
-                                        // Add event listener for the province select dropdown
-                                        $('#province').change(function() {
-                                            var province_id = $(this).val();
-                                            if (province_id !== '') {
-                                                getMunicipalities(province_id);
+                                        $.ajax({
+                                            url: '/save-data',
+                                            type: 'POST',
+                                            data: formData,
+                                            dataType: 'json',
+                                            success: function(response) {
+                                                // Handle the success response, e.g., show a success message
+                                                alert(response.message);
+                                            },
+                                            error: function(xhr, status, error) {
+                                                console.error(error);
+                                                // Handle the error response if needed
                                             }
                                         });
 
-                                        // Add event listener for the municipality select dropdown
-                                        $('#municipality').change(function() {
-                                            var municipality_id = $(this).val();
-                                            if (municipality_id !== '') {
-                                                getBarangays(municipality_id);
-                                            }
-                                        });
+                                        // If you still want to submit the form after the Ajax call, you can do it here
+                                        // Uncomment the next line if you want to submit the form after the Ajax call
+                                        // this.submit();
+                                    });
+                                </script>
 
-                                        // Add event listener for the form submission
-                                        $('#dataForm').submit(function(event) {
-                                            event.preventDefault(); // Prevent the default form submission
-
-                                            var formData = $(this).serialize(); // Serialize the form data
-
-                                            $.ajax({
-                                                url: '/save-data',
-                                                type: 'POST',
-                                                data: formData,
-                                                dataType: 'json',
-                                                success: function(response) {
-                                                    // Handle the success response, e.g., show a success message
-                                                    alert(response.message);
-                                                },
-                                                error: function(xhr, status, error) {
-                                                    console.error(error);
-                                                    // Handle the error response if needed
-                                                }
-                                            });
-
-                                            // If you still want to submit the form after the Ajax call, you can do it here
-                                            // Uncomment the next line if you want to submit the form after the Ajax call
-                                            // this.submit();
-                                        });
-                                    </script>
 
 <div class="col-md-4 position-relative mt-0">
     <label class="form-label">Street/Sitio/Purok/Subdv.</label>
@@ -253,7 +206,7 @@
 <div class="col-md-4 position-relative mt-0">
     <label class="form-label">House/Lot/Bldg. No.</label>
     <input type="text" class="form-control" id="validationTooltip01" value="{{ $farmersprofile->house}}"
-        name="house" required autofocus="autofocus" >
+        name="house"  autofocus="autofocus" >
     <div class="invalid-tooltip">
         The House/Lot/Bldg. No. field is required.
     </div>
@@ -265,7 +218,7 @@
                                     <div class="col-md-6 position-relative mt-0">
                                         <label class="form-label">Contact Number</label>
                                         <input type="text" class="form-control" id="validationTooltip01" value="{{ $farmersprofile->number}}"
-                                            name="number" required autofocus="autofocus" >
+                                            name="number" required maxlength="7"  autofocus="autofocus" >
                                         <div class="invalid-tooltip">
                                             The contactnumber field is required.
                                         </div>
@@ -274,49 +227,45 @@
                                     <div class="col-md-6 position-relative mt-0">
                                         <div class="form-group">
                                             <label for="highest_formal_education" class="mr-2">Highest Formal Education:</label>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" id="none" name="education" value="none" {{ $farmersprofile->education === 'none' ? 'checked' : '' }} required >
-                                                        <label class="form-check-label" for="none">None</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" id="elementary" name="education" value="elementary" {{ $farmersprofile->education === 'elementary' ? 'checked' : '' }} required  >
-                                                        <label class="form-check-label" for="elementary">Elementary</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" id="highSchool" name="education" value="highSchool" {{ $farmersprofile->education === 'highSchool' ? 'checked' : '' }} required  >
-                                                        <label class="form-check-label" for="highSchool">High School</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" id="vocational" name="education" value="vocational" {{ $farmersprofile->education === 'vocational' ? 'checked' : '' }} required >
-                                                        <label class="form-check-label" for="vocational">Vocational</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" id="college" name="education" value="college" {{ $farmersprofile->education === 'college' ? 'checked' : '' }} required >
-                                                        <label class="form-check-label" for="college">College</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" id="postGraduate" name="education" value="postGraduate" {{ $farmersprofile->education === 'postGraduate' ? 'checked' : '' }} required >
-                                                        <label class="form-check-label" for="postGraduate">Post-Graduate</label>
-                                                    </div>
-                                                </div>
-                                                <div class="invalid-tooltip">
-                                                    Please select at least one option for Highest Formal Education.
-                                                </div>
+                                            <select class="form-control" id="highest_formal_education" name="highest_formal_education_id" onchange="handleEducationSelect()">
+                                                <option value="">Select Education Level</option>
+                                                @foreach($highest_formal_education as $education)
+                                                    <option value="{{ $education->id }}" {{ $farmersprofile->highest_formal_education_id == $education->id ? 'selected' : '' }}>
+                                                        {{ $education->education }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <div class="invalid-tooltip">
+                                                Please select at least one option for Highest Formal Education.
                                             </div>
                                         </div>
                                     </div>
+
+                                    <script>
+                                        function handleEducationSelect() {
+                                            var selectedEducationId = document.getElementById("highest_formal_education_id").value;
+                                            // Add the CSRF token to the headers
+                                            var csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
+
+                                            // Example AJAX code using fetch API
+                                            fetch('/get-education', {
+method: 'POST',
+headers: {
+    'Content-Type': 'application/json',
+    'X-CSRF-TOKEN': csrfToken,
+},
+body: JSON.stringify({ educationId: selectedEducationId }),
+})
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                // Handle the fetched data (update the page, display information, etc.).
+                                                console.log(data);
+                                            })
+                                            .catch(error => {
+                                                console.error('Error:', error);
+                                            });
+                                        }
+                                    </script>
 
 
 
@@ -359,13 +308,13 @@
                         <div class="row">
                             <div class="col-md-4 mt-1" style="margin-left: 10px;">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="pwdYes" name="pwd" value="yes" {{ $farmersprofile->pwd === 'yes' ? 'checked' : '' }} required >
+                                    <input class="form-check-input" type="radio" id="pwdYes" name="pwd" value="Yes" {{ $farmersprofile->pwd === 'Yes' ? 'checked' : '' }} required >
                                     <label class="form-check-label" for="pwdYes">Yes</label>
                                 </div>
                             </div>
                             <div class="col-md-4 mt-1" style="margin-left: 10px;">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="pwdNo" name="pwd" value="no" {{ $farmersprofile->pwd === 'no' ? 'checked' : '' }} required >
+                                    <input class="form-check-input" type="radio" id="pwdNo" name="pwd" value="No" {{ $farmersprofile->pwd === 'No' ? 'checked' : '' }} required >
                                     <label class="form-check-label" for="pwdNo">No</label>
                                 </div>
                             </div>
@@ -387,14 +336,14 @@
                             <div class="col-md-4 mt-1" style="margin-left: 10px;">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" id="beneficiaryYes"
-                                        name="benefits" value="yes" {{ $farmersprofile->benefits === 'yes' ? 'checked' : '' }} required >
+                                        name="benefits" value="Yes" {{ $farmersprofile->benefits === 'Yes' ? 'checked' : '' }} required >
                                     <label class="form-check-label" for="beneficiaryYes">Yes</label>
                                 </div>
                             </div>
                             <div class="col-md-4 mt-1" style="margin-left: 10px;">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" id="beneficiaryNo" name="benefits"
-                                        value="no" {{ $farmersprofile->benefits === 'no' ? 'checked' : '' }} required >
+                                        value="No" {{ $farmersprofile->benefits === 'No' ? 'checked' : '' }} required >
                                     <label class="form-check-label" for="beneficiaryNo">No</label>
                                 </div>
                             </div>
@@ -407,32 +356,49 @@
 
 
                 <div class="row">
-                    <div class="col-md-6 position-relative mt-4">
+                    <div class="col-md-3 position-relative">
                         <div class="form-group">
-                            <label for="status">Civil Status:</label>
-                            <div class="col-md-3 d-inline">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="single" name="cstatus" value="single" {{ $farmersprofile->cstatus === 'single' ? 'checked' : '' }}  required>
-                                    <label class="form-check-label" for="single">Single</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="married" name="cstatus" value="married" {{ $farmersprofile->cstatus === 'married' ? 'checked' : '' }} required >
-                                    <label class="form-check-label" for="married">Married</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="widowed" name="cstatus" value="widowed" {{ $farmersprofile->cstatus === 'widowed' ? 'checked' : '' }} required >
-                                    <label class="form-check-label" for="widowed">Widowed</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="separated" name="cstatus" value="separated" {{ $farmersprofile->cstatus === 'separated' ? 'checked' : '' }} required >
-                                    <label class="form-check-label" for="separated">Separated</label>
-                                </div>
-                            </div>
+                            <label for="cstatus">Civil Status:</label>
+                            <select class="form-control" id="cstatus" name="civil_status_id" onchange="handleCivilStatusSelect()" required>
+                                <option value="">Select Civil Status</option>
+                                @foreach($civilStatusOptions as $status)
+                                    <option value="{{ $status->id }}" {{ $farmersprofile->civil_status_id == $status->id ? 'selected' : '' }}>
+                                        {{ $status->status }}
+                                    </option>
+                                @endforeach
+                            </select>
                             <div class="invalid-tooltip">
                                 Please select one option for Civil Status.
                             </div>
                         </div>
                     </div>
+                    <script>
+function handleCivilStatusSelect() {
+    var selectedStatusId = document.getElementById("civil_status_id").value;
+    // Add the CSRF token to the headers
+    var csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
+
+    // Example AJAX code using fetch API
+    fetch('/get-civil-status-data', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+        },
+        body: JSON.stringify({ civilstatusId: selectedStatusId }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle the fetched data (update the page, display information, etc.).
+        console.log(data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+                        </script>
+
 
 
 
@@ -458,6 +424,17 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-3 position-relative mt-2">
+                        <div class="form-group">
+                            <label for="emergency">Contact No.Incase of Emergency</label>
+                            <input type="number" class="form-control d-inline" id="emergency" name="emergency" value="{{ $farmersprofile-> emergency }}"
+                                required maxlength="11" >
+                            <div class="invalid-tooltip">
+                                Please enter your Contact No.Incase of Emergency
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -472,7 +449,7 @@
                                 <label for="livelihood" class="mr-2">Main Livelihood:</label>
                                 <div class="col-md-3 form-check form-check-inline">
                                     <input class="form-check-input" type="checkbox" name="livelihood" value="Farmers" id="farmers"  required
-                                    @if($farmersprofile->livelihood === 'on')
+                                    @if($farmersprofile->livelihood === 'Farmers')
                                         checked
                                     @endif>
                                     <label class="form-check-label" for="farmers">Farmers</label>
@@ -716,14 +693,14 @@
                                         <div class="col-md-4 mt-1" style="margin-left: 10px;">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" id="pwdYes"
-                                                    name="arb" value="yes" {{ $farmersprofile->arb === 'yes' ? 'checked' : '' }}  required>
+                                                    name="arb" value="Yes" {{ $farmersprofile->arb === 'Yes' ? 'checked' : '' }}  required>
                                                 <label class="form-check-label" for="pwdYes">Yes</label>
                                             </div>
                                         </div>
                                         <div class="col-md-4 mt-1" style="margin-left: 10px;">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" id="pwdNo"
-                                                    name="arb" value="no" {{ $farmersprofile->arb === 'no' ? 'checked' : '' }}  required>
+                                                    name="arb" value="No" {{ $farmersprofile->arb === 'No' ? 'checked' : '' }}  required>
                                                 <label class="form-check-label" for="pwdNo">No</label>
                                             </div>
                                         </div>
@@ -733,10 +710,10 @@
                                     </div>
                                 </div>
                             </div>
+{{--
+                            <hr class="mt-5"> --}}
 
-                            <hr class="mt-5">
-
-                            <label class="form-check-label" for="termsCheck">
+                            {{-- <label class="form-check-label" for="termsCheck">
                                 <input class="form-check-input mr-2 text-center" type="checkbox" id="termsCheck"
                                     required>
                                 I hereby declare that all information indicated above is true and
@@ -780,7 +757,7 @@
                                     </tr>
                                 </tfoot>
                                 </tbody>
-                            </table>
+                            </table> --}}
 
 
                             <div class="container">
@@ -788,7 +765,7 @@
                                     <div class="col-12 d-flex justify-content-end p-3">
                                         <div class="button-container">
                                             <button class="btn btn-primary submit-button"
-                                                name="submit">Submit</button>
+                                                name="submit">Update</button>
 
                                         </div>
                                     </div>

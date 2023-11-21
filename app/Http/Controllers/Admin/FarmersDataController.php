@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Models\User;
 use App\Models\Crops;
+use App\Models\Status;
 use App\Models\Machine;
 use App\Models\Barangays;
 use App\Models\Provinces;
@@ -18,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\LogOptions;
 use App\Http\Controllers\Controller;
 use Illuminate\Pagination\Paginator;
+use App\Models\HighestFormalEducation;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -25,7 +28,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use SimpleSoftwareIO\QrCode\Facades\QrCode as QrCodeFacade;
 
 
-
+date_default_timezone_set('Asia/Manila');
 class FarmersDataController extends Controller
 {
 
@@ -92,34 +95,82 @@ class FarmersDataController extends Controller
 
     public function generate($id)
     {
+        $users = User::all();
         $ids = [$id];
         $farmers = FarmersProfile::findOrFail($id);
-        return view('admin.farmers.id', compact('farmers', 'ids'));
+
+        activity()
+            ->causedBy(auth()->user()) // Assuming you're logged in
+            ->performedOn($farmers) // The user being created
+            ->log('View/Generate Farmer ID');
+        return view('admin.farmers.id', compact('farmers', 'ids','users'));
+    }
+
+       // public function getMunicipalities($province_id)
+    // {
+    //     $municipalities = Municipalities::where('provinces_id', $province_id)->get();
+    //     return response()->json($municipalities);
+    // }
+
+    // public function getBarangays($municipality_id)
+    // {
+    //     $barangays = Barangays::where('municipalities_id', $municipality_id)->get();
+    //     return response()->json($barangays);
+    // }
+
+    public function fetchCivilStatus(Request $request)
+    {
+        $selectedCivilStatusId = $request->input('civilstatusId');
+
+        // Assuming your civil status model is named CivilStatus
+        $civilStatusData = Status::find($selectedCivilStatusId);
+
+        // Check if civil status data is found
+        if (!$civilStatusData) {
+            return response()->json(['error' => 'Civil status not found'], 404);
+        }
+
+        // You can return the fetched data as needed, for example, convert it to an array
+        $data = [
+            'civil_status_id' => $civilStatusData->id,
+            'civil_status' => $civilStatusData->status,
+            // Add other fields as needed
+        ];
+
+        return response()->json($data);
     }
 
 
-
-    public function create(Request $request)
+    public function fetchEducationData(Request $request)
     {
+        $selectedEducationId = $request->input('educationId');
+
+        // Fetch data from the database based on the selected education level ID
+        $educationData = HighestFormalEducation::find($selectedEducationId);
+
+        // You can return the fetched data as needed, for example, convert it to an array
+        $data = [
+            'highest_formal_education_id' => $educationData->education,
+            // Add other fields as needed
+        ];
+
+        return response()->json($data);
+    }
+
+
+    public function createAdd(Request $request)
+    {
+        $highest_formal_education = HighestFormalEducation::all();
+        $civilStatusOptions = Status::all();
+        $barangays = Barangays::all();
         $provinces = Provinces::all();
         $commodities = Commodities::where('category', 0)->pluck('commodities', 'id')->all();
         $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
         $machine = Machine::pluck('machine', 'id')->all();
 
-        return view('admin.farmers.create', compact('commodities', 'farmers', 'machine', 'provinces'));
+        return view('admin.farmers.create', compact('commodities', 'civilStatusOptions', 'highest_formal_education', 'farmers', 'machine', 'provinces', 'barangays'));
     }
 
-    public function getMunicipalities($province_id)
-    {
-        $municipalities = Municipalities::where('provinces_id', $province_id)->get();
-        return response()->json($municipalities);
-    }
-
-    public function getBarangays($municipality_id)
-    {
-        $barangays = Barangays::where('municipalities_id', $municipality_id)->get();
-        return response()->json($barangays);
-    }
 
     public function store(Request $request)
     {
@@ -128,12 +179,13 @@ class FarmersDataController extends Controller
             'status' => 'required',
             'sname' => 'required',
             'fname' => 'required',
-            'mname' => 'required',
+            'mname' => 'nullable',
             'ename' => 'nullable',
             'sex' => 'required',
             'spouse' => 'nullable',
             'number' => 'required',
             'mother' => 'required',
+            'emergency' => 'required',
             'regions' => 'required',
             'provinces_id' => 'required',
             'municipalities_id' => 'required',
@@ -143,8 +195,8 @@ class FarmersDataController extends Controller
             'dob' => 'required|date',
             'pob' => 'required',
             'religion' => 'required',
-            'cstatus' => 'required',
-            'education' => 'required',
+            'civil_status_id' => 'required',
+            'highest_formal_education_id' => 'required',
             'pwd' => 'required',
             'benefits' => 'required',
             'livelihood' => 'required',
@@ -155,10 +207,10 @@ class FarmersDataController extends Controller
             // Add other validation rules for other fields here if needed
         ]);
 
-        if ($validator->fails()) {
-            dd($validator->errors()->all());
-            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Error occurred during Adding.');
-        }
+        // if ($validator->fails()) {
+        //     dd($validator->errors()->all());
+        //     return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Error occurred during Adding.');
+        // }
 
         // Create the farmer profile using the FarmersProfile model
         $farmersprofile = FarmersProfile::create([
@@ -171,6 +223,7 @@ class FarmersDataController extends Controller
             'sex' => $request->input('sex'),
             'spouse' => $request->input('spouse'),
             'mother' => $request->input('mother'),
+            'emergency' => $request->input('emergency'),
             'number' => $request->input('number'),
             'regions' => $request->input('regions'),
             'provinces_id' => $request->input('provinces_id'),
@@ -181,8 +234,8 @@ class FarmersDataController extends Controller
             'dob' => $request->input('dob'),
             'pob' => $request->input('pob'),
             'religion' => $request->input('religion'),
-            'cstatus' => $request->input('cstatus'),
-            'education' => $request->input('education'),
+            'civil_status_id' => $request->input('civil_status_id'),
+            'highest_formal_education_id' => $request->input('highest_formal_education_id'),
             'pwd' => $request->input('pwd'),
             'benefits' => $request->input('benefits'),
             'livelihood' => $request->input('livelihood'),
@@ -244,28 +297,29 @@ class FarmersDataController extends Controller
             $farmersNumber = $this->createFarmersNumber($attributes);
         }
 
-        $qrCodeContent = $farmersprofile->farmersnumber->farmersnumber; // Use the ID of the FarmersProfile instance
+        activity()
+        ->causedBy(auth()->user()) // Assuming you're logged in
+        ->performedOn($farmersprofile) // The user being created
+        ->log('Added Farmer Informations');
+
+
+        session()->flash('message', 'Farmer Added Successfully!');
+
+        return redirect()->route('farmers.report')->with('message', 'Farmer Added Successfully!');
+
+
+        // $qrCodeContent = $farmersprofile->id; // Use the ID of the FarmersProfile instance
 
         // Generate QR code image using the QrCode facade
-        $qrCodeImage = QrCodeFacade::format('png')->generate($qrCodeContent);
+        $qrCodeImage = QrCodeFacade::format('png');
 
         // Save QR code image to storage using the Storage facade
         $qrCodeImagePath = 'public/qr_codes/' . $farmersprofile->id . '.png';
         $qrCodeImagePath = FarmersProfile::findOrFail($farmersprofile);
         Storage::put($qrCodeImagePath, $qrCodeImage);
 
-        // Do not save the QR code image data to the database, only save the path in the 'qr_code_data' column
-        activity()
-            ->causedBy(auth()->user()) // Assuming you're logged in
-            ->performedOn($farmersprofile) // The user being created
-            ->log('Added Farmers Informations');
-
-        return redirect('farmreport')->with('message', 'Farmer Added Successfully!');
+        // Do not save the QR code image data to the database, only save the path in the 'qr_code_data' colum
     }
-
-
-
-
 
     //gegenerate ng ng id number
     protected function createFarmersNumber(array $attributes)
@@ -279,6 +333,9 @@ class FarmersDataController extends Controller
 
     public function show($id)
     {
+        $highest_formal_education = HighestFormalEducation::all();
+        $civilStatusOptions = Status::all();
+        $users = User::all();
         $farmersprofile = FarmersProfile::findOrFail($id);
         $crops = $farmersprofile->crops;
         $machineries = $farmersprofile->machineries;
@@ -289,11 +346,18 @@ class FarmersDataController extends Controller
         $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
         $machine = Machine::pluck('machine', 'id')->all();
 
+        activity()
+            ->causedBy(auth()->user()) // Assuming you're logged in
+            ->performedOn($farmersprofile) // The user being created
+            ->log('View Farmer Informations');
+
         return view('admin.farmers.view', compact(
             'commodities',
+            'highest_formal_education',
             'farmers',
             'machine',
             'farmersprofile',
+            'civilStatusOptions',
             'crops',
             'machineries',
             'provinces',
@@ -304,6 +368,8 @@ class FarmersDataController extends Controller
 
     public function edit(string $id)
     {
+        $highest_formal_education = HighestFormalEducation::all();
+        $civilStatusOptions = Status::all();
         $farmersprofile = FarmersProfile::findOrFail($id);
         $crops = $farmersprofile->crops;
         $machineries = $farmersprofile->machineries;
@@ -316,11 +382,13 @@ class FarmersDataController extends Controller
 
         return view('admin.farmers.update', compact(
             'commodities',
+            'highest_formal_education',
             'farmers',
             'machine',
             'farmersprofile',
             'crops',
             'machineries',
+            'civilStatusOptions',
             'provinces',
             'municipalities',
             'barangays'
@@ -336,13 +404,13 @@ class FarmersDataController extends Controller
             'status' => 'required',
             'sname' => 'required',
             'fname' => 'required',
-            'mname' => 'required',
-            'ename' => 'required',
+            'mname' => 'nullable',
+            'ename' => 'nullable',
             'sex' => 'required',
             'spouse' => 'nullable',
             'number' => 'required',
             'mother' => 'required',
-            // 'regions' => 'required',
+            'regions' => 'required',
             'provinces_id' => 'required',
             'municipalities_id' => 'required',
             'barangays_id' => 'required',
@@ -351,8 +419,9 @@ class FarmersDataController extends Controller
             'dob' => 'required|date',
             'pob' => 'required',
             'religion' => 'required',
-            'cstatus' => 'required',
-            'education' => 'required',
+            // 'cstatus' => 'required',
+            'civil_status_id' => 'required',
+            'highest_formal_education_id' => 'required',
             'pwd' => 'required',
             'benefits' => 'required',
             'livelihood' => 'required',
@@ -380,7 +449,7 @@ class FarmersDataController extends Controller
             'spouse' => $request->input('spouse'),
             'mother' => $request->input('mother'),
             'number' => $request->input('number'),
-            // 'regions' => $request->input('regions'),
+            'regions' => $request->input('regions'),
             'provinces_id' => $request->input('provinces_id'),
             'municipalities_id' => $request->input('municipalities_id'),
             'barangays_id' => $request->input('barangays_id'),
@@ -389,8 +458,9 @@ class FarmersDataController extends Controller
             'dob' => $request->input('dob'),
             'pob' => $request->input('pob'),
             'religion' => $request->input('religion'),
-            'cstatus' => $request->input('cstatus'),
-            'education' => $request->input('education'),
+            // 'cstatus' => $request->input('cstatus'),
+            'civil_status_id' => $request->input('civil_status_id'),
+            'highest_formal_education_id' => $request->input('highest_formal_education_id'),
             'pwd' => $request->input('pwd'),
             'benefits' => $request->input('benefits'),
             'livelihood' => $request->input('livelihood'),
@@ -491,7 +561,7 @@ class FarmersDataController extends Controller
             ->causedBy(auth()->user()) // Assuming you're logged in
             ->performedOn($farmersprofile) // The FarmersProfile being updated
             ->withProperties(['attributes' => $updatedAttributes]) // Include updated attributes
-            ->log('Update Farmers Profile');
+            ->log('Update Farmer Profile');
 
         // Update the FarmersProfile's attributes
         $farmersprofile->update($updatedAttributes);

@@ -9,7 +9,7 @@ use App\Models\Municipalities;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-
+date_default_timezone_set('Asia/Manila');
 class UserController extends Controller
 {
     /**
@@ -21,17 +21,17 @@ class UserController extends Controller
         return view('admin.users', compact('users'));
     }
 
-    public function getMunicipalities($province_id)
-    {
-        $municipalities = Municipalities::where('provinces_id', $province_id)->get();
-        return response()->json($municipalities);
-    }
+    // public function getMunicipalities($province_id)
+    // {
+    //     $municipalities = Municipalities::where('provinces_id', $province_id)->get();
+    //     return response()->json($municipalities);
+    // }
 
-    public function getBarangays($municipality_id)
-    {
-        $barangays = Barangays::where('municipalities_id', $municipality_id)->get();
-        return response()->json($barangays);
-    }
+    // public function getBarangays($municipality_id)
+    // {
+    //     $barangays = Barangays::where('municipalities_id', $municipality_id)->get();
+    //     return response()->json($barangays);
+    // }
 
     public function store(Request $request)
     {
@@ -87,8 +87,9 @@ class UserController extends Controller
      */
     public function create()
     {
+        $barangays = Barangays::all();
         $provinces = Provinces::all();
-        return view('admin.users', compact('provinces'));
+        return view('admin.users', compact('provinces', 'barangays'));
     }
     /**
      * Show the form for editing the specified resource.

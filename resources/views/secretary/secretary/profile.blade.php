@@ -31,7 +31,7 @@
         <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
             <img src="data:image/jpeg;base64,{{ $data->image }}" alt="Avatar" class="rounded-circle" style="width: 100px; height: 100px;">
             <h2>{{ $data->name }}</h2>
-            <h3>{{ $data->user_type }}</h3>
+            <h3><span>Brgy. </span>{{ $data->user_type }}</h3>
         </div>
     </div>
     @endforeach
@@ -72,7 +72,7 @@
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Address</div>
-                  <div class="col-lg-9 col-md-8">{{ $user->barangay->barangays }} , {{ $user->municipality->municipalities }} , {{ $user->province->provinces }}</div>
+                  <div class="col-lg-9 col-md-8">{{ $user->barangay->barangays }} , {{ $user->municipalities_id }} , {{ $user->provinces_id }}</div>
                 </div>
 
                 <div class="row">
@@ -110,13 +110,100 @@
                     </div>
                 </div>
 
-                  <div class="row mb-3">
-                    <label for="company" class="col-md-4 col-lg-3 col-form-label">Address</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="address" type="text" class="form-control" id="company" value="{{ $user->barangay->barangays }} , {{ $user->municipality->municipalities }} , {{ $user->province->provinces }}" disabled>
+                <div class="row">
+                    <div class="col-md-4 position-relative mt-0 mb-2">
+                        <label for="province">Province:</label>
+                        <div class="form-control-custom">
+                            <input type="text" id="provinces_id" name="provinces_id" class="form-control" value="La Union" readonly>
+                          </div>
                     </div>
-                  </div>
 
+                    <div class="col-md-4 position-relative mt-0 mb-2">
+                        <label for="municipality">Municipality:</label>
+                        <div class="form-control-custom">
+                            <input type="text" id="provinces_id" name="municipalities_id" class="form-control" value="Balaoan" readonly>
+                          </div>
+                    </div>
+
+                    <div class="col-md-4 position-relative mt-0 mb-2">
+                        <label for="barangay">Barangay:</label>
+                        <select id="barangay" name="barangays_id" class="form-control" required>
+                            <option value="">Select Barangay</option>
+                            @foreach ($barangays as $barangay)
+                                <option value="{{ $barangay->id }}"
+                                    {{ $user->barangays_id == $barangay->id ? 'selected' : '' }}>
+                                    {{ $barangay->barangays }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+
+                    {{-- <!-- Barangay Dropdown -->
+                    <div class="col-md-4 position-relative mt-0">
+                        <label for="municipality">Municipality:</label>
+                        <select id="municipality" name="barangays_id" class="form-control">
+                            <option value="">Select Municipality</option>
+                            @foreach ($barangays as $barangay)
+                                <option value="{{ $barangay->id }}"
+                                    {{ $user->barangays_id == $barangay->id ? 'selected' : '' }}>
+                                    {{ $barangay->barangays }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div> --}}
+                </div>
+
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    // Function to fetch province and municipality based on the selected barangay
+                    function getProvinceAndMunicipality(barangay_id) {
+                        // Placeholder for fetching data based on barangay (replace with actual logic)
+                        var province_id = 1; // La Union
+                        var municipality_id = 1; // Balaoan
+
+                        // Set the selected province and municipality
+                        $('#province').val(province_id);
+                        $('#municipality').val(municipality_id);
+
+                        // Show the hidden dropdowns
+                        $('#province, #municipality').show();
+                    }
+
+                    // Add event listener for the barangay select dropdown
+                    $('#barangay').change(function() {
+                        var barangay_id = $(this).val();
+                        if (barangay_id !== '') {
+                            getProvinceAndMunicipality(barangay_id);
+                        }
+                    });
+
+                    // Add event listener for the form submission
+                    $('#dataForm').submit(function(event) {
+                        event.preventDefault(); // Prevent the default form submission
+
+                        var formData = $(this).serialize(); // Serialize the form data
+
+                        $.ajax({
+                            url: '/save-data',
+                            type: 'POST',
+                            data: formData,
+                            dataType: 'json',
+                            success: function(response) {
+                                // Handle the success response, e.g., show a success message
+                                alert(response.message);
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(error);
+                                // Handle the error response if needed
+                            }
+                        });
+
+                        // If you still want to submit the form after the Ajax call, you can do it here
+                        // Uncomment the next line if you want to submit the form after the Ajax call
+                        // this.submit();
+                    });
+                </script>
                   <div class="row mb-3">
                     <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                     <div class="col-md-8 col-lg-9">

@@ -42,33 +42,34 @@
 
                         <div class="row">
                             <div class="col-md-4 position-relative mt-0">
-                                <label for="municipality">Municipality:</label>
-                                <select id="municipality" name="provinces_id" class="form-control">
-                                    <option value="">Select Municipality</option>
-                                    @foreach ($provinces as $province)
-                                        <option value="{{ $province->id }}"
-                                            {{ $user->provinces_id == $province->id ? 'selected' : '' }}>
-                                            {{ $province->provinces }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <label for="province">Province:</label>
+                                <div class="form-control-custom">
+                                    <input type="text" id="provinces_id" name="provinces_id" class="form-control" value="La Union" readonly>
+                                  </div>
                             </div>
 
-                            <!-- Municipality Dropdown -->
                             <div class="col-md-4 position-relative mt-0">
                                 <label for="municipality">Municipality:</label>
-                                <select id="municipality" name="municipalities_id" class="form-control" d>
-                                    <option value="">Select Municipality</option>
-                                    @foreach ($municipalities as $municipality)
-                                        <option value="{{ $municipality->id }}"
-                                            {{ $user->municipalities_id == $municipality->id ? 'selected' : '' }}>
-                                            {{ $municipality->municipalities }}
+                                <div class="form-control-custom">
+                                    <input type="text" id="provinces_id" name="municipalities_id" class="form-control" value="Balaoan" readonly>
+                                  </div>
+                            </div>
+
+                            <div class="col-md-4 position-relative mt-0">
+                                <label for="barangay">Barangay:</label>
+                                <select id="barangay" name="barangays_id" class="form-control" required>
+                                    <option value="">Select Barangay</option>
+                                    @foreach ($barangays as $barangay)
+                                        <option value="{{ $barangay->id }}"
+                                            {{ $user->barangays_id == $barangay->id ? 'selected' : '' }}>
+                                            {{ $barangay->barangays }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
 
-                            <!-- Barangay Dropdown -->
+
+                            {{-- <!-- Barangay Dropdown -->
                             <div class="col-md-4 position-relative mt-0">
                                 <label for="municipality">Municipality:</label>
                                 <select id="municipality" name="barangays_id" class="form-control">
@@ -80,69 +81,30 @@
                                         </option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                         <script>
-                            // Function to fetch municipalities based on the selected province
-                            function getMunicipalities(province_id) {
-                                $.ajax({
-                                    url: '/get-municipalities/' + province_id,
-                                    type: 'GET',
-                                    dataType: 'json',
-                                    success: function(response) {
-                                        // Clear previous options
-                                        $('#municipality').empty().append('<option value="">Select Municipality</option>');
-                                        $('#barangay').empty().append('<option value="">Select Barangay</option>');
+                            // Function to fetch province and municipality based on the selected barangay
+                            function getProvinceAndMunicipality(barangay_id) {
+                                // Placeholder for fetching data based on barangay (replace with actual logic)
+                                var province_id = 1; // La Union
+                                var municipality_id = 1; // Balaoan
 
-                                        // Append new options
-                                        $.each(response, function(index, municipality) {
-                                            $('#municipality').append('<option value="' + municipality.id + '">' +
-                                                municipality.municipalities + '</option>');
-                                        });
-                                    },
-                                    error: function(xhr, status, error) {
-                                        console.error(error);
-                                    }
-                                });
+                                // Set the selected province and municipality
+                                $('#province').val(province_id);
+                                $('#municipality').val(municipality_id);
+
+                                // Show the hidden dropdowns
+                                $('#province, #municipality').show();
                             }
 
-                            // Function to fetch barangays based on the selected municipality
-                            function getBarangays(municipality_id) {
-                                $.ajax({
-                                    url: '/get-barangays/' + municipality_id,
-                                    type: 'GET',
-                                    dataType: 'json',
-                                    success: function(response) {
-                                        // Clear previous options
-                                        $('#barangay').empty().append('<option value="">Select Barangay</option>');
-
-                                        // Append new options
-                                        $.each(response, function(index, barangay) {
-                                            $('#barangay').append('<option value="' + barangay.id + '">' + barangay
-                                                .barangays + '</option>');
-                                        });
-                                    },
-                                    error: function(xhr, status, error) {
-                                        console.error(error);
-                                    }
-                                });
-                            }
-
-                            // Add event listener for the province select dropdown
-                            $('#province').change(function() {
-                                var province_id = $(this).val();
-                                if (province_id !== '') {
-                                    getMunicipalities(province_id);
-                                }
-                            });
-
-                            // Add event listener for the municipality select dropdown
-                            $('#municipality').change(function() {
-                                var municipality_id = $(this).val();
-                                if (municipality_id !== '') {
-                                    getBarangays(municipality_id);
+                            // Add event listener for the barangay select dropdown
+                            $('#barangay').change(function() {
+                                var barangay_id = $(this).val();
+                                if (barangay_id !== '') {
+                                    getProvinceAndMunicipality(barangay_id);
                                 }
                             });
 
@@ -186,8 +148,8 @@
 
                             <div class="col-md-6 position-relative">
                                 <label class="form-label">Password<font color="red">*</font></label>
-                                <input type="password" class="form-control" id="pass" name="password" required
-                                    autofocus="autofocus" value="{{ $user->password }}">
+                                <input type="password" class="form-control" id="pass" name="password"
+                                    autofocus="autofocus">
                                 <input type="checkbox" onclick="myFunction()">Show Password
                                 <div class="invalid-tooltip">
                                     The Password field is required.
@@ -228,7 +190,13 @@
                                         <option value="Staff" {{ $user->user_type === 'Staff' ? 'selected' : '' }}>Staff
                                         </option>
                                         <option value="Secretary" {{ $user->user_type === 'Secretary' ? 'selected' : '' }}>
-                                            Secretary</option>
+                                            @if($user->user_type === 'Secretary')
+                                                Brgy. Secretary
+                                            @else
+                                                Secretary
+                                            @endif
+                                        </option>
+
                                     </select>
                                     <div class="invalid-tooltip">
                                         The User Type field is required.
@@ -299,33 +267,34 @@
 
                         <div class="row">
                             <div class="col-md-4 position-relative mt-0">
-                                <label for="municipality">Municipality:</label>
-                                <select id="municipality" name="provinces_id" class="form-control">
-                                    <option value="">Select Municipality</option>
-                                    @foreach ($provinces as $province)
-                                        <option value="{{ $province->id }}"
-                                            {{ $user->provinces_id == $province->id ? 'selected' : '' }}>
-                                            {{ $province->provinces }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <label for="province">Province:</label>
+                                <div class="form-control-custom">
+                                    <input type="text" id="provinces_id" name="provinces_id" class="form-control" value="La Union" readonly>
+                                  </div>
                             </div>
 
-                            <!-- Municipality Dropdown -->
                             <div class="col-md-4 position-relative mt-0">
                                 <label for="municipality">Municipality:</label>
-                                <select id="municipality" name="municipalities_id" class="form-control" d>
-                                    <option value="">Select Municipality</option>
-                                    @foreach ($municipalities as $municipality)
-                                        <option value="{{ $municipality->id }}"
-                                            {{ $user->municipalities_id == $municipality->id ? 'selected' : '' }}>
-                                            {{ $municipality->municipalities }}
+                                <div class="form-control-custom">
+                                    <input type="text" id="provinces_id" name="municipalities_id" class="form-control" value="Balaoan" readonly>
+                                  </div>
+                            </div>
+
+                            <div class="col-md-4 position-relative mt-0">
+                                <label for="barangay">Barangay:</label>
+                                <select id="barangay" name="barangays_id" class="form-control" required>
+                                    <option value="">Select Barangay</option>
+                                    @foreach ($barangays as $barangay)
+                                        <option value="{{ $barangay->id }}"
+                                            {{ $user->barangays_id == $barangay->id ? 'selected' : '' }}>
+                                            {{ $barangay->barangays }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
 
-                            <!-- Barangay Dropdown -->
+
+                            {{-- <!-- Barangay Dropdown -->
                             <div class="col-md-4 position-relative mt-0">
                                 <label for="municipality">Municipality:</label>
                                 <select id="municipality" name="barangays_id" class="form-control">
@@ -337,69 +306,30 @@
                                         </option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                         <script>
-                            // Function to fetch municipalities based on the selected province
-                            function getMunicipalities(province_id) {
-                                $.ajax({
-                                    url: '/get-municipalities/' + province_id,
-                                    type: 'GET',
-                                    dataType: 'json',
-                                    success: function(response) {
-                                        // Clear previous options
-                                        $('#municipality').empty().append('<option value="">Select Municipality</option>');
-                                        $('#barangay').empty().append('<option value="">Select Barangay</option>');
+                            // Function to fetch province and municipality based on the selected barangay
+                            function getProvinceAndMunicipality(barangay_id) {
+                                // Placeholder for fetching data based on barangay (replace with actual logic)
+                                var province_id = 1; // La Union
+                                var municipality_id = 1; // Balaoan
 
-                                        // Append new options
-                                        $.each(response, function(index, municipality) {
-                                            $('#municipality').append('<option value="' + municipality.id + '">' +
-                                                municipality.municipalities + '</option>');
-                                        });
-                                    },
-                                    error: function(xhr, status, error) {
-                                        console.error(error);
-                                    }
-                                });
+                                // Set the selected province and municipality
+                                $('#province').val(province_id);
+                                $('#municipality').val(municipality_id);
+
+                                // Show the hidden dropdowns
+                                $('#province, #municipality').show();
                             }
 
-                            // Function to fetch barangays based on the selected municipality
-                            function getBarangays(municipality_id) {
-                                $.ajax({
-                                    url: '/get-barangays/' + municipality_id,
-                                    type: 'GET',
-                                    dataType: 'json',
-                                    success: function(response) {
-                                        // Clear previous options
-                                        $('#barangay').empty().append('<option value="">Select Barangay</option>');
-
-                                        // Append new options
-                                        $.each(response, function(index, barangay) {
-                                            $('#barangay').append('<option value="' + barangay.id + '">' + barangay
-                                                .barangays + '</option>');
-                                        });
-                                    },
-                                    error: function(xhr, status, error) {
-                                        console.error(error);
-                                    }
-                                });
-                            }
-
-                            // Add event listener for the province select dropdown
-                            $('#province').change(function() {
-                                var province_id = $(this).val();
-                                if (province_id !== '') {
-                                    getMunicipalities(province_id);
-                                }
-                            });
-
-                            // Add event listener for the municipality select dropdown
-                            $('#municipality').change(function() {
-                                var municipality_id = $(this).val();
-                                if (municipality_id !== '') {
-                                    getBarangays(municipality_id);
+                            // Add event listener for the barangay select dropdown
+                            $('#barangay').change(function() {
+                                var barangay_id = $(this).val();
+                                if (barangay_id !== '') {
+                                    getProvinceAndMunicipality(barangay_id);
                                 }
                             });
 
@@ -431,6 +361,7 @@
                         </script>
 
 
+
                         <div class="row">
                             <div class="col-md-6 position-relative">
                                 <label class="form-label">Username<font color="red">*</font></label>
@@ -444,7 +375,7 @@
                             <div class="col-md-6 position-relative">
                                 <label class="form-label">Password<font color="red">*</font></label>
                                 <input type="password" class="form-control" id="pass" name="password" required
-                                    autofocus="autofocus" value="{{ $user->password }}">
+                                    autofocus="autofocus">
                                 <input type="checkbox" onclick="myFunction()">Show Password
                                 <div class="invalid-tooltip">
                                     The Password field is required.

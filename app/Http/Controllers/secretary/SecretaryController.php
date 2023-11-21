@@ -48,7 +48,7 @@ class SecretaryController extends Controller
 
         // You don't need to retrieve statuses separately; they are hardcoded in the dropdown
 
-        return view('secretary.farmers-data.index', compact('farm', 'farmers', 'barangays', 'commodities', 'selectedBarangay', 'selectedCommodity', 'selectedStatus'));
+        return view('secretary.secretary.index', compact('farm', 'farmers', 'barangays', 'commodities', 'selectedBarangay', 'selectedCommodity', 'selectedStatus'));
     }
 
 
@@ -61,7 +61,7 @@ class SecretaryController extends Controller
         // Fetch additional data as needed
         $someData = User::where('id', $user->id)->get(); // Replace with your actual query
 
-        return view('secretary.farmers-data.profile', compact('user', 'provinces', 'municipalities', 'barangays', 'someData'));
+        return view('secretary.secretary.profile', compact('user', 'provinces', 'municipalities', 'barangays', 'someData'));
     }
 
 

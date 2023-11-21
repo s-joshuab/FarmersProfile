@@ -4,6 +4,8 @@ namespace App\Http\Livewire;
 
 use App\Models\crops;
 use App\Models\Barangays;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use App\Models\Commodities;
 use App\Models\FarmersProfile;
 use App\Models\FarmersNumber;
@@ -53,7 +55,7 @@ final class CropsTable extends PowerGridComponent
                     'farmersprofile.sname',
                     'commodities.commodities',
                     'farmersnumber.farmersnumber',
-                    'farmersprofile.status',
+                    // 'farmersprofile.status',
                     'barangays.barangays' // Select the 'barangays' column from 'barangays' and give it an alias
                 );
 
@@ -73,12 +75,13 @@ final class CropsTable extends PowerGridComponent
         {
             return PowerGrid::columns()
                 ->addColumn('farmersnumber.farmersnumber')
+                // ->addColumn('farmersprofile.sname'. ' ' .'farmersprofile.fname')
                 ->addColumn('farmersprofile.fname')
                 ->addColumn('farmersprofile.sname')
                 ->addColumn('farmersprofile.barangays.barangays') // Display 'barangay_name' as 'Barangay'
                 ->addColumn('commodities.commodities')
-                ->addColumn('farm_size')
-                ->addColumn('farmersprofile.status');
+                ->addColumn('farm_size');
+                // ->addColumn('farmersprofile.status');
         }
 
 
@@ -86,13 +89,14 @@ final class CropsTable extends PowerGridComponent
         {
             return [
                 Column::make('Farmers Number', 'farmersnumber','farmersnumber.farmersnumber'),
-                Column::make('First Name', 'farmersprofile.fname'),
+                // Column::make('FullName','farmersprofile.sname','farmersprofile.sname'),
                 Column::make('Last Name', 'farmersprofile.sname'),
+                Column::make('First Name', 'farmersprofile.fname'),
                 Column::make('Barangays', 'barangays', 'barangays.barangays'), // Use 'barangay_name' here
                 Column::make('Commodities', 'commodities', 'commodities.commodities'),
                 Column::make('Farm size', 'farm_size'),
                 Column::make('Farm location', 'farm_location'),
-                Column::make('Status', 'farmersprofile.status'),
+                // Column::make('Status', 'farmersprofile.status'),
 
 
             ];
@@ -115,6 +119,9 @@ final class CropsTable extends PowerGridComponent
                         Filter::inputText('farmersnumber', 'farmersnumber.farmersnumber')
                         ->operators(['contains']),
 
+                        Filter::inputText('farmersprofile.sname', 'farmersprofile.sname')
+                        ->operators(['contains']),
+
                         Filter::inputText('farm_size', 'farm_size')
                         ->operators(['contains']),
 
@@ -127,10 +134,10 @@ final class CropsTable extends PowerGridComponent
                         ->optionLabel('barangays'),
 
 
-                        Filter::select('farmersprofile.status', 'farmersprofile.status')
-                        ->dataSource(FarmersProfile::select('farmersprofile.status')->distinct()->get())
-                        ->optionValue('status')
-                        ->optionLabel('status'),
+                        // Filter::select('farmersprofile.status', 'farmersprofile.status')
+                        // ->dataSource(FarmersProfile::select('farmersprofile.status')->distinct()->get())
+                        // ->optionValue('status')
+                        // ->optionLabel('status'),
                 ];
             }
 

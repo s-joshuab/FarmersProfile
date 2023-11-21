@@ -98,7 +98,13 @@
                                                     <span class="badge bg-danger">Inactive</span>
                                                 @endif
                                             </td>
-                                            <td class="text-center">{{ $user->user_type }}</td>
+                                            <td class="text-center">
+                                                @if($user->user_type == 'Secretary')
+                                                    <span>Brgy. </span>
+                                                @endif
+                                                {{ $user->user_type }}
+                                            </td>
+
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
                                                     <a href="{{ url('user-view/' . $user->id) }}"
@@ -142,7 +148,36 @@
         .inactive {
             background-color: red;
         }
-    </style>
+    /* Custom styles for the table */
+    .table-bordered {
+        border: 1px solid #dee2e6; /* Gray border for the entire table */
+        border-collapse: collapse; /* Remove cell spacing */
+        width: 100%;
+    }
+
+    .table-bordered th, .table-bordered td {
+        border: 1px solid #dee2e6; /* Gray border for table cells */
+        padding: 10px;
+
+    }
+
+    .table-bordered th {
+        background-color: #f8f9fa; /* Light blue-gray background for table headers */
+    }
+
+    .table-bordered tbody tr:nth-of-type(odd) {
+        background-color: #f7f7f7; /* Light gray background for odd rows */
+    }
+
+    .table-bordered tbody tr:hover {
+        background-color: #d1e7f3; /* Light blue background on hover */
+    }
+
+    .table-bordered td {
+        background-color: #fff; /* White background for table cells */
+        color: #333; /* Dark text color for cells */
+    }
+</style>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

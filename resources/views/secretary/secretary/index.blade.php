@@ -49,7 +49,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="add-employee mb-3 mt-3">
-                            <a href="{{ url('create-add') }}" class="btn btn-primary">
+                            <a href="{{ url('add') }}" class="btn btn-primary">
                                 <i class="bi bi-plus"></i> Add Farmer
                             </a>
                         </div>
@@ -65,7 +65,7 @@
                                 <div id="commoditiesFilterDisplay" style="display: none;"></div>
                             </div>
                             <div class="col-md-2">
-                                <select id="barangayFilter" class="form-select" aria-label="Barangay Filter">
+                                <select id="barangayFilter" class="form-select" style="display: none;" aria-label="Barangay Filter">
                                     <option value="">All Barangays</option>
                                     @foreach ($barangays as $barangay)
                                         <option value="{{ $barangay->id }}">{{ $barangay->barangays }}</option>
@@ -111,7 +111,6 @@
                                         <th scope="col">Name</th>
                                         <th scope="col">Barangay</th>
                                         <th scope="col">Commodities</th>
-                                        <th scope="col">4ps Beneficiary</th>
                                         <th scope="col">Status</th>
                                         <th scope="col" class="text-center">Action</th>
                                     </tr>
@@ -139,7 +138,7 @@
                                                     }
                                                 @endphp
                                             </td>
-                                            <td>{{ $farmer->benefits }}</td>
+
                                             <td>
                                                 @if ($farmer->status === 'Active')
                                                     <span class="badge bg-success">Active</span>
@@ -149,21 +148,21 @@
                                             </td>
                                             <td class="text-center">
                                                 <div class="btn-group" role="group">
-                                                    <a href="{{ route('generate.pdf', ['id' => $farmer->id]) }}" class="btn btn-sm btn-info" style="margin-right: 10px;">
+                                                    {{-- <a href="{{ route('generate.pdf', ['id' => $farmer->id]) }}" class="btn btn-sm btn-info" style="margin-right: 10px;">
                                                         <i class="fa fa-file-pdf"></i> <!-- Replace with the appropriate Font Awesome icon class -->
-                                                    </a>
+                                                    </a> --}}
 
-                                                    <a href="{{ route('farmers.showed', ['id' => $farmer->id]) }}" class="btn btn-sm btn-info" style="margin-right: 10px;">
+                                                    <a href="{{ route('farmers.show', ['id' => $farmer->id]) }}" class="btn btn-sm btn-info" style="margin-right: 10px;">
                                                         <i class="fa fa-eye"></i> <!-- Replace with the appropriate Font Awesome icon class -->
                                                     </a>
-
+{{--
                                                     <a href="{{ route('farmers.edit', ['id' => $farmer->id]) }}" class="btn btn-sm btn-primary" style="margin-right: 10px;">
                                                         <i class="fa fa-pencil"></i> <!-- Replace with the appropriate Font Awesome icon class -->
-                                                    </a>
+                                                    </a> --}}
 
-                                                    <a href="{{ route('farmers.generate', ['id' => $farmer->id]) }}" class="btn btn-sm btn-secondary">
+                                                    {{-- <a href="{{ route('farmers.generate', ['id' => $farmer->id]) }}" class="btn btn-sm btn-secondary">
                                                         <i class="fa fa-cog"></i> <!-- Replace with the appropriate Font Awesome icon class -->
-                                                    </a>
+                                                    </a> --}}
                                                 </div>
                                             </td>
 

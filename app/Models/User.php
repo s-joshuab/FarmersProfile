@@ -54,6 +54,12 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Barangays::class, 'barangays_id');
     }
+
+    public function farmerProfile()
+{
+    return $this->hasOne(FarmersProfile::class);
+}
+
     /**
      * The attributes that should be hidden for serialization.
      *

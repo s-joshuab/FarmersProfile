@@ -1,8 +1,6 @@
 @extends('layouts.index')
 @section('content')
 
-<!-- Font Awesome -->
-
 <title>System Backup</title>
 
 @if(session('success'))
@@ -18,44 +16,83 @@
 @endif
 
 <div class="d-flex justify-content-center align-items-center mt-4">
-<div class="col-lg-6">
-    <div class="card">
-        <div class="card-body text-center">
-            <h2 class="card-title">Manual Backup</h2>
-            <form method="POST" action="{{ route('manual.backup') }}">
-                @csrf
-                <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary">
-                        Perform System Backup
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download ml-2" viewBox="0 0 16 16">
-                            <path d="M8 1a.5.5 0 0 1 .5.5v9.793l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 11.293V1.5a.5.5 0 0 1 .5-.5z"/>
-                            <path d="M0 13.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5A.5.5 0 0 1 0 15.5H16a.5.5 0 0 1 .5.5a.5.5 0 0 1-.5.5H0a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z"/>
-                        </svg>
-                    </button>
-                </div>
-            </form>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h2 class="card-title">Manual Backup</h2>
+                <p>Performing a database backup is the process of creating a copy of your database to ensure that your data is safe and can be restored in case of data loss or system failure. It's an essential part of data management and disaster recovery.</p>
+                <form method="POST" action="{{ route('manual.backup') }}">
+                    @csrf
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary btn-backup">
+                            Perform Database Backup
+                            <i class="bi bi-cloud-upload ml-2"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-
-
-
     </div>
-{{--
-    <div class="card mt-4">
-        <div class="card-body">
-            <h2 class="card-title">Automatic Backup (Monthly)</h2>
-            <form method="post" action="{{ route('schedule-automatic-backup') }}">
-                @csrf
-                <div class="form-group">
-                    <label for="automatic_backup_date">Backup Date:</label>
-                    <input type="date" class="form-control" name="automatic_backup_date" id="automatic_backup_date" required>
-                </div>
+</div>
 
-                <div class="form-group mt-3">
-                    <button type="submit" class="btn btn-primary">Schedule Automatic Backup</button>
-                </div>
-            </form>
+<div class="d-flex justify-content-center align-items-center mt-4">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h2 class="card-title">Database Upload</h2>
+                <p>Upload a database file to restore or replace the current database.</p>
+                <form method="POST" action="{{ route('database.upload') }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group">
+                        <label for="new_database_name">New Database Name:</label>
+                        <input type="text" class="form-control" name="new_database_name" id="new_database_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="database_file">Choose a database file (SQL only):</label>
+                        <input type="file" class="form-control-file" name="database_file" id="database_file" required>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">
+                            Upload Database File and Create New Database
+                            <i class="bi bi-cloud-upload ml-2"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div> --}}
+    </div>
 </div>
-</div>
+
+
+
+<style>
+    /* Style for the Manual Backup button */
+    .btn-backup {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 18px;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .btn-backup:hover {
+        background-color: #0056b3;
+    }
+
+    /* Style for the Automatic Backup button (if uncommented) */
+    .btn-schedule-backup {
+        background-color: #28a745;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 18px;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .btn-schedule-backup:hover {
+        background-color: #1f8c41;
+    }
+</style>
+
 @endsection

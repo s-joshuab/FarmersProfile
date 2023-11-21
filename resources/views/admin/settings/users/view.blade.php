@@ -177,7 +177,7 @@
 
                             <div class="col-md-6 position-relative">
                                 <label class="form-label">Password<font color="red">*</font></label>
-                                <input type="password" class="form-control" id="pass" name="password" required autofocus="autofocus" value="{{ $user->password }}" disabled>
+                                <input type="password" class="form-control" id="pass" name="password" required autofocus="autofocus"  disabled>
                                 <input type="checkbox" onclick="myFunction()">Show Password
                                 <div class="invalid-tooltip">
                                     The Password field is required.
@@ -213,7 +213,14 @@
                                         <option value="" selected disabled>Select User Type</option>
                                         <option value="Admin" {{ $user->user_type === 'Admin' ? 'selected' : '' }}>Administrator</option>
                                         <option value="Staff" {{ $user->user_type === 'Staff' ? 'selected' : '' }}>Staff</option>
-                                        <option value="Secretary" {{ $user->user_type === 'Secretary' ? 'selected' : '' }}>Secretary</option>
+                                        <option value="Secretary" {{ $user->user_type === 'Secretary' ? 'selected' : '' }}>
+                                            @if($user->user_type === 'Secretary')
+                                                Brgy. Secretary
+                                            @else
+                                                Secretary
+                                            @endif
+                                        </option>
+
                                     </select>
                                     <div class="invalid-tooltip">
                                         The User Type field is required.

@@ -12,7 +12,7 @@ use Spatie\Activitylog\LogOptions;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Activitylog\Traits\LogsActivity;
-
+date_default_timezone_set('Asia/Manila');
 class ManageUsersController extends Controller
 {
     use LogsActivity;
@@ -24,7 +24,7 @@ class ManageUsersController extends Controller
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['name', 'username', 'email', 'phone_number', 'user_type', 'status', 'provinces_id', 'municipalities_id', 'barangays_id']);
+            ->logOnly(['name', 'username', 'email', 'phone_number', 'user_type', 'status', 'barangays_id']);
     }
 
     public function manage()
@@ -32,15 +32,19 @@ class ManageUsersController extends Controller
         $user = auth()->user();
 
         if (strtolower($user->user_type) === 'admin') {
-            $users = User::all();
-        } elseif (in_array(strtolower($user->user_type), ['staff', 'secretary'])) {
             $users = User::whereIn('user_type', ['staff', 'secretary'])->get();
+        } elseif (strtolower($user->user_type) === 'staff') {
+            $users = User::where('user_type', 'secretary')->get();
+        } elseif (strtolower($user->user_type) === 'secretary') {
+            $users = User::where('user_type', 'staff')->get();
         } else {
-            abort(403, 'Unauthorized'); // If the role is neither admin nor staff/secretary
+            abort(403, 'Unauthorized');
         }
 
         return view('admin.settings.users.manageusers', compact('users'));
     }
+
+
 
 
 
@@ -88,7 +92,7 @@ class ManageUsersController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'username' => 'required',
-            'password' => 'required',
+            'password' => '',
             'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
             'phone_number' => 'required|numeric',
             'user_type' => 'required',

@@ -9,7 +9,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use App\Models\User; // Import the User model
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Spatie\Activitylog\Facades\Activity; // Import the Activity facade
-
+date_default_timezone_set('Asia/Manila');
 class AuthController extends Controller
 {
     use AuthenticatesUsers;

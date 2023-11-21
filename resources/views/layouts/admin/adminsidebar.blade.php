@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.2/dist/js/bootstrap.bundle.min.js"></script> --}}
     <script src="{{ asset('assets/js/jquery3.0.js') }}"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,6 +63,13 @@
             </a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ url('search') }}" onclick="setActiveNavItem(this)">
+                <i class="bi bi-search"></i>
+                <span>Search</span>
+            </a>
+        </li>
+
         <!-- Profile -->
         <li class="nav-heading">Profile</li>
 
@@ -90,7 +97,7 @@
                 </li>
                 <li>
                     <a href="{{ url('backup') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
-                        <i class="bi bi-database-check" style="font-size: 16px;"></i><span style="color: #0000000;">System Backup</span>
+                        <i class="bi bi-database-check" style="font-size: 16px;"></i><span style="color: #0000000;">Database Backup</span>
                     </a>
                 </li>
             </ul>
@@ -140,6 +147,14 @@
             </a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ url('search') }}" onclick="setActiveNavItem(this)">
+                <i class="bi bi-folder"></i>
+                <span>Search</span>
+            </a>
+        </li>
+
+
         <!-- Profile -->
         <li class="nav-heading">Profile</li>
 
@@ -167,7 +182,7 @@
                 </li>
                 <li>
                     <a href="{{ url('backup') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
-                        <i class="bi bi-database-check" style="font-size: 16px;"></i><span style="color: #0000000;">System Backup</span>
+                        <i class="bi bi-database-check" style="font-size: 16px;"></i><span style="color: #0000000;">Database Backup</span>
                     </a>
                 </li>
             </ul>
