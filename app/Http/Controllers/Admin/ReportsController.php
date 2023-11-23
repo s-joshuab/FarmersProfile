@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Crops;
+use App\Models\Barangay;
+use App\Models\Benefits;
 use App\Models\Barangays;
 use App\Models\Commodities;
-use App\Models\FarmersProfile;
 use Illuminate\Http\Request;
+use App\Models\FarmersProfile;
+use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\LogOptions;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
-use Spatie\Activitylog\LogOptions;
 
 date_default_timezone_set('Asia/Manila');
 
@@ -111,5 +114,46 @@ class ReportsController extends Controller
 
         return view('admin.reports.search', compact('farm', 'farmers', 'barangays', 'commodities', 'selectedBarangay', 'selectedCommodities', 'selectedStatus'));
     }
+
+    // public function benefits()
+    // {
+    //     // Fetch data from the crops table
+    //     $data = Crops::join('barangays', 'crops.barangays_id', '=', 'barangays.id')
+    //         ->join('commodities', 'crops.commodities_id', '=', 'commodities.id')
+    //         ->select('barangays as barangay', 'commodities as commodity', DB::raw('COUNT(*) as count'))
+    //         ->groupBy('barangay', 'commodity')
+    //         ->orderBy('barangay') // Order by barangay to make sure we get the max count for each barangay
+    //         ->orderByDesc('count')
+    //         ->get()
+    //         ->unique('barangay'); // Take only the first row for each barangay (highest count)
+
+    //     return view('admin.reports.benefits', compact('data'));
+    // }
+
+    public function commodities()
+    {
+        // Fetch data from the crops table
+        $data = Crops::join('barangays', 'crops.barangays_id', '=', 'barangays.id')
+            ->join('commodities', 'crops.commodities_id', '=', 'commodities.id')
+            ->select('barangays as barangay', 'commodities as commodity', DB::raw('COUNT(*) as count'))
+            ->groupBy('barangay', 'commodity')
+            ->orderBy('barangay') // Order by barangay to make sure we get the max count for each barangay
+            ->orderByDesc('count')
+            ->get()
+            ->unique('barangay'); // Take only the first row for each barangay (highest count)
+
+        return view('admin.reports.commodities', compact('data'));
+    }
+
+    public function benefits()
+    {
+        // Retrieve data from the benefits table and eager load the associated farmersProfile
+        $benefits = Benefits::with('farmersProfile')->get();
+
+        // Pass the data to the view
+        return view('admin.reports.benefits', compact('benefits'));
+    }
+
+
 
 }

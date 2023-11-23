@@ -18,7 +18,6 @@ class AdminController extends Controller
      */
     public function admin()
     {
-        $mostPlantedByBarangay = $this->mostPlantedCommoditiesByBarangay();
         $barangays = Barangays::all();
         $farmerCount = FarmersProfile::count();
         $user = User::count();
@@ -74,6 +73,7 @@ class AdminController extends Controller
 
         // Find the maximum commodity count and its corresponding name and ID
         $maxCommodityIndex = array_search(max($commodityCounts), $commodityCounts);
+
         if ($maxCommodityIndex !== false) {
             $maxCommodityCount = $commodityCounts[$maxCommodityIndex];
             $maxCommodityName = $commodityNames[$maxCommodityIndex];
@@ -85,47 +85,63 @@ class AdminController extends Controller
             $maxCommodityId = null;
         }
 
-        return view('admin.admin', compact('mostPlantedByBarangay', 'maxCommodities','maxCommodityName', 'farmerCount', 'benefits', 'status', 'user', 'commodityCounts', 'commodityNames', 'commoditiesIds', 'maleCount', 'femaleCount', 'barangays', 'maxCommodityIndex', 'activeStatusCount', 'inactiveStatusCount', 'maxCommodityCount', 'maxCommodityId'));
+        // Fetch the top 5 commodities
+        $maxCommodityIndex = !empty($commodityCounts) ? array_search(max($commodityCounts), $commodityCounts) : false;
+
+    if ($maxCommodityIndex !== false) {
+        $maxCommodityCount = $commodityCounts[$maxCommodityIndex];
+        $maxCommodityName = $commodityNames[$maxCommodityIndex];
+        $maxCommodityId = $commoditiesIds[$maxCommodityIndex];
+    } else {
+        // Set default values if there are no commodities
+        $maxCommodityCount = 0;
+        $maxCommodityName = "No Commodities";
+        $maxCommodityId = null;
     }
 
+    // Fetch the top 5 commodities
+    if (!empty($commodityCounts)) {
+        $maxCommodityIndex = array_search(max($commodityCounts), $commodityCounts, true);
 
-    public function mostPlantedCommoditiesByBarangay()
-    {
-        // Fetch data for most planted commodities by barangay
-        $mostPlantedByBarangay = DB::table('crops')
-            ->rightJoin('farmersprofile', 'crops.farmersprofile_id', '=', 'farmersprofile.id')
-            ->rightJoin('barangays', 'farmersprofile.barangays_id', '=', 'barangays.id')
-            ->leftJoin('commodities', 'crops.commodities_id', '=', 'commodities.id')
-            ->select('barangays.barangays as barangay', 'commodities.commodities', DB::raw('COUNT(*) as commodities_count'))
-            ->groupBy('barangays.barangays', 'commodities.commodities')
-            ->orderBy('barangays.barangays') // Order by barangay name
-            ->get();
-
-        // Group the results by barangay for easier processing
-        $groupedData = $mostPlantedByBarangay->groupBy('barangay');
-
-        // Initialize an array to store the final data for the table
-        $tableData = [];
-
-        foreach ($groupedData as $barangay => $data) {
-            // Find the commodity with the highest count for the current barangay
-            $maxCommodity = $data->sortByDesc('commodities_count')->first();
-
-            $rowData = [
-                'barangay' => $barangay,
-                'most_commodity' => $maxCommodity ? $maxCommodity->commodities : 'No Data',
-                'commodities_count' => $maxCommodity ? $maxCommodity->commodities_count : 0,
-            ];
-
-            $tableData[] = $rowData;
-        }
-
-        return $tableData;
+        $maxCommodityCount = ($maxCommodityIndex !== false) ? $commodityCounts[$maxCommodityIndex] : 0;
+        $maxCommodityName = ($maxCommodityIndex !== false) ? $commodityNames[$maxCommodityIndex] : "No Commodities";
+        $maxCommodityId = ($maxCommodityIndex !== false) ? $commoditiesIds[$maxCommodityIndex] : null;
+    } else {
+        // Set default values if there are no commodities
+        $maxCommodityCount = 0;
+        $maxCommodityName = "No Commodities";
+        $maxCommodityId = null;
     }
 
+    // Fetch the top 5 commodities
+    $maxCommodities = $this->getTopCommodities($commodityCounts, $commodityNames, 5);
 
+    return view('admin.admin', compact('maxCommodities', 'maxCommodityName', 'farmerCount', 'benefits', 'status', 'user', 'commodityCounts', 'commodityNames', 'commoditiesIds', 'maleCount', 'femaleCount', 'barangays', 'maxCommodityIndex', 'activeStatusCount', 'inactiveStatusCount', 'maxCommodityCount', 'maxCommodityId'));
+}
 
+// Add this method to your controller (replace 'YourController' with the actual name of your controller)
+private function getTopCommodities($counts, $names, $limit)
+{
+    $topCommodities = [];
 
+    foreach ($counts as $commodityId => $count) {
+        $topCommodities[] = [
+            'id' => $commodityId,
+            'name' => $names[$commodityId] ?? "No Data", // Use "No Data" if the name is not set
+            'count' => $count,
+        ];
+    }
+
+    // Sort the topCommodities array based on count in descending order
+    usort($topCommodities, function ($a, $b) {
+        return $b['count'] - $a['count'];
+    });
+
+    // Take the top N commodities
+    $topCommodities = array_slice($topCommodities, 0, $limit);
+
+    return $topCommodities;
+}
 
 
     public function getFarmerCount($id)

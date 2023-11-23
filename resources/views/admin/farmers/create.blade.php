@@ -29,8 +29,7 @@
                                     <div class="d-flex align-items-center">
                                         <label for="referenceNo" class="mr-2">Reference/Control No.: </label>
                                         <div class="flex-grow-1">
-                                            <input type="text" class="form-control" maxlength="15" id="referenceNo"
-                                                id="validationDefault01" name="ref_no" required>
+                                            <input type="number" class="form-control d-inline" id="ref_no" name="ref_no" oninput="javascript: if (this.value.length > 15) this.value = this.value.slice(0, 15);" required>
                                         </div>
                                     </div>
                                 </div>
@@ -213,7 +212,7 @@
                                 <div class="col-md-4 position-relative mt-0">
                                     <label class="form-label">House/Lot/Bldg. No.</label>
                                     <input type="text" class="form-control" id="validationTooltip01" name="house"
-                                        required autofocus="autofocus">
+                                         autofocus="autofocus">
                                     <div class="invalid-tooltip">
                                         The House/Lot/Bldg. No. field is required.
                                     </div>
@@ -224,8 +223,7 @@
 
                                 <div class="col-md-6 position-relative mt-0">
                                     <label class="form-label">Contact Number</label>
-                                    <input type="number" class="form-control" id="validationTooltip01" name="number"
-                                        required autofocus="autofocus">
+                                    <input type="number" class="form-control d-inline" id="number" name="number" oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 11);" required>
                                     <div class="invalid-tooltip">
                                         The contactnumber field is required.
                                     </div>
@@ -439,8 +437,11 @@
                                     <div class="col-md-3 position-relative mt-2">
                                         <div class="form-group">
                                             <label for="emergency">Contact No. Incase of Emergency</label>
-                                            <input type="text" class="form-control d-inline" id="emergency"
-                                                name="emergency" maxlength="11" required>
+                                            <input type="number" class="form-control d-inline" id="emergency" name="emergency" oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 11);" required>
+
+
+
+
                                         </div>
                                     </div>
 
@@ -451,20 +452,24 @@
                                 <p class="mt-0" style="font-weight: bold; font-size: 12px;">PART II. FARMERS
                                     PROFILE</p>
 
-                                <div class="col-md-12 mt-0">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="livelihood" class="mr-2">Main Livelihood:</label>
-                                                <div class="col-md-3 form-check form-check-inline">
-                                                    <input class="form-check-input" type="checkbox" name="livelihood"
-                                                        id="farmers" required>
-                                                    <label class="form-check-label" for="farmers">Farmers</label>
+                                    <div class="col-md-12 mt-0">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="livelihood" class="mr-2">Main Livelihood:</label>
+                                                    <div class="col-md-3 form-check form-check-inline">
+                                                        <!-- Make it a form-control -->
+                                                        <input type="text"
+                                            style="border-bottom:solid 1px; border-radius:0; border-top: none; border-left: none; border-right: none;"
+                                            id="Farmers" name="livelihood" class="form-control" value="Farmers"
+                                            readonly>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+
+
 
 
 

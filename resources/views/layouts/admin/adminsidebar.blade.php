@@ -55,13 +55,13 @@
             </a>
         </li>
 
-        <!-- Reports Page Nav -->
+        {{-- <!-- Reports Page Nav -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ url('reports') }}" onclick="setActiveNavItem(this)">
                 <i class="bi bi-folder"></i>
                 <span>Reports</span>
             </a>
-        </li>
+        </li> --}}
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ url('search') }}" onclick="setActiveNavItem(this)">
@@ -70,38 +70,63 @@
             </a>
         </li>
 
-        <!-- Profile -->
-        <li class="nav-heading">Profile</li>
-
-        <!-- Settings Nav -->
         <li class="nav-item">
-            <a class="nav-link" href="#" onclick="toggleSettingsNav()">
-                <i class="bi bi-sliders"></i><span>Settings</span>
-                <i class="bi bi-caret-down ms-auto" id="chevron-icon"></i>
+            <a class="nav-link" href="#" onclick="toggleProfileNav()">
+                <i class="ri-file-text-line "></i><span>Reports</span>
+                <i class="bi bi-caret-down ms-auto" id="profile-chevron-icon"></i>
             </a>
-            <ul id="settings-nav" class="nav-content">
+            <ul id="profile-nav" class="nav-content">
                 <li>
-                    <a href="{{ url('profile') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
-                        <i class="bi bi-person-circle" style="font-size: 16px;"></i><span style="color: #0000000;">Profile</span>
+                    <a href="{{ url('benefits') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                        <i class="bi bi-person-circle" style="font-size: 16px;"></i><span style="color: #0000000;">Benefits</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url('audit') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
-                        <i class="bi bi-journal-text" style="font-size: 16px;"></i><span style="color: #0000000;">Audit Trail</span>
+                    <a href="{{ url('commodities') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                        <i class="bi bi-journal-text" style="font-size: 16px;"></i><span style="color: #0000000;">Commodities</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url('manageusers') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
-                        <i class="bi bi-people" style="font-size: 16px;"></i><span style="color: #0000000;">Manage Users</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ url('backup') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
-                        <i class="bi bi-database-check" style="font-size: 16px;"></i><span style="color: #0000000;">Database Backup</span>
+                    <a href="{{ url('reports') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                        <i class="bi bi-people" style="font-size: 16px;"></i><span style="color: #0000000;">Download Reports</span>
                     </a>
                 </li>
             </ul>
         </li>
+
+            <!-- Profile -->
+            <li class="nav-heading">Profile</li>
+
+            <!-- Settings Nav -->
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="toggleSettingsNav()">
+                    <i class="bi bi-sliders"></i><span>Settings</span>
+                    <i class="bi bi-caret-down ms-auto" id="settings-chevron-icon"></i>
+                </a>
+                <ul id="settings-nav" class="nav-content">
+                    <li>
+                        <a href="{{ url('profile') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                            <i class="bi bi-person-circle" style="font-size: 16px;"></i><span style="color: #0000000;">Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('audit') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                            <i class="bi bi-journal-text" style="font-size: 16px;"></i><span style="color: #0000000;">Audit Trail</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('manageusers') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                            <i class="bi bi-people" style="font-size: 16px;"></i><span style="color: #0000000;">Manage Users</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('backup') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                            <i class="bi bi-database-check" style="font-size: 16px;"></i><span style="color: #0000000;">Database Backup</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
 
         <!-- Logout Nav -->
         <li class="nav-item">
@@ -139,54 +164,78 @@
             </a>
         </li>
 
-        <!-- Reports Page Nav -->
+        {{-- <!-- Reports Page Nav -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ url('reports') }}" onclick="setActiveNavItem(this)">
                 <i class="bi bi-folder"></i>
                 <span>Reports</span>
             </a>
-        </li>
+        </li> --}}
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ url('search') }}" onclick="setActiveNavItem(this)">
-                <i class="bi bi-folder"></i>
+                <i class="bi bi-search"></i>
                 <span>Search</span>
             </a>
         </li>
 
-
-        <!-- Profile -->
-        <li class="nav-heading">Profile</li>
-
-        <!-- Settings Nav -->
         <li class="nav-item">
-            <a class="nav-link" href="#" onclick="toggleSettingsNav()">
-                <i class="bi bi-sliders"></i><span>Settings</span>
-                <i class="bi bi-caret-down ms-auto" id="chevron-icon"></i>
+            <a class="nav-link" href="#" onclick="toggleProfileNav()">
+                <i class="ri-file-text-line "></i><span>Reports</span>
+                <i class="bi bi-caret-down ms-auto" id="profile-chevron-icon"></i>
             </a>
-            <ul id="settings-nav" class="nav-content">
+            <ul id="profile-nav" class="nav-content">
                 <li>
-                    <a href="{{ url('profile') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
-                        <i class="bi bi-person-circle" style="font-size: 16px;"></i><span style="color: #0000000;">Profile</span>
+                    <a href="{{ url('benefits') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                        <i class="bi bi-person-circle" style="font-size: 16px;"></i><span style="color: #0000000;">Benefits</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url('audit') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
-                        <i class="bi bi-journal-text" style="font-size: 16px;"></i><span style="color: #0000000;">Audit Trail</span>
+                    <a href="{{ url('commodities') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                        <i class="bi bi-journal-text" style="font-size: 16px;"></i><span style="color: #0000000;">Commodities</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url('manageusers') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
-                        <i class="bi bi-people" style="font-size: 16px;"></i><span style="color: #0000000;">Manage Users</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ url('backup') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
-                        <i class="bi bi-database-check" style="font-size: 16px;"></i><span style="color: #0000000;">Database Backup</span>
+                    <a href="{{ url('reports') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                        <i class="bi bi-people" style="font-size: 16px;"></i><span style="color: #0000000;">Download Reports</span>
                     </a>
                 </li>
             </ul>
         </li>
+
+            <!-- Profile -->
+            <li class="nav-heading">Profile</li>
+
+            <!-- Settings Nav -->
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="toggleSettingsNav()">
+                    <i class="bi bi-sliders"></i><span>Settings</span>
+                    <i class="bi bi-caret-down ms-auto" id="settings-chevron-icon"></i>
+                </a>
+                <ul id="settings-nav" class="nav-content">
+                    <li>
+                        <a href="{{ url('profile') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                            <i class="bi bi-person-circle" style="font-size: 16px;"></i><span style="color: #0000000;">Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('audit') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                            <i class="bi bi-journal-text" style="font-size: 16px;"></i><span style="color: #0000000;">Audit Trail</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('manageusers') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                            <i class="bi bi-people" style="font-size: 16px;"></i><span style="color: #0000000;">Manage Users</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('backup') }}" class="nav-item nav-link" style="background-color: #00d3fd;">
+                            <i class="bi bi-database-check" style="font-size: 16px;"></i><span style="color: #0000000;">Database Backup</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
 
         <!-- Logout Nav -->
         <li class="nav-item">
@@ -242,26 +291,43 @@
 @endcan
 
 
+<!-- ... Your HTML code ... -->
 
 <script>
+    let profileNavVisible = false;
     let settingsNavVisible = false;
+
+    const profileNav = document.getElementById("profile-nav");
     const settingsNav = document.getElementById("settings-nav");
+    const profileChevronIcon = document.getElementById("profile-chevron-icon");
+    const settingsChevronIcon = document.getElementById("settings-chevron-icon");
+
+    function toggleProfileNav() {
+        profileNavVisible = !profileNavVisible;
+
+        if (profileNavVisible) {
+            profileNav.style.display = "block";
+            profileChevronIcon.classList.add("rotate");
+        } else {
+            profileNav.style.display = "none";
+            profileChevronIcon.classList.remove("rotate");
+        }
+    }
 
     function toggleSettingsNav() {
-        const chevronIcon = document.getElementById("chevron-icon");
-
         settingsNavVisible = !settingsNavVisible;
 
         if (settingsNavVisible) {
             settingsNav.style.display = "block";
-            chevronIcon.classList.add("rotate");
+            settingsChevronIcon.classList.add("rotate");
         } else {
             settingsNav.style.display = "none";
-            chevronIcon.classList.remove("rotate");
+            settingsChevronIcon.classList.remove("rotate");
         }
     }
 
-    // Initially hide the settings nav
+    // Initially hide the dropdowns
+    profileNav.style.display = "none";
     settingsNav.style.display = "none";
 
     function logout() {
@@ -287,6 +353,7 @@
         form.submit();
     }
 </script>
+
 
 
 

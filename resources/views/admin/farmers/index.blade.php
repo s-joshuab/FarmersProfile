@@ -150,19 +150,22 @@
                                             <td class="text-center">
                                                 <div class="btn-group" role="group">
                                                     <a href="{{ route('generate.pdf', ['id' => $farmer->id]) }}" class="btn btn-sm btn-info" style="margin-right: 10px;">
-                                                        <i class="fa fa-file-pdf"></i> <!-- Replace with the appropriate Font Awesome icon class -->
+                                                        <i class="ri-file-pdf-fill"></i> <!-- Replace with the appropriate Font Awesome icon class -->
                                                     </a>
 
                                                     <a href="{{ route('farmers.showed', ['id' => $farmer->id]) }}" class="btn btn-sm btn-info" style="margin-right: 10px;">
-                                                        <i class="fa fa-eye"></i> <!-- Replace with the appropriate Font Awesome icon class -->
+                                                        <i class="ri-eye-fill"></i> <!-- Replace with the appropriate Font Awesome icon class -->
                                                     </a>
 
                                                     <a href="{{ route('farmers.edit', ['id' => $farmer->id]) }}" class="btn btn-sm btn-primary" style="margin-right: 10px;">
-                                                        <i class="fa fa-pencil"></i> <!-- Replace with the appropriate Font Awesome icon class -->
+                                                        <i class="ri-edit-2-fill"></i> <!-- Replace with the appropriate Font Awesome icon class -->
                                                     </a>
 
                                                     <a href="{{ route('farmers.generate', ['id' => $farmer->id]) }}" class="btn btn-sm btn-secondary">
-                                                        <i class="fa fa-cog"></i> <!-- Replace with the appropriate Font Awesome icon class -->
+                                                        <i class="ri-settings-3-fill"></i> <!-- Replace with the appropriate Font Awesome icon class -->
+                                                    </a>
+                                                    <a href="{{ route('farmers.benefits', ['id' => $farmer->id]) }}" class="btn btn-sm btn-secondary">
+                                                        <i class="ri-hand-heart-fill"></i> <!-- Replace with the appropriate Font Awesome icon class -->
                                                     </a>
                                                 </div>
                                             </td>

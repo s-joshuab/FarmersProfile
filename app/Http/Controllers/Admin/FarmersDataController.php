@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Crops;
 use App\Models\Status;
 use App\Models\Machine;
+use App\Models\Benefits;
 use App\Models\Barangays;
 use App\Models\Provinces;
 use App\Models\Commodities;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\LogOptions;
 use App\Http\Controllers\Controller;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
 use App\Models\HighestFormalEducation;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -191,7 +193,7 @@ class FarmersDataController extends Controller
             'municipalities_id' => 'required',
             'barangays_id' => 'required|exists:barangays,id',
             'purok' => 'required',
-            'house' => 'required',
+            'house' => 'nullable',
             'dob' => 'required|date',
             'pob' => 'required',
             'religion' => 'required',
@@ -249,7 +251,7 @@ class FarmersDataController extends Controller
         $selectedCommodities = $request->input('crops', []);
         $farmSizes = $request->input('farm_size', []);
         $farmLocations = $request->input('farm_location', []);
-
+        $barangaysId = $request->input('barangays_id', null);
 
         if (empty($selectedCommodities)) {
             // If no commodities are selected, save null values
@@ -257,6 +259,7 @@ class FarmersDataController extends Controller
                 'commodities_id' => null,
                 'farm_size' => null,
                 'farm_location' => null,
+                'barangays_id' => $barangaysId,
             ]);
         } else {
             // If commodities are selected, loop through them and save the data
@@ -265,9 +268,11 @@ class FarmersDataController extends Controller
                     'commodities_id' => $commodityId,
                     'farm_size' => $farmSizes[$commodityId],
                     'farm_location' => $farmLocations[$commodityId],
+                    'barangays_id' => $barangaysId,
                 ]);
             }
         }
+
 
 
 
@@ -415,7 +420,7 @@ class FarmersDataController extends Controller
             'municipalities_id' => 'required',
             'barangays_id' => 'required',
             'purok' => 'required',
-            'house' => 'required',
+            'house' => 'nullable',
             'dob' => 'required|date',
             'pob' => 'required',
             'religion' => 'required',
@@ -474,29 +479,29 @@ class FarmersDataController extends Controller
         $selectedCommodities = $request->input('crops', []);
         $farmSizes = $request->input('farm_size', []);
         $farmLocations = $request->input('farm_location', []);
+        $barangaysId = $request->input('barangays_id', null);
 
-        // Delete old crops data not present in the current input
-        $farmersprofile->crops()
-            ->whereNotIn('commodities_id', $selectedCommodities)
-            ->delete();
+        // Delete existing records related to the current farmersprofile
+        $farmersprofile->crops()->delete();
 
-        foreach ($selectedCommodities as $id => $commodityId) {
-            $cropData = [
-                'commodities_id' => $commodityId,
-                'farm_size' => $farmSizes[$id],
-                'farm_location' => $farmLocations[$id],
-            ];
-
-            $farmersprofile->crops()->updateOrCreate(
-                ['commodities_id' => $commodityId],
-                $cropData
-            );
-
-            // Update or store farm_size and farm_location in the FarmersProfile itself
-            $farmersprofile->update([
-                'farm_size' => $farmSizes[$id],
-                'farm_location' => $farmLocations[$id],
+        if (empty($selectedCommodities)) {
+            // If no commodities are selected, save null values
+            $farmersprofile->crops()->create([
+                'commodities_id' => null,
+                'farm_size' => null,
+                'farm_location' => null,
+                'barangays_id' => $barangaysId,
             ]);
+        } else {
+            // If commodities are selected, loop through them and save the data
+            foreach ($selectedCommodities as $id => $commodityId) {
+                $farmersprofile->crops()->create([
+                    'commodities_id' => $commodityId,
+                    'farm_size' => $farmSizes[$commodityId],
+                    'farm_location' => $farmLocations[$commodityId],
+                    'barangays_id' => $barangaysId,
+                ]);
+            }
         }
 
         $selectedMachineries = $request->input('machineries', []);
@@ -568,4 +573,58 @@ class FarmersDataController extends Controller
 
         return redirect('farmreport')->with('message', 'Farmers Data Update Successfully!');
     }
+
+
+
+    public function benefits($id)
+    {
+        $highest_formal_education = HighestFormalEducation::all();
+        $civilStatusOptions = Status::all();
+        $barangays = Barangays::all();
+        $farmersprofile = FarmersProfile::findOrFail($id);
+        $provinces = Provinces::all();
+        $commodities = Commodities::where('category', 0)->pluck('commodities', 'id')->all();
+        $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
+        $machine = Machine::pluck('machine', 'id')->all();
+
+        return view('admin.farmers.benefits', compact('commodities', 'farmersprofile', 'civilStatusOptions', 'highest_formal_education', 'farmers', 'machine', 'provinces', 'barangays'));
+    }
+ // Import the FarmersProfile model
+
+ public function beneficiary(Request $request, $id)
+ {
+    $farmersprofile = FarmersProfile::findorfail($id);
+    $validator = Validator::make($request->all(), [
+        'benefits' => 'required|array',
+        'benefits.*' => 'required|string', // adjust this rule based on your actual data type
+        'date' => 'required|array',
+        'date.*' => 'required|date', // adjust this rule based on your actual data type
+    ]);
+    if ($validator->fails()) {
+        return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+    }
+
+    foreach ($request->input('benefits') as $key => $benefit) {
+        $newBenefit = new Benefits([
+            'benefits' => $benefit,
+            'date' => $request->input('date')[$key],
+            'farmersprofile_id' => $id,
+        ]);
+        $newBenefit->save();
+    }
+
+    //  dd($request->all());
+
+
+     // If you want to redirect back after saving, you can use:
+     return redirect('farmreport')->with('message', 'Form submitted successfully');
+ }
+
+
+
+
+
 }
+

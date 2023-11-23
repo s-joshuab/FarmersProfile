@@ -442,22 +442,23 @@ function handleCivilStatusSelect() {
                 <p class="mt-0" style="font-weight: bold; font-size: 12px;">PART II. FARMERS
                     PROFILE</p>
 
-                <div class="col-md-12 mt-0">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="livelihood" class="mr-2">Main Livelihood:</label>
-                                <div class="col-md-3 form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="livelihood" value="Farmers" id="farmers"  required
-                                    @if($farmersprofile->livelihood === 'Farmers')
-                                        checked
-                                    @endif>
-                                    <label class="form-check-label" for="farmers">Farmers</label>
+
+                    <div class="col-md-12 mt-0">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="livelihood" class="mr-2">Main Livelihood:</label>
+                                    <div class="col-md-3 form-check form-check-inline">
+                                        <!-- Make it a form-control -->
+                                        <input type="text"
+                            style="border-bottom:solid 1px; border-radius:0; border-top: none; border-left: none; border-right: none;"
+                            id="Farmers" name="livelihood" class="form-control" value="Farmers"
+                            readonly>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
 
 

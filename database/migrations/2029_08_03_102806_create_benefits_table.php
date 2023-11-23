@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('regions', function (Blueprint $table) {
+        Schema::create('benefits', function (Blueprint $table) {
             $table->id();
-            $table->string('regions');
+            $table->string('benefits');
+            $table->date('date');
             $table->timestamps();
-
-            // // Define foreign key constraint
-            // $table->foreign('farmersprofile_id')->references('id')->on('farmersprofile')->onDelete('cascade');
         });
     }
 
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('regions');
+        Schema::dropIfExists('benefits');
     }
 };

@@ -83,6 +83,10 @@ Route::middleware(['auth', 'admin_or_staff'])->group(function () {
 
     Route::get('farmreport', [FarmersDataController::class, 'farmdata'])->name('farmers.report');
     Route::get('reports', [ReportsController::class, 'reports']);
+    Route::get('benefits', [ReportsController::class, 'benefits'])->name('benefits');
+    Route::get('commodities', [ReportsController::class, 'commodities'])->name('commodities');
+
+
     Route::get('search', [ReportsController::class, 'search']);
     Route::get('audit', [SettingsController::class, 'audit']);
     Route::get('/audit', [SettingsController::class,'audit'])->name('audit');
@@ -102,7 +106,13 @@ Route::middleware(['auth', 'admin_or_staff'])->group(function () {
     Route::post('create', [FarmersDataController::class, 'store']);
     Route::get('create-add', [FarmersDataController::class, 'createAdd']);
 
+// Example of a named route for farmers.benefits
 
+Route::post('/farmers-benefits/{id}', [FarmersDataController::class, 'beneficiary'])->name('farmers.beneficiary');
+
+
+
+    Route::get('farmers-benefits/{id}/benefits', [FarmersDataController::class, 'benefits'])->name('farmers.benefits');
     Route::get('farmers-view/{id}/view', [FarmersDataController::class, 'show'])->name('farmers.showed');
     Route::get('farmers-edit/{id}/edit', [FarmersDataController::class, 'edit'])->name('farmers.edit');
     Route::put('farmers-update/{id}', [FarmersDataController::class, 'update']);

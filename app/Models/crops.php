@@ -15,6 +15,7 @@ class Crops extends Model
         'farmersprofile_id',
         'farm_size',
         'farm_location',
+        'barangays_id'
     ];
 
     public function farmersProfile()
@@ -25,6 +26,11 @@ class Crops extends Model
     public function commodity()
     {
         return $this->belongsTo(Commodities::class, 'commodities_id');
+    }
+
+    public function barangay()
+    {
+        return $this->belongsTo(Barangays::class, 'barangays_id');
     }
 
 }

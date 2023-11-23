@@ -16,6 +16,6 @@ class SecretaryMiddleware
             return $next($request);
         }
 
-        abort(403, 'Unauthorized');
+        return response()->view('components.403', [], 403);
     }
 }

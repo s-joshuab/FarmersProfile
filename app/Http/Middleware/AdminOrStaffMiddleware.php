@@ -14,6 +14,7 @@ class AdminOrStaffMiddleware
             return $next($request);
         }
 
-        abort(403, 'Unauthorized');
+        // Redirect to the custom 403 page if not admin or staff
+        return response()->view('components.403', [], 403);
     }
 }

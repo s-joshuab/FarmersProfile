@@ -50,6 +50,11 @@ class FarmersProfile extends Model
         return $this->hasMany(Crops::class, 'farmersprofile_id');
     }
 
+    public function benefits()
+    {
+        return $this->hasMany(Benefits::class, 'farmersprofile_id');
+    }
+
     public function user()
 {
     return $this->belongsTo(User::class);

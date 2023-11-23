@@ -198,26 +198,33 @@
             <div class="col-lg-12">
                 <div class="row">
 
-                    <div class="col-md-4">
-                        <div class="card recent-sales overflow-auto">
+                    <div class="col-md-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Top 5 Commodities</h5>
+                            </div>
                             <div class="card-body">
-                                <h5 class="card-title">Highest Commodities</h5>
-                                <div class="card-text">
-                                    <ul class="list-group">
-                                        @foreach($maxCommodities as $commodity)
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                {{ $commodity['name'] }}
-                                                <span class="badge bg-primary rounded-pill">{{ $commodity['count'] }}</span>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                                <ul class="list-group">
+                                    @foreach($maxCommodities as $commodity)
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            {{ $commodity['name'] }}
+                                            <span class="badge bg-primary rounded-pill">{{ $commodity['count'] }}</span>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                                <a href="{{ route('commodities') }}" class="btn btn-primary mt-3">See More</a>
                             </div>
                         </div>
                     </div>
 
 
-                    <div class="col-md-8">
+
+
+
+
+
+
+                    <div class="col-md-7">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Commodities</h5>
@@ -286,7 +293,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    {{-- <div class="col-md-4">
                         <div class="card recent-sales overflow-auto" style="margin-top: -250px;">
                             <div class="card-body">
                                 <h5 class="card-title">Most Planted Commodities by Barangay</h5>
@@ -305,7 +312,7 @@
                                                 <td>{{ $item['barangay'] ?? 'No Data' }}</td>
                                                 <td>{{ $item['most_commodity'] ?? 'No Data' }} </td>
 
-                                                {{-- ({{ $item['commodities_count'] ?? '0' }}) --}}
+
 
 
                                             </tr>
@@ -314,9 +321,9 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <!-- Budget Report -->
                         <div class="card">
                             {{-- <div class="filter">

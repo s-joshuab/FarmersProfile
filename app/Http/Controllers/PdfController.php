@@ -45,7 +45,7 @@ class PdfController extends Controller
             'farmers' => $farmers,
             'machine' => $machine,
             'crops' => $crops,
-            'machineries' => $machineries
+            'machineries' => $machineries,
         ]);
 
 

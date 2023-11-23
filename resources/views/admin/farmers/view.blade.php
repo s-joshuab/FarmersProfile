@@ -565,8 +565,9 @@ body: JSON.stringify({ educationId: selectedEducationId }),
                             <div class="form-group">
                                 <label for="livelihood" class="mr-2">Main Livelihood:</label>
                                 <div class="col-md-3 form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="livelihood" value="Farmers" id="farmers" disabled required
-                                    @if($farmersprofile->livelihood === 'on')
+                                    <input type="hidden" name="livelihood" value="Farmers">
+                                    <input class="form-check-input" type="checkbox" name="livelihood" id="farmers" value="Farmers" checked disabled required
+                                    @if($farmersprofile->livelihood === 'Farmers')
                                         checked
                                     @endif>
                                     <label class="form-check-label" for="farmers">Farmers</label>
