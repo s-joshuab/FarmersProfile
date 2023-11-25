@@ -62,7 +62,7 @@ class FarmersDataController extends Controller
             $farmersQuery->where('status', $selectedStatus);
         }
 
-        $farmersQuery->with(['crops']);
+        $farmers = $farmersQuery->get();
 
         $farmers = $farmersQuery->get();
         $barangays = Barangays::all();

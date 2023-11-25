@@ -145,11 +145,11 @@
                                     <th scope="col">ID Number</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Barangay</th>
-                                    <th scope="col">Status</th>
                                     <th scope="col">Commodities</th>
                                     <th scope="col">Farm Size</th>
                                     <th scope="col">Farm Location</th>
                                     <th scope="col">4ps Beneficiary</th>
+                                    <th scope="col">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -168,15 +168,6 @@
                                         </td>
                                         <td>{{ $farmer->fname }} {{ $farmer->sname }}</td>
                                         <td>{{ $farmer->barangay?->barangays ?? 'No Data' }}</td>
-
-
-                                        <td>
-                                            @if ($farmer->status === 'Active')
-                                                <span class="badge bg-success">Active</span>
-                                            @else
-                                                <span class="badge bg-danger">Inactive</span>
-                                            @endif
-                                        </td>
                                         <td>
                                             @if ($farmer->crops->isNotEmpty())
                                                 @foreach ($farmer->crops as $crop)
@@ -205,6 +196,13 @@
                                             @endif
                                         </td>
                                         <td>{{ $farmer->benefits }}</td>
+                                        <td>
+                                            @if ($farmer->status === 'Active')
+                                                <span class="badge bg-success">Active</span>
+                                            @else
+                                                <span class="badge bg-danger">Inactive</span>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

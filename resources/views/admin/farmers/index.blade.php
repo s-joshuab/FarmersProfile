@@ -54,11 +54,11 @@
                             </a>
                         </div>
 
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col-md-3" style="display: none;">
                                 <input type="text" id="search" class="form-control" placeholder="Search">
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="row d-flex justify-content-end mt-3">
                             <div class="col-md-2">
@@ -103,6 +103,8 @@
                             </div>
                         </div>
 
+
+
                         <div class="table-responsive mt-3">
                             <table id="myTable" class="table table-bordered table-striped">
                                 <thead>
@@ -127,18 +129,21 @@
                                             <td>
                                                 @php
                                                     $farmerCommodities = $farmer->crops->pluck('commodities_id')->toArray();
-                                                    $selectedCommodities = $selectedCommodities ?? []; // Ensure $selectedCommodities is an array
+                                                    $selectedCommodities = $selectedCommodities ?? [];
 
-                                                    $selectedFarmerCommodities = array_intersect($farmerCommodities, $selectedCommodities);
-
-                                                    if (!empty($selectedFarmerCommodities)) {
-                                                        $selectedCommodityNames = $commodities->whereIn('id', $selectedFarmerCommodities)->pluck('commodities')->toArray();
-                                                        echo implode('<br>', $selectedCommodityNames);
+                                                    if (!empty($selectedCommodities)) {
+                                                        $selectedFarmerCommodities = array_intersect($farmerCommodities, $selectedCommodities);
+                                                        $displayedCommodities = $commodities->whereIn('id', $selectedFarmerCommodities)->pluck('commodities')->toArray();
+                                                        echo implode('<br>', $displayedCommodities);
+                                                    } elseif (!empty($farmerCommodities)) {
+                                                        $allCommodities = $commodities->whereIn('id', $farmerCommodities)->pluck('commodities')->toArray();
+                                                        echo implode('<br>', $allCommodities);
                                                     } else {
                                                         echo 'No Data';
                                                     }
                                                 @endphp
                                             </td>
+
                                             <td>{{ $farmer->benefits }}</td>
                                             <td>
                                                 @if ($farmer->status === 'Active')
@@ -180,6 +185,60 @@
             </div>
         </div>
     </section>
+
+    <script>
+        $(document).ready(function () {
+            // DataTable initialization
+            var table = $('#myTable').DataTable();
+
+            // Function to update the table based on filter values
+            function updateTable() {
+                var barangayFilter = $('#barangayFilter').val();
+                var commodityFilter = $('.commodity-checkbox:checked').map(function () {
+                    return this.value;
+                }).get().join(',');
+                var statusFilter = $('#statusFilter').val();
+
+                // Make an Ajax request to the server to get filtered data
+                $.ajax({
+                    url: '/path-to-farmdata-endpoint', // Replace with the actual URL of your farmdata endpoint
+                    method: 'GET',
+                    data: {
+                        barangayFilter: barangayFilter,
+                        commoditiesFilter: commodityFilter,
+                        statusFilter: statusFilter
+                    },
+                    success: function (data) {
+                        // Clear and redraw the DataTable with the updated data
+                        table.clear().rows.add(data).draw();
+                    },
+                    error: function (error) {
+                        console.error('Error fetching data:', error);
+                    }
+                });
+            }
+
+            // Event listener to handle changes in filters
+            $('#barangayFilter, #commodityFilter, #statusFilter').on('change', function () {
+                updateTable();
+            });
+
+            // Event listener for checkbox "All Commodities"
+            $('#commodityCheckboxAll').on('change', function () {
+                $('.commodity-checkbox').prop('checked', $(this).prop('checked')).change();
+                updateTable();
+            });
+
+            // Event listener for individual commodity checkboxes
+            $('.commodity-checkbox').on('change', function () {
+                var allChecked = $('.commodity-checkbox:checked').length === $('.commodity-checkbox').length;
+                $('#commodityCheckboxAll').prop('checked', allChecked).change();
+                updateTable();
+            });
+        });
+    </script>
+
+
 
     <style>
         .status-circle {
@@ -252,134 +311,8 @@
         background-color: #dc3545;
     }
     </style>
-</div>
 
 
-<script>
-// JavaScript variable containing the mapping of commodity IDs to names
-var commodityMap = {
-    @foreach ($commodities as $commodity)
-        {{ $commodity->id }}: '{{ $commodity->commodities }}',
-    @endforeach
-};
-
-// Keep track of the selected commodity IDs
-var selectedCommodityIds = [];
-
-$(document).ready(function() {
-    $('#myTable').DataTable({
-        "lengthMenu": [10, 25, 50, 100], // Set your desired entries per page values
-        "pageLength": 10, // Default number of entries per page
-        "pagingType": "full_numbers", // Use full pagination control
-        // Disable the search bar
-    });
-
-    // Event listener for changing the number of entries per page
-    $('#showEntries').on('change', function() {
-        var entriesPerPage = parseInt($(this).val());
-        $('#myTable').DataTable().page.len(entriesPerPage).draw();
-    });
-
-    // Event listener for checkboxes
-    $('.commodity-checkbox').on('change', function() {
-        updateSelectedCommodities();
-        filterTable();
-    });
-
-    // Event listener for the "All Commodities" checkbox
-    $('#commodityCheckboxAll').on('change', function() {
-        // If "All Commodities" is checked, uncheck all other checkboxes
-        if ($(this).is(':checked')) {
-            $('.commodity-checkbox').prop('checked', false);
-        }
-        updateSelectedCommodities();
-        filterTable();
-    });
-
-    // Update the selectedCommodityIds array based on the checkboxes
-    function updateSelectedCommodities() {
-        selectedCommodityIds = [];
-
-        if ($('#commodityCheckboxAll').is(':checked')) {
-            selectedCommodityIds.push('all');
-        } else {
-            $('.commodity-checkbox:checked').each(function() {
-                selectedCommodityIds.push($(this).val());
-            });
-        }
-    }
-
-
-
-        // Function to filter the table based on selected filters
-        function filterTable() {
-            var selectedBarangayIds = $('#barangayFilter').val();
-            var selectedStatus = $('#statusFilter').val();
-            var searchText = $('#search').val().toLowerCase();
-
-            $('#myTable tbody tr').each(function() {
-                var tr = $(this);
-                var trBarangayId = tr.data('barangay');
-                var trCommodities = tr.data('commodities').split(',').map(Number);
-                var trStatus = tr.data('status');
-                var trText = tr.text().toLowerCase();
-
-                var showRow = true;
-
-                if (selectedBarangayIds.length > 0 && selectedBarangayIds[0] !== '') {
-                    // Check if the row's barangay is in the selected barangays
-                    if (!selectedBarangayIds.includes(trBarangayId.toString())) {
-                        showRow = false;
-                    }
-                }
-
-                if (selectedStatus !== '' && selectedStatus != trStatus) {
-                    showRow = false;
-                }
-
-                if (searchText !== '' && !trText.includes(searchText)) {
-                    showRow = false;
-                }
-
-                if (selectedCommodityIds.length > 0 && !selectedCommodityIds.includes('all')) {
-                    // Check if the row's commodities match any of the selected commodities
-                    var hasSelectedCommodity = trCommodities.some(commodityId => selectedCommodityIds.includes(commodityId.toString()));
-
-                    if (!hasSelectedCommodity) {
-                showRow = false;
-            }
-
-                    if (hasSelectedCommodity) {
-                        // Update the displayed commodities in the table cell
-                        var displayedCommodities = trCommodities.filter(commodityId => selectedCommodityIds.includes(commodityId.toString())).map(commodityId => commodityMap[commodityId]);
-                        tr.find('td:eq(3)').html(displayedCommodities.join('<br>'));
-                    } else {
-                        // If the farmer doesn't have the selected commodities, show "No Data"
-                        tr.find('td:eq(3)').html('No Data');
-                    }
-                } else {
-                    // If no specific commodities are selected, show all the commodities for the farmer
-                    var allCommodities = trCommodities.map(commodityId => commodityMap[commodityId]);
-                    tr.find('td:eq(3)').html(allCommodities.length > 0 ? allCommodities.join('<br>') : 'No Data');
-                }
-
-                if (showRow) {
-                    tr.show();
-                } else {
-                    tr.hide();
-                }
-            });
-        }
-
-        // Add the event listener for changes in the filters
-        $('#barangayFilter, #statusFilter, #search').on('change keyup', function() {
-            filterTable();
-        });
-
-        // Initial filter when the page loads
-        filterTable();
-        updateCommoditiesFilterDisplay(); // Initial update of the displayed commodities in the filter
-    });
-</script>
 
 @endsection
+
