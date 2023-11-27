@@ -52,7 +52,21 @@
                             <a href="{{ url('create-add') }}" class="btn btn-primary">
                                 <i class="bi bi-plus"></i> Add Farmer
                             </a>
+                            <div class="float-end">
+                                <label for="idNumberSearch">ID Number:</label>
+                                <input type="text" id="idNumberSearch" class="form-control" placeholder="Search by ID Number">
+
+                                <label for="nameSearch">Name:</label>
+                                <input type="text" id="nameSearch" class="form-control" placeholder="Search by Name">
+
+                                <label for="farmSizeSearch">Farm Size:</label>
+                                <input type="text" id="farmSizeSearch" class="form-control" placeholder="Search by Farm Size">
+
+                                <label for="farmLocationSearch">Farm Location:</label>
+                                <input type="text" id="farmLocationSearch" class="form-control" placeholder="Search by Farm Location">
+                            </div>
                         </div>
+
 
                         {{-- <div class="row">
                             <div class="col-md-3" style="display: none;">
@@ -159,38 +173,43 @@
                                     // other DataTable options...
                                 });
 
-                                // Event handler for changes in the global search input
-                                $('#globalSearch').on('keyup', function () {
-                                    table.search(this.value).draw(); // Apply global search
-                                });
-
                                 // Event handlers for filter changes
                                 $('#barangayFilter, #commodityFilter, #statusFilter, #beneficiaryFilter').change(function () {
                                     updateTableFilters();
                                 });
 
-                                // Listen for changes in the global search input
-                                $('#myTable_filter input').on('keyup', function () {
+                                // Listen for changes in the individual search inputs
+                                $('#idNumberSearch, #nameSearch, #farmSizeSearch, #farmLocationSearch').on('keyup', function () {
                                     updateTableFilters();
                                 });
 
                                 function updateTableFilters() {
+                                    var idNumberSearch = $('#idNumberSearch').val().toLowerCase();
+                                    var nameSearch = $('#nameSearch').val().toLowerCase();
+                                    var farmSizeSearch = $('#farmSizeSearch').val().toLowerCase();
+                                    var farmLocationSearch = $('#farmLocationSearch').val().toLowerCase();
                                     var barangayFilter = $('#barangayFilter').val();
                                     var commodityFilter = $('#commodityFilter').val();
                                     var statusFilter = $('#statusFilter').val();
                                     var beneficiaryFilter = $('#beneficiaryFilter').val();
-                                    var globalSearchTerm = $('#globalSearch').val();
 
                                     // Use DataTables API to filter the table
                                     table
+                                        .columns(0).search(idNumberSearch)
+                                        .columns(1).search(nameSearch)
+                                        .columns(4).search(farmSizeSearch)
+                                        .columns(5).search(farmLocationSearch)
                                         .columns(2).search(barangayFilter)
                                         .columns(3).search(commodityFilter)
-                                        .columns(5).search(statusFilter === '' ? '' : '^' + statusFilter + '$', true, false)
-                                        .columns(4).search(beneficiaryFilter)
+                                        .columns(6).search(statusFilter === '' ? '' : '^' + statusFilter + '$', true, false)
+                                        .columns(7).search(beneficiaryFilter)
                                         .draw(); // Draw the table after applying filters
                                 }
                             });
                         </script>
+
+
+
 
 
 
