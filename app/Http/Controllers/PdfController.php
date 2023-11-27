@@ -35,6 +35,14 @@ class PdfController extends Controller
         if (!$farmersprofile) {
             abort(403);
         }
+
+
+        $path = 'assets/img/12345.jpg';
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $logo ='data:image/' . $type . ';base64,' . base64_encode($data);
+
+
         $pdf = Pdf::loadView('admin.pdf.pdf', [
             'farmersprofile' => $farmersprofile,
             'provinces' => $provinces,
@@ -46,6 +54,7 @@ class PdfController extends Controller
             'machine' => $machine,
             'crops' => $crops,
             'machineries' => $machineries,
+            'logo' => $logo
         ]);
 
 

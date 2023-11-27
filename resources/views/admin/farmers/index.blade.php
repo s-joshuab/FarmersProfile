@@ -61,52 +61,141 @@
                         </div> --}}
 
                         <div class="row d-flex justify-content-end mt-3">
-                            <div class="col-md-2">
-                                <div id="commoditiesFilterDisplay" style="display: none;"></div>
-                            </div>
-                            <div class="col-md-2">
-                                <select id="barangayFilter" class="form-select" aria-label="Barangay Filter">
-                                    <option value="">All Barangays</option>
-                                    @foreach ($barangays as $barangay)
-                                        <option value="{{ $barangay->id }}">{{ $barangay->barangays }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <label for="barangayFilter">Filter by Barangay:</label>
+                                    <select id="barangayFilter" class="form-control" onchange="updateTableForSelectedBarangay()">
+                                        <option value="">All Barangays</option>
+                                        <option value="Almeida">Almeida</option>
+                                        <option value="Antonino">Antonino</option>
+                                        <option value="Apatut">Apatut</option>
+                                        <option value="Ar-arampang">Ar-arampang</option>
+                                        <option value="Baracbac Este">Baracbac Este</option>
+                                        <option value="Baracbac Oeste">Baracbac Oeste</option>
+                                        <option value="Bet-ang">Bet-ang</option>
+                                        <option value="Bulbulala">Bulbulala</option>
+                                        <option value="Bungol">Bungol</option>
+                                        <option value="Butubut Este">Butubut Este</option>
+                                        <option value="Butubut Norte">Butubut Norte</option>
+                                        <option value="Butubut Oeste">Butubut Oeste</option>
+                                        <option value="Butubut Sur">Butubut Sur</option>
+                                        <option value="Cabuaan">Cabuaan</option>
+                                        <option value="Calliat">Calliat</option>
+                                        <option value="Calungbuyan">Calungbuyan</option>
+                                        <option value="Camiling">Camiling</option>
+                                        <option value="Dr. Camilo Osias">Dr. Camilo Osias</option>
+                                        <option value="Guinaburan">Guinaburan</option>
+                                        <option value="Masupe">Masupe</option>
+                                        <option value="Nagsabaran Norte">Nagsabaran Norte</option>
+                                        <option value="Nagsabaran Sur">Nagsabaran Sur</option>
+                                        <option value="Nalasin">Nalasin</option>
+                                        <option value="Napaset">Napaset</option>
+                                        <option value="Pa-o">Pa-o</option>
+                                        <option value="Pagbennecan">Pagbennecan</option>
+                                        <option value="Pagleddegan">Pagleddegan</option>
+                                        <option value="Pantar Norte">Pantar Norte</option>
+                                        <option value="Pantar Sur">Pantar Sur</option>
+                                        <option value="Paraoir">Paraoir</option>
+                                        <option value="Patpata">Patpata</option>
+                                        <option value="Sablut">Sablut</option>
+                                        <option value="San Pablo">San Pablo</option>
+                                        <option value="Sinapangan Norte">Sinapangan Norte</option>
+                                        <option value="Sinapangan Sur">Sinapangan Sur</option>
+                                        <option value="Tallipugo">Tallipugo</option>
+                                    </select>
+                                </div>
 
-                            <div class="col-md-2">
-                                <div class="dropdown" style="margin-left: 10px;">
-                                    <button class="btn btn-light dropdown-toggle" type="button" id="commoditiesDropdown" data-bs-toggle="dropdown" style="background-color: white; border: 1px solid #ccc;">
-                                        Commodities
-                                    </button>
+                                <div class="col-md-3">
+                                    <label for="commodityFilter">Filter by Commodities:</label>
+                                    <select id="commodityFilter" class="form-control" onchange="updateTableFilters()">
+                                        <option value="">All Commodities</option>
+                                        <option value="Rice">Rice</option>
+                                        <option value="Corn">Corn</option>
+                                        <option value="Tobacco">Tobacco</option>
+                                        <option value="Talong">Talong</option>
+                                        <option value="Okra">Okra</option>
+                                        <option value="Ampalaya">Ampalaya</option>
+                                        <option value="Sitaw">Sitaw</option>
+                                        <option value="Sili">Sili</option>
+                                        <option value="Kalabasa">Kalabasa</option>
+                                        <option value="Patola">Patola</option>
+                                        <option value="Upo">Upo</option>
+                                        <option value="Pechay">Pechay</option>
+                                        <option value="Monggo">Monggo</option>
+                                        <option value="Peanut">Peanut</option>
+                                        <option value="Camote">Camote</option>
+                                        <option value="Banana">Banana</option>
+                                        <option value="Others">Others</option>
+                                        <option value="Livestock">Livestock</option>
+                                        <option value="Poultry">Poultry</option>
+                                    </select>
+                                </div>
 
-                                    <ul class="dropdown-menu" aria-labelledby="commoditiesDropdown">
-                                        <li>
-                                            <input class="form-check-input" type="checkbox" value="all" id="commodityCheckboxAll">
-                                            <label class="form-check-label" for="commodityCheckboxAll">All Commodities</label>
-                                        </li>
-                                        @foreach ($commodities as $commodity)
-                                            <li>
-                                                <input class="form-check-input commodity-checkbox" type="checkbox" value="{{ $commodity->id }}" id="commodityCheckbox{{ $commodity->id }}">
-                                                <label class="form-check-label" for="commodityCheckbox{{ $commodity->id }}">{{ $commodity->commodities }}</label>
-                                            </li>
-                                        @endforeach
-                                    </ul>
+
+                                <div class="col-md-3">
+                                    <label for="statusFilter">Filter by Status:</label>
+                                    <select id="statusFilter" class="form-control">
+                                        <option value="">All Status</option>
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="beneficiaryFilter">Filter by 4ps Beneficiary:</label>
+                                    <select id="beneficiaryFilter" class="form-control">
+                                        <option value="">All Beneficiaries</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
                                 </div>
                             </div>
 
-                            <div class="col-md-2">
-                                <select name="statusFilter" id="statusFilter" class="form-select" aria-label="Status Filter">
-                                    <option value="">All Status</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
-                                </select>
-                            </div>
                         </div>
+                        <script>
+                            $(document).ready(function () {
+                                var table = $('#myTable').DataTable({
+                                    searching: true, // Enable DataTables search bar
+                                    // other DataTable options...
+                                });
+
+                                // Event handler for changes in the global search input
+                                $('#globalSearch').on('keyup', function () {
+                                    table.search(this.value).draw(); // Apply global search
+                                });
+
+                                // Event handlers for filter changes
+                                $('#barangayFilter, #commodityFilter, #statusFilter, #beneficiaryFilter').change(function () {
+                                    updateTableFilters();
+                                });
+
+                                // Listen for changes in the global search input
+                                $('#myTable_filter input').on('keyup', function () {
+                                    updateTableFilters();
+                                });
+
+                                function updateTableFilters() {
+                                    var barangayFilter = $('#barangayFilter').val();
+                                    var commodityFilter = $('#commodityFilter').val();
+                                    var statusFilter = $('#statusFilter').val();
+                                    var beneficiaryFilter = $('#beneficiaryFilter').val();
+                                    var globalSearchTerm = $('#globalSearch').val();
+
+                                    // Use DataTables API to filter the table
+                                    table
+                                        .columns(2).search(barangayFilter)
+                                        .columns(3).search(commodityFilter)
+                                        .columns(5).search(statusFilter === '' ? '' : '^' + statusFilter + '$', true, false)
+                                        .columns(4).search(beneficiaryFilter)
+                                        .draw(); // Draw the table after applying filters
+                                }
+                            });
+                        </script>
 
 
 
                         <div class="table-responsive mt-3">
-                            <table id="myTable" class="table table-bordered table-striped">
+                            <table id="myTable" class="table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th scope="col">ID Number</th>
@@ -186,57 +275,6 @@
         </div>
     </section>
 
-    <script>
-        $(document).ready(function () {
-            // DataTable initialization
-            var table = $('#myTable').DataTable();
-
-            // Function to update the table based on filter values
-            function updateTable() {
-                var barangayFilter = $('#barangayFilter').val();
-                var commodityFilter = $('.commodity-checkbox:checked').map(function () {
-                    return this.value;
-                }).get().join(',');
-                var statusFilter = $('#statusFilter').val();
-
-                // Make an Ajax request to the server to get filtered data
-                $.ajax({
-                    url: '/path-to-farmdata-endpoint', // Replace with the actual URL of your farmdata endpoint
-                    method: 'GET',
-                    data: {
-                        barangayFilter: barangayFilter,
-                        commoditiesFilter: commodityFilter,
-                        statusFilter: statusFilter
-                    },
-                    success: function (data) {
-                        // Clear and redraw the DataTable with the updated data
-                        table.clear().rows.add(data).draw();
-                    },
-                    error: function (error) {
-                        console.error('Error fetching data:', error);
-                    }
-                });
-            }
-
-            // Event listener to handle changes in filters
-            $('#barangayFilter, #commodityFilter, #statusFilter').on('change', function () {
-                updateTable();
-            });
-
-            // Event listener for checkbox "All Commodities"
-            $('#commodityCheckboxAll').on('change', function () {
-                $('.commodity-checkbox').prop('checked', $(this).prop('checked')).change();
-                updateTable();
-            });
-
-            // Event listener for individual commodity checkboxes
-            $('.commodity-checkbox').on('change', function () {
-                var allChecked = $('.commodity-checkbox:checked').length === $('.commodity-checkbox').length;
-                $('#commodityCheckboxAll').prop('checked', allChecked).change();
-                updateTable();
-            });
-        });
-    </script>
 
 
 

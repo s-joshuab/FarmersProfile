@@ -47,6 +47,9 @@
     </style>
 </head>
 <body>
+
+
+    <img src="{{ $logo }}" alt="" width="150" height="150">
     <div class="center-text">
         {{-- <img src="../asset" alt="Logo" style="height: 50px; width: 50px; margin-right: 10px;"> --}}
         <h1 class="center-text" style="display: inline-block;">Balaoan Farmers Registry</h1>

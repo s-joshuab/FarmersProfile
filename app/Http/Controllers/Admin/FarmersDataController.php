@@ -49,20 +49,27 @@ class FarmersDataController extends Controller
     public function farmdata(Request $request)
     {
         $selectedBarangay = $request->input('barangayFilter');
-        $selectedCommodities = $request->input('commoditiesFilter');
+        $selectedCommodities = $request->input('commodityFilter');
         $selectedStatus = $request->input('statusFilter');
 
         $farmersQuery = FarmersProfile::query();
 
+        // Filter by selected barangays
         if ($selectedBarangay) {
             $farmersQuery->where('barangays_id', $selectedBarangay);
         }
 
+        // Filter by selected status
         if ($selectedStatus) {
             $farmersQuery->where('status', $selectedStatus);
         }
 
-        $farmers = $farmersQuery->get();
+        // Additional filtering logic for commodities, if needed
+        if ($selectedCommodities) {
+            $farmersQuery->whereHas('crops', function ($query) use ($selectedCommodities) {
+                $query->whereIn('commodities_id', $selectedCommodities);
+            });
+        }
 
         $farmers = $farmersQuery->get();
         $barangays = Barangays::all();
@@ -71,6 +78,7 @@ class FarmersDataController extends Controller
 
         return view('admin.farmers.index', compact('farm', 'farmers', 'barangays', 'commodities', 'selectedBarangay', 'selectedCommodities', 'selectedStatus'));
     }
+
 
 
 
