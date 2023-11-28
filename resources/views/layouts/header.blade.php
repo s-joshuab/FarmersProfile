@@ -15,8 +15,8 @@
     <link href="../../assets/css/bootstrap1.css" rel="stylesheet">
 <!-- Google Fonts -->
 <link href="https://fonts.gstatic.com" rel="preconnect">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+{{-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet"> --}}
+{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"> --}}
 
 <!-- Vendor CSS Files -->
 
@@ -27,19 +27,20 @@
 <link href="../../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
 <link href="../../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
 <link href="../../assets/vendor/simple-datatables/style.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> --}}
 
 <!-- Alphine -->
 <script defer src="{{ asset('assets/js/defersrc.js') }}"></script>
 <script src="{{ asset('assets/js/jquery-3.6.3.min.js') }}"></script>
 <!-- jQuery -->
 <script src="{{ asset('assets/js/app.js') }}"></script>
-
+<script src="{{ asset('assets/js/boostrap@5.js') }}"></script>
 <!-- Template Main CSS File -->
 <link href="../../assets/css/style.css" rel="stylesheet">
 <link href="../../assets/css/id.css" rel="stylesheet">
 <link href="../../assets/css/awesome.css" rel="stylesheet">
-
+<link href="../../assets/css/awesomee.css" rel="stylesheet">
+<link href="../../assets/css/fonts.css" rel="stylesheet">
 @livewireStyles
   </head>
 {{--

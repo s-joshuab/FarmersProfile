@@ -1,18 +1,17 @@
 @extends('layouts.index')
 
 @section('content')
+    @if (session()->has('message'))
+        <div id="success-alert" class="alert alert-success text-center">
+            {{ session('message') }}
+        </div>
+    @endif
 
-@if (session()->has('message'))
-<div id="success-alert" class="alert alert-success text-center">
-    {{ session('message') }}
-</div>
-@endif
-
-@if (session()->has('error'))
-<div id="error-alert" class="alert alert-danger">
-    {{ session('error') }}
-</div>
-@endif
+    @if (session()->has('error'))
+        <div id="error-alert" class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
 
 
     <script>
@@ -43,143 +42,156 @@
         </nav>
     </div>
     <!-- End Page Title -->
+
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="idNumberSearch">ID Number:</label>
+                    <input type="text" id="idNumberSearch" class="form-control" placeholder="Search by ID Number">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="nameSearch">Name:</label>
+                    <input type="text" id="nameSearch" class="form-control" placeholder="Search by Name">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="farmSizeSearch">Farm Size:</label>
+                    <input type="text" id="farmSizeSearch" class="form-control" placeholder="Search by Farm Size">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="farmLocationSearch">Farm Location:</label>
+                    <input type="text" id="farmLocationSearch" class="form-control"
+                        placeholder="Search by Farm Location">
+                </div>
+            </div>
+
+
+            {{-- <div class="row">
+        <div class="col-md-3" style="display: none;">
+            <input type="text" id="search" class="form-control" placeholder="Search">
+        </div>
+    </div> --}}
+
+            <div class="row mt-3">
+                <div class="row mt-3">
+                    <div class="col-md-3">
+                        <label for="barangayFilter">Filter by Barangay:</label>
+                        <select id="barangayFilter" class="form-control" onchange="updateTableForSelectedBarangay()">
+                            <option value="">All Barangays</option>
+                            <option value="Almeida">Almeida</option>
+                            <option value="Antonino">Antonino</option>
+                            <option value="Apatut">Apatut</option>
+                            <option value="Ar-arampang">Ar-arampang</option>
+                            <option value="Baracbac Este">Baracbac Este</option>
+                            <option value="Baracbac Oeste">Baracbac Oeste</option>
+                            <option value="Bet-ang">Bet-ang</option>
+                            <option value="Bulbulala">Bulbulala</option>
+                            <option value="Bungol">Bungol</option>
+                            <option value="Butubut Este">Butubut Este</option>
+                            <option value="Butubut Norte">Butubut Norte</option>
+                            <option value="Butubut Oeste">Butubut Oeste</option>
+                            <option value="Butubut Sur">Butubut Sur</option>
+                            <option value="Cabuaan">Cabuaan</option>
+                            <option value="Calliat">Calliat</option>
+                            <option value="Calungbuyan">Calungbuyan</option>
+                            <option value="Camiling">Camiling</option>
+                            <option value="Dr. Camilo Osias">Dr. Camilo Osias</option>
+                            <option value="Guinaburan">Guinaburan</option>
+                            <option value="Masupe">Masupe</option>
+                            <option value="Nagsabaran Norte">Nagsabaran Norte</option>
+                            <option value="Nagsabaran Sur">Nagsabaran Sur</option>
+                            <option value="Nalasin">Nalasin</option>
+                            <option value="Napaset">Napaset</option>
+                            <option value="Pa-o">Pa-o</option>
+                            <option value="Pagbennecan">Pagbennecan</option>
+                            <option value="Pagleddegan">Pagleddegan</option>
+                            <option value="Pantar Norte">Pantar Norte</option>
+                            <option value="Pantar Sur">Pantar Sur</option>
+                            <option value="Paraoir">Paraoir</option>
+                            <option value="Patpata">Patpata</option>
+                            <option value="Sablut">Sablut</option>
+                            <option value="San Pablo">San Pablo</option>
+                            <option value="Sinapangan Norte">Sinapangan Norte</option>
+                            <option value="Sinapangan Sur">Sinapangan Sur</option>
+                            <option value="Tallipugo">Tallipugo</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="commodityFilter">Filter by Commodities:</label>
+                        <select id="commodityFilter" class="form-control" onchange="updateTableFilters()">
+                            <option value="">All Commodities</option>
+                            <option value="Rice">Rice</option>
+                            <option value="Corn">Corn</option>
+                            <option value="Tobacco">Tobacco</option>
+                            <option value="Talong">Talong</option>
+                            <option value="Okra">Okra</option>
+                            <option value="Ampalaya">Ampalaya</option>
+                            <option value="Sitaw">Sitaw</option>
+                            <option value="Sili">Sili</option>
+                            <option value="Kalabasa">Kalabasa</option>
+                            <option value="Patola">Patola</option>
+                            <option value="Upo">Upo</option>
+                            <option value="Pechay">Pechay</option>
+                            <option value="Monggo">Monggo</option>
+                            <option value="Peanut">Peanut</option>
+                            <option value="Camote">Camote</option>
+                            <option value="Banana">Banana</option>
+                            <option value="Others">Others</option>
+                            <option value="Livestock">Livestock</option>
+                            <option value="Poultry">Poultry</option>
+                        </select>
+                    </div>
+
+
+                    <div class="col-md-3">
+                        <label for="statusFilter">Filter by Status:</label>
+                        <select id="statusFilter" class="form-control">
+                            <option value="">All Status</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="beneficiaryFilter">Filter by 4ps Beneficiary:</label>
+                        <select id="beneficiaryFilter" class="form-control">
+                            <option value="">All Beneficiaries</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="add-employee mb-3 mt-3">
-                            <a href="{{ url('create-add') }}" class="btn btn-primary">
-                                <i class="bi bi-plus"></i> Add Farmer
-                            </a>
-                            <div class="float-end">
-                                <label for="idNumberSearch">ID Number:</label>
-                                <input type="text" id="idNumberSearch" class="form-control" placeholder="Search by ID Number">
 
-                                <label for="nameSearch">Name:</label>
-                                <input type="text" id="nameSearch" class="form-control" placeholder="Search by Name">
-
-                                <label for="farmSizeSearch">Farm Size:</label>
-                                <input type="text" id="farmSizeSearch" class="form-control" placeholder="Search by Farm Size">
-
-                                <label for="farmLocationSearch">Farm Location:</label>
-                                <input type="text" id="farmLocationSearch" class="form-control" placeholder="Search by Farm Location">
-                            </div>
-                        </div>
-
-
-                        {{-- <div class="row">
-                            <div class="col-md-3" style="display: none;">
-                                <input type="text" id="search" class="form-control" placeholder="Search">
-                            </div>
-                        </div> --}}
-
-                        <div class="row d-flex justify-content-end mt-3">
-                            <div class="row mt-3">
-                                <div class="col-md-3">
-                                    <label for="barangayFilter">Filter by Barangay:</label>
-                                    <select id="barangayFilter" class="form-control" onchange="updateTableForSelectedBarangay()">
-                                        <option value="">All Barangays</option>
-                                        <option value="Almeida">Almeida</option>
-                                        <option value="Antonino">Antonino</option>
-                                        <option value="Apatut">Apatut</option>
-                                        <option value="Ar-arampang">Ar-arampang</option>
-                                        <option value="Baracbac Este">Baracbac Este</option>
-                                        <option value="Baracbac Oeste">Baracbac Oeste</option>
-                                        <option value="Bet-ang">Bet-ang</option>
-                                        <option value="Bulbulala">Bulbulala</option>
-                                        <option value="Bungol">Bungol</option>
-                                        <option value="Butubut Este">Butubut Este</option>
-                                        <option value="Butubut Norte">Butubut Norte</option>
-                                        <option value="Butubut Oeste">Butubut Oeste</option>
-                                        <option value="Butubut Sur">Butubut Sur</option>
-                                        <option value="Cabuaan">Cabuaan</option>
-                                        <option value="Calliat">Calliat</option>
-                                        <option value="Calungbuyan">Calungbuyan</option>
-                                        <option value="Camiling">Camiling</option>
-                                        <option value="Dr. Camilo Osias">Dr. Camilo Osias</option>
-                                        <option value="Guinaburan">Guinaburan</option>
-                                        <option value="Masupe">Masupe</option>
-                                        <option value="Nagsabaran Norte">Nagsabaran Norte</option>
-                                        <option value="Nagsabaran Sur">Nagsabaran Sur</option>
-                                        <option value="Nalasin">Nalasin</option>
-                                        <option value="Napaset">Napaset</option>
-                                        <option value="Pa-o">Pa-o</option>
-                                        <option value="Pagbennecan">Pagbennecan</option>
-                                        <option value="Pagleddegan">Pagleddegan</option>
-                                        <option value="Pantar Norte">Pantar Norte</option>
-                                        <option value="Pantar Sur">Pantar Sur</option>
-                                        <option value="Paraoir">Paraoir</option>
-                                        <option value="Patpata">Patpata</option>
-                                        <option value="Sablut">Sablut</option>
-                                        <option value="San Pablo">San Pablo</option>
-                                        <option value="Sinapangan Norte">Sinapangan Norte</option>
-                                        <option value="Sinapangan Sur">Sinapangan Sur</option>
-                                        <option value="Tallipugo">Tallipugo</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <label for="commodityFilter">Filter by Commodities:</label>
-                                    <select id="commodityFilter" class="form-control" onchange="updateTableFilters()">
-                                        <option value="">All Commodities</option>
-                                        <option value="Rice">Rice</option>
-                                        <option value="Corn">Corn</option>
-                                        <option value="Tobacco">Tobacco</option>
-                                        <option value="Talong">Talong</option>
-                                        <option value="Okra">Okra</option>
-                                        <option value="Ampalaya">Ampalaya</option>
-                                        <option value="Sitaw">Sitaw</option>
-                                        <option value="Sili">Sili</option>
-                                        <option value="Kalabasa">Kalabasa</option>
-                                        <option value="Patola">Patola</option>
-                                        <option value="Upo">Upo</option>
-                                        <option value="Pechay">Pechay</option>
-                                        <option value="Monggo">Monggo</option>
-                                        <option value="Peanut">Peanut</option>
-                                        <option value="Camote">Camote</option>
-                                        <option value="Banana">Banana</option>
-                                        <option value="Others">Others</option>
-                                        <option value="Livestock">Livestock</option>
-                                        <option value="Poultry">Poultry</option>
-                                    </select>
-                                </div>
-
-
-                                <div class="col-md-3">
-                                    <label for="statusFilter">Filter by Status:</label>
-                                    <select id="statusFilter" class="form-control">
-                                        <option value="">All Status</option>
-                                        <option value="Active">Active</option>
-                                        <option value="Inactive">Inactive</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <label for="beneficiaryFilter">Filter by 4ps Beneficiary:</label>
-                                    <select id="beneficiaryFilter" class="form-control">
-                                        <option value="">All Beneficiaries</option>
-                                        <option value="Yes">Yes</option>
-                                        <option value="No">No</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                        </div>
                         <script>
-                            $(document).ready(function () {
+                            $(document).ready(function() {
                                 var table = $('#myTable').DataTable({
-                                    searching: true, // Enable DataTables search bar
+                                    searching: false, // Enable DataTables search bar
                                     // other DataTable options...
                                 });
 
                                 // Event handlers for filter changes
-                                $('#barangayFilter, #commodityFilter, #statusFilter, #beneficiaryFilter').change(function () {
+                                $('#barangayFilter, #commodityFilter, #statusFilter, #beneficiaryFilter').change(function() {
                                     updateTableFilters();
                                 });
 
                                 // Listen for changes in the individual search inputs
-                                $('#idNumberSearch, #nameSearch, #farmSizeSearch, #farmLocationSearch').on('keyup', function () {
+                                $('#idNumberSearch, #nameSearch, #farmSizeSearch, #farmLocationSearch').on('keyup', function() {
                                     updateTableFilters();
                                 });
 
@@ -233,15 +245,15 @@
                                         <tr data-barangay="{{ $farmer->barangay->id }}"
                                             data-commodities="{{ implode(',', $farmer->crops->pluck('commodities_id')->toArray()) }}"
                                             data-status="{{ $farmer->status }}">
-                                              <td>
-                                            @if($farmer->farmersNumbers->isNotEmpty())
-                                                <a href="{{ route('farmers.showed', ['id' => $farmer->id]) }}">
-                                                    {{ $farmer->farmersNumbers->first()->farmersnumber }}
-                                                </a>
-                                            @else
-                                                No Data
-                                            @endif
-                                        </td>
+                                            <td>
+                                                @if ($farmer->farmersNumbers->isNotEmpty())
+                                                    <a href="{{ route('farmers.showed', ['id' => $farmer->id]) }}">
+                                                        {{ $farmer->farmersNumbers->first()->farmersnumber }}
+                                                    </a>
+                                                @else
+                                                    No Data
+                                                @endif
+                                            </td>
                                             <td>{{ $farmer->fname }} {{ $farmer->sname }}</td>
                                             <td>{{ $farmer->barangay?->barangays ?? 'No Data' }}</td>
                                             <td>
@@ -251,10 +263,16 @@
 
                                                     if (!empty($selectedCommodities)) {
                                                         $selectedFarmerCommodities = array_intersect($farmerCommodities, $selectedCommodities);
-                                                        $displayedCommodities = $commodities->whereIn('id', $selectedFarmerCommodities)->pluck('commodities')->toArray();
+                                                        $displayedCommodities = $commodities
+                                                            ->whereIn('id', $selectedFarmerCommodities)
+                                                            ->pluck('commodities')
+                                                            ->toArray();
                                                         echo implode('<br>', $displayedCommodities);
                                                     } elseif (!empty($farmerCommodities)) {
-                                                        $allCommodities = $commodities->whereIn('id', $farmerCommodities)->pluck('commodities')->toArray();
+                                                        $allCommodities = $commodities
+                                                            ->whereIn('id', $farmerCommodities)
+                                                            ->pluck('commodities')
+                                                            ->toArray();
                                                         echo implode('<br>', $allCommodities);
                                                     } else {
                                                         echo 'No Data';
@@ -262,23 +280,23 @@
                                                 @endphp
                                             </td>
                                             <td>
-                                            @if ($farmer->crops->isNotEmpty())
-                                                @foreach ($farmer->crops as $crop)
-                                                    {{ $crop->farm_size ?? 'No Data' }}<br>
-                                                @endforeach
-                                            @else
-                                                No Data
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($farmer->crops->isNotEmpty())
-                                                @foreach ($farmer->crops as $crop)
-                                                    {{ $crop->farm_location ?? 'No Data' }}<br>
-                                                @endforeach
-                                            @else
-                                                No Data
-                                            @endif
-                                        </td>
+                                                @if ($farmer->crops->isNotEmpty())
+                                                    @foreach ($farmer->crops as $crop)
+                                                        {{ $crop->farm_size ?? 'No Data' }}<br>
+                                                    @endforeach
+                                                @else
+                                                    No Data
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($farmer->crops->isNotEmpty())
+                                                    @foreach ($farmer->crops as $crop)
+                                                        {{ $crop->farm_location ?? 'No Data' }}<br>
+                                                    @endforeach
+                                                @else
+                                                    No Data
+                                                @endif
+                                            </td>
                                             <td>{{ $farmer->benefits }}</td>
                                             <td>
                                                 @if ($farmer->status === 'Active')
@@ -324,57 +342,53 @@
             /* Adjust the margin as needed */
         }
 
-         /* Style the table */
-    #myTable {
-        width: 100%;
-        border-collapse: collapse;
-        border-spacing: 0;
-    }
+        /* Style the table */
+        #myTable {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
 
-    #myTable th,
-    #myTable td {
-        padding: 10px;
-        text-align: center;
-        border: 1px solid #ccc;
-    }
+        #myTable th,
+        #myTable td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
 
-    #myTable th {
-        background-color: #f2f2f2;
-    }
+        #myTable th {
+            background-color: #f2f2f2;
+        }
 
-    /* Style the table header */
-    #myTable thead {
-        font-weight: bold;
-    }
+        /* Style the table header */
+        #myTable thead {
+            font-weight: bold;
+        }
 
-    /* Style the "Add Farmer" button */
-    .add-employee a.btn {
-        background-color: #007bff;
-        color: #fff;
-    }
+        /* Style the "Add Farmer" button */
+        .add-employee a.btn {
+            background-color: #007bff;
+            color: #fff;
+        }
 
-    .add-employee a.btn:hover {
-        background-color: #0056b3;
-    }
+        .add-employee a.btn:hover {
+            background-color: #0056b3;
+        }
 
-    /* Style the action buttons */
-    .btn-group .btn {
-        padding: 5px 10px;
-        margin-right: 5px;
-        border: none;
-    }
+        /* Style the action buttons */
+        .btn-group .btn {
+            padding: 5px 10px;
+            margin-right: 5px;
+            border: none;
+        }
 
-    /* Style the status badges */
-    .badge.bg-success {
-        background-color: #28a745;
-    }
+        /* Style the status badges */
+        .badge.bg-success {
+            background-color: #28a745;
+        }
 
-    .badge.bg-danger {
-        background-color: #dc3545;
-    }
+        .badge.bg-danger {
+            background-color: #dc3545;
+        }
     </style>
-
-
-
 @endsection
-

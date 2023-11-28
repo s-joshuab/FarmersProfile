@@ -32,8 +32,8 @@
 <script src="../../assets/vendor/simple-datatables/simple-datatables.js"></script>
 <script src="../../assets/vendor/tinymce/tinymce.min.js"></script>
 <script src="../../assets/vendor/php-email-form/validate.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.10.0/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.10.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script> --}}
 
 <!-- Template Main JS File -->
 <script src="../../assets/js/main.js"></script>
