@@ -181,7 +181,7 @@
                         <script>
                             $(document).ready(function() {
                                 var table = $('#myTable').DataTable({
-                                    searching: false, // Enable DataTables search bar
+                                    searching: true, // Enable DataTables search bar
                                     // other DataTable options...
                                 });
 

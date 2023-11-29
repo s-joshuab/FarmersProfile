@@ -249,7 +249,7 @@ class SecretaryDataController extends Controller
         $selectedCommodities = $request->input('crops', []);
         $farmSizes = $request->input('farm_size', []);
         $farmLocations = $request->input('farm_location', []);
-
+        $barangaysId = $request->input('barangays_id', null);
 
         if (empty($selectedCommodities)) {
             // If no commodities are selected, save null values
@@ -257,6 +257,7 @@ class SecretaryDataController extends Controller
                 'commodities_id' => null,
                 'farm_size' => null,
                 'farm_location' => null,
+                'barangays_id' => $barangaysId,
             ]);
         } else {
             // If commodities are selected, loop through them and save the data
@@ -265,6 +266,7 @@ class SecretaryDataController extends Controller
                     'commodities_id' => $commodityId,
                     'farm_size' => $farmSizes[$commodityId],
                     'farm_location' => $farmLocations[$commodityId],
+                    'barangays_id' => $barangaysId,
                 ]);
             }
         }
@@ -474,29 +476,29 @@ class SecretaryDataController extends Controller
         $selectedCommodities = $request->input('crops', []);
         $farmSizes = $request->input('farm_size', []);
         $farmLocations = $request->input('farm_location', []);
+        $barangaysId = $request->input('barangays_id', null);
 
-        // Delete old crops data not present in the current input
-        $farmersprofile->crops()
-            ->whereNotIn('commodities_id', $selectedCommodities)
-            ->delete();
+        // Delete existing records related to the current farmersprofile
+        $farmersprofile->crops()->delete();
 
-        foreach ($selectedCommodities as $id => $commodityId) {
-            $cropData = [
-                'commodities_id' => $commodityId,
-                'farm_size' => $farmSizes[$id],
-                'farm_location' => $farmLocations[$id],
-            ];
-
-            $farmersprofile->crops()->updateOrCreate(
-                ['commodities_id' => $commodityId],
-                $cropData
-            );
-
-            // Update or store farm_size and farm_location in the FarmersProfile itself
-            $farmersprofile->update([
-                'farm_size' => $farmSizes[$id],
-                'farm_location' => $farmLocations[$id],
+        if (empty($selectedCommodities)) {
+            // If no commodities are selected, save null values
+            $farmersprofile->crops()->create([
+                'commodities_id' => null,
+                'farm_size' => null,
+                'farm_location' => null,
+                'barangays_id' => $barangaysId,
             ]);
+        } else {
+            // If commodities are selected, loop through them and save the data
+            foreach ($selectedCommodities as $id => $commodityId) {
+                $farmersprofile->crops()->create([
+                    'commodities_id' => $commodityId,
+                    'farm_size' => $farmSizes[$commodityId],
+                    'farm_location' => $farmLocations[$commodityId],
+                    'barangays_id' => $barangaysId,
+                ]);
+            }
         }
 
         $selectedMachineries = $request->input('machineries', []);

@@ -152,6 +152,10 @@
                             </div>
 
                         </div>
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+                        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+
                         <script>
                             $(document).ready(function () {
                                 var table = $('#myTable').DataTable({
@@ -175,20 +179,32 @@
                                 });
 
                                 function updateTableFilters() {
-                                    var barangayFilter = $('#barangayFilter').val();
-                                    var commodityFilter = $('#commodityFilter').val();
-                                    var statusFilter = $('#statusFilter').val();
-                                    var beneficiaryFilter = $('#beneficiaryFilter').val();
-                                    var globalSearchTerm = $('#globalSearch').val();
+    var barangayFilter = $('#barangayFilter').val();
+    var commodityFilter = $('#commodityFilter').val();
+    var statusFilter = $('#statusFilter').val();
+    var beneficiaryFilter = $('#beneficiaryFilter').val();
+    var globalSearchTerm = $('#globalSearch').val();
 
-                                    // Use DataTables API to filter the table
-                                    table
-                                        .columns(2).search(barangayFilter)
-                                        .columns(3).search(commodityFilter)
-                                        .columns(5).search(statusFilter === '' ? '' : '^' + statusFilter + '$', true, false)
-                                        .columns(4).search(beneficiaryFilter)
-                                        .draw(); // Draw the table after applying filters
-                                }
+    // Use DataTables API to filter the table
+    table
+        .columns(2).search(barangayFilter)
+        .columns(3).search(commodityFilter)
+        .columns(5).search(statusFilter === '' ? '' : '^' + statusFilter + '$', true, false)
+        .columns(4).search(beneficiaryFilter)
+        .draw();
+
+    // Show or hide commodities based on the filter
+    if (commodityFilter === '' || commodityFilter === 'All Commodities') {
+        $('.commodities-td span').show();
+    } else {
+        var selectedCommodities = commodityFilter.split(',');
+        $('.commodities-td span').hide().filter(function () {
+            return selectedCommodities.indexOf($(this).text()) !== -1;
+        }).show();
+    }
+}
+
+
                             });
                         </script>
 
@@ -215,24 +231,31 @@
                                             <td>{{ $farmer->farmersNumbers?->first()?->farmersnumber ?? 'No Data' }}</td>
                                             <td>{{ $farmer->fname }} {{ $farmer->sname }}</td>
                                             <td>{{ $farmer->barangay?->barangays ?? 'No Data' }}</td>
-                                            <td>
+                                            <td class="commodities-td">
                                                 @php
                                                     $farmerCommodities = $farmer->crops->pluck('commodities_id')->toArray();
                                                     $selectedCommodities = $selectedCommodities ?? [];
 
-                                                    if (!empty($selectedCommodities)) {
+                                                    if (!empty($selectedCommodities) && $selectedCommodities[0] !== '') {
+                                                        // Only display selected commodities
                                                         $selectedFarmerCommodities = array_intersect($farmerCommodities, $selectedCommodities);
                                                         $displayedCommodities = $commodities->whereIn('id', $selectedFarmerCommodities)->pluck('commodities')->toArray();
-                                                        echo implode('<br>', $displayedCommodities);
+                                                        foreach ($displayedCommodities as $commodity) {
+                                                            echo '<span class="commodity">' . $commodity . '</span><br>';
+
+                                                        }
                                                     } elseif (!empty($farmerCommodities)) {
+                                                        // Display all commodities
                                                         $allCommodities = $commodities->whereIn('id', $farmerCommodities)->pluck('commodities')->toArray();
-                                                        echo implode('<br>', $allCommodities);
+                                                        foreach ($allCommodities as $commodity) {
+                                                            echo '<span class="commodity">' . $commodity . '</span><br>';
+
+                                                        }
                                                     } else {
                                                         echo 'No Data';
                                                     }
                                                 @endphp
                                             </td>
-
                                             <td>{{ $farmer->benefits }}</td>
                                             <td>
                                                 @if ($farmer->status === 'Active')

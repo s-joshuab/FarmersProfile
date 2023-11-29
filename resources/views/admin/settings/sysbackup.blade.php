@@ -25,7 +25,7 @@
                     @csrf
                     <div class="d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary btn-backup">
-                            Perform Database Backup
+                            Database Backup
                             <i class="bi bi-cloud-upload ml-2"></i>
                         </button>
                     </div>
@@ -35,7 +35,7 @@
     </div>
 </div>
 
-<div class="d-flex justify-content-center align-items-center mt-4">
+{{-- <div class="d-flex justify-content-center align-items-center mt-4">
     <div class="col-lg-6">
         <div class="card">
             <div class="card-body text-center">
@@ -61,7 +61,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 
 

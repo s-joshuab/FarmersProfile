@@ -71,6 +71,11 @@ class FarmersDataController extends Controller
             });
         }
 
+        // Echo the SQL query
+        // $sql = $farmersQuery->toSql();
+        // dd($sql); // Remove or move this line to an appropriate place if you want to see the SQL query
+
+        // Fetch data
         $farmers = $farmersQuery->get();
         $barangays = Barangays::all();
         $commodities = Commodities::all();
@@ -78,6 +83,7 @@ class FarmersDataController extends Controller
 
         return view('admin.farmers.index', compact('farm', 'farmers', 'barangays', 'commodities', 'selectedBarangay', 'selectedCommodities', 'selectedStatus'));
     }
+
 
 
 
@@ -105,6 +111,7 @@ class FarmersDataController extends Controller
 
     public function generate($id)
     {
+        $civilStatusOptions = Status::all();
         $users = User::all();
         $ids = [$id];
         $farmers = FarmersProfile::findOrFail($id);
@@ -113,7 +120,7 @@ class FarmersDataController extends Controller
             ->causedBy(auth()->user()) // Assuming you're logged in
             ->performedOn($farmers) // The user being created
             ->log('View/Generate Farmer ID');
-        return view('admin.farmers.id', compact('farmers', 'ids','users'));
+        return view('admin.farmers.id', compact('farmers', 'ids','users', 'civilStatusOptions'));
     }
 
        // public function getMunicipalities($province_id)

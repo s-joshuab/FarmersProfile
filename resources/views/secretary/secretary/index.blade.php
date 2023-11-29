@@ -49,68 +49,176 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="add-employee mb-3 mt-3">
-                            <a href="{{ url('add') }}" class="btn btn-primary">
+                            <a href="{{ url('create-add') }}" class="btn btn-primary">
                                 <i class="bi bi-plus"></i> Add Farmer
                             </a>
                         </div>
 
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col-md-3" style="display: none;">
                                 <input type="text" id="search" class="form-control" placeholder="Search">
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="row d-flex justify-content-end mt-3">
-                            <div class="col-md-2">
-                                <div id="commoditiesFilterDisplay" style="display: none;"></div>
-                            </div>
-                            <div class="col-md-2">
-                                <select id="barangayFilter" class="form-select" style="display: none;" aria-label="Barangay Filter">
-                                    <option value="">All Barangays</option>
-                                    @foreach ($barangays as $barangay)
-                                        <option value="{{ $barangay->id }}">{{ $barangay->barangays }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <div class="row mt-3">
+                                {{-- <div class="col-md-3">
+                                    <label for="barangayFilter">Filter by Barangay:</label>
+                                    <select id="barangayFilter" class="form-control" onchange="updateTableForSelectedBarangay()">
+                                        <option value="">All Barangays</option>
+                                        <option value="Almeida">Almeida</option>
+                                        <option value="Antonino">Antonino</option>
+                                        <option value="Apatut">Apatut</option>
+                                        <option value="Ar-arampang">Ar-arampang</option>
+                                        <option value="Baracbac Este">Baracbac Este</option>
+                                        <option value="Baracbac Oeste">Baracbac Oeste</option>
+                                        <option value="Bet-ang">Bet-ang</option>
+                                        <option value="Bulbulala">Bulbulala</option>
+                                        <option value="Bungol">Bungol</option>
+                                        <option value="Butubut Este">Butubut Este</option>
+                                        <option value="Butubut Norte">Butubut Norte</option>
+                                        <option value="Butubut Oeste">Butubut Oeste</option>
+                                        <option value="Butubut Sur">Butubut Sur</option>
+                                        <option value="Cabuaan">Cabuaan</option>
+                                        <option value="Calliat">Calliat</option>
+                                        <option value="Calungbuyan">Calungbuyan</option>
+                                        <option value="Camiling">Camiling</option>
+                                        <option value="Dr. Camilo Osias">Dr. Camilo Osias</option>
+                                        <option value="Guinaburan">Guinaburan</option>
+                                        <option value="Masupe">Masupe</option>
+                                        <option value="Nagsabaran Norte">Nagsabaran Norte</option>
+                                        <option value="Nagsabaran Sur">Nagsabaran Sur</option>
+                                        <option value="Nalasin">Nalasin</option>
+                                        <option value="Napaset">Napaset</option>
+                                        <option value="Pa-o">Pa-o</option>
+                                        <option value="Pagbennecan">Pagbennecan</option>
+                                        <option value="Pagleddegan">Pagleddegan</option>
+                                        <option value="Pantar Norte">Pantar Norte</option>
+                                        <option value="Pantar Sur">Pantar Sur</option>
+                                        <option value="Paraoir">Paraoir</option>
+                                        <option value="Patpata">Patpata</option>
+                                        <option value="Sablut">Sablut</option>
+                                        <option value="San Pablo">San Pablo</option>
+                                        <option value="Sinapangan Norte">Sinapangan Norte</option>
+                                        <option value="Sinapangan Sur">Sinapangan Sur</option>
+                                        <option value="Tallipugo">Tallipugo</option>
+                                    </select>
+                                </div> --}}
 
-                            <div class="col-md-2">
-                                <div class="dropdown" style="margin-left: 10px;">
-                                    <button class="btn btn-light dropdown-toggle" type="button" id="commoditiesDropdown" data-bs-toggle="dropdown" style="background-color: white; border: 1px solid #ccc;">
-                                        Commodities
-                                    </button>
+                                <div class="col-md-3">
+                                    <label for="commodityFilter">Filter by Commodities:</label>
+                                    <select id="commodityFilter" class="form-control" onchange="updateTableFilters()">
+                                        <option value="">All Commodities</option>
+                                        <option value="Rice">Rice</option>
+                                        <option value="Corn">Corn</option>
+                                        <option value="Tobacco">Tobacco</option>
+                                        <option value="Talong">Talong</option>
+                                        <option value="Okra">Okra</option>
+                                        <option value="Ampalaya">Ampalaya</option>
+                                        <option value="Sitaw">Sitaw</option>
+                                        <option value="Sili">Sili</option>
+                                        <option value="Kalabasa">Kalabasa</option>
+                                        <option value="Patola">Patola</option>
+                                        <option value="Upo">Upo</option>
+                                        <option value="Pechay">Pechay</option>
+                                        <option value="Monggo">Monggo</option>
+                                        <option value="Peanut">Peanut</option>
+                                        <option value="Camote">Camote</option>
+                                        <option value="Banana">Banana</option>
+                                        <option value="Others">Others</option>
+                                        <option value="Livestock">Livestock</option>
+                                        <option value="Poultry">Poultry</option>
+                                    </select>
+                                </div>
 
-                                    <ul class="dropdown-menu" aria-labelledby="commoditiesDropdown">
-                                        <li>
-                                            <input class="form-check-input" type="checkbox" value="all" id="commodityCheckboxAll">
-                                            <label class="form-check-label" for="commodityCheckboxAll">All Commodities</label>
-                                        </li>
-                                        @foreach ($commodities as $commodity)
-                                            <li>
-                                                <input class="form-check-input commodity-checkbox" type="checkbox" value="{{ $commodity->id }}" id="commodityCheckbox{{ $commodity->id }}">
-                                                <label class="form-check-label" for="commodityCheckbox{{ $commodity->id }}">{{ $commodity->commodities }}</label>
-                                            </li>
-                                        @endforeach
-                                    </ul>
+
+                                <div class="col-md-3">
+                                    <label for="statusFilter">Filter by Status:</label>
+                                    <select id="statusFilter" class="form-control">
+                                        <option value="">All Status</option>
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="beneficiaryFilter">Filter by 4ps Beneficiary:</label>
+                                    <select id="beneficiaryFilter" class="form-control">
+                                        <option value="">All Beneficiaries</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
                                 </div>
                             </div>
 
-                            <div class="col-md-2">
-                                <select name="statusFilter" id="statusFilter" class="form-select" aria-label="Status Filter">
-                                    <option value="">All Status</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
-                                </select>
-                            </div>
                         </div>
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+                        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+
+                        <script>
+                            $(document).ready(function () {
+                                var table = $('#myTable').DataTable({
+                                    searching: true, // Enable DataTables search bar
+                                    // other DataTable options...
+                                });
+
+                                // Event handler for changes in the global search input
+                                $('#globalSearch').on('keyup', function () {
+                                    table.search(this.value).draw(); // Apply global search
+                                });
+
+                                // Event handlers for filter changes
+                                $('#barangayFilter, #commodityFilter, #statusFilter, #beneficiaryFilter').change(function () {
+                                    updateTableFilters();
+                                });
+
+                                // Listen for changes in the global search input
+                                $('#myTable_filter input').on('keyup', function () {
+                                    updateTableFilters();
+                                });
+
+                                function updateTableFilters() {
+    var barangayFilter = $('#barangayFilter').val();
+    var commodityFilter = $('#commodityFilter').val();
+    var statusFilter = $('#statusFilter').val();
+    var beneficiaryFilter = $('#beneficiaryFilter').val();
+    var globalSearchTerm = $('#globalSearch').val();
+
+    // Use DataTables API to filter the table
+    table
+        .columns(2).search(barangayFilter)
+        .columns(3).search(commodityFilter)
+        .columns(5).search(statusFilter === '' ? '' : '^' + statusFilter + '$', true, false)
+        .columns(4).search(beneficiaryFilter)
+        .draw();
+
+    // Show or hide commodities based on the filter
+    if (commodityFilter === '' || commodityFilter === 'All Commodities') {
+        $('.commodities-td span').show();
+    } else {
+        var selectedCommodities = commodityFilter.split(',');
+        $('.commodities-td span').hide().filter(function () {
+            return selectedCommodities.indexOf($(this).text()) !== -1;
+        }).show();
+    }
+}
+
+
+                            });
+                        </script>
+
+
 
                         <div class="table-responsive mt-3">
-                            <table id="myTable" class="table table-bordered table-striped">
+                            <table id="myTable" class="table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th scope="col">ID Number</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Barangay</th>
                                         <th scope="col">Commodities</th>
+                                        <th scope="col">4ps Beneficiary</th>
                                         <th scope="col">Status</th>
                                         <th scope="col" class="text-center">Action</th>
                                     </tr>
@@ -123,22 +231,32 @@
                                             <td>{{ $farmer->farmersNumbers?->first()?->farmersnumber ?? 'No Data' }}</td>
                                             <td>{{ $farmer->fname }} {{ $farmer->sname }}</td>
                                             <td>{{ $farmer->barangay?->barangays ?? 'No Data' }}</td>
-                                            <td>
+                                            <td class="commodities-td">
                                                 @php
                                                     $farmerCommodities = $farmer->crops->pluck('commodities_id')->toArray();
-                                                    $selectedCommodities = $selectedCommodities ?? []; // Ensure $selectedCommodities is an array
+                                                    $selectedCommodities = $selectedCommodities ?? [];
 
-                                                    $selectedFarmerCommodities = array_intersect($farmerCommodities, $selectedCommodities);
+                                                    if (!empty($selectedCommodities) && $selectedCommodities[0] !== '') {
+                                                        // Only display selected commodities
+                                                        $selectedFarmerCommodities = array_intersect($farmerCommodities, $selectedCommodities);
+                                                        $displayedCommodities = $commodities->whereIn('id', $selectedFarmerCommodities)->pluck('commodities')->toArray();
+                                                        foreach ($displayedCommodities as $commodity) {
+                                                            echo '<span class="commodity">' . $commodity . '</span><br>';
 
-                                                    if (!empty($selectedFarmerCommodities)) {
-                                                        $selectedCommodityNames = $commodities->whereIn('id', $selectedFarmerCommodities)->pluck('commodities')->toArray();
-                                                        echo implode('<br>', $selectedCommodityNames);
+                                                        }
+                                                    } elseif (!empty($farmerCommodities)) {
+                                                        // Display all commodities
+                                                        $allCommodities = $commodities->whereIn('id', $farmerCommodities)->pluck('commodities')->toArray();
+                                                        foreach ($allCommodities as $commodity) {
+                                                            echo '<span class="commodity">' . $commodity . '</span><br>';
+
+                                                        }
                                                     } else {
                                                         echo 'No Data';
                                                     }
                                                 @endphp
                                             </td>
-
+                                            <td>{{ $farmer->benefits }}</td>
                                             <td>
                                                 @if ($farmer->status === 'Active')
                                                     <span class="badge bg-success">Active</span>
@@ -149,19 +267,22 @@
                                             <td class="text-center">
                                                 <div class="btn-group" role="group">
                                                     {{-- <a href="{{ route('generate.pdf', ['id' => $farmer->id]) }}" class="btn btn-sm btn-info" style="margin-right: 10px;">
-                                                        <i class="fa fa-file-pdf"></i> <!-- Replace with the appropriate Font Awesome icon class -->
+                                                        <i class="ri-file-pdf-fill"></i> <!-- Replace with the appropriate Font Awesome icon class -->
                                                     </a> --}}
 
-                                                    <a href="{{ route('farmers.show', ['id' => $farmer->id]) }}" class="btn btn-sm btn-info" style="margin-right: 10px;">
-                                                        <i class="fa fa-eye"></i> <!-- Replace with the appropriate Font Awesome icon class -->
+                                                    <a href="{{ route('farmers.showed', ['id' => $farmer->id]) }}" class="btn btn-sm btn-info" style="margin-right: 10px;">
+                                                        <i class="ri-eye-fill"></i> <!-- Replace with the appropriate Font Awesome icon class -->
                                                     </a>
 {{--
                                                     <a href="{{ route('farmers.edit', ['id' => $farmer->id]) }}" class="btn btn-sm btn-primary" style="margin-right: 10px;">
-                                                        <i class="fa fa-pencil"></i> <!-- Replace with the appropriate Font Awesome icon class -->
-                                                    </a> --}}
+                                                        <i class="ri-edit-2-fill"></i> <!-- Replace with the appropriate Font Awesome icon class -->
+                                                    </a>
 
-                                                    {{-- <a href="{{ route('farmers.generate', ['id' => $farmer->id]) }}" class="btn btn-sm btn-secondary">
-                                                        <i class="fa fa-cog"></i> <!-- Replace with the appropriate Font Awesome icon class -->
+                                                    <a href="{{ route('farmers.generate', ['id' => $farmer->id]) }}" class="btn btn-sm btn-secondary">
+                                                        <i class="ri-settings-3-fill"></i> <!-- Replace with the appropriate Font Awesome icon class -->
+                                                    </a>
+                                                    <a href="{{ route('farmers.benefits', ['id' => $farmer->id]) }}" class="btn btn-sm btn-secondary">
+                                                        <i class="ri-hand-heart-fill"></i> <!-- Replace with the appropriate Font Awesome icon class -->
                                                     </a> --}}
                                                 </div>
                                             </td>
@@ -176,6 +297,9 @@
             </div>
         </div>
     </section>
+
+
+
 
     <style>
         .status-circle {
@@ -248,134 +372,8 @@
         background-color: #dc3545;
     }
     </style>
-</div>
 
 
-<script>
-// JavaScript variable containing the mapping of commodity IDs to names
-var commodityMap = {
-    @foreach ($commodities as $commodity)
-        {{ $commodity->id }}: '{{ $commodity->commodities }}',
-    @endforeach
-};
-
-// Keep track of the selected commodity IDs
-var selectedCommodityIds = [];
-
-$(document).ready(function() {
-    $('#myTable').DataTable({
-        "lengthMenu": [10, 25, 50, 100], // Set your desired entries per page values
-        "pageLength": 10, // Default number of entries per page
-        "pagingType": "full_numbers", // Use full pagination control
-        // Disable the search bar
-    });
-
-    // Event listener for changing the number of entries per page
-    $('#showEntries').on('change', function() {
-        var entriesPerPage = parseInt($(this).val());
-        $('#myTable').DataTable().page.len(entriesPerPage).draw();
-    });
-
-    // Event listener for checkboxes
-    $('.commodity-checkbox').on('change', function() {
-        updateSelectedCommodities();
-        filterTable();
-    });
-
-    // Event listener for the "All Commodities" checkbox
-    $('#commodityCheckboxAll').on('change', function() {
-        // If "All Commodities" is checked, uncheck all other checkboxes
-        if ($(this).is(':checked')) {
-            $('.commodity-checkbox').prop('checked', false);
-        }
-        updateSelectedCommodities();
-        filterTable();
-    });
-
-    // Update the selectedCommodityIds array based on the checkboxes
-    function updateSelectedCommodities() {
-        selectedCommodityIds = [];
-
-        if ($('#commodityCheckboxAll').is(':checked')) {
-            selectedCommodityIds.push('all');
-        } else {
-            $('.commodity-checkbox:checked').each(function() {
-                selectedCommodityIds.push($(this).val());
-            });
-        }
-    }
-
-
-
-        // Function to filter the table based on selected filters
-        function filterTable() {
-            var selectedBarangayIds = $('#barangayFilter').val();
-            var selectedStatus = $('#statusFilter').val();
-            var searchText = $('#search').val().toLowerCase();
-
-            $('#myTable tbody tr').each(function() {
-                var tr = $(this);
-                var trBarangayId = tr.data('barangay');
-                var trCommodities = tr.data('commodities').split(',').map(Number);
-                var trStatus = tr.data('status');
-                var trText = tr.text().toLowerCase();
-
-                var showRow = true;
-
-                if (selectedBarangayIds.length > 0 && selectedBarangayIds[0] !== '') {
-                    // Check if the row's barangay is in the selected barangays
-                    if (!selectedBarangayIds.includes(trBarangayId.toString())) {
-                        showRow = false;
-                    }
-                }
-
-                if (selectedStatus !== '' && selectedStatus != trStatus) {
-                    showRow = false;
-                }
-
-                if (searchText !== '' && !trText.includes(searchText)) {
-                    showRow = false;
-                }
-
-                if (selectedCommodityIds.length > 0 && !selectedCommodityIds.includes('all')) {
-                    // Check if the row's commodities match any of the selected commodities
-                    var hasSelectedCommodity = trCommodities.some(commodityId => selectedCommodityIds.includes(commodityId.toString()));
-
-                    if (!hasSelectedCommodity) {
-                showRow = false;
-            }
-
-                    if (hasSelectedCommodity) {
-                        // Update the displayed commodities in the table cell
-                        var displayedCommodities = trCommodities.filter(commodityId => selectedCommodityIds.includes(commodityId.toString())).map(commodityId => commodityMap[commodityId]);
-                        tr.find('td:eq(3)').html(displayedCommodities.join('<br>'));
-                    } else {
-                        // If the farmer doesn't have the selected commodities, show "No Data"
-                        tr.find('td:eq(3)').html('No Data');
-                    }
-                } else {
-                    // If no specific commodities are selected, show all the commodities for the farmer
-                    var allCommodities = trCommodities.map(commodityId => commodityMap[commodityId]);
-                    tr.find('td:eq(3)').html(allCommodities.length > 0 ? allCommodities.join('<br>') : 'No Data');
-                }
-
-                if (showRow) {
-                    tr.show();
-                } else {
-                    tr.hide();
-                }
-            });
-        }
-
-        // Add the event listener for changes in the filters
-        $('#barangayFilter, #statusFilter, #search').on('change keyup', function() {
-            filterTable();
-        });
-
-        // Initial filter when the page loads
-        filterTable();
-        updateCommoditiesFilterDisplay(); // Initial update of the displayed commodities in the filter
-    });
-</script>
 
 @endsection
+

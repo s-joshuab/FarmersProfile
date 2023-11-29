@@ -127,6 +127,9 @@ Route::post('/farmers-benefits/{id}', [FarmersDataController::class, 'beneficiar
     Route::get('farmers-view/{id}/pdf',
     [PdfController::class, 'generatePdf'])->name('generate.pdf');
 
+    // Route::get('farmers-view/{id}/pdf',
+    // [PdfController::class, 'generateBenefits'])->name('generate.benefits');
+
 
     Route::get('qr', [GenerateQr::class, 'qrGen']);
     // Admin Manage users
