@@ -203,7 +203,7 @@
                                     var barangayFilter = $('#barangayFilter').val();
                                     var commodityFilter = $('#commodityFilter').val();
                                     var statusFilter = $('#statusFilter').val();
-                                    var beneficiaryFilter = $('#beneficiaryFilter').val();
+    var beneficiaryFilter = $('#beneficiaryFilter').val();
 
                                     // Use DataTables API to filter the table
                                     table
@@ -213,10 +213,21 @@
                                         .columns(5).search(farmLocationSearch)
                                         .columns(2).search(barangayFilter)
                                         .columns(3).search(commodityFilter)
-                                        .columns(6).search(statusFilter === '' ? '' : '^' + statusFilter + '$', true, false)
-                                        .columns(7).search(beneficiaryFilter)
+                                        .columns(5).search(statusFilter === '' ? '' : '^' + statusFilter + '$', true, false)
+        .columns(4).search(beneficiaryFilter)
                                         .draw(); // Draw the table after applying filters
-                                }
+
+                                        if (commodityFilter === '' || commodityFilter === 'All Commodities') {
+        $('.commodities-td span').show();
+    } else {
+        var selectedCommodities = commodityFilter.split(',');
+        $('.commodities-td span').hide().filter(function () {
+            return selectedCommodities.indexOf($(this).text()) !== -1;
+        }).show();
+    }
+}
+
+
                             });
                         </script>
 
@@ -233,8 +244,8 @@
                                         <th scope="col">Name</th>
                                         <th scope="col">Barangay</th>
                                         <th scope="col">Commodities</th>
-                                        <th scope="col">Farm Size</th>
-                                        <th scope="col">Farm Location</th>
+                                        {{-- <th scope="col">Farm Size</th>
+                                        <th scope="col">Farm Location</th> --}}
                                         <th scope="col">4ps Beneficiary</th>
                                         <th scope="col">Status</th>
 
@@ -256,30 +267,32 @@
                                             </td>
                                             <td>{{ $farmer->fname }} {{ $farmer->sname }}</td>
                                             <td>{{ $farmer->barangay?->barangays ?? 'No Data' }}</td>
-                                            <td>
+                                            <td class="commodities-td">
                                                 @php
                                                     $farmerCommodities = $farmer->crops->pluck('commodities_id')->toArray();
                                                     $selectedCommodities = $selectedCommodities ?? [];
 
-                                                    if (!empty($selectedCommodities)) {
+                                                    if (!empty($selectedCommodities) && $selectedCommodities[0] !== '') {
+                                                        // Only display selected commodities
                                                         $selectedFarmerCommodities = array_intersect($farmerCommodities, $selectedCommodities);
-                                                        $displayedCommodities = $commodities
-                                                            ->whereIn('id', $selectedFarmerCommodities)
-                                                            ->pluck('commodities')
-                                                            ->toArray();
-                                                        echo implode('<br>', $displayedCommodities);
+                                                        $displayedCommodities = $commodities->whereIn('id', $selectedFarmerCommodities)->pluck('commodities')->toArray();
+                                                        foreach ($displayedCommodities as $commodity) {
+                                                            echo '<span class="commodity">' . $commodity . '</span><br>';
+
+                                                        }
                                                     } elseif (!empty($farmerCommodities)) {
-                                                        $allCommodities = $commodities
-                                                            ->whereIn('id', $farmerCommodities)
-                                                            ->pluck('commodities')
-                                                            ->toArray();
-                                                        echo implode('<br>', $allCommodities);
+                                                        // Display all commodities
+                                                        $allCommodities = $commodities->whereIn('id', $farmerCommodities)->pluck('commodities')->toArray();
+                                                        foreach ($allCommodities as $commodity) {
+                                                            echo '<span class="commodity">' . $commodity . '</span><br>';
+
+                                                        }
                                                     } else {
                                                         echo 'No Data';
                                                     }
                                                 @endphp
                                             </td>
-                                            <td>
+                                            {{-- <td>
                                                 @if ($farmer->crops->isNotEmpty())
                                                     @foreach ($farmer->crops as $crop)
                                                         {{ $crop->farm_size ?? 'No Data' }}<br>
@@ -296,7 +309,7 @@
                                                 @else
                                                     No Data
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                             <td>{{ $farmer->benefits }}</td>
                                             <td>
                                                 @if ($farmer->status === 'Active')

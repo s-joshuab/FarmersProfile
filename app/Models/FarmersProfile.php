@@ -75,6 +75,11 @@ class FarmersProfile extends Model
         return $this->belongsTo(Barangays::class, 'barangays_id');
     }
 
+    public function others()
+    {
+        return $this->hasMany(Others::class, 'farmersprofile_id');
+    }
+
     public function civil_status()
     {
         return $this->belongsTo(Status::class, 'civil_status_id');

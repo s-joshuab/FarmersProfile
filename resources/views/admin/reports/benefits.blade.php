@@ -65,7 +65,7 @@
                             </div> --}}
 
                                 <div class="col-md-3">
-                                    <label for="dateFilterText">Filter by Date Claimed (Text):</label>
+                                    <label for="dateFilterText">Filter by Date Claimed:</label>
                                     <input type="text" id="dateFilterText" class="form-control">
                                 </div>
                             </div>

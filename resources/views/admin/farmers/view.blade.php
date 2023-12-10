@@ -698,6 +698,63 @@ body: JSON.stringify({ educationId: selectedEducationId }),
                     </div>
                 </div>
 
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="container">
+                            <div class="col-md-4 mb-3">
+                                <div class="form-check">
+                                    <label class="form-check-label mt-2"
+                                        style="margin-left: -12px; font-weight: bold;"
+                                        for="highValueCrops">Others</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                @foreach($others as $id => $other)
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input crop-checkbox" type="checkbox" value="{{ $id }}" name="crops[{{ $id }}]"
+                                            data-target="cropInputs{{ $id }}" disabled
+                                            @if($crops->contains('commodities_id', $id))
+                                                checked
+                                            @endif
+                                        >
+                                        <label class="form-check-label" for="commodity{{ $id }}">
+                                            {{ $other }}
+                                        </label>
+                                    </div>
+                                    <div class="commodity-inputs" id="cropInputs{{ $id }}">
+                                        @forelse($crops->where('commodities_id', $id) as $crop)
+                                            <div class="form-group">
+                                                <label for="farmSize{{ $crop->commodities_id }}">Farm Size</label>
+                                                <input type="text" style="border-bottom:solid 1px; border-radius:0; border-top: none; border-left: none; border-right: none;" class="form-control" id="farmSize{{ $crop->commodities_id }}" name="farm_size[{{ $crop->commodities_id }}]"
+                                                    value="{{ $crop->farm_size }}" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="location{{ $crop->commodities_id }}">Location</label>
+                                                <input type="text" style="border-bottom:solid 1px; border-radius:0; border-top: none; border-left: none; border-right: none;" class="form-control" id="location{{ $crop->commodities_id }}" name="farm_location[{{ $crop->commodities_id }}]"
+                                                    value="{{ $crop->farm_location }}" disabled>
+                                            </div>
+                                        @empty
+                                            <div class="form-group">
+                                                <label for="farmSize{{ $id }}">Farm Size</label>
+                                                <input type="text" style="border-bottom:solid 1px; border-radius:0; border-top: none; border-left: none; border-right: none;" class="form-control" id="farmSize{{ $id }}" name="farm_size[{{ $id }}]"
+                                                    value="N/A" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="location{{ $id }}">Location</label>
+                                                <input type="text" style="border-bottom:solid 1px; border-radius:0; border-top: none; border-left: none; border-right: none;" class="form-control" id="location{{ $id }}" name="farm_location[{{ $id }}]"
+                                                    value="N/A" disabled>
+                                            </div>
+                                        @endforelse
+                                    </div>
+
+                                </div>
+                                @endforeach
+                            </div>
+            </div>
+        </div>
+    </div>
+
                 <script>
                     $(document).ready(function() {
                         $('#highValueCrops').on('change', function() {

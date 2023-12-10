@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Models\Crops;
+use App\Models\Others;
 use App\Models\Status;
 use App\Models\Machine;
 use App\Models\Benefits;
@@ -78,10 +79,11 @@ class FarmersDataController extends Controller
         // Fetch data
         $farmers = $farmersQuery->get();
         $barangays = Barangays::all();
+        $others = Others::all();
         $commodities = Commodities::all();
         $farm = FarmersProfile::paginate(10);
 
-        return view('admin.farmers.index', compact('farm', 'farmers', 'barangays', 'commodities', 'selectedBarangay', 'selectedCommodities', 'selectedStatus'));
+        return view('admin.farmers.index', compact('others', 'farm', 'farmers', 'barangays', 'commodities', 'selectedBarangay', 'selectedCommodities', 'selectedStatus'));
     }
 
 
@@ -182,10 +184,11 @@ class FarmersDataController extends Controller
         $barangays = Barangays::all();
         $provinces = Provinces::all();
         $commodities = Commodities::where('category', 0)->pluck('commodities', 'id')->all();
+        $others = Commodities::where('category', 3)->pluck('commodities', 'id')->all();
         $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
         $machine = Machine::pluck('machine', 'id')->all();
 
-        return view('admin.farmers.create', compact('commodities', 'civilStatusOptions', 'highest_formal_education', 'farmers', 'machine', 'provinces', 'barangays'));
+        return view('admin.farmers.create', compact('others', 'commodities', 'civilStatusOptions', 'highest_formal_education', 'farmers', 'machine', 'provinces', 'barangays'));
     }
 
 
@@ -263,30 +266,54 @@ class FarmersDataController extends Controller
             // Add other attributes here if needed
         ]);
 
-        $selectedCommodities = $request->input('crops', []);
-        $farmSizes = $request->input('farm_size', []);
-        $farmLocations = $request->input('farm_location', []);
-        $barangaysId = $request->input('barangays_id', null);
+            $selectedCommodities = $request->input('crops', []);
+            $farmSizes = $request->input('farm_size', []);
+            $farmLocations = $request->input('farm_location', []);
+            $barangaysId = $request->input('barangays_id', null);
 
-        if (empty($selectedCommodities)) {
-            // If no commodities are selected, save null values
-            $farmersprofile->crops()->create([
-                'commodities_id' => null,
-                'farm_size' => null,
-                'farm_location' => null,
-                'barangays_id' => $barangaysId,
-            ]);
-        } else {
-            // If commodities are selected, loop through them and save the data
-            foreach ($selectedCommodities as $id => $commodityId) {
+            if (empty($selectedCommodities)) {
+                // If no commodities are selected, save null values
                 $farmersprofile->crops()->create([
-                    'commodities_id' => $commodityId,
-                    'farm_size' => $farmSizes[$commodityId],
-                    'farm_location' => $farmLocations[$commodityId],
+                    'commodities_id' => null,
+                    'farm_size' => null,
+                    'farm_location' => null,
+                    'barangays_id' => $barangaysId,
+                ]);
+            } else {
+                // If commodities are selected, loop through them and save the data
+                foreach ($selectedCommodities as $id => $commodityId) {
+                    $farmersprofile->crops()->create([
+                        'commodities_id' => $commodityId,
+                        'farm_size' => $farmSizes[$commodityId],
+                        'farm_location' => $farmLocations[$commodityId],
+                        'barangays_id' => $barangaysId,
+                    ]);
+                }
+            }
+
+            $selectedCommodities = $request->input('others', null);
+            $farmSizes = $request->input('farm_size', null);
+            $farmLocations = $request->input('farm_location', null);
+            $barangaysId = $request->input('barangays_id', null);
+
+            if (empty($selectedCommodities)) {
+                // If no commodity is specified, save null values
+                $farmersprofile->others()->create([
+                    'others' => null,
+                    'farm_size' => null,
+                    'farm_location' => null,
+                    'barangays_id' => $barangaysId,
+                ]);
+            } else {
+                // If a commodity is specified, save the data
+                $farmersprofile->others()->create([
+                    'others' => $selectedCommodities,
+                    'farm_size' => $farmSizes, // Make sure farm_sizes is not null
+                    'farm_location' => $farmLocations, // Make sure farm_locations is not null
                     'barangays_id' => $barangaysId,
                 ]);
             }
-        }
+
 
 
 
@@ -362,6 +389,7 @@ class FarmersDataController extends Controller
         $provinces = Provinces::all();
         $municipalities = Municipalities::all();
         $barangays = Barangays::all();
+        $others = Commodities::where('category', 3)->pluck('commodities', 'id')->all();
         $commodities = Commodities::where('category', 0)->pluck('commodities', 'id')->all();
         $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
         $machine = Machine::pluck('machine', 'id')->all();
@@ -372,6 +400,7 @@ class FarmersDataController extends Controller
             ->log('View Farmer Informations');
 
         return view('admin.farmers.view', compact(
+            'others',
             'commodities',
             'highest_formal_education',
             'farmers',
@@ -399,8 +428,10 @@ class FarmersDataController extends Controller
         $commodities = Commodities::where('category', 0)->pluck('commodities', 'id')->all();
         $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
         $machine = Machine::pluck('machine', 'id')->all();
+        $others = Commodities::where('category', 3)->pluck('commodities', 'id')->all();
 
         return view('admin.farmers.update', compact(
+            'others',
             'commodities',
             'highest_formal_education',
             'farmers',

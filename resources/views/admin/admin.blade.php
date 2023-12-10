@@ -230,7 +230,7 @@
                                 <h5 class="card-title">Commodities</h5>
                                 <!-- Bar Chart -->
                                 <canvas id="barChart" style="max-height: 400px;"></canvas>
-                                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                                {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
                                 <script>
                                     document.addEventListener("DOMContentLoaded", () => {
                                         new Chart(document.querySelector('#barChart'), {

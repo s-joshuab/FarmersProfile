@@ -566,6 +566,106 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="container">
+                                            <div class="col-md-4 mb-3">
+                                                <div class="form-check">
+                                                    <label class="form-check-label mt-2"
+                                                        style="margin-left: -12px; font-weight: bold;"
+                                                        for="highValueCrops">Others</label>
+                                                </div>
+                                            </div>
+                                <div class="row">
+                                    @foreach ($others as $id => $other)
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input crop-checkbox" type="checkbox"
+                                                    value="{{ $id }}"
+                                                    id="crops[{{ $id }}]"
+                                                    name="crops[{{ $id }}]"
+                                                    data-target="cropInputs{{ $id }}">
+                                                <label class="form-check-label"
+                                                    for="commodity{{ $id }}">
+                                                    {{ $other }}
+                                                </label>
+                                            </div>
+                                            <div class="commodity-inputs" id="cropInputs{{ $id }}">
+                                                <div class="form-group">
+                                                    <label for="farmSize{{ $id }}">Farm Size</label>
+                                                    <input type="text" class="form-control"
+                                                        id="farmSize{{ $id }}"
+                                                        name="farm_size[{{ $id }}]" disabled>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="location{{ $id }}">Location</label>
+                                                    <input type="text" class="form-control"
+                                                        id="location{{ $id }}"
+                                                        name="farm_location[{{ $id }}]" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                                {{-- <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="others">Others</label>
+                                        <input type="text" class="form-control farm-size-input" id="others" name="commodities_id">
+                                    </div>
+
+                                    <div class="commodity-inputs" id="cropInputs">
+                                        <div class="form-group">
+                                            <label for="farmSize">Farm Size</label>
+                                            <input type="text" class="form-control farm-size-input" id="farmSize" name="farm_size" disabled>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="location">Location</label>
+                                            <input type="text" class="form-control location-input" id="location" name="farm_location" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    // Get the "Others" input element
+                                    var othersInput = document.getElementById('others');
+
+                                    // Get the "Farm Size" and "Location" input elements
+                                    var farmSizeInput = document.getElementById('farmSize');
+                                    var locationInput = document.getElementById('location');
+
+                                    // Add an event listener to the "Others" input to check for changes
+                                    othersInput.addEventListener('input', function () {
+                                        // Generate a unique identifier
+                                        var uniqueId = 'others_' + Date.now(); // Example: You might need a more robust solution
+
+                                        // If "Others" input is not empty, enable the "Farm Size" and "Location" inputs
+                                        if (othersInput.value.trim() !== '') {
+                                            farmSizeInput.disabled = false;
+                                            locationInput.disabled = false;
+
+                                            // Assign the unique identifier to the disabled inputs
+                                            farmSizeInput.name = uniqueId + '_farm_size';
+                                            locationInput.name = uniqueId + '_farm_location';
+                                        } else {
+                                            // If "Others" input is empty, disable the "Farm Size" and "Location" inputs
+                                            farmSizeInput.disabled = true;
+                                            locationInput.disabled = true;
+
+                                            // Reset the name attributes
+                                            farmSizeInput.name = 'farm_size';
+                                            locationInput.name = 'farm_location';
+                                        }
+                                    });
+                                </script> --}}
+
+
+
                                 <script>
                                     $(document).ready(function() {
                                         $('.crop-checkbox').on('change', function() {

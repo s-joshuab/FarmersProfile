@@ -566,6 +566,51 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="container">
+                                            <div class="col-md-4 mb-3">
+                                                <div class="form-check">
+                                                    <label class="form-check-label mt-2"
+                                                        style="margin-left: -12px; font-weight: bold;"
+                                                        for="highValueCrops">Others</label>
+                                                </div>
+                                            </div>
+                                <div class="row">
+                                    @foreach ($others as $id => $other)
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input crop-checkbox" type="checkbox"
+                                                    value="{{ $id }}"
+                                                    id="crops[{{ $id }}]"
+                                                    name="crops[{{ $id }}]"
+                                                    data-target="cropInputs{{ $id }}">
+                                                <label class="form-check-label"
+                                                    for="commodity{{ $id }}">
+                                                    {{ $other }}
+                                                </label>
+                                            </div>
+                                            <div class="commodity-inputs" id="cropInputs{{ $id }}">
+                                                <div class="form-group">
+                                                    <label for="farmSize{{ $id }}">Farm Size</label>
+                                                    <input type="text" class="form-control"
+                                                        id="farmSize{{ $id }}"
+                                                        name="farm_size[{{ $id }}]" disabled>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="location{{ $id }}">Location</label>
+                                                    <input type="text" class="form-control"
+                                                        id="location{{ $id }}"
+                                                        name="farm_location[{{ $id }}]" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                                 <script>
                                     $(document).ready(function() {
                                         $('.crop-checkbox').on('change', function() {

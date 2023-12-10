@@ -72,7 +72,7 @@
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Address</div>
-                  <div class="col-lg-9 col-md-8">{{ $user->barangay->barangays }} , {{ $user->municipalities_id }} , {{ $user->provinces_id }}</div>
+                  <div class="col-lg-9 col-md-8">{{ $user->barangay->barangays }} , {{ $user->municipalities_id }} , {{ $user->provinces_id }} </div>
                 </div>
 
                 <div class="row">
@@ -127,7 +127,7 @@
 
                     <div class="col-md-4 position-relative mt-0 mb-2">
                         <label for="barangay">Barangay:</label>
-                        <select id="barangay" name="barangays_id" class="form-control" required>
+                        <select id="barangay" name="barangays_id" disabled class="form-control" required>
                             <option value="">Select Barangay</option>
                             @foreach ($barangays as $barangay)
                                 <option value="{{ $barangay->id }}"

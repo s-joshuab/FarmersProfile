@@ -174,16 +174,16 @@ background-repeat: no-repeat;
                             of the new terms.
                         </p>
 
-                        <p><strong>10. Governing Law</strong></p>
+                        {{-- <p><strong>10. Governing Law</strong></p>
                         <p>
                             These terms are governed by and construed in accordance with the laws of [your jurisdiction].
-                        </p>
+                        </p> --}}
 
                         <p><strong>11. Contact Information</strong></p>
-                        <p>
+                        {{-- <p>
                             For questions or concerns regarding these terms, please contact us at [provide contact
                             information].
-                        </p>
+                        </p> --}}
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -193,8 +193,8 @@ background-repeat: no-repeat;
         </div>
     </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 
 
 <!-- JavaScript to open the modal -->

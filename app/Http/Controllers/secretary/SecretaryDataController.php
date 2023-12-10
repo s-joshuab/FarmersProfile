@@ -164,11 +164,12 @@ class SecretaryDataController extends Controller
         $civilStatusOptions = Status::all();
         $barangays = Barangays::all();
         $provinces = Provinces::all();
+        $others = Commodities::where('category', 3)->pluck('commodities', 'id')->all();
         $commodities = Commodities::where('category', 0)->pluck('commodities', 'id')->all();
         $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
         $machine = Machine::pluck('machine', 'id')->all();
 
-        return view('secretary.secretary.create', compact('commodities', 'civilStatusOptions', 'highest_formal_education', 'farmers', 'machine', 'provinces', 'barangays'));
+        return view('secretary.secretary.create', compact('others','commodities', 'civilStatusOptions', 'highest_formal_education', 'farmers', 'machine', 'provinces', 'barangays'));
     }
 
 
@@ -344,6 +345,7 @@ class SecretaryDataController extends Controller
         $provinces = Provinces::all();
         $municipalities = Municipalities::all();
         $barangays = Barangays::all();
+        $others = Commodities::where('category', 3)->pluck('commodities', 'id')->all();
         $commodities = Commodities::where('category', 0)->pluck('commodities', 'id')->all();
         $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
         $machine = Machine::pluck('machine', 'id')->all();
@@ -354,6 +356,7 @@ class SecretaryDataController extends Controller
             ->log('View Farmer Informations');
 
         return view('admin.farmers.view', compact(
+            'others',
             'commodities',
             'highest_formal_education',
             'farmers',

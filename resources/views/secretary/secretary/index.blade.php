@@ -49,7 +49,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="add-employee mb-3 mt-3">
-                            <a href="{{ url('create-add') }}" class="btn btn-primary">
+                            <a href="{{ url('add') }}" class="btn btn-primary">
                                 <i class="bi bi-plus"></i> Add Farmer
                             </a>
                         </div>
@@ -152,9 +152,9 @@
                             </div>
 
                         </div>
-                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-                        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+                        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" /> --}}
 
                         <script>
                             $(document).ready(function () {
@@ -270,7 +270,7 @@
                                                         <i class="ri-file-pdf-fill"></i> <!-- Replace with the appropriate Font Awesome icon class -->
                                                     </a> --}}
 
-                                                    <a href="{{ route('farmers.showed', ['id' => $farmer->id]) }}" class="btn btn-sm btn-info" style="margin-right: 10px;">
+                                                    <a href="{{ route('farmers.show', ['id' => $farmer->id]) }}" class="btn btn-sm btn-info" style="margin-right: 10px;">
                                                         <i class="ri-eye-fill"></i> <!-- Replace with the appropriate Font Awesome icon class -->
                                                     </a>
 {{--
