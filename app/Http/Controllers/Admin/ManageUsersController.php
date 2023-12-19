@@ -32,7 +32,7 @@ class ManageUsersController extends Controller
         $user = auth()->user();
 
         if (strtolower($user->user_type) === 'admin') {
-            $users = User::whereIn('user_type', ['staff', 'secretary'])->get();
+            $users = User::whereIn('user_type', ['staff', 'secretary', 'Mayor'])->get();
         } elseif (strtolower($user->user_type) === 'staff') {
             $users = User::where('user_type', 'secretary')->get();
         } elseif (strtolower($user->user_type) === 'secretary') {

@@ -47,26 +47,25 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-3 mx-auto">
                     <label for="idNumberSearch">ID Number:</label>
                     <input type="text" id="idNumberSearch" class="form-control" placeholder="Search by ID Number">
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-3 mx-auto">
                     <label for="nameSearch">Name:</label>
                     <input type="text" id="nameSearch" class="form-control" placeholder="Search by Name">
                 </div>
 
-                <div class="col-md-3">
+                {{-- <div class="col-md-3 mx-auto">
                     <label for="farmSizeSearch">Farm Size:</label>
                     <input type="text" id="farmSizeSearch" class="form-control" placeholder="Search by Farm Size">
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-3 mx-auto">
                     <label for="farmLocationSearch">Farm Location:</label>
-                    <input type="text" id="farmLocationSearch" class="form-control"
-                        placeholder="Search by Farm Location">
-                </div>
+                    <input type="text" id="farmLocationSearch" class="form-control" placeholder="Search by Farm Location">
+                </div> --}}
             </div>
 
 
@@ -191,15 +190,14 @@
                                 });
 
                                 // Listen for changes in the individual search inputs
-                                $('#idNumberSearch, #nameSearch, #farmSizeSearch, #farmLocationSearch').on('keyup', function() {
+                                $('#idNumberSearch, #nameSearch').on('keyup', function() {
                                     updateTableFilters();
                                 });
 
                                 function updateTableFilters() {
                                     var idNumberSearch = $('#idNumberSearch').val().toLowerCase();
                                     var nameSearch = $('#nameSearch').val().toLowerCase();
-                                    var farmSizeSearch = $('#farmSizeSearch').val().toLowerCase();
-                                    var farmLocationSearch = $('#farmLocationSearch').val().toLowerCase();
+
                                     var barangayFilter = $('#barangayFilter').val();
                                     var commodityFilter = $('#commodityFilter').val();
                                     var statusFilter = $('#statusFilter').val();
@@ -209,8 +207,6 @@
                                     table
                                         .columns(0).search(idNumberSearch)
                                         .columns(1).search(nameSearch)
-                                        .columns(4).search(farmSizeSearch)
-                                        .columns(5).search(farmLocationSearch)
                                         .columns(2).search(barangayFilter)
                                         .columns(3).search(commodityFilter)
                                         .columns(5).search(statusFilter === '' ? '' : '^' + statusFilter + '$', true, false)

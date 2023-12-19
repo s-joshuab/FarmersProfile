@@ -32,7 +32,25 @@
                                             <input type="number" class="form-control d-inline" id="ref_no" name="ref_no" oninput="javascript: if (this.value.length > 15) this.value = this.value.slice(0, 15);" required>
                                         </div>
                                     </div>
+                                    <div id="feedback" style="color: red;"></div>
                                 </div>
+
+                                <script>
+                                    function validateInput() {
+                                        var inputField = document.getElementById('ref_no');
+                                        var feedbackDiv = document.getElementById('feedback');
+
+                                        if (inputField.value.trim() === '') {
+                                            feedbackDiv.innerText = 'Please enter a value.';
+                                        } else {
+                                            feedbackDiv.innerText = '';
+                                        }
+                                    }
+
+                                    // You can call the validateInput function on various events, e.g., onblur, onsubmit, etc.
+                                    // For example, onblur will trigger the validation when the user moves out of the input field.
+                                    document.getElementById('ref_no').addEventListener('blur', validateInput);
+                                </script>
 
 
 

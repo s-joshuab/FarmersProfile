@@ -49,9 +49,9 @@
         <div class="row">
             <div class="card" id = "to_print">
                 <div class="card-body">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <div class="page mt-3 shadow-sm container"
-                            style="background-image: url('{{ asset('assets/img/bg.png') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 430px;">
+                            style="background-image: url('{{ asset('assets/img/blns.png') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 430px;">
                             <div class="header">
                                 <img src="{{ asset('assets/img/12345.jpg') }}" alt="Logo"
                                     style="max-width: 50px; margin-left: -350px; margin-top: 5px; border-radius: 50%;">
@@ -72,8 +72,10 @@
                                             Municipal Agriculture Office</p> --}}
                                 <p style="font-size: 12px; font-weight: bold; margin-left: 218px; margin-top: -140px;">
                                     FARMER'S ID</p>
-                                <p style="font-size: 14px; font-weight: bold; margin-left: 142px; margin-top: -10px;">
-                                    {{ $farmers->fname }} {{ $farmers->sname }}</p>
+                                    <p style="font-size: 14px; font-weight: bold; margin-left: 142px; margin-top: -10px; text-transform: uppercase;">
+                                        {{ $farmers->fname }} {{ $farmers->sname }}
+                                    </p>
+
                                 <p style="font-size: 12px; font-weight: bold; margin-left: 142px; margin-top: -20px;">
                                     {{ $farmers->barangay->barangays }} , {{ $farmers->municipalities_id }}
                                     , {{ $farmers->provinces_id }}</p>
@@ -118,16 +120,16 @@
                         </div>
 
 
-                        <div class="page mt-3 shadow-sm align-center container"
-                            style="background-image: url('{{ asset('assets/img/bg.png') }}');  width: 430px;  background-size: cover; background-position: center center; background-repeat: no-repeat;">
+                        <div class="page mt-3 shadow-sm container"
+                            style="background-image: url('{{ asset('assets/img/blns.png') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 430px;">
                             <div class="content">
-                                <div style="border: 2px solid #ff1dec; padding: 15px; border-radius: 10px;">
-                                    <h4 class="text-center mt-1"
-                                        style="font-size: 16px; font-weight: bold; background-color: #ff1dec;">Person To
+
+                                    <h4 class="text-center mt-2"
+                                        style="font-size: 16px; font-weight: bold; ">Person To
                                         Notify In Case of Emergency:</h4>
-                                    <hr class="design" style="margin-top: -8px;">
-                                    <div class="row text-center" style="margin-top: -15px;">
-                                        <p style="margin: 0px 0; font-size: 12px; font-weight: bold;">
+                                    {{-- <hr class="design" style="margin-top: -8px;"> --}}
+                                    <div class="row text-center" style="margin-top: 10px;">
+                                        <p style="margin: 0px 0; font-size: 12px; font-weight: bold; text-transform: uppercase;">
                                             {{ $farmers->mother }}</p>
                                         {{-- <p style="margin: 0px 0; font-size: 12px; font-weight: bold;">Relationship: Sister</p> --}}
                                         <p style="margin: 0px 0; margin-bottom: 0; font-size: 12px; font-weight: bold;">
@@ -136,21 +138,21 @@
 
                                 </div>
 
-                                <hr class="design" style="margin-top: -1px;">
-                                <h4 class="text-center" style="font-size: 14px; font-weight: bold; margin-top: -10px;">
+                                {{-- <hr class="design" style="margin-top: -1px;"> --}}
+                                <h4 class="text-center" style="font-size: 14px; font-weight: bold; margin-top: 15px;">
                                     C E R T I F I C A T I O N</h4>
-                                <p class="text-center" style="font-size: 10px; font-weight: bold; margin-top: -10px;">
+                                <p class="text-center" style="font-size: 12px; font-weight: bold; margin-top: -10px;">
                                     This is to certify that the person whose name, photograph, and signature appear
                                     herein is a duly bonafide farmer of Balaoan, La Union
                                 </p>
                                 <!-- Use a table for proper alignment -->
-                                <table style="width: 100%; margin-top: 20px;">
+                                <table style="width: 100%; margin-top: 17px;">
                                     <tr>
                                         <td style="width: 50%; text-align: center;">
                                             <div class="signature-line" style="width: 80%; margin: 0 auto;"></div>
                                             @foreach ($users as $user)
                                                 @if ($user->username === 'admin')
-                                                    <h5 style="font-size: 12px; font-weight: bold; margin: 10px 0;">
+                                                    <h5 style="font-size: 14px; font-weight: bold; margin: 10px 0;">
                                                         {{ $user->name }}
                                                     </h5>
                                                 @endif
@@ -158,7 +160,7 @@
 
 
 
-                                            <h5 style="font-size: 10px; margin-top: -10px;">OIC, Municipal Agriculturist
+                                            <h5 style="font-size: 12px; margin-top: -10px; font-weight: bold; ">OIC, Municipal Agriculturist
                                             </h5>
                                         </td>
                                         <td style="width: 50%; text-align: center;">
@@ -170,7 +172,7 @@
                                                     </h5>
                                                 @endif
                                             @endforeach
-                                            <h5 style="font-size: 10px; margin-top: -10px;">Municipal Mayor</h5>
+                                            <h5 style="font-size: 12px; margin-top: -10px; font-weight: bold;">Municipal Mayor</h5>
                                         </td>
                                     </tr>
                                 </table>
@@ -183,7 +185,7 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-lg btn-primary print_no" onclick="print_this('to_print')">Print!</button>
+    <button type="button" class="btn btn-lg btn-primary print_no" onclick="print_this('to_print')">Print/Save</button>
 
     <script>
         function print_this(id) {
