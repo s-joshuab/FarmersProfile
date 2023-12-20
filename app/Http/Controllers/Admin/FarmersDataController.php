@@ -210,7 +210,7 @@ class FarmersDataController extends Controller
             'provinces_id' => 'required',
             'municipalities_id' => 'required',
             'barangays_id' => 'required|exists:barangays,id',
-            'purok' => 'required',
+            'purok' => 'nullable',
             'house' => 'nullable',
             'dob' => 'required|date',
             'pob' => 'required',
@@ -368,12 +368,25 @@ class FarmersDataController extends Controller
         // Do not save the QR code image data to the database, only save the path in the 'qr_code_data' colum
     }
 
-    //gegenerate ng ng id number
     protected function createFarmersNumber(array $attributes)
     {
+        // Check if a FarmersNumber record already exists for the given barangays_id and farmersprofile_id
+        $existingFarmersNumber = FarmersNumber::where([
+            'barangays_id' => $attributes['barangays_id'],
+            'farmersprofile_id' => $attributes['farmersprofile_id'],
+        ])->first();
+
+        if ($existingFarmersNumber) {
+            // If an existing record is found, return it without creating a new one
+            return $existingFarmersNumber;
+        }
+
+        // If there's no existing record, create a new one
         $count = FarmersNumber::where('barangays_id', $attributes['barangays_id'])->count();
         $count++;
+
         $attributes['farmersnumber'] = "BLN {$attributes['barangays_id']} - {$count}";
+
         return FarmersNumber::create($attributes);
     }
 

@@ -29,13 +29,34 @@
                                     <div class="d-flex align-items-center">
                                         <label for="referenceNo" class="mr-2">Reference/Control No.: </label>
                                         <div class="flex-grow-1">
-                                            <input type="number" class="form-control d-inline" id="ref_no" name="ref_no" oninput="javascript: if (this.value.length > 15) this.value = this.value.slice(0, 15);" required>
+                                            <input type="number" class="form-control d-inline" id="ref_no"
+                                                name="ref_no"
+                                                oninput="javascript: if (this.value.length > 15) this.value = this.value.slice(0, 15);"
+                                                required>
                                         </div>
+
+                                    </div>
+                                    <div id='refNoValidationFeedback' class="invalid-feedback">
+                                        Please enter the reference/control number.
                                     </div>
                                 </div>
+                                <script>
+                                    const refNoInput = document.getElementById('ref_no');
+                                    const refNoValidationFeedback = document.getElementById('refNoValidationFeedback');
 
+                                    // Show validation message initially
+                                    refNoValidationFeedback.style.display = 'block';
 
+                                    refNoInput.addEventListener('input', function() {
+                                        const inputValue = this.value.trim();
 
+                                        if (inputValue !== '') {
+                                            refNoValidationFeedback.style.display = 'none';
+                                        } else {
+                                            refNoValidationFeedback.style.display = 'block';
+                                        }
+                                    });
+                                </script>
 
                                 <div class="col-md-6 position-relative mt-3">
                                     <label class="form-label">Status</label>
@@ -46,12 +67,28 @@
                                             <option value="Active">Active</option>
                                             <option value="Inactive">Inactive</option>
                                         </select>
-                                        <div class="invalid-tooltip">
-                                            Please select a status.
+                                        <div id='statusValidationFeedback' class="invalid-feedback">
+                                            Please select the status.
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                    const statusSelect = document.getElementById('validationTooltip03');
+                                    const statusValidationFeedback = document.getElementById('statusValidationFeedback');
 
+                                    // Show validation message initially
+                                    statusValidationFeedback.style.display = 'block';
+
+                                    statusSelect.addEventListener('change', function() {
+                                        const selectedStatus = this.value;
+
+                                        if (selectedStatus !== '') {
+                                            statusValidationFeedback.style.display = 'none';
+                                        } else {
+                                            statusValidationFeedback.style.display = 'block';
+                                        }
+                                    });
+                                </script>
 
 
 
@@ -59,38 +96,95 @@
                                 <p class="mt-0" style="font-weight: bold; font-size: 12px;">PART I. PERSONAL INFORMATION
                                 </p>
 
+                                <!-- Surname Field -->
                                 <div class="col-md-6 position-relative mt-0">
                                     <label class="form-label">Surname</label>
-                                    <input type="text" class="form-control" id="validationTooltip01" name="sname"
-                                        required autofocus="autofocus">
-                                    <div class="invalid-tooltip">
-                                        The Surname field is required.
+                                    <input type="text" class="form-control is-invalid" id="validationTooltipSurname"
+                                        name="sname" required autofocus="autofocus">
+                                    <div class="invalid-feedback">
+                                        Please enter your surname.
                                     </div>
                                 </div>
 
+                                <!-- Validation Script for Surname -->
+                                <script>
+                                    document.getElementById('validationTooltipSurname').addEventListener('input', function() {
+                                        const surnameInput = this;
+                                        const feedbackDiv = surnameInput
+                                        .nextElementSibling; // Assuming the feedback div is the next sibling element
+
+                                        if (surnameInput.value.trim() !== '') {
+                                            surnameInput.classList.remove('is-invalid');
+                                            feedbackDiv.style.display = 'none';
+                                        } else {
+                                            surnameInput.classList.add('is-invalid');
+                                            feedbackDiv.style.display = 'block';
+                                        }
+                                    });
+                                </script>
+
+                                <!-- First Name Field -->
                                 <div class="col-md-6 position-relative mt-0">
                                     <label class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="validationTooltip01" name="fname"
-                                        required autofocus="autofocus">
-                                    <div class="invalid-tooltip">
+                                    <input type="text" class="form-control is-invalid" id="validationTooltipFirstName"
+                                        name="fname" required autofocus="autofocus">
+                                    <div class="invalid-feedback">
                                         The First Name field is required.
                                     </div>
                                 </div>
 
+                                <!-- Validation Script for First Name -->
+                                <script>
+                                    document.getElementById('validationTooltipFirstName').addEventListener('input', function() {
+                                        const firstNameInput = this;
+                                        const feedbackDiv = firstNameInput
+                                        .nextElementSibling; // Assuming the feedback div is the next sibling element
+
+                                        if (firstNameInput.value.trim() !== '') {
+                                            firstNameInput.classList.remove('is-invalid');
+                                            feedbackDiv.style.display = 'none';
+                                        } else {
+                                            firstNameInput.classList.add('is-invalid');
+                                            feedbackDiv.style.display = 'block';
+                                        }
+                                    });
+                                </script>
+
+                                <!-- Middle Name Field -->
                                 <div class="col-md-5 position-relative mt-0">
                                     <label class="form-label">Middle Name</label>
-                                    <input type="text" class="form-control" id="validationTooltip01" name="mname"
-                                        autofocus="autofocus">
-                                    <div class="invalid-tooltip">
+                                    <input type="text" class="form-control is-invalid" id="validationTooltipMiddleName"
+                                        name="mname" autofocus="autofocus">
+                                    <div class="invalid-feedback">
                                         The Middle Name field is required.
                                     </div>
                                 </div>
 
+                                <!-- Validation Script for Middle Name -->
+                                <script>
+                                    document.getElementById('validationTooltipMiddleName').addEventListener('input', function() {
+                                        const middleNameInput = this;
+                                        const feedbackDiv = middleNameInput
+                                        .nextElementSibling; // Assuming the feedback div is the next sibling element
+
+                                        if (middleNameInput.value.trim() !== '') {
+                                            middleNameInput.classList.remove('is-invalid');
+                                            feedbackDiv.style.display = 'none';
+                                        } else {
+                                            middleNameInput.classList.add('is-invalid');
+                                            feedbackDiv.style.display = 'block';
+                                        }
+                                    });
+                                </script>
+
+                                <!-- Extension Name Field -->
                                 <div class="col-md-3 position-relative mt-0">
                                     <label class="form-label">Extension Name</label>
-                                    <input type="text" class="form-control" id="validationTooltip01" name="ename"
-                                        autofocus="autofocus">
+                                    <input type="text" class="form-control" id="validationTooltipExtensionName"
+                                        name="ename" autofocus="autofocus">
                                 </div>
+
+                                <!-- Sex Radio Buttons -->
                                 <div class="col-md-4 position-relative" style="margin-top: 35px;">
                                     <div class="form-inline">
                                         <label for="sex" class="mr-2">Sex:</label>
@@ -104,8 +198,36 @@
                                                 value="Female" required>
                                             <label class="form-check-label" for="femaleOption">Female</label>
                                         </div>
+                                        <!-- Validation for Sex Radio Buttons -->
+                                        <div id="sexValidationFeedback" class="invalid-feedback">
+                                            Please select a gender.
+                                        </div>
                                     </div>
                                 </div>
+
+                                <!-- Validation Script for Sex Radio Buttons -->
+                                <!-- Validation Script for Sex Radio Buttons -->
+                                <script>
+                                    const sexContainer = document.querySelector('.form-inline');
+                                    const sexOptions = sexContainer.querySelectorAll('[name="sex"]');
+                                    const sexValidationFeedback = document.getElementById('sexValidationFeedback');
+
+                                    // Show validation message initially
+                                    sexValidationFeedback.style.display = 'block';
+
+                                    sexContainer.addEventListener('change', function() {
+                                        const isMaleSelected = document.getElementById('maleOption').checked;
+                                        const isFemaleSelected = document.getElementById('femaleOption').checked;
+
+                                        if (isMaleSelected || isFemaleSelected) {
+                                            sexValidationFeedback.style.display = 'none';
+                                        } else {
+                                            sexValidationFeedback.style.display = 'block';
+                                        }
+                                    });
+                                </script>
+
+
 
 
                                 <hr class="mt-2">
@@ -115,7 +237,8 @@
                                     <div class="form-control-custom">
                                         <input type="text"
                                             style="border-bottom:solid 1px; border-radius:0; border-top: none; border-left: none; border-right: none;"
-                                            id="regions" name="regions" class="form-control" value="Region I" readonly>
+                                            id="regions" name="regions" class="form-control" value="Region I"
+                                            readonly>
                                     </div>
                                 </div>
 
@@ -146,7 +269,30 @@
                                             <option value="{{ $barangay->id }}">{{ $barangay->barangays }}</option>
                                         @endforeach
                                     </select>
+                                    <div id="barangayValidationFeedback" class="invalid-feedback">
+                                        Please select a Barangay.
+                                    </div>
                                 </div>
+
+                                <!-- Validation Script for Barangay Dropdown -->
+                                <script>
+                                    const barangaySelect = document.getElementById('barangay');
+                                    const barangayValidationFeedback = document.getElementById('barangayValidationFeedback');
+
+                                    // Show validation message initially
+                                    barangayValidationFeedback.style.display = 'block';
+
+                                    barangaySelect.addEventListener('change', function() {
+                                        const selectedOption = this.value;
+
+                                        if (selectedOption !== '') {
+                                            barangayValidationFeedback.style.display = 'none';
+                                        } else {
+                                            barangayValidationFeedback.style.display = 'block';
+                                        }
+                                    });
+                                </script>
+
 
                                 <script>
                                     // Function to fetch province and municipality based on the selected barangay
@@ -203,7 +349,7 @@
                                 <div class="col-md-4 position-relative mt-0">
                                     <label class="form-label">Street/Sitio/Purok/Subdv.</label>
                                     <input type="text" class="form-control" id="validationTooltip01" name="purok"
-                                        required autofocus="autofocus">
+                                        autofocus="autofocus">
                                     <div class="invalid-tooltip">
                                         The Street/Sitio/Purok/Subdv. field is required.
                                     </div>
@@ -212,7 +358,7 @@
                                 <div class="col-md-4 position-relative mt-0">
                                     <label class="form-label">House/Lot/Bldg. No.</label>
                                     <input type="text" class="form-control" id="validationTooltip01" name="house"
-                                         autofocus="autofocus">
+                                        autofocus="autofocus">
                                     <div class="invalid-tooltip">
                                         The House/Lot/Bldg. No. field is required.
                                     </div>
@@ -223,11 +369,30 @@
 
                                 <div class="col-md-6 position-relative mt-0">
                                     <label class="form-label">Contact Number</label>
-                                    <input type="number" class="form-control d-inline" id="number" name="number" oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 11);" required>
-                                    <div class="invalid-tooltip">
-                                        The contactnumber field is required.
+                                    <input type="number" class="form-control d-inline" id="number" name="number"
+                                        oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 11);"
+                                        required>
+                                    <div id="numberValidationFeedback" class="invalid-feedback">
+                                        Please enter a valid contact number (maximum 11 digits).
                                     </div>
                                 </div>
+                                <script>
+                                    const contactNumberInput = document.getElementById('number');
+                                    const contactNumberValidationFeedback = document.getElementById('numberValidationFeedback');
+
+                                    // Show validation message initially
+                                    contactNumberValidationFeedback.style.display = 'block';
+
+                                    contactNumberInput.addEventListener('input', function() {
+                                        const inputValue = this.value;
+
+                                        if (inputValue.length <= 11) {
+                                            contactNumberValidationFeedback.style.display = 'none';
+                                        } else {
+                                            contactNumberValidationFeedback.style.display = 'block';
+                                        }
+                                    });
+                                </script>
 
                                 <div class="col-md-6 position-relative mt-0">
                                     <div class="form-group">
@@ -240,12 +405,29 @@
                                                 <option value="{{ $education->id }}">{{ $education->education }}</option>
                                             @endforeach
                                         </select>
-                                        <div class="invalid-tooltip">
-                                            Please select at least one option for Highest Formal Education.
+                                        <div id="educationValidationFeedback" class="invalid-feedback">
+                                            Please select the highest formal education level.
                                         </div>
                                     </div>
                                 </div>
 
+                                <script>
+                                    const educationSelect = document.getElementById('highest_formal_education');
+                                    const educationValidationFeedback = document.getElementById('educationValidationFeedback');
+
+                                    // Show validation message initially
+                                    educationValidationFeedback.style.display = 'block';
+
+                                    educationSelect.addEventListener('change', function() {
+                                        const selectedEducationId = this.value;
+
+                                        if (selectedEducationId !== '') {
+                                            educationValidationFeedback.style.display = 'none';
+                                        } else {
+                                            educationValidationFeedback.style.display = 'block';
+                                        }
+                                    });
+                                </script>
                                 <script>
                                     function handleEducationSelect() {
                                         var selectedEducationId = document.getElementById("highest_formal_education_id").value;
@@ -283,33 +465,84 @@
                                         <label for="dob">Date of Birth:</label>
                                         <input type="date" class="form-control" id="dob" name="dob"
                                             required>
-                                        <div class="invalid-tooltip">
+                                        <div id='dobValidationFeedback' class="invalid-feedback">
                                             Please enter your date of birth.
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                    const dobInput = document.getElementById('dob');
+                                    const dobValidationFeedback = document.getElementById('dobValidationFeedback');
+
+                                    // Show validation message initially
+                                    dobValidationFeedback.style.display = 'block';
+
+                                    dobInput.addEventListener('input', function() {
+                                        const inputValue = this.value;
+
+                                        if (inputValue !== '') {
+                                            dobValidationFeedback.style.display = 'none';
+                                        } else {
+                                            dobValidationFeedback.style.display = 'block';
+                                        }
+                                    });
+                                </script>
 
                                 <div class="col-md-6 position-relative mt-2">
                                     <div class="form-group">
                                         <label for="pob">Place of Birth:</label>
                                         <input type="text" class="form-control" id="pob" name="pob"
                                             required>
-                                        <div class="invalid-tooltip">
+                                        <div id='pobValidationFeedback' class="invalid-feedback">
                                             Please enter your place of birth.
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                    const pobInput = document.getElementById('pob');
+                                    const pobValidationFeedback = document.getElementById('pobValidationFeedback');
+
+                                    // Show validation message initially
+                                    pobValidationFeedback.style.display = 'block';
+
+                                    pobInput.addEventListener('input', function() {
+                                        const inputValue = this.value;
+
+                                        if (inputValue !== '') {
+                                            pobValidationFeedback.style.display = 'none';
+                                        } else {
+                                            pobValidationFeedback.style.display = 'block';
+                                        }
+                                    });
+                                </script>
 
                                 <div class="col-md-6 position-relative mt-2">
                                     <div class="form-group">
                                         <label for="religion">Religion</label>
                                         <input type="text" class="form-control" id="religion" name="religion"
                                             required>
-                                        <div class="invalid-tooltip">
+                                        <div id='religionValidationFeedback' class="invalid-feedback">
                                             Please enter your religion.
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                    const religionInput = document.getElementById('religion');
+                                    const religionValidationFeedback = document.getElementById('religionValidationFeedback');
+
+                                    // Show validation message initially
+                                    religionValidationFeedback.style.display = 'block';
+
+                                    religionInput.addEventListener('input', function() {
+                                        const inputValue = this.value;
+
+                                        if (inputValue !== '') {
+                                            religionValidationFeedback.style.display = 'none';
+                                        } else {
+                                            religionValidationFeedback.style.display = 'block';
+                                        }
+                                    });
+                                </script>
 
                                 <div class="col-md-3 position-relative mt-2">
                                     <div class="form-group">
@@ -330,11 +563,31 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="invalid-tooltip">
-                                            Please select if you are a Person with Disability (PWD).
+                                        <div id='pwdValidationFeedback' class="invalid-feedback">
+                                            Please select whether you are a Person with Disability (PWD) or not.
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                    const pwdOptions = document.querySelectorAll('[name="pwd"]');
+                                    const pwdValidationFeedback = document.getElementById('pwdValidationFeedback');
+
+                                    // Show validation message initially
+                                    pwdValidationFeedback.style.display = 'block';
+
+                                    pwdOptions.forEach(function(option) {
+                                        option.addEventListener('change', function() {
+                                            const isYesSelected = document.getElementById('pwdYes').checked;
+                                            const isNoSelected = document.getElementById('pwdNo').checked;
+
+                                            if (isYesSelected || isNoSelected) {
+                                                pwdValidationFeedback.style.display = 'none';
+                                            } else {
+                                                pwdValidationFeedback.style.display = 'block';
+                                            }
+                                        });
+                                    });
+                                </script>
 
 
                                 <div class="col-md-3 position-relative mt-2">
@@ -356,11 +609,31 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="invalid-tooltip">
+                                        <div id='beneficiaryValidationFeedback' class="invalid-feedback">
                                             Please select whether you are a 4Ps Beneficiary or not.
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                    const beneficiaryOptions = document.querySelectorAll('[name="benefits"]');
+                                    const beneficiaryValidationFeedback = document.getElementById('beneficiaryValidationFeedback');
+
+                                    // Show validation message initially
+                                    beneficiaryValidationFeedback.style.display = 'block';
+
+                                    beneficiaryOptions.forEach(function(option) {
+                                        option.addEventListener('change', function() {
+                                            const isYesSelected = document.getElementById('beneficiaryYes').checked;
+                                            const isNoSelected = document.getElementById('beneficiaryNo').checked;
+
+                                            if (isYesSelected || isNoSelected) {
+                                                beneficiaryValidationFeedback.style.display = 'none';
+                                            } else {
+                                                beneficiaryValidationFeedback.style.display = 'block';
+                                            }
+                                        });
+                                    });
+                                </script>
 
 
                                 <div class="row">
@@ -377,11 +650,29 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            <div class="invalid-tooltip">
-                                                Please select one option for Civil Status.
+                                            <div id='civilStatusValidationFeedback' class="invalid-feedback">
+                                                Please select your civil status.
                                             </div>
                                         </div>
                                     </div>
+                                    <script>
+                                        const civilStatusSelect = document.getElementById('cstatus');
+                                        const civilStatusValidationFeedback = document.getElementById('civilStatusValidationFeedback');
+
+                                        // Show validation message initially
+                                        civilStatusValidationFeedback.style.display = 'block';
+
+                                        civilStatusSelect.addEventListener('change', function() {
+                                            const selectedCivilStatus = this.value;
+
+                                            if (selectedCivilStatus !== '') {
+                                                civilStatusValidationFeedback.style.display = 'none';
+                                            } else {
+                                                civilStatusValidationFeedback.style.display = 'block';
+                                            }
+                                        });
+                                    </script>
+
                                     <script>
                                         function handleCivilStatusSelect() {
                                             var selectedStatusId = document.getElementById("civil_status_id").value;
@@ -428,22 +719,62 @@
                                             <label for="mother">Mother's Maiden Name:</label>
                                             <input type="text" class="form-control d-inline" id="mother"
                                                 name="mother" required>
-                                            <div class="invalid-tooltip">
+                                            <div id='motherValidationFeedback' class="invalid-feedback">
                                                 Please enter your mother's maiden name.
                                             </div>
                                         </div>
                                     </div>
+                                    <script>
+                                        const motherInput = document.getElementById('mother');
+                                        const motherValidationFeedback = document.getElementById('motherValidationFeedback');
+
+                                        // Show validation message initially
+                                        motherValidationFeedback.style.display = 'block';
+
+                                        motherInput.addEventListener('input', function() {
+                                            const inputValue = this.value;
+
+                                            if (inputValue !== '') {
+                                                motherValidationFeedback.style.display = 'none';
+                                            } else {
+                                                motherValidationFeedback.style.display = 'block';
+                                            }
+                                        });
+                                    </script>
 
                                     <div class="col-md-3 position-relative mt-2">
                                         <div class="form-group">
                                             <label for="emergency">Contact No. Incase of Emergency</label>
-                                            <input type="number" class="form-control d-inline" id="emergency" name="emergency" oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 11);" required>
+                                            <input type="number" class="form-control d-inline" id="emergency"
+                                                name="emergency"
+                                                oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 11);"
+                                                required>
 
 
-
+                                            <div id='emergencyValidationFeedback' class="invalid-feedback">
+                                                Please enter a valid emergency contact number (maximum 11 digits).
+                                            </div>
 
                                         </div>
                                     </div>
+                                    <script>
+                                        const emergencyInput = document.getElementById('emergency');
+                                        const emergencyValidationFeedback = document.getElementById('emergencyValidationFeedback');
+
+                                        // Show validation message initially
+                                        emergencyValidationFeedback.style.display = 'block';
+
+                                        emergencyInput.addEventListener('input', function() {
+                                            const inputValue = this.value;
+
+                                            if (inputValue.length <= 11) {
+                                                emergencyValidationFeedback.style.display = 'none';
+                                            } else {
+                                                emergencyValidationFeedback.style.display = 'block';
+                                            }
+                                        });
+                                    </script>
+
 
                                 </div>
 
@@ -452,22 +783,22 @@
                                 <p class="mt-0" style="font-weight: bold; font-size: 12px;">PART II. FARMERS
                                     PROFILE</p>
 
-                                    <div class="col-md-12 mt-0">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="livelihood" class="mr-2">Main Livelihood:</label>
-                                                    <div class="col-md-3 form-check form-check-inline">
-                                                        <!-- Make it a form-control -->
-                                                        <input type="text"
-                                            style="border-bottom:solid 1px; border-radius:0; border-top: none; border-left: none; border-right: none;"
-                                            id="Farmers" name="livelihood" class="form-control" value="Farmers"
-                                            readonly>
-                                                    </div>
+                                <div class="col-md-12 mt-0">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="livelihood" class="mr-2">Main Livelihood:</label>
+                                                <div class="col-md-3 form-check form-check-inline">
+                                                    <!-- Make it a form-control -->
+                                                    <input type="text"
+                                                        style="border-bottom:solid 1px; border-radius:0; border-top: none; border-left: none; border-right: none;"
+                                                        id="Farmers" name="livelihood" class="form-control"
+                                                        value="Farmers" readonly>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
 
 
@@ -505,7 +836,8 @@
                                                                 <label for="farmSize{{ $id }}">Farm Size</label>
                                                                 <input type="text" class="form-control farm-size-input"
                                                                     id="farmSize{{ $id }}"
-                                                                    name="farm_size[{{ $id }}]" disabled>
+                                                                    name="farm_size[{{ $id }}] <span>ha</span>"
+                                                                    disabled>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="location{{ $id }}">Location</label>
@@ -576,40 +908,95 @@
                                                         for="highValueCrops">Others</label>
                                                 </div>
                                             </div>
-                                <div class="row">
-                                    @foreach ($others as $id => $other)
-                                        <div class="col-md-4">
-                                            <div class="form-check">
-                                                <input class="form-check-input crop-checkbox" type="checkbox"
-                                                    value="{{ $id }}"
-                                                    id="crops[{{ $id }}]"
-                                                    name="crops[{{ $id }}]"
-                                                    data-target="cropInputs{{ $id }}">
-                                                <label class="form-check-label"
-                                                    for="commodity{{ $id }}">
-                                                    {{ $other }}
-                                                </label>
-                                            </div>
-                                            <div class="commodity-inputs" id="cropInputs{{ $id }}">
-                                                <div class="form-group">
-                                                    <label for="farmSize{{ $id }}">Farm Size</label>
-                                                    <input type="text" class="form-control"
-                                                        id="farmSize{{ $id }}"
-                                                        name="farm_size[{{ $id }}]" disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="location{{ $id }}">Location</label>
-                                                    <input type="text" class="form-control"
-                                                        id="location{{ $id }}"
-                                                        name="farm_location[{{ $id }}]" disabled>
-                                                </div>
+                                            <div class="row">
+                                                @foreach ($others as $id => $other)
+                                                    <div class="col-md-4">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input crop-checkbox" type="checkbox"
+                                                                value="{{ $id }}"
+                                                                id="crops[{{ $id }}]"
+                                                                name="crops[{{ $id }}]"
+                                                                data-target="cropInputs{{ $id }}">
+                                                            <label class="form-check-label"
+                                                                for="commodity{{ $id }}">
+                                                                {{ $other }}
+                                                            </label>
+                                                        </div>
+                                                        <div class="commodity-inputs" id="cropInputs{{ $id }}">
+                                                            <div class="form-group">
+                                                                <label for="farmSize{{ $id }}">Farm Size</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="farmSize{{ $id }}"
+                                                                    name="farm_size[{{ $id }}]" disabled>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="location{{ $id }}">Location</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="location{{ $id }}"
+                                                                    name="farm_location[{{ $id }}]" disabled>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
                                             </div>
                                         </div>
-                                    @endforeach
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+
+
+                                {{-- <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="others">Others</label>
+                                        <input type="text" class="form-control farm-size-input" id="others" name="commodities_id">
+                                    </div>
+
+                                    <div class="commodity-inputs" id="cropInputs">
+                                        <div class="form-group">
+                                            <label for="farmSize">Farm Size</label>
+                                            <input type="text" class="form-control farm-size-input" id="farmSize" name="farm_size" disabled>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="location">Location</label>
+                                            <input type="text" class="form-control location-input" id="location" name="farm_location" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    // Get the "Others" input element
+                                    var othersInput = document.getElementById('others');
+
+                                    // Get the "Farm Size" and "Location" input elements
+                                    var farmSizeInput = document.getElementById('farmSize');
+                                    var locationInput = document.getElementById('location');
+
+                                    // Add an event listener to the "Others" input to check for changes
+                                    othersInput.addEventListener('input', function () {
+                                        // Generate a unique identifier
+                                        var uniqueId = 'others_' + Date.now(); // Example: You might need a more robust solution
+
+                                        // If "Others" input is not empty, enable the "Farm Size" and "Location" inputs
+                                        if (othersInput.value.trim() !== '') {
+                                            farmSizeInput.disabled = false;
+                                            locationInput.disabled = false;
+
+                                            // Assign the unique identifier to the disabled inputs
+                                            farmSizeInput.name = uniqueId + '_farm_size';
+                                            locationInput.name = uniqueId + '_farm_location';
+                                        } else {
+                                            // If "Others" input is empty, disable the "Farm Size" and "Location" inputs
+                                            farmSizeInput.disabled = true;
+                                            locationInput.disabled = true;
+
+                                            // Reset the name attributes
+                                            farmSizeInput.name = 'farm_size';
+                                            locationInput.name = 'farm_location';
+                                        }
+                                    });
+                                </script> --}}
+
+
 
                                 <script>
                                     $(document).ready(function() {
@@ -637,7 +1024,7 @@
                                                 @endif
                                                 <div class="col-md-4">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox"
+                                                        <input class="form-check-input machinery-checkbox" type="checkbox"
                                                             id="machine_{{ $id }}"
                                                             name="machineries[{{ $id }}]"
                                                             value="{{ $id }}"
@@ -647,7 +1034,7 @@
                                                     </div>
                                                     <label for="noofunits_{{ $id }}" class="form-label">No. Of
                                                         Units:</label>
-                                                    <input type="text" class="form-control units-input"
+                                                    <input type="number" class="form-control units-input"
                                                         id="noofunits_{{ $id }}"
                                                         name="units[{{ $id }}]" disabled>
                                                 </div>
@@ -658,20 +1045,25 @@
                                     </div>
                                 </div>
 
+                                <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
                                 <script>
-                                    $(document).ready(function() {
-                                        $('.form-check-input').on('change', function() {
-                                            var targetInputId = $(this).data('target');
-                                            var unitsInput = $('#' + targetInputId);
+                                    jQuery(document).ready(function($) {
+                                        $('.machinery-checkbox').on('change', function() {
+                                            var checkboxId = $(this).attr('id');
+                                            var unitsInputId = 'noofunits_' + checkboxId.split('_')[1];
+                                            var unitsInput = $('#' + unitsInputId);
 
                                             if ($(this).prop('checked')) {
                                                 unitsInput.prop('disabled', false);
+                                                unitsInput.val(1);
                                             } else {
                                                 unitsInput.prop('disabled', true);
+                                                unitsInput.val('');
                                             }
                                         });
                                     });
                                 </script>
+
 
 
 
@@ -688,23 +1080,61 @@
                                             <input type="text" class="form-control" id="grosses"
                                                 id="validationCustom02" name="grosses" maxlength="7" required>
                                         </div>
-                                        <div class="invalid-feedback">
-                                            Please provide the gross annual income for both farming and non-farming.
+                                        <div id='grossIncomeValidationFeedback' class="invalid-feedback">
+                                            Please enter gross annual income in Farming and Non-Farming.
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                    const grossIncomeInput = document.getElementById('gross');
+                                    const nonFarmingIncomeInput = document.getElementById('grosses');
+                                    const grossIncomeValidationFeedback = document.getElementById('grossIncomeValidationFeedback');
 
+                                    // Show validation message initially
+                                    grossIncomeValidationFeedback.style.display = 'block';
+
+                                    // Listen for input events on both fields
+                                    grossIncomeInput.addEventListener('input', validateGrossIncome);
+                                    nonFarmingIncomeInput.addEventListener('input', validateGrossIncome);
+
+                                    function validateGrossIncome() {
+                                        const grossIncome = grossIncomeInput.value.trim();
+                                        const nonFarmingIncome = nonFarmingIncomeInput.value.trim();
+
+                                        if (grossIncome !== '' || nonFarmingIncome !== '') {
+                                            grossIncomeValidationFeedback.style.display = 'none';
+                                        } else {
+                                            grossIncomeValidationFeedback.style.display = 'block';
+                                        }
+                                    }
+                                </script>
 
                                 <!-- resources/views/livewire/farm-parcels-form.blade.php -->
                                 <div class="col-md-8 mt-3">
                                     <label class="form-label">No. of Farm Parcels</label>
                                     <input type="text" class="form-control" id="parcels" id="validationTooltip01"
                                         maxlength="15" required name="parcels">
-                                    <div class="invalid-tooltip">
-                                        Please provide the number of farm parcels.
+                                    <div id='parcelsValidationFeedback' class="invalid-feedback">
+                                        Please enter the number of farm parcels.
                                     </div>
                                 </div>
+                                <script>
+                                    const parcelsInput = document.getElementById('parcels');
+                                    const parcelsValidationFeedback = document.getElementById('parcelsValidationFeedback');
 
+                                    // Show validation message initially
+                                    parcelsValidationFeedback.style.display = 'block';
+
+                                    parcelsInput.addEventListener('input', function() {
+                                        const inputValue = this.value.trim();
+
+                                        if (inputValue !== '') {
+                                            parcelsValidationFeedback.style.display = 'none';
+                                        } else {
+                                            parcelsValidationFeedback.style.display = 'block';
+                                        }
+                                    });
+                                </script>
 
 
                                 <!-- resources/views/livewire/agrarian-reform-form.blade.php -->
@@ -727,12 +1157,31 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="invalid-tooltip">
-                                            Please select if you are an Agrarian Reform Beneficiary.
+                                        <div id='arbValidationFeedback' class="invalid-feedback">
+                                            Please select whether you are an Agrarian Reform Beneficiary or not.
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                    const arbOptions = document.querySelectorAll('[name="arb"]');
+                                    const arbValidationFeedback = document.getElementById('arbValidationFeedback');
 
+                                    // Show validation message initially
+                                    arbValidationFeedback.style.display = 'block';
+
+                                    arbOptions.forEach(function(option) {
+                                        option.addEventListener('change', function() {
+                                            const isYesSelected = document.getElementById('pwdYes').checked;
+                                            const isNoSelected = document.getElementById('pwdNo').checked;
+
+                                            if (isYesSelected || isNoSelected) {
+                                                arbValidationFeedback.style.display = 'none';
+                                            } else {
+                                                arbValidationFeedback.style.display = 'block';
+                                            }
+                                        });
+                                    });
+                                </script>
 
 
 
