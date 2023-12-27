@@ -35,12 +35,16 @@
 <!-- jQuery -->
 <script src="{{ asset('assets/js/app.js') }}"></script>
 <script src="{{ asset('assets/js/boostrap@5.js') }}"></script>
+<script src="{{ asset('assets/js/moment.js') }}"></script>
+<script src="{{ asset('assets/js/shield.js') }}"></script>
+<script src="{{ asset('assets/js/jszip.js') }}"></script>
 <!-- Template Main CSS File -->
 <link href="../../assets/css/style.css" rel="stylesheet">
 <link href="../../assets/css/id.css" rel="stylesheet">
 <link href="../../assets/css/awesome.css" rel="stylesheet">
 <link href="../../assets/css/awesomee.css" rel="stylesheet">
 <link href="../../assets/css/fonts.css" rel="stylesheet">
+<link href="../../assets/css/all.min.css" rel="stylesheet">
 @livewireStyles
   </head>
 {{--

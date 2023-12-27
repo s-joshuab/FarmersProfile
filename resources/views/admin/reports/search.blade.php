@@ -34,7 +34,7 @@
     </script>
 
     <div class="pagetitle">
-        <h1>Farmers Data</h1>
+        <h1>Search Data</h1>
         <nav>
             <ol class="breadcrumb">
                 {{-- <li class="breadcrumb-item active">Farmers Data</li> --}}

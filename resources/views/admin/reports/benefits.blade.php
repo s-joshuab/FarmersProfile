@@ -64,13 +64,16 @@
                                 <input type="date" id="dateFilter" class="form-control">
                             </div> --}}
 
+                                <!-- Include moment.js -->
+                                <!-- Include moment.js -->
+                                {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script> --}}
+
                                 <div class="col-md-3">
-                                    <label for="dateFilterText">Filter by Date Claimed:</label>
-                                    <input type="text" id="dateFilterText" class="form-control">
+                                    <label for="dateFilterPicker">Filter by Date Claimed:</label>
+                                    <input type="date" id="dateFilterPicker" class="form-control">
                                 </div>
+
                             </div>
-
-
                             <script>
                                 $(document).ready(function() {
                                     // Initialize DataTable
@@ -93,24 +96,32 @@
                                     });
 
                                     // Add filtering for Date Claimed column
-                                    $('#dateFilter').on('change', function() {
+                                    $('#dateFilterPicker').on('change', function() {
                                         var selectedDate = $(this).val();
-                                        table.column(3).search(selectedDate).draw();
-                                    });
-
-                                    // Add filtering for Date Claimed column using text input
-                                    $('#dateFilterText').on('keyup', function() {
-                                        var dateClaimed = $(this).val();
-                                        table.column(3).search(dateClaimed).draw();
+                                        filterTableByDate(selectedDate);
                                     });
                                 });
 
                                 function updateTableForSelectedBarangay() {
                                     // You can add additional logic here if needed
                                 }
+
+                                function filterTableByDate(selectedDate) {
+                                    // Loop through each row and show/hide based on the selected date
+                                    $('#myTable tbody tr').each(function() {
+                                        var rowDate = $(this).find('td:eq(3)').text(); // Assuming Date Claimed is in the 4th column
+                                        if (!selectedDate || moment(rowDate, 'MMMM D, YYYY').isSame(selectedDate)) {
+                                            $(this).show();
+                                        } else {
+                                            $(this).hide();
+                                        }
+                                    });
+                                }
                             </script>
+
                             <button id="exportButton" class="btn btn-lg btn-danger clearfix"><span
                                     class="fa fa-file-pdf-o"></span> Export to PDF</button>
+
                             <table id="myTable" class="table table-bordered table-striped">
                                 <thead class="thead-dark">
                                     <tr>
@@ -129,11 +140,12 @@
                                             </td>
                                             <td>{{ $benefit->benefits }}</td>
                                             <td>{{ \Carbon\Carbon::parse($benefit->date)->format('F j, Y') }}</td>
-
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
+
+
                         </div>
                     </div>
                 </div>
@@ -214,9 +226,9 @@
     </style>
 
 
-    <link rel="stylesheet" type="text/css" href="http://www.shieldui.com/shared/components/latest/css/light/all.min.css" />
+    {{-- <link rel="stylesheet" type="text/css" href="http://www.shieldui.com/shared/components/latest/css/light/all.min.css" />
     <script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
-    <script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/jszip.min.js"></script>
+    <script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/jszip.min.js"></script> --}}
     <script type="text/javascript">
         jQuery(function($) {
             $("#exportButton").click(function() {
