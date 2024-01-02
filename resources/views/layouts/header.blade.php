@@ -10,7 +10,7 @@
     <link href="../../assets/img/balaoan-5.webp" rel="apple-touch-icon">
     {{-- title --}}
     <title>Balaoan Farmer's Profile</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
 
     <link href="../../assets/css/bootstrap1.css" rel="stylesheet">
 <!-- Google Fonts -->
