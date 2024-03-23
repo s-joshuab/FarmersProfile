@@ -17,6 +17,7 @@
             <div class="col-lg-12">
                 <form action="{{ url('store') }}" method="post">
                     @csrf
+                    @csrf
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
@@ -29,33 +30,22 @@
                                     <div class="d-flex align-items-center">
                                         <label for="referenceNo" class="mr-2">Reference/Control No.: </label>
                                         <div class="flex-grow-1">
-                                            <input type="number" class="form-control d-inline" id="ref_no"
-                                                name="ref_no"
-                                                oninput="javascript: if (this.value.length > 15) this.value = this.value.slice(0, 15);"
-                                                required>
+                                            <input type="number" class="form-control d-inline" id="ref_no" name="ref_no" readonly>
                                         </div>
-
-                                    </div>
-                                    <div id='refNoValidationFeedback' class="invalid-feedback">
-                                        Please enter the reference/control number.
                                     </div>
                                 </div>
+
                                 <script>
                                     const refNoInput = document.getElementById('ref_no');
-                                    const refNoValidationFeedback = document.getElementById('refNoValidationFeedback');
 
-                                    // Show validation message initially
-                                    refNoValidationFeedback.style.display = 'block';
+                                    // Generate a random 15-digit number and insert it into the input field
+                                    function generateRandomNumber() {
+                                        let randomNumber = Math.floor(100000000000000 + Math.random() * 900000000000000);
+                                        refNoInput.value = randomNumber;
+                                    }
 
-                                    refNoInput.addEventListener('input', function() {
-                                        const inputValue = this.value.trim();
-
-                                        if (inputValue !== '') {
-                                            refNoValidationFeedback.style.display = 'none';
-                                        } else {
-                                            refNoValidationFeedback.style.display = 'block';
-                                        }
-                                    });
+                                    // Generate a random number when the page loads
+                                    window.addEventListener('load', generateRandomNumber);
                                 </script>
 
                                 <div class="col-md-6 position-relative mt-3">
@@ -153,29 +143,11 @@
                                 <!-- Middle Name Field -->
                                 <div class="col-md-5 position-relative mt-0">
                                     <label class="form-label">Middle Name</label>
-                                    <input type="text" class="form-control is-invalid" id="validationTooltipMiddleName"
-                                        name="mname" autofocus="autofocus">
-                                    <div class="invalid-feedback">
-                                        The Middle Name field is required.
-                                    </div>
+                                    <input type="text" class="form-control"
+                                        name="mname" >
+
                                 </div>
 
-                                <!-- Validation Script for Middle Name -->
-                                <script>
-                                    document.getElementById('validationTooltipMiddleName').addEventListener('input', function() {
-                                        const middleNameInput = this;
-                                        const feedbackDiv = middleNameInput
-                                        .nextElementSibling; // Assuming the feedback div is the next sibling element
-
-                                        if (middleNameInput.value.trim() !== '') {
-                                            middleNameInput.classList.remove('is-invalid');
-                                            feedbackDiv.style.display = 'none';
-                                        } else {
-                                            middleNameInput.classList.add('is-invalid');
-                                            feedbackDiv.style.display = 'block';
-                                        }
-                                    });
-                                </script>
 
                                 <!-- Extension Name Field -->
                                 <div class="col-md-3 position-relative mt-0">
@@ -636,7 +608,7 @@
                                 </script>
 
 
-                                <div class="row">
+                           <div class="row">
                                     <div class="col-md-3 position-relative">
                                         <div class="form-group">
                                             <label for="cstatus">Civil Status:</label>
@@ -701,18 +673,13 @@
                                         }
                                     </script>
 
-
-
-
-
-
-                                    <div class="col-md-3 position-relative mt-2">
+                                        <div class="col-md-3 position-relative mt-2">
                                         <div class="form-group">
                                             <label for="emergency">Name of Spouse if Married:</label>
                                             <input type="text" class="form-control d-inline" id="spouse"
                                                 name="spouse">
                                         </div>
-                                    </div>
+                                        </div>
 
                                     <div class="col-md-3 position-relative mt-2">
                                         <div class="form-group">
@@ -777,6 +744,7 @@
 
 
                                 </div>
+
 
 
                                 <hr class="mt-2">
@@ -1074,10 +1042,10 @@
                                             Year:</label>
                                         <div class="d-flex align-items-center">
                                             <label class="me-2">Farming</label>
-                                            <input type="text" class="form-control" id="gross"
+                                            <input type="number" class="form-control" id="gross"
                                                 id="validationCustom01" name="gross" maxlength="7" required>
                                             <label class="ms-3 me-2">Non-Farming</label>
-                                            <input type="text" class="form-control" id="grosses"
+                                            <input type="number" class="form-control" id="grosses"
                                                 id="validationCustom02" name="grosses" maxlength="7" required>
                                         </div>
                                         <div id='grossIncomeValidationFeedback' class="invalid-feedback">
@@ -1112,7 +1080,7 @@
                                 <!-- resources/views/livewire/farm-parcels-form.blade.php -->
                                 <div class="col-md-8 mt-3">
                                     <label class="form-label">No. of Farm Parcels</label>
-                                    <input type="text" class="form-control" id="parcels" id="validationTooltip01"
+                                    <input type="number" class="form-control" id="parcels" id="validationTooltip01"
                                         maxlength="15" required name="parcels">
                                     <div id='parcelsValidationFeedback' class="invalid-feedback">
                                         Please enter the number of farm parcels.

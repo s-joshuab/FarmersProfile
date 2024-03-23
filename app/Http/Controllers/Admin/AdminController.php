@@ -72,18 +72,27 @@ class AdminController extends Controller
         }
 
         // Find the maximum commodity count and its corresponding name and ID
-        $maxCommodityIndex = array_search(max($commodityCounts), $commodityCounts);
+        if (!empty($commodityCounts)) {
+    $maxCommodityIndex = array_search(max($commodityCounts), $commodityCounts);
 
-        if ($maxCommodityIndex !== false) {
-            $maxCommodityCount = $commodityCounts[$maxCommodityIndex];
-            $maxCommodityName = $commodityNames[$maxCommodityIndex];
-            $maxCommodityId = $commoditiesIds[$maxCommodityIndex];
-        } else {
-            // Set default values if there are no commodities
-            $maxCommodityCount = 0;
-            $maxCommodityName = "No Commodities";
-            $maxCommodityId = null;
-        }
+    if ($maxCommodityIndex !== false) {
+        $maxCommodityCount = $commodityCounts[$maxCommodityIndex];
+        $maxCommodityName = $commodityNames[$maxCommodityIndex];
+        $maxCommodityId = $commoditiesIds[$maxCommodityIndex];
+    } else {
+        // Set default values even if there are no commodities
+        $maxCommodityCount = 0;
+        $maxCommodityName = "No Commodities";
+        $maxCommodityId = null;
+    }
+} else {
+    // Set default values if there are no commodities
+    $maxCommodityCount = 0;
+    $maxCommodityName = "No Commodities";
+    $maxCommodityId = null;
+}
+
+// Now you can use $maxCommodityCount, $maxCommodityName, and $maxCommodityId as needed
 
         // Fetch the top 5 commodities
         $maxCommodityIndex = !empty($commodityCounts) ? array_search(max($commodityCounts), $commodityCounts) : false;

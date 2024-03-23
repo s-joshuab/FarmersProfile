@@ -45,33 +45,49 @@ class SettingsController extends Controller
      * Display a listing of the resource.
      */
 
-    public function audit(Request $request)
-    {
-        $dateFilter = $request->input('date_filter');
-        $activitiesQuery = Activity::orderBy('created_at', 'desc');
+     public function audit(Request $request)
+     {
+         $dateFilter = $request->input('date_filter');
+         $activitiesQuery = Activity::orderBy('created_at', 'desc');
 
-        if ($dateFilter !== 'all') {
-            $now = Carbon::now();
+         // Check if it's the last day of the month
+         $now = Carbon::now();
+         $isLastDayOfMonth = $now->isLastOfMonth();
 
-            if ($dateFilter === 'today') {
-                $activitiesQuery->whereDate('created_at', $now->toDateString());
-            } elseif ($dateFilter === 'yesterday') {
-                $activitiesQuery->whereDate('created_at', $now->subDay()->toDateString());
-            } elseif ($dateFilter === 'this_week') {
-                $startOfWeek = $now->startOfWeek()->toDateString();
-                $endOfWeek = $now->endOfWeek()->toDateString();
-                $activitiesQuery->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
-            } elseif ($dateFilter === 'this_month') {
-                $startOfMonth = $now->startOfMonth()->toDateString();
-                $endOfMonth = $now->endOfMonth()->toDateString();
-                $activitiesQuery->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
-            }
-        }
+         if ($isLastDayOfMonth) {
+             // Perform actions to reset or clear the audit trail data
+             // For example, you can truncate the table or delete records
+             DB::table('activities')->truncate(); // This will delete all records in the 'activities' table
+         }
 
-        $activities = $activitiesQuery->get();
+         if ($dateFilter !== 'all') {
+             if ($dateFilter === 'today') {
+                 $activitiesQuery->whereDate('created_at', $now->toDateString());
+             } elseif ($dateFilter === 'yesterday') {
+                 $activitiesQuery->whereDate('created_at', $now->subDay()->toDateString());
+             } elseif ($dateFilter === 'this_week') {
+                 $startOfWeek = $now->startOfWeek()->toDateString();
+                 $endOfWeek = $now->endOfWeek()->toDateString();
+                 $activitiesQuery->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
+             } elseif ($dateFilter === 'this_month') {
+                 $startOfMonth = $now->startOfMonth()->toDateString();
+                 $endOfMonth = $now->endOfMonth()->toDateString();
+                 $activitiesQuery->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
+             }
+         }
 
-        return view('admin.settings.audittrail', compact('activities'));
-    }
+         // Use chunk to process the records in smaller batches
+         $activities = [];
+         $activitiesQuery->chunk(200, function ($chunk) use (&$activities) {
+             foreach ($chunk as $activity) {
+                 // Process each activity
+                 // You can move your existing code logic here
+                 $activities[] = $activity; // Store the processed activity
+             }
+         });
+
+         return view('admin.settings.audittrail', compact('activities'));
+     }
 
 
 
@@ -117,7 +133,7 @@ class SettingsController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'phone_number' => $request->input('phone_number'),
-
+            'barangays_id' => $request->input('barangays_id'), // Add this line
         ];
 
         // Handle profile image upload if a new image was provided
@@ -197,6 +213,8 @@ class SettingsController extends Controller
         $command = "{$mysqlDumpPath} --user={$databaseConfig['username']} --host={$databaseConfig['host']} {$databaseConfig['database']} > " . storage_path('app/backup/') . $backupFileName;
 
         exec($command, $output, $returnCode);
+
+
 
         if ($returnCode === 0) {
             return $this->createBackupResponse($backupFileName);

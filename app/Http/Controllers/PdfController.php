@@ -43,7 +43,7 @@ class PdfController extends Controller
         $logo ='data:image/' . $type . ';base64,' . base64_encode($data);
 
 
-        $pdf = Pdf::loadView('admin.pdf.pdf', [
+        $pdf = pdf::loadView('admin.pdf.pdf.php', [
             'farmersprofile' => $farmersprofile,
             'provinces' => $provinces,
             'civilStatusOptions' => $civilStatusOptions, // Fix the syntax here

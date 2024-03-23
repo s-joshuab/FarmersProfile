@@ -308,6 +308,7 @@ class SecretaryDataController extends Controller
 
         session()->flash('message', 'Farmer Added Successfully!');
 
+
         return redirect()->route('farmdata')->with('message', 'Farmer Added Successfully!');
 
 
@@ -327,12 +328,34 @@ class SecretaryDataController extends Controller
     //gegenerate ng ng id number
     protected function createFarmersNumber(array $attributes)
     {
-        $count = FarmersNumber::where('barangays_id', $attributes['barangays_id'])->count();
-        $count++;
-        $attributes['farmersnumber'] = "BLN {$attributes['barangays_id']} - {$count}";
-        return FarmersNumber::create($attributes);
-    }
+        // Check if a 'farmersnumber' record already exists for the same 'barangays_id' and 'farmersprofile_id'
+        $existingFarmersNumber = FarmersNumber::where('barangays_id', $attributes['barangays_id'])
+            ->where('farmersprofile_id', $attributes['farmersprofile_id'])
+            ->first();
 
+        if ($existingFarmersNumber) {
+            // If a record already exists, no need to create a new one
+            return $existingFarmersNumber;
+        } else {
+            // If no record exists, find the last farmersnumber for the barangays_id
+            $lastFarmersNumber = FarmersNumber::where('barangays_id', $attributes['barangays_id'])
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+            if ($lastFarmersNumber) {
+                // Extract the count from the last farmersnumber and increment it
+                $lastCount = explode(' - ', $lastFarmersNumber->farmersnumber)[1];
+                $count = intval($lastCount) + 1;
+            } else {
+                // If no previous record found, start count from 1
+                $count = 1;
+            }
+
+            // Create the new farmersnumber with incremented count
+            $attributes['farmersnumber'] = "BLN {$attributes['barangays_id']} - {$count}";
+            return FarmersNumber::create($attributes);
+        }
+    }
 
     public function show($id)
     {
@@ -546,7 +569,7 @@ class SecretaryDataController extends Controller
         } else {
             // If there's an existing record and the barangays_id is different, update it
             if ($farmersNumber->barangays_id !== $barangaysId) {
-                $lastFarmersNumber = FarmersNumber::where('barangays_id', $barangaysId)->orderByDesc('id')->first();
+                $lastFarmersNumber = FarmersNumber::where('barangays_id', $barangaysId)->orderByDesc('farmersnumber')->first();
 
                 if ($lastFarmersNumber) {
                     // Extract the current count from the last farmersnumber
@@ -560,7 +583,6 @@ class SecretaryDataController extends Controller
                 $farmersNumber->update(['farmersnumber' => $newFarmersNumber]);
             }
         }
-
 
         activity()
             ->causedBy(auth()->user()) // Assuming you're logged in

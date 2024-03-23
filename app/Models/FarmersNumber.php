@@ -10,7 +10,7 @@ class FarmersNumber extends Model
 {
     use HasFactory;
 
-    protected $table = 'farmersnumber';
+    protected $primaryKey = 'farmersnumber'; // Specify the new primary key
 
     protected $fillable = [
         'barangays_id',
@@ -18,6 +18,13 @@ class FarmersNumber extends Model
         'farmersnumber',
     ];
 
+    public $incrementing = false; // Set to false to prevent auto-incrementing
+
+    protected $keyType = 'string'; // Specify the key type as string if farmersnumber is string
+
+    public $timestamps = false; // If you don't have created_at and updated_at columns
+
+    protected $table = 'farmersnumber';
 
     public function farmersprofile()
     {

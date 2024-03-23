@@ -36,7 +36,7 @@
 <script src="{{ asset('assets/js/app.js') }}"></script>
 <script src="{{ asset('assets/js/boostrap@5.js') }}"></script>
 <script src="{{ asset('assets/js/moment.js') }}"></script>
-<script src="{{ asset('assets/js/shield.js') }}"></script>
+{{-- <script src="{{ asset('assets/js/shield.js') }}"></script> --}}
 <script src="{{ asset('assets/js/jszip.js') }}"></script>
 <!-- Template Main CSS File -->
 <link href="../../assets/css/style.css" rel="stylesheet">

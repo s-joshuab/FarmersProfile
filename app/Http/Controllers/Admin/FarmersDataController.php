@@ -7,17 +7,17 @@ use App\Models\User;
 use App\Models\Crops;
 use App\Models\Others;
 use App\Models\Status;
-use App\Models\Machine;
+use App\Models\machine;
 use App\Models\Benefits;
 use App\Models\Barangays;
-use App\Models\Provinces;
+use App\Models\provinces;
 use App\Models\Commodities;
 use App\Models\Machineries;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\FarmersNumber;
 use App\Models\FarmersProfile;
-use App\Models\Municipalities;
+use App\Models\municipalities;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\LogOptions;
 use App\Http\Controllers\Controller;
@@ -81,9 +81,12 @@ class FarmersDataController extends Controller
         $barangays = Barangays::all();
         $others = Others::all();
         $commodities = Commodities::all();
+
+
         $farm = FarmersProfile::paginate(10);
 
         return view('admin.farmers.index', compact('others', 'farm', 'farmers', 'barangays', 'commodities', 'selectedBarangay', 'selectedCommodities', 'selectedStatus'));
+
     }
 
 
@@ -368,27 +371,36 @@ class FarmersDataController extends Controller
         // Do not save the QR code image data to the database, only save the path in the 'qr_code_data' colum
     }
 
-    protected function createFarmersNumber(array $attributes)
-    {
-        // Check if a FarmersNumber record already exists for the given barangays_id and farmersprofile_id
-        $existingFarmersNumber = FarmersNumber::where([
-            'barangays_id' => $attributes['barangays_id'],
-            'farmersprofile_id' => $attributes['farmersprofile_id'],
-        ])->first();
+protected function createFarmersNumber(array $attributes)
+{
+    // Check if a 'farmersnumber' record already exists for the same 'barangays_id' and 'farmersprofile_id'
+    $existingFarmersNumber = FarmersNumber::where('barangays_id', $attributes['barangays_id'])
+        ->where('farmersprofile_id', $attributes['farmersprofile_id'])
+        ->first();
 
-        if ($existingFarmersNumber) {
-            // If an existing record is found, return it without creating a new one
-            return $existingFarmersNumber;
+    if ($existingFarmersNumber) {
+        // If a record already exists, no need to create a new one
+        return $existingFarmersNumber;
+    } else {
+        // If no record exists, find the last farmersnumber for the barangays_id
+        $lastFarmersNumber = FarmersNumber::where('barangays_id', $attributes['barangays_id'])
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        if ($lastFarmersNumber) {
+            // Extract the count from the last farmersnumber and increment it
+            $lastCount = explode(' - ', $lastFarmersNumber->farmersnumber)[1];
+            $count = intval($lastCount) + 1;
+        } else {
+            // If no previous record found, start count from 1
+            $count = 1;
         }
 
-        // If there's no existing record, create a new one
-        $count = FarmersNumber::where('barangays_id', $attributes['barangays_id'])->count();
-        $count++;
-
+        // Create the new farmersnumber with incremented count
         $attributes['farmersnumber'] = "BLN {$attributes['barangays_id']} - {$count}";
-
         return FarmersNumber::create($attributes);
     }
+}
 
 
     public function show($id)
@@ -399,13 +411,13 @@ class FarmersDataController extends Controller
         $farmersprofile = FarmersProfile::findOrFail($id);
         $crops = $farmersprofile->crops;
         $machineries = $farmersprofile->machineries;
-        $provinces = Provinces::all();
-        $municipalities = Municipalities::all();
+        $provinces = provinces::all();
+        $municipalities = municipalities::all();
         $barangays = Barangays::all();
         $others = Commodities::where('category', 3)->pluck('commodities', 'id')->all();
         $commodities = Commodities::where('category', 0)->pluck('commodities', 'id')->all();
         $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
-        $machine = Machine::pluck('machine', 'id')->all();
+        $machine = machine::pluck('machine', 'id')->all();
 
         activity()
             ->causedBy(auth()->user()) // Assuming you're logged in
@@ -588,7 +600,8 @@ class FarmersDataController extends Controller
             ]);
         }
 
-        $barangaysId = $request->input('barangays_id');
+
+$barangaysId = $request->input('barangays_id');
         $existingBarangay = Barangays::find($barangaysId);
 
         // Find the existing FarmersNumber record associated with the FarmersProfile
@@ -605,7 +618,7 @@ class FarmersDataController extends Controller
         } else {
             // If there's an existing record and the barangays_id is different, update it
             if ($farmersNumber->barangays_id !== $barangaysId) {
-                $lastFarmersNumber = FarmersNumber::where('barangays_id', $barangaysId)->orderByDesc('id')->first();
+                $lastFarmersNumber = FarmersNumber::where('barangays_id', $barangaysId)->orderByDesc('farmersnumber')->first();
 
                 if ($lastFarmersNumber) {
                     // Extract the current count from the last farmersnumber
@@ -619,7 +632,6 @@ class FarmersDataController extends Controller
                 $farmersNumber->update(['farmersnumber' => $newFarmersNumber]);
             }
         }
-
 
         activity()
             ->causedBy(auth()->user()) // Assuming you're logged in

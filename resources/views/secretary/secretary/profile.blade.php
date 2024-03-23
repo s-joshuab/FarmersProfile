@@ -243,7 +243,7 @@
                         <div class="col-md-8 col-lg-9 input-group">
                             <input name="current_password" type="password" class="form-control" id="currentPassword" value="">
                             <span class="input-group-text">
-                                <i class="fa fa-eye" id="togglePasswordIcon" onclick="togglePassword('currentPassword')"></i>
+                                <i class="bi bi-eye" id="toggleCurrentPassword" onclick="togglePassword('currentPassword', 'toggleCurrentPassword')"></i>
                             </span>
                         </div>
                     </div>
@@ -253,7 +253,7 @@
                         <div class="col-md-8 col-lg-9 input-group">
                             <input name="new_password" type="password" class="form-control" id="newPassword">
                             <span class="input-group-text">
-                                <i class="fa fa-eye" id="togglePasswordIcon" onclick="togglePassword('newPassword')"></i>
+                                <i class="bi bi-eye" id="toggleNewPassword" onclick="togglePassword('newPassword', 'toggleNewPassword')"></i>
                             </span>
                         </div>
                     </div>
@@ -263,61 +263,30 @@
                         <div class="col-md-8 col-lg-9 input-group">
                             <input name="new_password_confirmation" type="password" class="form-control" id="renewPassword">
                             <span class="input-group-text">
-                                <i class="fa fa-eye" id="togglePasswordIcon" onclick="togglePassword('renewPassword')"></i>
+                                <i class="bi bi-eye" id="toggleRenewPassword" onclick="togglePassword('renewPassword', 'toggleRenewPassword')"></i>
                             </span>
                         </div>
                     </div>
 
-                    <div id="passwordMismatchError" class="text-danger" style="display: none;">
-                        Passwords do not match.
+                    <div class="col-12 mt-4 d-flex justify-content-end"> <button type="submit" class="btn btn-primary" style="margin-right: 5px;" name="submit">Save User</button>
                     </div>
-                    <div id="passwordMatchSuccess" class="text-success" style="display: none;">
-                        Passwords match!
-                    </div>
+                     </form>
+                    <script>
+                        function togglePassword(inputId, iconId) {
+                            const passwordInput = document.getElementById(inputId);
+                            const togglePasswordIcon = document.getElementById(iconId);
 
-
-                    <div class="col-12 mt-4 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary" style="margin-right: 5px;" name="submit">Save User</button>
-                    </div>
-                </form>
-                <script>
-                    function togglePassword(inputId, iconId) {
-                        const passwordInput = document.getElementById(inputId);
-                        const togglePasswordIcon = document.getElementById(iconId);
-                        if (passwordInput.type === "password") {
-                            passwordInput.type = "text";
-                            togglePasswordIcon.classList.remove("fa-eye");
-                            togglePasswordIcon.classList.add("fa-eye-slash");
-                        } else {
-                            passwordInput.type = "password";
-                            togglePasswordIcon.classList.remove("fa-eye-slash");
-                            togglePasswordIcon.classList.add("fa-eye");
+                            if (passwordInput.type === "password") {
+                                passwordInput.type = "text";
+                                togglePasswordIcon.classList.remove("bi-eye");
+                                togglePasswordIcon.classList.add("bi-eye-slash");
+                            } else {
+                                passwordInput.type = "password";
+                                togglePasswordIcon.classList.remove("bi-eye-slash");
+                                togglePasswordIcon.classList.add("bi-eye");
+                            }
                         }
-                    }
-
-                    // Password confirmation validation
-                    const newPasswordInput = document.getElementById("newPassword");
-                    const renewPasswordInput = document.getElementById("renewPassword");
-                    const passwordMatchSuccess = document.getElementById("passwordMatchSuccess");
-                    const passwordMismatchError = document.getElementById("passwordMismatchError");
-
-                    newPasswordInput.addEventListener("input", validatePasswordMatch);
-                    renewPasswordInput.addEventListener("input", validatePasswordMatch);
-
-                    function validatePasswordMatch() {
-                        const newPassword = newPasswordInput.value;
-                        const renewPassword = renewPasswordInput.value;
-
-                        if (newPassword === renewPassword) {
-                            passwordMismatchError.style.display = "none";
-                            passwordMatchSuccess.style.display = "block";
-                        } else {
-                            passwordMismatchError.style.display = "block";
-                            passwordMatchSuccess.style.display = "none";
-                        }
-                    }
-                </script>
-
+                    </script>
 
 
               </div>

@@ -49,7 +49,7 @@
 <body>
 
 
-    <img src="{{ $logo }}" alt="" width="100%" height="130">
+    <img src="{{ $logo }}" alt="" width="100%" height="120">
 
 
 

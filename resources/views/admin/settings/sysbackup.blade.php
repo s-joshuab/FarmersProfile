@@ -15,6 +15,10 @@
     </div>
 @endif
 
+<div class="pagetitle">
+    <h1>Database Backup</h1>
+  </div>
+
 <div class="d-flex justify-content-center align-items-center mt-4">
     <div class="col-lg-6">
         <div class="card">
