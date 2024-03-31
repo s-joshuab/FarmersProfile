@@ -43,7 +43,7 @@ class PdfController extends Controller
         $logo ='data:image/' . $type . ';base64,' . base64_encode($data);
 
 
-        $pdf = pdf::loadView('admin.pdf.pdf.php', [
+        $pdf = pdf::loadView('admin.pdf.pdf', [
             'farmersprofile' => $farmersprofile,
             'provinces' => $provinces,
             'civilStatusOptions' => $civilStatusOptions, // Fix the syntax here
@@ -61,48 +61,48 @@ class PdfController extends Controller
         return $pdf->stream();
     }
 
-    public function generateBenefits($id)
-    {
+    // public function generateBenefits($id)
+    // {
 
-        $civilStatusOptions = Status::all();
-        $provinces = Provinces::all();
-        $municipalities = Municipalities::all();
-        $barangays = Barangays::all();
-        $commodities = Commodities::where('category', 0)->pluck('commodities', 'id')->all();
-        $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
-        $machine = Machine::pluck('machine', 'id')->all();
+    //     $civilStatusOptions = Status::all();
+    //     $provinces = Provinces::all();
+    //     $municipalities = Municipalities::all();
+    //     $barangays = Barangays::all();
+    //     $commodities = Commodities::where('category', 0)->pluck('commodities', 'id')->all();
+    //     $farmers = Commodities::where('category', 1)->pluck('commodities', 'id')->all();
+    //     $machine = Machine::pluck('machine', 'id')->all();
 
-        $farmersprofile = farmersprofile::find($id);
-
-
-        $crops = $farmersprofile ->crops;
-        $machineries = $farmersprofile ->machineries;
-        if (!$farmersprofile) {
-            abort(403);
-        }
+    //     $farmersprofile = farmersprofile::find($id);
 
 
-        $path = 'assets/img/pdf.png';
-        $type = pathinfo($path, PATHINFO_EXTENSION);
-        $data = file_get_contents($path);
-        $logo ='data:image/' . $type . ';base64,' . base64_encode($data);
+    //     $crops = $farmersprofile ->crops;
+    //     $machineries = $farmersprofile ->machineries;
+    //     if (!$farmersprofile) {
+    //         abort(403);
+    //     }
 
 
-        $pdf = Pdf::loadView('admin.pdf.pdf', [
-            'farmersprofile' => $farmersprofile,
-            'provinces' => $provinces,
-            'civilStatusOptions' => $civilStatusOptions, // Fix the syntax here
-            'municipalities' => $municipalities,
-            'barangays' => $barangays,
-            'commodities' => $commodities,
-            'farmers' => $farmers,
-            'machine' => $machine,
-            'crops' => $crops,
-            'machineries' => $machineries,
-            'logo' => $logo
-        ]);
+    //     $path = 'assets/img/pdf.png';
+    //     $type = pathinfo($path, PATHINFO_EXTENSION);
+    //     $data = file_get_contents($path);
+    //     $logo ='data:image/' . $type . ';base64,' . base64_encode($data);
 
 
-        return $pdf->stream();
-    }
+    //     $pdf = Pdf::loadView('admin.pdf.pdf', [
+    //         'farmersprofile' => $farmersprofile,
+    //         'provinces' => $provinces,
+    //         'civilStatusOptions' => $civilStatusOptions, // Fix the syntax here
+    //         'municipalities' => $municipalities,
+    //         'barangays' => $barangays,
+    //         'commodities' => $commodities,
+    //         'farmers' => $farmers,
+    //         'machine' => $machine,
+    //         'crops' => $crops,
+    //         'machineries' => $machineries,
+    //         'logo' => $logo
+    //     ]);
+
+
+    //     return $pdf->stream();
+    // }
 }

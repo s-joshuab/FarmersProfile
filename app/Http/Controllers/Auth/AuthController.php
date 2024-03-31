@@ -83,8 +83,10 @@ class AuthController extends Controller
             // Handle password reset logic
             // ...
             return redirect()->back()->with('success', 'Password reset instructions sent to your email.');
+
         } else {
             return redirect()->back()->with('error', 'Email Not Found in the System');
+
         }
     }
 

@@ -27,40 +27,39 @@ background-repeat: no-repeat;
                                     <span class="balaoann-text">Municipal Agriculturist Office</span>
                                 </div>
 
-                                @if (session()->has('message'))
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    {{ session('message') }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            @endif
+                                @if (session()->has('success'))
+    <div class="alert alert-success text-center">
+        {{ session('success') }}
+    </div>
+@endif
 
 
+                                @if (session()->has('error'))
+                                    <div class="alert alert-danger">
+                                        {{ session('error') }}
+                                    </div>
+                                @endif
 
-                                <form class="row g-3" action="{{ route('password.email') }}" method="post">
-                                    @csrf <!-- CSRF token -->
-                                    <div class="col-12">
-                                        <label for="yourEmail" class="form-label">Email</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text" id="inputGroupPrepend">
-                                                <i class="bi bi-person-fill"></i> <!-- User Icon -->
-                                            </span>
-                                            <input type="email" name="email" class="form-control" id="yourEmail" required>
-                                            <div class="invalid-feedback">Please enter your Email.</div>
-                                        </div>
-                                        <span class="text-danger text-xs" style="font-weight:bolder;">
-                                            @if (session()->has('error'))
-                                                {{ session('error') }}
-                                            @endif
+                            <form class="row g-3" action="{{ route('password.email') }}" method="post">
+                                @csrf <!-- CSRF token -->
+                                <div class="col-12">
+                                    <label for="yourEmail" class="form-label">Email</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="inputGroupPrepend">
+                                            <i class="bi bi-person-fill"></i> <!-- User Icon -->
                                         </span>
-
-
+                                        <input type="email" name="email" class="form-control" id="yourEmail" required>
+                                        <div class="invalid-feedback">Please enter your Email.</div>
                                     </div>
-                                    <div class="col-12">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <button class="btn btn-primary" type="submit">Forgot Password</button>
-                                        </div>
+
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <button class="btn btn-primary" type="submit">Forgot Password</button>
                                     </div>
-                                </form>
+                                </div>
+                            </form>
+
 
 
 
