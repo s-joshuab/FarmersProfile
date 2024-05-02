@@ -371,36 +371,44 @@ class FarmersDataController extends Controller
         // Do not save the QR code image data to the database, only save the path in the 'qr_code_data' colum
     }
 
-protected function createFarmersNumber(array $attributes)
+public function createFarmersNumber(array $attributes)
 {
-    // Check if a 'farmersnumber' record already exists for the same 'barangays_id' and 'farmersprofile_id'
-    $existingFarmersNumber = FarmersNumber::where('barangays_id', $attributes['barangays_id'])
-        ->where('farmersprofile_id', $attributes['farmersprofile_id'])
+    // Find the last farmersnumber for the given barangays_id
+    $lastFarmersNumber = FarmersNumber::where('barangays_id', $attributes['barangays_id'])
+        ->orderBy('farmersnumber', 'desc')
         ->first();
 
-    if ($existingFarmersNumber) {
-        // If a record already exists, no need to create a new one
-        return $existingFarmersNumber;
+    // Extract the count from the last farmersnumber and increment it
+    if ($lastFarmersNumber) {
+        // Extract count from the last farmersnumber
+        $lastCount = intval(substr($lastFarmersNumber->farmersnumber, strrpos($lastFarmersNumber->farmersnumber, '-') + 1));
+        $count = $lastCount + 1;
     } else {
-        // If no record exists, find the last farmersnumber for the barangays_id
-        $lastFarmersNumber = FarmersNumber::where('barangays_id', $attributes['barangays_id'])
-            ->orderBy('created_at', 'desc')
-            ->first();
+        $count = 1;
+    }
 
-        if ($lastFarmersNumber) {
-            // Extract the count from the last farmersnumber and increment it
-            $lastCount = explode(' - ', $lastFarmersNumber->farmersnumber)[1];
-            $count = intval($lastCount) + 1;
-        } else {
-            // If no previous record found, start count from 1
-            $count = 1;
-        }
+    // Generate the new farmersnumber
+    $farmersNumberValue = "BLN {$attributes['barangays_id']} - {$count}";
 
-        // Create the new farmersnumber with incremented count
-        $attributes['farmersnumber'] = "BLN {$attributes['barangays_id']} - {$count}";
-        return FarmersNumber::create($attributes);
+    // Create the new farmersnumber
+    try {
+        $farmersNumber = new FarmersNumber();
+        $farmersNumber->farmersnumber = $farmersNumberValue;
+        $farmersNumber->barangays_id = $attributes['barangays_id'];
+        $farmersNumber->farmersprofile_id = $attributes['farmersprofile_id'];
+        $farmersNumber->save();
+        return $farmersNumber;
+    } catch (\Exception $e) {
+        // Handle duplicate entry scenario
+        // You may want to throw an exception, log an error, or handle it in any other way suitable for your application
+        // For now, let's just return null
+        return null;
     }
 }
+
+
+
+
 
 
     public function show($id)
@@ -600,38 +608,37 @@ protected function createFarmersNumber(array $attributes)
             ]);
         }
 
-
 $barangaysId = $request->input('barangays_id');
-        $existingBarangay = Barangays::find($barangaysId);
+$existingBarangay = Barangays::find($barangaysId);
 
-        // Find the existing FarmersNumber record associated with the FarmersProfile
-        $farmersNumber = FarmersNumber::where('farmersprofile_id', $farmersprofile->id)->first();
+// Find the existing FarmersNumber record associated with the FarmersProfile
+$farmersNumber = FarmersNumber::where('farmersprofile_id', $farmersprofile->id)->first();
 
-        if (!$farmersNumber) {
-            // If there's no existing record, create a new one
-            $attributes = [
-                'barangays_id' => $barangaysId,
-                'farmersprofile_id' => $farmersprofile->id,
-            ];
+if ($farmersNumber && $farmersNumber->barangays_id !== $barangaysId) {
+    // Find the last farmersnumber for the new barangays_id
+    $lastFarmersNumber = FarmersNumber::where('barangays_id', $barangaysId)
+        ->orderByRaw('SUBSTRING_INDEX(farmersnumber, " - ", -1) + 0 DESC') // Order by the numerical part of the farmersnumber in descending order
+        ->first();
 
-            $farmersNumber = $this->createFarmersNumber($attributes);
-        } else {
-            // If there's an existing record and the barangays_id is different, update it
-            if ($farmersNumber->barangays_id !== $barangaysId) {
-                $lastFarmersNumber = FarmersNumber::where('barangays_id', $barangaysId)->orderByDesc('farmersnumber')->first();
+    // Extract the count and increment it
+    $count = 1;
+    if ($lastFarmersNumber) {
+        $lastFarmersNumberParts = explode(' - ', $lastFarmersNumber->farmersnumber);
+        $count = intval($lastFarmersNumberParts[1]) + 1;
+    }
 
-                if ($lastFarmersNumber) {
-                    // Extract the current count from the last farmersnumber
-                    $lastFarmersNumberParts = explode(' - ', $lastFarmersNumber->farmersnumber);
-                    $count = intval($lastFarmersNumberParts[1]) + 1;
-                } else {
-                    $count = 1;
-                }
+    // Construct the new farmersnumber
+    $newFarmersNumber = "BLN {$barangaysId} - {$count}";
 
-                $newFarmersNumber = "BLN {$barangaysId} - {$count}";
-                $farmersNumber->update(['farmersnumber' => $newFarmersNumber]);
-            }
-        }
+    // Update the farmersnumber
+    $farmersNumber->farmersnumber = $newFarmersNumber;
+    $farmersNumber->barangays_id = $barangaysId;
+    $farmersNumber->save();
+}
+
+
+
+
 
         activity()
             ->causedBy(auth()->user()) // Assuming you're logged in

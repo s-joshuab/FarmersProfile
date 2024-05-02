@@ -59,16 +59,7 @@
                                     <input type="text" id="benefitsFilter" class="form-control">
                                 </div>
 
-                                {{-- <div class="col-md-3">
-                                <label for="dateFilter">Filter by Date Claimed:</label>
-                                <input type="date" id="dateFilter" class="form-control">
-                            </div> --}}
-
-                                <!-- Include moment.js -->
-                                <!-- Include moment.js -->
-                                {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script> --}}
-
-                                <div class="col-md-3">
+                                   <div class="col-md-3">
                                     <label for="dateFilterPicker">Filter by Date Claimed:</label>
                                     <input type="date" id="dateFilterPicker" class="form-control">
                                 </div>
@@ -77,7 +68,7 @@
                             <script>
                                 $(document).ready(function() {
                                     // Initialize DataTable
-                                    var table = $('#myTable').DataTable({
+                                    var table = $('#benefitsTable').DataTable({
                                         "order": [
                                             [3, 'desc']
                                         ], // Default sorting by Date Claimed column
@@ -108,7 +99,7 @@
 
                                 function filterTableByDate(selectedDate) {
                                     // Loop through each row and show/hide based on the selected date
-                                    $('#myTable tbody tr').each(function() {
+                                    $('#benefitsTable tbody tr').each(function() {
                                         var rowDate = $(this).find('td:eq(3)').text(); // Assuming Date Claimed is in the 4th column
                                         if (!selectedDate || moment(rowDate, 'MMMM D, YYYY').isSame(selectedDate)) {
                                             $(this).show();
@@ -119,10 +110,10 @@
                                 }
                             </script>
 
-                            <button id="exportButton" class="btn btn-lg btn-danger clearfix"><span
-                                    class="fa fa-file-pdf-o"></span> Export to PDF</button>
 
-                            <table id="myTable" class="table table-bordered table-striped">
+                           <button onclick="exportToExcel()" class="btn btn-success" style="margin-bottom: 10px;">Export to Excel</button>
+
+                            <table id="benefitsTable" class="ttable-bordered table-striped">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th scope="col">Name</th>
@@ -176,25 +167,25 @@
         }
 
         /* Style the table */
-        #myTable {
+        #benefitsTable {
             width: 100%;
             border-collapse: collapse;
             border-spacing: 0;
         }
 
-        #myTable th,
-        #myTable td {
+        #benefitsTable th,
+        #benefitsTable td {
             padding: 10px;
             text-align: center;
             border: 1px solid #ccc;
         }
 
-        #myTable th {
+        #benefitsTable th {
             background-color: #f2f2f2;
         }
 
         /* Style the table header */
-        #myTable thead {
+        #benefitsTable thead {
             font-weight: bold;
         }
 
@@ -226,80 +217,28 @@
     </style>
 
 
-    {{-- <link rel="stylesheet" type="text/css" href="http://www.shieldui.com/shared/components/latest/css/light/all.min.css" />
-    <script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
-    <script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/jszip.min.js"></script> --}}
-    <script type="text/javascript">
-        jQuery(function($) {
-            $("#exportButton").click(function() {
-                // parse the HTML table element having an id=myTable
-                var dataSource = new shield.DataSource.create({
-                    data: "#myTable",
-                    schema: {
-                        type: "table",
-                        fields: {
-                            "Name": {
-                                type: String
-                            },
-                            "Barangay": {
-                                type: String
-                            },
-                            "Benefits Claimed": {
-                                type: String
-                            },
-                            "Date Claimed": {
-                                type: String
-                            }
-                        }
-                    }
-                });
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
-                // when parsing is done, export the data to PDF
-                dataSource.read().then(function(data) {
-                    var pdf = new shield.exp.PDFDocument({
-                        author: "Benefits Reports",
-                        created: new Date()
-                    });
 
-                    pdf.addPage("a4", "portrait");
 
-                    pdf.table(
-                        50,
-                        50,
-                        data,
-                        [{
-                                field: "Name",
-                                title: "Person Name",
-                                width: 200
-                            },
-                            {
-                                field: "Barangay",
-                                title: "Barangay",
-                                width: 100
-                            },
-                            {
-                                field: "Benefits Claimed",
-                                title: "Benefits Claimed",
-                                width: 100
-                            },
-                            {
-                                field: "Date Claimed",
-                                title: "Date Claimed",
-                                width: 100
-                            }
-                        ], {
-                            margins: {
-                                top: 50,
-                                left: 50
-                            }
-                        }
-                    );
+<script>
+    function exportToExcel() {
+        var table = document.getElementById("benefitsTable");
+        var ws = XLSX.utils.table_to_sheet(table);
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Benefits");
+        var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+        saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), 'benefits.xlsx');
+    }
 
-                    pdf.saveAs({
-                        fileName: "Benefits Reports"
-                    });
-                });
-            });
-        });
-    </script>
+
+    function s2ab(s) {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+
+</script>
 @endsection

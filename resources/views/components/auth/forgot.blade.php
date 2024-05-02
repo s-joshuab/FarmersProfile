@@ -28,38 +28,47 @@ background-repeat: no-repeat;
                                 </div>
 
                                 @if (session()->has('success'))
-    <div class="alert alert-success text-center">
-        {{ session('success') }}
-    </div>
-@endif
-
-
-                                @if (session()->has('error'))
-                                    <div class="alert alert-danger">
-                                        {{ session('error') }}
-                                    </div>
-                                @endif
-
-                            <form class="row g-3" action="{{ route('password.email') }}" method="post">
-                                @csrf <!-- CSRF token -->
-                                <div class="col-12">
-                                    <label for="yourEmail" class="form-label">Email</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text" id="inputGroupPrepend">
-                                            <i class="bi bi-person-fill"></i> <!-- User Icon -->
-                                        </span>
-                                        <input type="email" name="email" class="form-control" id="yourEmail" required>
-                                        <div class="invalid-feedback">Please enter your Email.</div>
-                                    </div>
-
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ session('success') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
-                                <div class="col-12">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <button class="btn btn-primary" type="submit">Forgot Password</button>
-                                    </div>
-                                </div>
-                            </form>
+                            @endif
 
+                            @if (session()->has('error'))
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    {{ session('error') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
+
+
+
+
+                                <form class="row g-3" action="{{ route('password.email') }}" method="post">
+                                    @csrf <!-- CSRF token -->
+                                    <div class="col-12">
+                                        <label for="yourEmail" class="form-label">Email</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="inputGroupPrepend">
+                                                <i class="bi bi-person-fill"></i> <!-- User Icon -->
+                                            </span>
+                                            <input type="email" name="email" class="form-control" id="yourEmail" required>
+                                            <div class="invalid-feedback">Please enter your Email.</div>
+                                        </div>
+                                        {{-- <span class="text-danger text-xs" style="font-weight:bolder;">
+                                            @if (session()->has('error'))
+                                                {{ session('error') }}
+                                            @endif
+                                        </span> --}}
+
+
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <button class="btn btn-primary" type="submit">Forgot Password</button>
+                                        </div>
+                                    </div>
+                                </form>
 
 
 
@@ -105,6 +114,9 @@ background-repeat: no-repeat;
 
 
 <!-- Vendor JS Files -->
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-xY9lAwqgA7Gu9DKAJo2+/7t4x6gAoMfM0ZK/p01vpLYyTdxNI0QHy3h3eVpWMftM" crossorigin="anonymous"></script>
+
 <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/vendor/chart.js/chart.umd.js"></script>

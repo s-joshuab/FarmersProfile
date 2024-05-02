@@ -648,11 +648,11 @@
                                     <div class="row">
                                         <div class="container">
                                             <div class="col-md-4 mb-3">
-                                                <div class="form-check">
+                                                {{-- <div class="form-check">
                                                     <label class="form-check-label mt-2"
                                                         style="margin-left: -12px; font-weight: bold;"
                                                         for="highValueCrops">Others</label>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                             <div class="row">
                                                 @foreach ($others as $id => $other)
@@ -732,62 +732,75 @@
                                 </script>
 
 
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="container">
-                                            <div class="col-md-4">
-                                                <label for="validationCustom04" class="form-label fw-bold mt-2">For
-                                                    Machineries</label>
-                                            </div>
-                                            <div class="row">
-                                                @php $machineCount = 0; @endphp
-                                                @foreach ($machine as $id => $machineName)
-                                                    @if ($machineCount % 3 === 0)
-                                            </div>
-                                            <div class="row">
-                                                @endif
-                                                <div class="col-md-4">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input machineName-checkbox"
-                                                            type="checkbox" id="machine_{{ $id }}"
-                                                            name="machineries[{{ $id }}]"
-                                                            value="{{ $id }}"
-                                                            data-target="units_{{ $id }}"
-                                                            @if ($machineries->contains('machine_id', $id)) checked @endif>
-                                                        <label class="form-check-label"
-                                                            for="machine_{{ $id }}">{{ $machineName }}</label>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="units{{ $id }}">No. of Units</label>
-                                                        <input type="text" class="form-control"
-                                                            id="units{{ $id }}"
-                                                            name="units[{{ $id }}]"
-                                                            value="{{ old('units.' . $id, $machineries->where('machine_id', $id)->first()->units ?? '') }}"
-                                                            @if (!$machineries->contains('machine_id', $id)) disabled @endif>
-                                                    </div>
-                                                </div>
-                                                @php $machineCount++; @endphp
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+<div class="col-md-12">
+    <div class="row">
+        <div class="container">
+            <div class="col-md-4">
+                <label for="validationCustom04" class="form-label fw-bold mt-2">For Machineries</label>
+            </div>
+            <div class="row">
+                @php $machineCount = 0; @endphp
+                @foreach ($machine as $id => $machineName)
+                    @if ($machineCount % 3 === 0)
+                        </div>
+                        <div class="row">
+                    @endif
+                    <div class="col-md-4">
+                        <div class="form-check">
+                            <input class="form-check-input machineName-checkbox" type="checkbox" id="machine_{{ $id }}"
+                                name="machineries[{{ $id }}]" value="{{ $id }}" data-target="units_{{ $id }}"
+                                @if ($machineries->contains('machine_id', $id)) checked @endif>
+                            <label class="form-check-label" for="machine_{{ $id }}">{{ $machineName }}</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="units{{ $id }}">No. of Units</label>
+                            <input type="text" class="form-control" id="units{{ $id }}" name="units[{{ $id }}]"
+                                value="{{ old('units.' . $id, $machineries->where('machine_id', $id)->first()->units ?? '') }}"
+                                @if (!$machineries->contains('machine_id', $id)) disabled @endif>
+                        </div>
+                    </div>
+                    @php $machineCount++; @endphp
+                @endforeach
+            </div>
+        </div>
+    </div>
+</div>
 
-                                <script>
-                                    document.addEventListener("DOMContentLoaded", function() {
-                                        const checkboxes = document.querySelectorAll(".machineName-checkbox");
-                                        checkboxes.forEach(checkbox => {
-                                            const unitsInput = document.querySelector(`#units${checkbox.value}`);
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    jQuery(document).ready(function($) {
+        $('.machineName-checkbox').on('change', function() {
+            var checkboxId = $(this).attr('id');
+            var unitsInputId = 'units' + checkboxId.split('_')[1]; // Corrected the split
+            var unitsInput = $('#' + unitsInputId);
 
-                                            checkbox.addEventListener("change", function() {
-                                                unitsInput.disabled = !this.checked;
-                                            });
+            if ($(this).prop('checked')) {
+                unitsInput.prop('disabled', false);
+                unitsInput.val(1);
+            } else {
+                unitsInput.prop('disabled', true);
+                unitsInput.val('');
+            }
+        });
+    });
+</script>
 
-                                            // Initial state setup
-                                            unitsInput.disabled = !checkbox.checked;
-                                        });
-                                    });
-                                </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const checkboxes = document.querySelectorAll(".machineName-checkbox");
+        checkboxes.forEach(checkbox => {
+            const unitsInput = document.querySelector(`#units${checkbox.id.split('_')[1]}`); // Corrected the split
+
+            checkbox.addEventListener("change", function() {
+                unitsInput.disabled = !this.checked;
+            });
+
+            // Initial state setup
+            unitsInput.disabled = !checkbox.checked;
+        });
+    });
+</script>
+
 
 
                                 <div class="col-md-12 mt-3">

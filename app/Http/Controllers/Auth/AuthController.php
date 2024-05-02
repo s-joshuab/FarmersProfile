@@ -86,8 +86,8 @@ class AuthController extends Controller
 
         } else {
             return redirect()->back()->with('error', 'Email Not Found in the System');
-
         }
     }
+
 
 }

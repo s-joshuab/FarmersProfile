@@ -32,6 +32,12 @@ class ForgotPasswordController extends Controller
         return view('components.auth.forgot');
     }
 
+    public function forgotpassword(Request $request)
+    {
+        return view('components.auth.forgot');
+    }
+
+
     public function showResetForm(Request $request, $token)
     {
         return view('components.auth.reset', ['token' => $token, 'email' => $request->email]);

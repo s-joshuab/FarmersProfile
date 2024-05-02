@@ -19,6 +19,11 @@
 {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"> --}}
 
 <!-- Vendor CSS Files -->
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+zJ3eY6eo8o2+a/aB/3ivV4x4IHgIEasyA+8F+3" crossorigin="anonymous">
+
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
 <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="../../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">

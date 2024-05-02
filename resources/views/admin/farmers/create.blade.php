@@ -869,11 +869,11 @@
                                     <div class="row">
                                         <div class="container">
                                             <div class="col-md-4 mb-3">
-                                                <div class="form-check">
+                                                {{-- <div class="form-check">
                                                     <label class="form-check-label mt-2"
                                                         style="margin-left: -12px; font-weight: bold;"
                                                         for="highValueCrops">Others</label>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                             <div class="row">
                                                 @foreach ($others as $id => $other)
