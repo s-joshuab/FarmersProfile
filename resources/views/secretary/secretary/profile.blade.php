@@ -249,44 +249,59 @@
                     </div>
 
                     <div class="row mb-3">
-                        <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
-                        <div class="col-md-8 col-lg-9 input-group">
-                            <input name="new_password" type="password" class="form-control" id="newPassword">
-                            <span class="input-group-text">
-                                <i class="bi bi-eye" id="toggleNewPassword" onclick="togglePassword('newPassword', 'toggleNewPassword')"></i>
-                            </span>
-                        </div>
-                    </div>
+    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+    <div class="col-md-8 col-lg-9 input-group">
+        <input name="new_password" type="password" class="form-control" id="newPassword" oninput="validatePasswords()">
+        <span class="input-group-text">
+            <i class="bi bi-eye" id="toggleNewPassword" onclick="togglePassword('newPassword', 'toggleNewPassword')"></i>
+        </span>
+    </div>
+</div>
 
-                    <div class="row mb-3">
-                        <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
-                        <div class="col-md-8 col-lg-9 input-group">
-                            <input name="new_password_confirmation" type="password" class="form-control" id="renewPassword">
-                            <span class="input-group-text">
-                                <i class="bi bi-eye" id="toggleRenewPassword" onclick="togglePassword('renewPassword', 'toggleRenewPassword')"></i>
-                            </span>
-                        </div>
-                    </div>
+<div class="row mb-3">
+    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+    <div class="col-md-8 col-lg-9 input-group">
+        <input name="new_password_confirmation" type="password" class="form-control" id="renewPassword" oninput="validatePasswords()">
+        <span class="input-group-text">
+            <i class="bi bi-eye" id="toggleRenewPassword" onclick="togglePassword('renewPassword', 'toggleRenewPassword')"></i>
+        </span>
+    </div>
+    <div class="row mb-3">
+        <small id="passwordMatchMessage" style="color: red; display: none;">Passwords do not match!</small>
+    </div>
+</div>
 
-                    <div class="col-12 mt-4 d-flex justify-content-end"> <button type="submit" class="btn btn-primary" style="margin-right: 5px;" name="submit">Save User</button>
-                    </div>
-                     </form>
-                    <script>
-                        function togglePassword(inputId, iconId) {
-                            const passwordInput = document.getElementById(inputId);
-                            const togglePasswordIcon = document.getElementById(iconId);
+<div class="col-12 mt-4 d-flex justify-content-end"> <button type="submit" class="btn btn-primary" style="margin-right: 5px;" name="submit">Save User</button>
+</div>
+ </form>
+<script>
+    function togglePassword(inputId, toggleIconId) {
+        const passwordInput = document.getElementById(inputId);
+        const toggleIcon = document.getElementById(toggleIconId);
+        
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleIcon.classList.remove("bi-eye");
+            toggleIcon.classList.add("bi-eye-slash");
+        } else {
+            passwordInput.type = "password";
+            toggleIcon.classList.remove("bi-eye-slash");
+            toggleIcon.classList.add("bi-eye");
+        }
+    }
 
-                            if (passwordInput.type === "password") {
-                                passwordInput.type = "text";
-                                togglePasswordIcon.classList.remove("bi-eye");
-                                togglePasswordIcon.classList.add("bi-eye-slash");
-                            } else {
-                                passwordInput.type = "password";
-                                togglePasswordIcon.classList.remove("bi-eye-slash");
-                                togglePasswordIcon.classList.add("bi-eye");
-                            }
-                        }
-                    </script>
+    function validatePasswords() {
+        const newPassword = document.getElementById("newPassword").value;
+        const renewPassword = document.getElementById("renewPassword").value;
+        const message = document.getElementById("passwordMatchMessage");
+        
+        if (renewPassword !== "" && newPassword !== renewPassword) {
+            message.style.display = "block"; // Show error message
+        } else {
+            message.style.display = "none"; // Hide error message
+        }
+    }
+</script>
 
 
               </div>

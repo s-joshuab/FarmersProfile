@@ -6,12 +6,12 @@ namespace App\Http\Controllers\Admin;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Barangays;
-use App\Models\Provinces;
+use App\Models\provinces;
 use App\Models\AuditTrail;
 use App\Models\ImageUpload;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Models\Municipalities;
+use App\Models\municipalities;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\LogOptions;
@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\DbDumper\Databases\MySql;
+use Illuminate\Support\Facades\File;
 
 
 date_default_timezone_set('Asia/Manila');
@@ -45,49 +47,50 @@ class SettingsController extends Controller
      * Display a listing of the resource.
      */
 
-     public function audit(Request $request)
-     {
-         $dateFilter = $request->input('date_filter');
-         $activitiesQuery = Activity::orderBy('created_at', 'desc');
+public function audit(Request $request)
+{
+    $dateFilter = $request->input('date_filter');
+    $activitiesQuery = Activity::orderBy('created_at', 'desc');
 
-         // Check if it's the last day of the month
-         $now = Carbon::now();
-         $isLastDayOfMonth = $now->isLastOfMonth();
+    // Check if it's the last day of the month
+    $now = Carbon::now();
+    $isLastDayOfMonth = $now->isLastOfMonth();
 
-         if ($isLastDayOfMonth) {
-             // Perform actions to reset or clear the audit trail data
-             // For example, you can truncate the table or delete records
-             DB::table('activities')->truncate(); // This will delete all records in the 'activities' table
-         }
+    if ($isLastDayOfMonth) {
+        // Perform actions to reset or clear the audit trail data
+        // For example, you can truncate the table or delete records
+        DB::table('activity_log')->truncate(); // This will delete all records in the 'activities' table
+    }
 
-         if ($dateFilter !== 'all') {
-             if ($dateFilter === 'today') {
-                 $activitiesQuery->whereDate('created_at', $now->toDateString());
-             } elseif ($dateFilter === 'yesterday') {
-                 $activitiesQuery->whereDate('created_at', $now->subDay()->toDateString());
-             } elseif ($dateFilter === 'this_week') {
-                 $startOfWeek = $now->startOfWeek()->toDateString();
-                 $endOfWeek = $now->endOfWeek()->toDateString();
-                 $activitiesQuery->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
-             } elseif ($dateFilter === 'this_month') {
-                 $startOfMonth = $now->startOfMonth()->toDateString();
-                 $endOfMonth = $now->endOfMonth()->toDateString();
-                 $activitiesQuery->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
-             }
-         }
+    if ($dateFilter !== 'all') {
+        if ($dateFilter === 'today') {
+            $activitiesQuery->whereDate('created_at', $now->toDateString());
+        } elseif ($dateFilter === 'yesterday') {
+            $activitiesQuery->whereDate('created_at', $now->subDay()->toDateString());
+        } elseif ($dateFilter === 'this_week') {
+            $startOfWeek = $now->startOfWeek()->toDateString();
+            $endOfWeek = $now->endOfWeek()->toDateString();
+            $activitiesQuery->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
+        } elseif ($dateFilter === 'this_month') {
+            $startOfMonth = $now->startOfMonth()->toDateString();
+            $endOfMonth = $now->endOfMonth()->toDateString();
+            $activitiesQuery->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
+        }
+    }
 
-         // Use chunk to process the records in smaller batches
-         $activities = [];
-         $activitiesQuery->chunk(200, function ($chunk) use (&$activities) {
-             foreach ($chunk as $activity) {
-                 // Process each activity
-                 // You can move your existing code logic here
-                 $activities[] = $activity; // Store the processed activity
-             }
-         });
+    // Use chunk to process the records in smaller batches
+    $activities = [];
+    $activitiesQuery->chunk(200, function ($chunk) use (&$activities) {
+        foreach ($chunk as $activity) {
+            // Process each activity
+            // You can move your existing code logic here
+            $activities[] = $activity; // Store the processed activity
+        }
+    });
 
-         return view('admin.settings.audittrail', compact('activities'));
-     }
+    return view('admin.settings.audittrail', compact('activities'));
+}
+
 
 
 
@@ -96,8 +99,8 @@ class SettingsController extends Controller
     public function profile()
     {
         $user = Auth::user(); // Fetch the authenticated user
-        $provinces = Provinces::all();
-        $municipalities = Municipalities::all();
+        $provinces = provinces::all();
+        $municipalities = municipalities::all();
         $barangays = Barangays::all();
         // Fetch additional data as needed
         $someData = User::where('id', $user->id)->get(); // Replace with your actual query
@@ -129,7 +132,7 @@ class SettingsController extends Controller
         }
 
         // Update the user's profile information
-        $updatedAttributes = [
+         $updatedAttributes = [
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'phone_number' => $request->input('phone_number'),
@@ -196,106 +199,116 @@ class SettingsController extends Controller
 
 
 
-
-
-
-
-    public function backup()
+   public function backup()
     {
         return view('admin.settings.sysbackup');
     }
 
-    public function performManualBackup(Request $request)
-    {
-        $backupFileName = 'backupdata_' . date('Y_m_d_His') . '.sql';
-        $mysqlDumpPath = 'D:\xampp\mysql\bin\mysqldump.exe'; // Replace with your actual path
-        $databaseConfig = config('database.connections.mysql');
-        $command = "{$mysqlDumpPath} --user={$databaseConfig['username']} --host={$databaseConfig['host']} {$databaseConfig['database']} > " . storage_path('app/backup/') . $backupFileName;
+public function backupDatabase()
+{
+    try {
+        // Database config
+        $host = config('database.connections.mysql.host');
+        $user = config('database.connections.mysql.username');
+        $pass = config('database.connections.mysql.password');
+        $db = config('database.connections.mysql.database');
 
-        exec($command, $output, $returnCode);
+        $backupPath = storage_path('app/backup_' . date('Y_m_d_His') . '.sql');
 
+        // Connect with mysqli
+        $mysqli = new \mysqli($host, $user, $pass, $db);
 
+        if ($mysqli->connect_error) {
+            throw new \Exception('Connection failed: ' . $mysqli->connect_error);
+        }
 
-        if ($returnCode === 0) {
-            return $this->createBackupResponse($backupFileName);
-        } else {
-            $errorOutput = implode("\n", $output);
-            Log::error('Manual backup failed: ' . $errorOutput);
-            return redirect()->back()->with('error', 'Manual backup failed. See logs for details.');
+        $mysqli->set_charset('utf8');
+
+        $tables = [];
+        $result = $mysqli->query("SHOW TABLES");
+        while ($row = $result->fetch_array()) {
+            $tables[] = $row[0];
+        }
+
+        $sqlDump = "";
+
+        foreach ($tables as $table) {
+            // Get CREATE TABLE statement
+            $res = $mysqli->query("SHOW CREATE TABLE `$table`");
+            $row = $res->fetch_assoc();
+            $sqlDump .= "\n\n" . $row['Create Table'] . ";\n\n";
+
+            // Get data from table
+            $res = $mysqli->query("SELECT * FROM `$table`");
+
+            while ($row = $res->fetch_assoc()) {
+                $columns = array_keys($row);
+                $values = array_values($row);
+
+                // Escape values for SQL
+                $escapedValues = array_map(function($value) use ($mysqli) {
+                    if ($value === null) return "NULL";
+                    return "'" . $mysqli->real_escape_string($value) . "'";
+                }, $values);
+
+                $sqlDump .= "INSERT INTO `$table` (`" . implode('`,`', $columns) . "`) VALUES (" . implode(',', $escapedValues) . ");\n";
+            }
+        }
+
+        // Save dump to file
+        file_put_contents($backupPath, $sqlDump);
+
+        $mysqli->close();
+
+        return response()->download($backupPath)->deleteFileAfterSend(true);
+    } catch (\Exception $e) {
+        return back()->with('error', 'Backup error: ' . $e->getMessage());
+    }
+}
+
+public function restoreDatabase(Request $request)
+{
+    $request->validate([
+        'database_file' => 'required|file|mimes:sql,txt',
+    ]);
+
+    $db = config('database.connections.mysql.database');
+    $user = config('database.connections.mysql.username');
+    $pass = config('database.connections.mysql.password');
+    $host = config('database.connections.mysql.host');
+    $filePath = $request->file('database_file')->getRealPath();
+
+    // Connect to MySQL
+    $mysqli = new \mysqli($host, $user, $pass, $db);
+
+    if ($mysqli->connect_error) {
+        return back()->with('error', 'Connection failed: ' . $mysqli->connect_error);
+    }
+
+    $mysqli->set_charset('utf8');
+
+    // Read the entire SQL file
+    $sql = file_get_contents($filePath);
+    if ($sql === false) {
+        return back()->with('error', 'Failed to read the SQL file.');
+    }
+
+    // Split SQL statements
+    // This is a simple splitter; you might want a more robust parser for complex dumps.
+    $statements = array_filter(array_map('trim', preg_split('/;[\r\n]+/', $sql)));
+
+    foreach ($statements as $statement) {
+        if (!empty($statement)) {
+            if (!$mysqli->query($statement)) {
+                return back()->with('error', 'Error executing query: ' . $mysqli->error);
+            }
         }
     }
 
-    protected function createBackupResponse($backupFileName)
-    {
-        $backupPath = storage_path('app/backup/') . $backupFileName;
+    $mysqli->close();
 
-        return response()->download($backupPath)->deleteFileAfterSend(true);
-    }
-
-    // public function performDatabaseUpload(Request $request)
-    // {
-    //     $request->validate([
-    //         'database_file' => 'required|mimes:sql|max:10240',
-    //         'new_database_name' => 'required|string|max:255',
-    //     ]);
-
-    //     $databaseFile = $request->file('database_file');
-    //     $newDatabaseName = $request->input('new_database_name');
-
-    //     // Move the uploaded SQL file to storage
-    //     $uploadPath = storage_path('app/uploads/');
-    //     $uploadedFileName = 'uploaded_database_' . date('Y_m_d_His') . '.sql';
-    //     $databaseFile->move($uploadPath, $uploadedFileName);
-
-    //     try {
-    //         // Create a new database and import the SQL file
-    //         $this->createAndImportDatabase($newDatabaseName, $uploadPath . $uploadedFileName);
-
-    //         // Clean up: delete the uploaded SQL file
-    //         Storage::delete('uploads/' . $uploadedFileName);
-
-    //         Log::info("Database upload and creation completed successfully for database: $newDatabaseName");
-
-    //         return redirect()->back()->with('success', "Database upload and creation completed successfully for database: $newDatabaseName");
-    //     } catch (\Exception $e) {
-    //         Log::error("Database upload and creation failed for database: $newDatabaseName. Error: " . $e->getMessage());
-    //         return redirect()->back()->with('error', "Database upload and creation failed for database: $newDatabaseName");
-    //     }
-    // }
-
-    // protected function createAndImportDatabase($databaseName, $filePath)
-    // {
-    //     // Create a new database
-    //     $this->createNewDatabase($databaseName);
-
-    //     // Import the SQL file into the new database
-    //     $this->importSqlFile($databaseName, $filePath);
-    // }
-
-    // protected function createNewDatabase($databaseName)
-    // {
-    //     $dbConnection = config('database.connections.mysql');
-
-    //     try {
-    //         $pdo = new \PDO("mysql:host={$dbConnection['host']};port={$dbConnection['port']}", $dbConnection['username'], $dbConnection['password']);
-    //         $pdo->exec("CREATE DATABASE IF NOT EXISTS $databaseName");
-    //         $pdo = null;
-    //         Log::info("Database $databaseName created successfully");
-    //     } catch (\PDOException $e) {
-    //         Log::error("Error creating database $databaseName: " . $e->getMessage());
-    //         throw $e; // Rethrow the exception to indicate a failure
-    //     }
-    // }
-
-    // protected function importSqlFile($databaseName, $filePath)
-    // {
-    //     $dbConnection = config('database.connections.mysql');
-    //     $password = $dbConnection['password'] ? "-p{$dbConnection['password']}" : "";
-    //     $command = "mysql --host={$dbConnection['host']} --port={$dbConnection['port']} --user={$dbConnection['username']} $password $databaseName < $filePath";
-    //     shell_exec($command);
-    //     Log::info("SQL file imported into database: $databaseName");
-    // }
-
+    return back()->with('success', 'Database restored successfully.');
+}
 
 
 }

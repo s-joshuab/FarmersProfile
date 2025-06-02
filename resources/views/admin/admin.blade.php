@@ -198,7 +198,7 @@
             <div class="col-lg-12">
                 <div class="row">
 
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="card-title">Top 5 Commodities</h5>
@@ -217,14 +217,7 @@
                         </div>
                     </div>
 
-
-
-
-
-
-
-
-                    <div class="col-md-7">
+                    <div class="col-md-6">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Commodities</h5>

@@ -36,20 +36,28 @@
 
         <li class="nav-item dropdown pe-3">
 
-            <div class="nav-profile d-flex align-items-center pe-0">
-                <span class="d-none d-md-block mt-2" style="margin-right: 10px; color: black; font-weight: bold;">
-                    @if (Auth::check())
-                        <h6 style="margin-right: 10px; color: black; font-weight: bold;">{{ Auth::user()->name }}</h6>
-                    @endif
-                </span>
-
-                @if (Auth::check() && Auth::user()->image)
-                <img src="data:image/jpeg;base64,{{ Auth::user()->image }}" alt="Avatar" class="rounded-circle" style="width: 50px; height: 50px;">
-            @else
-                <img src="{{ asset('path_to_default_image.jpg') }}" alt="Default Profile" class="rounded-circle" style="margin-right: 10px;">
+               <div class="nav-profile d-flex align-items-center pe-0" style="pointer-events: none;">
+        <span class="d-none d-md-block mt-2" style="margin-right: 10px; color: black; font-weight: bold;">
+            @if (Auth::check())
+                <h6 style="margin-right: 10px; color: black; font-weight: bold; margin-bottom: 0;">
+                    {{ Auth::user()->name }}
+                </h6>
             @endif
+        </span>
 
-            </div>
+        @if (Auth::check() && Auth::user()->image)
+            <img src="data:image/jpeg;base64,{{ Auth::user()->image }}" 
+                 alt="Avatar" 
+                 class="rounded-circle" 
+                 style="width: 50px; height: 50px; object-fit: cover;">
+        @else
+            <img src="{{ asset('path_to_default_image.jpg') }}" 
+                 alt="Default Profile" 
+                 class="rounded-circle" 
+                 style="width: 50px; height: 50px; object-fit: cover;">
+        @endif
+    </div>
+
 
 
         </li><!-- End Profile Nav -->
