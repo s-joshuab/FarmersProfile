@@ -115,20 +115,6 @@ class ReportsController extends Controller
         return view('admin.reports.search', compact('farm', 'farmers', 'barangays', 'commodities', 'selectedBarangay', 'selectedCommodities', 'selectedStatus'));
     }
 
-    // public function benefits()
-    // {
-    //     // Fetch data from the crops table
-    //     $data = Crops::join('barangays', 'crops.barangays_id', '=', 'barangays.id')
-    //         ->join('commodities', 'crops.commodities_id', '=', 'commodities.id')
-    //         ->select('barangays as barangay', 'commodities as commodity', DB::raw('COUNT(*) as count'))
-    //         ->groupBy('barangay', 'commodity')
-    //         ->orderBy('barangay') // Order by barangay to make sure we get the max count for each barangay
-    //         ->orderByDesc('count')
-    //         ->get()
-    //         ->unique('barangay'); // Take only the first row for each barangay (highest count)
-
-    //     return view('admin.reports.benefits', compact('data'));
-    // }
 
     public function commodities()
     {

@@ -1,6 +1,5 @@
 @extends('layouts.index')
 @section('content')
-    <title>Audit Trail</title>
 
     <style>
         /* Custom styles for the table */
@@ -61,7 +60,7 @@
     </style>
 
 <div class="container-fluid">
-    <h1 class="my-4">Audit Trail</h1>
+    <h1 class="my-4">Transaction Logs</h1>
 
     <div class="card">
         <div class="card-body">

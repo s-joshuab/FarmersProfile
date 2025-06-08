@@ -2,7 +2,7 @@
 
 @section('content')
     <section>
-        <h3>Benefits Claimed</h3>
+        <h3>Benefits to be Claimed</h3>
 
         <div class="container">
             <div class="card">
@@ -113,28 +113,27 @@
 
                            <button onclick="exportToExcel()" class="btn btn-success" style="margin-bottom: 10px;">Export to Excel</button>
 
-                            <table id="benefitsTable" class="ttable-bordered table-striped">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Barangay</th>
-                                        <th scope="col">Benefits Claimed</th>
-                                        <th scope="col">Date Claimed</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($benefits as $benefit)
-                                        <tr>
-                                            <td>{{ optional($benefit->farmersProfile)->fname . ' ' . optional($benefit->farmersProfile)->sname }}
-                                            </td>
-                                            <td>{{ optional(optional($benefit->farmersProfile)->barangay)->barangays ?? '' }}
-                                            </td>
-                                            <td>{{ $benefit->benefits }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($benefit->date)->format('F j, Y') }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+<!-- Benefits Table -->
+<table id="benefitsTable" class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Barangay</th>
+            <th scope="col">Benefits Claimed</th>
+            <th scope="col">Date Claimed</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($benefits as $benefit)
+            <tr>
+                <td>{{ optional($benefit->farmersProfile)->fname . ' ' . optional($benefit->farmersProfile)->sname }}</td>
+                <td>{{ optional(optional($benefit->farmersProfile)->barangay)->barangays ?? '' }}</td>
+                <td>{{ $benefit->benefits }}</td>
+                <td>{{ \Carbon\Carbon::parse($benefit->date)->format('F j, Y') }}</td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
 
 
                         </div>
@@ -217,28 +216,24 @@
     </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
 <script>
     function exportToExcel() {
+        // Get the table element
         var table = document.getElementById("benefitsTable");
+
+        // Convert the table to a worksheet
         var ws = XLSX.utils.table_to_sheet(table);
+
+        // Create a new workbook and append the worksheet
         var wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Benefits");
-        var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
-        saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), 'benefits.xlsx');
+
+        // Write the workbook and save it
+        var wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+        saveAs(new Blob([wbout], { type: "application/octet-stream" }), "benefits.xlsx");
     }
-
-
-    function s2ab(s) {
-        var buf = new ArrayBuffer(s.length);
-        var view = new Uint8Array(buf);
-        for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
-        return buf;
-    }
-
 </script>
 @endsection

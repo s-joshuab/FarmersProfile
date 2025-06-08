@@ -83,9 +83,7 @@ background-repeat: no-repeat;
                             </div>
                         </div>
 
-                        <div class="copyright">
-                            &copy; Copyright <strong><span>Balaoan, La Union</span></strong>. All Rights Reserved
-                        </div>
+                       
                         <div class="credits">
                             <!-- All the links in the footer should remain intact. -->
                             <!-- You can delete the links only if you purchased the pro version. -->
@@ -96,6 +94,20 @@ background-repeat: no-repeat;
                     </div>
                 </div>
             </div>
+             <style>
+                    .copyright a {
+                        color: #004289; /* Example color, change to your preferred color */
+                    }
+                </style>
+                <div class="col-md-12 text-center">
+                    <div class="copyright">
+                        &copy; Copyright <strong>
+                            <a href="https://www.facebook.com/joshua.sacquiaten.2" target="_blank">Joshua B. Sacquiaten</a>
+                            <span> and </span>
+                            <a href="https://www.facebook.com/andrei.eleazar.1" target="_blank">Andrei Eleazar B. Ballesteros</a>
+                        </strong> <br>All Rights Reserved
+                    </div>
+                </div>
         </section>
     </div>
 </main>

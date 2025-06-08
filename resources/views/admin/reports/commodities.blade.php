@@ -2,12 +2,12 @@
 
 @section('content')
     <section>
-        <h3>Top Commodities in Each Barangays</h3>
 
         <div class="container">
             <div class="card">
                 <div class="card-body">
                     <div class="col-lg-12">
+                         <h3>Top Commodities in Each Barangays</h3>
                         <div class="table-responsive mt-3">
                             <table id="myTable" class="datatable table table-bordered table-striped">
                                 <thead class="thead-dark">

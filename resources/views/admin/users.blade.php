@@ -121,10 +121,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6 position-relative">
+                          <div class="col-md-6 position-relative">
                                 <label class="form-label">Password<font color="red">*</font></label>
                                 <input type="password" class="form-control" id="pass" name="password" required>
-                                <input type="checkbox" onclick="myFunction()">Show Password
+                                <input type="checkbox" id="showPassword" onclick="togglePassword()"> Show Password
                                 <div class="invalid-tooltip">
                                     The Password field is required.
                                 </div>
@@ -209,22 +209,18 @@
 
         </div>
     </div>
-    <script>
-        function togglePassword() {
-            const passwordInput = document.getElementById('pass');
-            const showPasswordCheckbox = document.getElementById('showPassword');
-
-            if (showPasswordCheckbox.checked) {
-                // Store the original password value
-                passwordInput.setAttribute('data-original-value', passwordInput.value);
-                // Replace the password value with its hashed version
-                passwordInput.value = '********'; // Replace with hashed value
-            } else {
-                // Restore the original password value
-                const originalValue = passwordInput.getAttribute('data-original-value');
-                passwordInput.value = originalValue;
-            }
+ 
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('pass');
+        const showPasswordCheckbox = document.getElementById('showPassword');
+        
+        if (showPasswordCheckbox.checked) {
+            passwordInput.type = 'text'; // Show password
+        } else {
+            passwordInput.type = 'password'; // Hide password
         }
-    </script>
+    }
+</script>
 
 @endsection

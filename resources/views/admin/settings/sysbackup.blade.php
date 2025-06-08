@@ -1,101 +1,99 @@
 @extends('layouts.index')
 @section('content')
 
-<title>System Backup</title>
+<title>System Backup & Restore</title>
 
 @if(session('success'))
-    <div class="alert alert-success">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
 
 @if(session('error'))
-    <div class="alert alert-danger">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
         {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
 
-<div class="pagetitle">
-    <h1>Database Backup</h1>
-  </div>
-
-<div class="d-flex justify-content-center align-items-center mt-4">
-    <div class="col-lg-6">
-        <div class="card">
-            <div class="card-body text-center">
-                <h2 class="card-title">Manual Backup</h2>
-                <p>Performing a database backup is the process of creating a copy of your database to ensure that your data is safe and can be restored in case of data loss or system failure. It's an essential part of data management and disaster recovery.</p>
-                <form method="POST" action="{{ route('manual.backup') }}">
-                    @csrf
-                    <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary btn-backup">
-                            Database Backup
-                            <i class="bi bi-cloud-upload ml-2"></i>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+<div class="pagetitle mb-4">
+    <h1>Backup & Restore Your Database</h1>
+    <p class="text-muted">Keep your important data safe by making a backup. You can also restore your data from a backup if something goes wrong.</p>
 </div>
 
-{{-- <div class="d-flex justify-content-center align-items-center mt-4">
-    <div class="col-lg-6">
-        <div class="card">
-            <div class="card-body text-center">
-                <h2 class="card-title">Database Upload</h2>
-                <p>Upload a database file to restore or replace the current database.</p>
-                <form method="POST" action="{{ route('database.upload') }}" enctype="multipart/form-data">
+<div class="row justify-content-center">
+
+    <!-- Backup Card -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm border-primary">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Make a Backup</h5>
+            </div>
+            <div class="card-body">
+                <p>
+                    Creating a backup means making a copy of all your data right now.
+                    This way, if anything bad happens (like accidental deletion or errors), you can bring everything back to how it was.
+                </p>
+                <form method="POST" action="{{ route('manual.backup') }}">
                     @csrf
-                    <div class="form-group">
-                        <label for="new_database_name">New Database Name:</label>
-                        <input type="text" class="form-control" name="new_database_name" id="new_database_name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="database_file">Choose a database file (SQL only):</label>
-                        <input type="file" class="form-control-file" name="database_file" id="database_file" required>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary">
-                            Upload Database File and Create New Database
-                            <i class="bi bi-cloud-upload ml-2"></i>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-cloud-upload-fill me-2"></i> Create Backup
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div> --}}
 
+    <!-- Restore Card -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">Restore From Backup</h5>
+            </div>
+            <div class="card-body">
+                <p>
+                    Choose a backup file from your computer to replace your current data.
+                    <strong>This will erase everything you have now and put back the data from the backup file.</strong>
+                </p>
+                <p class="text-muted fst-italic small">
+                    <i class="bi bi-exclamation-triangle-fill text-warning"></i>
+                    Please make sure you have a backup of your current data before restoring, just in case.
+                </p>
+                <form method="POST" action="{{ route('manual.restore') }}" enctype="multipart/form-data" novalidate>
+                    @csrf
+                    <div class="mb-3">
+                        <label for="database_file" class="form-label">Select your backup file (.sql)</label>
+                        <input type="file" class="form-control" id="database_file" name="database_file" accept=".sql" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-danger btn-lg">
+                            <i class="bi bi-cloud-download-fill me-2"></i> Restore Backup
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
+</div>
 
 <style>
-    /* Style for the Manual Backup button */
-    .btn-backup {
-        background-color: #007bff;
-        color: #fff;
-        padding: 10px 20px;
-        font-size: 18px;
-        border: none;
-        border-radius: 5px;
+    /* Buttons */
+    .btn-lg {
+        font-weight: 600;
     }
 
-    .btn-backup:hover {
-        background-color: #0056b3;
+    /* Card Shadows */
+    .card.shadow-sm {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
     }
 
-    /* Style for the Automatic Backup button (if uncommented) */
-    .btn-schedule-backup {
-        background-color: #28a745;
-        color: #fff;
-        padding: 10px 20px;
-        font-size: 18px;
-        border: none;
-        border-radius: 5px;
-    }
-
-    .btn-schedule-backup:hover {
-        background-color: #1f8c41;
+    /* Pagetitle */
+    .pagetitle p {
+        font-size: 1.1rem;
     }
 </style>
 

@@ -271,28 +271,35 @@
                                                     <span class="badge bg-danger">Inactive</span>
                                                 @endif
                                             </td>
-                                            <td class="text-center">
-                                                <div class="btn-group" role="group">
-                                                    <a href="{{ route('generate.pdf', ['id' => $farmer->id]) }}" class="btn btn-sm btn-info" style="margin-right: 10px;">
-                                                        <i class="ri-file-pdf-fill"></i> <!-- Replace with the appropriate Font Awesome icon class -->
-                                                    </a>
+                                           <td class="text-center">
+    <div class="btn-group" role="group">
+        <!-- PDF Icon -->
+        <a href="{{ route('generate.pdf', ['id' => $farmer->id]) }}" class="btn btn-sm btn-info" style="margin-right: 10px;">
+            <i class="bi bi-file-earmark-pdf"></i> <!-- Bootstrap Icon for PDF -->
+        </a>
 
-                                                    <a href="{{ route('farmers.showed', ['id' => $farmer->id]) }}" class="btn btn-sm btn-info" style="margin-right: 10px;">
-                                                        <i class="ri-eye-fill"></i> <!-- Replace with the appropriate Font Awesome icon class -->
-                                                    </a>
+        <!-- View Icon -->
+        <a href="{{ route('farmers.showed', ['id' => $farmer->id]) }}" class="btn btn-sm btn-info" style="margin-right: 10px;">
+            <i class="bi bi-eye"></i> <!-- Bootstrap Icon for View -->
+        </a>
 
-                                                    <a href="{{ route('farmers.edit', ['id' => $farmer->id]) }}" class="btn btn-sm btn-primary" style="margin-right: 10px;">
-                                                        <i class="ri-edit-2-fill"></i> <!-- Replace with the appropriate Font Awesome icon class -->
-                                                    </a>
+        <!-- Edit Icon -->
+        <a href="{{ route('farmers.edit', ['id' => $farmer->id]) }}" class="btn btn-sm btn-primary" style="margin-right: 10px;">
+            <i class="bi bi-pencil"></i> <!-- Bootstrap Icon for Edit -->
+        </a>
 
-                                                    <a href="{{ route('farmers.generate', ['id' => $farmer->id]) }}" class="btn btn-sm btn-secondary">
-                                                        <i class="ri-settings-3-fill"></i> <!-- Replace with the appropriate Font Awesome icon class -->
-                                                    </a>
-                                                    <a href="{{ route('farmers.benefits', ['id' => $farmer->id]) }}" class="btn btn-sm btn-secondary">
-                                                        <i class="ri-hand-heart-fill"></i> <!-- Replace with the appropriate Font Awesome icon class -->
-                                                    </a>
-                                                </div>
-                                            </td>
+        <!-- ID Card Icon -->
+        <a href="{{ route('farmers.generate', ['id' => $farmer->id]) }}" class="btn btn-sm btn-secondary">
+            <i class="bi bi-person-vcard"></i> <!-- Bootstrap Icon for ID Card -->
+        </a>
+
+        <!-- Benefits Icon -->
+        <!-- <a href="{{ route('farmers.benefits', ['id' => $farmer->id]) }}" class="btn btn-sm btn-secondary">
+            <i class="bi bi-gift"></i> 
+        </a> -->
+    </div>
+</td>
+
 
                                         </tr>
                                     @endforeach

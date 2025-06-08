@@ -64,7 +64,7 @@
                             <hr class="design" style="margin-top: -15px;">
 
 
-                            <div class="picture-square" style="margin-left: 10px; margin-top: -10px;"></div>
+                            <div class="picture-square" style="margin-left: 10px; margin-top: -15px;"></div>
                             <div class="signature-line" style="margin-left: 10px; margin-top: 10px;"></div>
                             <div class="content" style="position: relative; margin-left: -20px;">
 

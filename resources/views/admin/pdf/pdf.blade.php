@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Form</title>
+    <title>{{ $farmersprofile->sname }} Form</title>
 
     <style type="text/css">
         * {

@@ -21,6 +21,7 @@
         "power-components/livewire-powergrid": "^4.9",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/browsershot": "^3.58",
+        "spatie/db-dumper": "^3.8",
         "spatie/laravel-activitylog": "^4.7",
         "spatie/laravel-backup": "^8.3"
     },

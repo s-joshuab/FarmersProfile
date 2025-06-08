@@ -65,12 +65,16 @@ Route::get('/login', [AuthAuthController::class, 'showLoginForm'])->name('login'
 Route::post('/login', [AuthAuthController::class, 'login']);
 Route::post('/logout', [AuthAuthController::class, 'logout'])->name('logout');
 Route::get('forgot-password', [AuthAuthController::class, 'forgotpassword']);
-Route::post('forgot-password', [AuthAuthController::class, 'PostForgotPassword']);
 Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-Route::post('/password/email',  [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('/password/reset/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('/password/reset', [ForgotPasswordController::class, 'reset'])->name('password.updates');
+Route::post('/password/reset', [ForgotPasswordController::class, 'reset'])->name('password.update');
 
+
+// Route::post('forgot-password', [AuthAuthController::class, 'postForgotPassword'])->name('password.email');
+// Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+// Route::get('/password/reset/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+// Route::post('/password/reset', [ForgotPasswordController::class, 'reset'])->name('password.update');
 
 
 Route::middleware(['auth', 'admin_or_staff'])->group(function () {
@@ -92,7 +96,8 @@ Route::middleware(['auth', 'admin_or_staff'])->group(function () {
     Route::get('/audit', [SettingsController::class,'audit'])->name('audit');
 
     Route::get('backup', [SettingsController::class, 'backup']);
-    Route::post('perform-manual-backup', [SettingsController::class, 'performManualBackup'])->name('manual.backup');
+    Route::post('/admin/settings/backup', [SettingsController::class, 'backupDatabase'])->name('manual.backup');
+    Route::post('/admin/settings/restore', [SettingsController::class, 'restoreDatabase'])->name('manual.restore');
     Route::post('schedule-automatic-backup', [SettingsController::class, 'scheduleAutomaticBackup'])->name('schedule-automatic-backup');
     Route::post('/database-upload', [SettingsController::class, 'performDatabaseUpload'])->name('database.upload');
     Route::get('generate', [FarmersDataController::class, 'generate']);
@@ -106,9 +111,8 @@ Route::middleware(['auth', 'admin_or_staff'])->group(function () {
     Route::post('create', [FarmersDataController::class, 'store']);
     Route::get('create-add', [FarmersDataController::class, 'createAdd']);
 
-// Example of a named route for farmers.benefits
 
-Route::post('/farmers-benefits/{id}', [FarmersDataController::class, 'beneficiary'])->name('farmers.beneficiary');
+    Route::post('/farmers-benefits/{id}', [FarmersDataController::class, 'beneficiary'])->name('farmers.beneficiary');
 
 
 
@@ -118,17 +122,9 @@ Route::post('/farmers-benefits/{id}', [FarmersDataController::class, 'beneficiar
     Route::put('farmers-update/{id}', [FarmersDataController::class, 'update']);
     Route::get('farmers-generate/{id}/generate', [FarmersDataController::class, 'generate'])->name('farmers.generate');
 
-    // New id generation
-    // Route::get('farmers-generate/{id}/generate', [IdGenerateQrCodeController::class, 'generate'])
-    // ->name('farmers.generate');
-
-
     // PDF Generate
     Route::get('farmers-view/{id}/pdf',
     [PdfController::class, 'generatePdf'])->name('generate.pdf');
-
-    // Route::get('farmers-view/{id}/pdf',
-    // [PdfController::class, 'generateBenefits'])->name('generate.benefits');
 
 
     Route::get('qr', [GenerateQr::class, 'qrGen']);
@@ -166,9 +162,3 @@ Route::middleware(['auth', 'secretary'])->group(function () {
 
 });
 
-Route::get('/test', [TestController::class, 'qrGen']);
-
-
-
-
-Route::get('qr-code/{id}', [QRCodeController::class, 'showProfile'])->name('qr-code.show');

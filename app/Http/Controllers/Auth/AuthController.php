@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
-use App\Models\User; // Import the User model
+ // Import the User model
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Spatie\Activitylog\Facades\Activity; // Import the Activity facade
 date_default_timezone_set('Asia/Manila');
